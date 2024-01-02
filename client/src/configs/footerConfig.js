@@ -1,0 +1,15 @@
+export const footerConfig = [
+  "About us",
+  "Indexia group",
+  "Group website",
+  "Advertise with us",
+  "Careers",
+  "Product & services",
+  "Terms of use",
+  "Terms & conditions",
+  "News & knowledge centre",
+  "Global research",
+  "Security tips",
+  "Track your application",
+  "Blog",
+];
