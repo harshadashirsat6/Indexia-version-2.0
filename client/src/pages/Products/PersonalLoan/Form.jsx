@@ -12,6 +12,7 @@ import {
   employmentType,
   incomeRecievedAs,
   employerType,
+  loanStartDate,
 } from "../../../configs/selectorConfigs";
 
 const Form = ({ states, cities, selectedState, setSelectedState }) => {
@@ -24,13 +25,13 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
     name: Yup.string("").min(5).required("Full name should be filled"),
     dateOfBirth: Yup.string("")
       .required("Date of birth required")
-      .test("age-check", "Must be at least 18 years old", function (value) {
+      .test("age-check", "Must be at least 21 years old", function (value) {
         const currentDate = new Date();
         const selectedDate = new Date(value);
         const age = currentDate.getFullYear() - selectedDate.getFullYear();
 
         // Adjust the age check as per your specific requirements
-        return age >= 18;
+        return age >= 21;
       }),
     state: Yup.string("").required("State should be filled"),
     city: Yup.string("").required("City should be filled"),
@@ -69,6 +70,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           return value.toString().length === 10;
         }
       ),
+    loanStartDate: Yup.string("").required("*required"),
   });
   // Formik
   const formik = useFormik({
@@ -190,7 +192,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           <span>Pincode</span>
           <div className="border-b border-slate-400 py-1">
             <input
-              placeholder="As per on your pan card"
+              placeholder=""
               type="number"
               {...formik.getFieldProps("pincode")}
               className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
@@ -244,7 +246,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           <span>Loan amount</span>
           <div className="border-b border-slate-400 py-1">
             <input
-              placeholder="As per on your pan card"
+              placeholder=""
               type="number"
               {...formik.getFieldProps("loanAmount")}
               className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
@@ -394,30 +396,28 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
         </div>
         <div>
           <span>Income recieved as</span>
-          <div>
-            <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-              <select
-                className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
-                {...formik.getFieldProps("incomeRecievedAs")}
-                onChange={(e) =>
-                  dispatch(
-                    setFormData({
-                      ...formData,
-                      incomeRecievedAs: e.target.value,
-                    })
-                  )
-                }
-              >
-                <option value="">Select</option>
-                {incomeRecievedAs.map((ele, i) => {
-                  return (
-                    <option key={ele} value={ele}>
-                      {ele}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
+              {...formik.getFieldProps("incomeRecievedAs")}
+              onChange={(e) =>
+                dispatch(
+                  setFormData({
+                    ...formData,
+                    incomeRecievedAs: e.target.value,
+                  })
+                )
+              }
+            >
+              <option value="">Select</option>
+              {incomeRecievedAs.map((ele, i) => {
+                return (
+                  <option key={ele} value={ele}>
+                    {ele}
+                  </option>
+                );
+              })}
+            </select>
           </div>
         </div>
         <div>
@@ -433,6 +433,31 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           {formik.touched.existingEmi && formik.errors.existingEmi && (
             <span className="text-red-500 text-xs font-bold">
               {formik.errors.existingEmi}
+            </span>
+          )}
+        </div>
+        <div>
+          <span className="text-sm">
+            When are you planning to take the loan?
+          </span>
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full py-2.5"
+              name="loanStartDate"
+              value={formData.loanStartDate}
+              {...formik.getFieldProps("loanStartDate")}
+            >
+              <option value="">Select</option>
+              {loanStartDate.map((ele, i) => (
+                <option key={i} value={ele}>
+                  {ele}
+                </option>
+              ))}
+            </select>
+          </div>
+          {formik.touched.loanStartDate && formik.errors.loanStartDate && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.loanStartDate}
             </span>
           )}
         </div>

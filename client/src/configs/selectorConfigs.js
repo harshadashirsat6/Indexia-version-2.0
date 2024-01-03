@@ -28,9 +28,14 @@ export const loanTenure = [
   "4-5 Years",
   "5-7 Years",
 ];
+export const loanStartDate = [
+  "Within 30 days",
+  "31-90 days",
+  "91-180 days",
+  "180+ days",
+];
 
 // business loan inputs
-
 
 export const businessLoanEmploymentType = [
   "Self-employed business",
@@ -94,6 +99,20 @@ export const loanAmount = [
   "₹10 Lacs +",
 ];
 
+export const incomeRecievedAs = ["Cash", "Cheque", "Electronically deposited"];
+
+export const employerType = [
+  "Privated limited",
+  "Limited",
+  "Partnership",
+  "Proprietorship",
+  "Government",
+];
+
+export const educationEnrollmentStatus = ["Full-time", "Part-time"];
+
+// home loan
+
 export const homeLoanAmount = [
   "Upto ₹15 Lacs",
   "₹15 - ₹20 Lacs",
@@ -112,34 +131,4 @@ export const homeLoanTenure = [
   "25-30 Years",
 ];
 
-export const city = [
-  "Delhi",
-  "Mumbai",
-  "Pune",
-  "Chennai",
-  "Bangaluru",
-  "Hyderabad",
-  "Kolkata",
-  "Jaipur",
-];
-
-export const incomeRecievedAs = ["Cash", "Cheque", "Electronically deposited"];
-
-export const employerType = [
-  "Privated limited",
-  "Limited",
-  "Partnership",
-  "Proprietorship",
-  "Government",
-];
-
-export const takeLoan = [
-  "Within 30 Days",
-  "31 - 90 Days",
-  "91 - 180 Days",
-  "180+ Days",
-];
-
 export const newPropertyType = ["single-family home", "condominium"];
-
-export const educationEnrollmentStatus = ["Full-time", "Part-time"];

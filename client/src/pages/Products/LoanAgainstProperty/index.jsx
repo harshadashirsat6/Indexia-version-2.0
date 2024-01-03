@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Form from "./Form";
 
-const BusinessLoan = () => {
+const LoanAgainstProperty = () => {
   // state city api
   const [states, setStates] = useState([]);
   const [selectedState, setSelectedState] = useState("");
@@ -65,4 +65,4 @@ const BusinessLoan = () => {
   );
 };
 
-export default BusinessLoan;
+export default LoanAgainstProperty;

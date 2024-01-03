@@ -16,7 +16,6 @@ const appSlice = createSlice({
   reducers: {
     setFormData: (state, { payload }) => {
       state.formData = payload;
-      console.log(state.formData);
     },
     setIsOpenModal: (state, { payload }) => {
       state.isOpenModal = payload;

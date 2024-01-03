@@ -36,6 +36,7 @@ const HomeModal = () => {
           <input
             type="text"
             placeholder="Name"
+            required
             name="name"
             value={formData.name}
             onChange={handleInputs}
@@ -46,6 +47,7 @@ const HomeModal = () => {
           <input
             type="text"
             placeholder="Email"
+            required
             name="email"
             value={formData.email}
             onChange={handleInputs}
@@ -56,6 +58,7 @@ const HomeModal = () => {
           <input
             type="text"
             placeholder="Contact"
+            required
             name="contact"
             value={formData.contact}
             onChange={handleInputs}
@@ -67,7 +70,7 @@ const HomeModal = () => {
         <button
           onClick={handleSubmit}
           disabled={!formData.name || !formData.contact || !formData.email}
-          className="bg-blue-400 hover:bg-blue-500 duration-200 w-full py-1 px-1 rounded-md text-white text-lg disabled:cursor-not-allowed"
+          className="bg-blue-400 hover:bg-blue-500 duration-200 w-full py-1 px-1 rounded-md text-white text-lg disabled:cursor-not-allowed disabled:bg-slate-400/20"
         >
           Sumbit
         </button>

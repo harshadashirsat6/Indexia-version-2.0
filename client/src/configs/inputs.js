@@ -20,7 +20,7 @@ export const inputs = {
   residencyType: "Owned by self/spouse",
   incomeReceivedAs: "",
   existingEmi: "",
-  cbilScore: "",
+  loanStartDate: "",
   // business
   businessType: "",
   industryType: "",
