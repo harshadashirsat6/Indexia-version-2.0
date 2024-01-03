@@ -320,6 +320,23 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           )}
         </div>
         <div>
+          <span>Current Business City</span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder="As per on your pan card"
+              type="text"
+              {...formik.getFieldProps("currentBusinessCity")}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
+          {formik.touched.currentBusinessCity &&
+            formik.errors.currentBusinessCity && (
+              <span className="text-red-500 text-xs font-bold">
+                {formik.errors.currentBusinessCity}
+              </span>
+            )}
+        </div>
+        <div>
           <span>Business Type</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
@@ -603,32 +620,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
             </span>
           )}
         </div>
-        <div className="col-span-2  sm:col-span-2">
-          <div>
-            <input
-              type="checkbox"
-              checked={checkBox1}
-              onChange={() => setCheckBox1(!checkBox1)}
-            />
-            <label className="pl-2">Terms & Conditions 1</label>
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              checked={checkBox2}
-              onChange={() => setCheckBox2(!checkBox2)}
-            />
-            <label className="pl-2">Terms & Conditions 2</label>
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              checked={checkBox3}
-              onChange={() => setCheckBox3(!checkBox3)}
-            />
-            <label className="pl-2">Terms & Conditions 3</label>
-          </div>
-        </div>
+       
         <div className="col-span-2  sm:col-span-2">
           <div>
             <input

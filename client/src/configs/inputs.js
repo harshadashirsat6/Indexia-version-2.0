@@ -21,7 +21,9 @@ export const inputs = {
   incomeReceivedAs: "",
   existingEmi: "",
   loanStartDate: "",
+  primaryBankAccount: "",
   // business
+  currentBusinessCity: "",
   businessType: "",
   industryType: "",
   companyStartDate: "",
@@ -55,7 +57,3 @@ export const inputs = {
   projectStartDate: "",
   expectedDateOfComletion: "",
 };
-
-
- 
-

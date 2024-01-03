@@ -34,6 +34,17 @@ export const loanStartDate = [
   "91-180 days",
   "180+ days",
 ];
+export const primaryBankAccount = [
+  "HDFC",
+  "SBI",
+  "Bank Of India",
+  "ICICI",
+  "Punjab National Bank",
+  "Kotak Mahindra Bank",
+  "AXIS",
+  "Citibank",
+  "Other",
+]
 
 // business loan inputs
 
