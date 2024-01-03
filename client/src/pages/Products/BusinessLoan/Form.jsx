@@ -15,6 +15,8 @@ import {
   businessType,
   collateralOption,
   loanStartDate,
+  primaryBankAccount,
+  yearsInCurrentBusiness,
 } from "../../../configs/selectorConfigs";
 
 const Form = ({ states, cities, selectedState, setSelectedState }) => {
@@ -80,6 +82,8 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
         }
       ),
     loanStartDate: Yup.string("").required("*required"),
+    primaryBankAccount: Yup.string("").required("*required"),
+    yearsInCurrentBusiness: Yup.string("").required("*required"),
   });
   // Formik
   const formik = useFormik({
@@ -320,6 +324,39 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           )}
         </div>
         <div>
+          <span>Primary Bank Account</span>
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full py-2.5"
+              {...formik.getFieldProps("primaryBankAccount")}
+              value={formData.primaryBankAccount}
+              onChange={(e) =>
+                dispatch(
+                  setFormData({
+                    ...formData,
+                    primaryBankAccount: e.target.value,
+                  })
+                )
+              }
+            >
+              <option>Select</option>
+              {primaryBankAccount.map((ele) => {
+                return (
+                  <option key={ele} value={ele}>
+                    {ele}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          {formik.touched.primaryBankAccount &&
+            formik.errors.primaryBankAccount && (
+              <span className="text-red-500 text-xs font-bold">
+                {formik.errors.primaryBankAccount}
+              </span>
+            )}
+        </div>
+        <div>
           <span>Current Business City</span>
           <div className="border-b border-slate-400 py-1">
             <input
@@ -333,6 +370,32 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
             formik.errors.currentBusinessCity && (
               <span className="text-red-500 text-xs font-bold">
                 {formik.errors.currentBusinessCity}
+              </span>
+            )}
+        </div>
+        <div>
+          <span>Years In Current Business</span>
+          <div className="border-b border-slate-400 py-1">
+            <select className="w-full"
+              onChange={(e) =>
+                dispatch(
+                  setFormData({
+                    ...formData,
+                    yearsInCurrentBusiness: e.target.value,
+                  })
+                )
+              }
+              {...formik.getFieldProps("yearsInCurrentBusiness")}
+            >
+              {yearsInCurrentBusiness.map((ele, i) => {
+                return <option key={i}>{ele}</option>;
+              })}
+            </select>
+          </div>
+          {formik.touched.yearsInCurrentBusiness &&
+            formik.errors.yearsInCurrentBusiness && (
+              <span className="text-red-500 text-xs font-bold">
+                {formik.errors.yearsInCurrentBusiness}
               </span>
             )}
         </div>
@@ -620,7 +683,6 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
             </span>
           )}
         </div>
-       
         <div className="col-span-2  sm:col-span-2">
           <div>
             <input

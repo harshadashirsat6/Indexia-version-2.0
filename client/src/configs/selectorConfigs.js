@@ -44,9 +44,16 @@ export const primaryBankAccount = [
   "AXIS",
   "Citibank",
   "Other",
-]
+];
 
 // business loan inputs
+export const yearsInCurrentBusiness = [
+  "Under 1 years",
+  "1-2 years",
+  "2-3 years",
+  "3-5 years",
+  "over 5 years",
+];
 
 export const businessLoanEmploymentType = [
   "Self-employed business",

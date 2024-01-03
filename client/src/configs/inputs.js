@@ -24,6 +24,7 @@ export const inputs = {
   primaryBankAccount: "",
   // business
   currentBusinessCity: "",
+  yearsInCurrentBusiness: "",
   businessType: "",
   industryType: "",
   companyStartDate: "",
