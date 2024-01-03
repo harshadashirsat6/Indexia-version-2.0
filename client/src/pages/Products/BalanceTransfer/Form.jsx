@@ -7,26 +7,25 @@ import {
   setShowSubmitLoanFormPaymentModal,
 } from "../../../store/appSlice";
 import {
-  employerType,
-  homeLoanAmount,
-  homeLoanTenure,
-  loanStartDate,
+  loanTenure,
   residencyType,
   employmentType,
   incomeRecievedAs,
-  newPropertyType,
+  employerType,
+  loanStartDate,
   primaryBankAccount,
 } from "../../../configs/selectorConfigs";
 import { useState } from "react";
+
 const Form = ({ states, cities, selectedState, setSelectedState }) => {
   // const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { formData } = useSelector((store) => store.app);
+  const { formData, isOpenModal } = useSelector((store) => store.app);
   // checkbox
   const [checkBox1, setCheckBox1] = useState(false);
   const [checkBox2, setCheckBox2] = useState(false);
   const [checkBox3, setCheckBox3] = useState(false);
-
+  
   // Yup validation
   const validationSchema = Yup.object({
     name: Yup.string("").min(5).required("Full name should be filled"),
@@ -40,20 +39,23 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
         // Adjust the age check as per your specific requirements
         return age >= 21;
       }),
-    state: Yup.string("").required("*required"),
-    city: Yup.string("").required("*required"),
+    state: Yup.string("").required("State should be filled"),
+    city: Yup.string("").required("City should be filled"),
     pincode: Yup.number()
-      .integer("Invalid pincode")
-      .required("*required")
+      .integer("Pincode must be a number")
+      .required("Pincode should be filled")
       .test("length-check", "Invalid pincode", function (value) {
         return value.toString().length === 6;
       }),
     residencyType: Yup.string("").required("select residency type"),
     panCardNum: Yup.string()
-      .required("*required")
+      .required("Pancard number should be filled")
       .length(10)
       .matches(/^[A-Z0-9]{10}$/, "Invalid pancard number"),
-    loanAmount: Yup.string("").required("Loan amount should be filled"),
+    loanAmount: Yup.number()
+      .integer("Loan amount must be a number")
+      .required("Loan amount should be filled")
+      .min(100000, "min 1 lakh"),
     loanTenure: Yup.string("").required("select loan tenure "),
     employerType: Yup.string("").required("select employer type"),
     employmentType: Yup.string("").required("select employment type"),
@@ -73,8 +75,9 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
         function (value) {
           return value.toString().length === 10;
         }
-    ),
-    primaryBankAccount: Yup.string("").required("select primary bank account"),
+      ),
+    loanStartDate: Yup.string("").required("*required"),
+    primaryBankAccount: Yup.string("").required("*required"),
   });
   // Formik
   const formik = useFormik({
@@ -86,7 +89,6 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
   });
 
   const handleProceed = (values) => {
-    console.log("hey");
     if (formData.monthlyIncome > 0 && formData.monthlyIncome < 12000) {
       console.log("salary error");
       return;
@@ -100,10 +102,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
     <div className="py-10">
       <div className="-mb-2.5 -ml-2.5 flex items-center space-x-2.5"></div>
       <h1 className="text-xl flex flex-col space-y-2">
-        <span>
-          Unlock best <span>home loan</span> offers suitable for your needs
-          from <span>43+ lenders</span>
-        </span>
+        Balance Transfer
         <span className="w-20 h-0.5 rounded-full bg-cyan-400"></span>
       </h1>
       <form
@@ -198,7 +197,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           <span>Pincode</span>
           <div className="border-b border-slate-400 py-1">
             <input
-              placeholder="As per on your pan card"
+              placeholder=""
               type="number"
               {...formik.getFieldProps("pincode")}
               className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
@@ -249,21 +248,14 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           )}
         </div>
         <div>
-          <span>Loan Amount</span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full py-2.5"
-              name="loanAmount"
-              value={formData.loanAmount}
+          <span>Loan amount</span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder=""
+              type="number"
               {...formik.getFieldProps("loanAmount")}
-            >
-              <option value="">Select</option>
-              {homeLoanAmount.map((amount, i) => (
-                <option key={i} value={amount}>
-                  {amount}
-                </option>
-              ))}
-            </select>
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
           </div>
           {formik.touched.loanAmount && formik.errors.loanAmount && (
             <span className="text-red-500 text-xs font-bold">
@@ -281,7 +273,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
               {...formik.getFieldProps("loanTenure")}
             >
               <option value="">Select</option>
-              {homeLoanTenure.map((tenure, i) => (
+              {loanTenure.map((tenure, i) => (
                 <option key={i} value={tenure}>
                   {tenure}
                 </option>
@@ -442,30 +434,28 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
         </div>
         <div>
           <span>Income recieved as</span>
-          <div>
-            <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-              <select
-                className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
-                {...formik.getFieldProps("incomeRecievedAs")}
-                onChange={(e) =>
-                  dispatch(
-                    setFormData({
-                      ...formData,
-                      incomeRecievedAs: e.target.value,
-                    })
-                  )
-                }
-              >
-                <option value="">Select</option>
-                {incomeRecievedAs.map((ele, i) => {
-                  return (
-                    <option key={ele} value={ele}>
-                      {ele}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
+              {...formik.getFieldProps("incomeRecievedAs")}
+              onChange={(e) =>
+                dispatch(
+                  setFormData({
+                    ...formData,
+                    incomeRecievedAs: e.target.value,
+                  })
+                )
+              }
+            >
+              <option value="">Select</option>
+              {incomeRecievedAs.map((ele, i) => {
+                return (
+                  <option key={ele} value={ele}>
+                    {ele}
+                  </option>
+                );
+              })}
+            </select>
           </div>
         </div>
         <div>
@@ -484,23 +474,6 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
             </span>
           )}
         </div>
-        <div>
-          <span>Pincode</span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              type="number"
-              {...formik.getFieldProps("newPropertyPincode")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-            />
-          </div>
-          {formik.touched.newPropertyPincode &&
-            formik.errors.newPropertyPincode && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.newPropertyPincode}
-              </span>
-            )}
-        </div>
-
         <div>
           <span className="text-sm">
             When are you planning to take the loan?
@@ -523,73 +496,6 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           {formik.touched.loanStartDate && formik.errors.loanStartDate && (
             <span className="text-red-500 text-xs font-bold">
               {formik.errors.loanStartDate}
-            </span>
-          )}
-        </div>
-        <div className="col-span-1 sm:col-span-2">
-          <span className="text-sm">New Property Type</span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
-              {...formik.getFieldProps("newPropertyType")}
-              value={formData.newPropertyType}
-              onChange={(e) =>
-                dispatch(
-                  setFormData({
-                    ...formData,
-                    newPropertyType: e.target.value,
-                  })
-                )
-              }
-            >
-              <option value="">Select</option>
-              {newPropertyType.map((ele, i) => {
-                return (
-                  <option key={ele} value={ele}>
-                    {ele}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          {formik.touched.newPropertyType && formik.errors.newPropertyType && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.newPropertyType}
-            </span>
-          )}
-        </div>
-
-        <div className="col-span-1 sm:col-span-2">
-          <span>Where are you planning to take property</span>
-        </div>
-        <div>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder="State"
-              type="text"
-              {...formik.getFieldProps("newPropertyState")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-            />
-          </div>
-          {formik.touched.newPropertyState &&
-            formik.errors.newPropertyState && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.newPropertyState}
-              </span>
-            )}
-        </div>
-        <div>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder="City"
-              type="text"
-              {...formik.getFieldProps("newPropertyCity")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-            />
-          </div>
-          {formik.touched.newPropertyCity && formik.errors.newPropertyCity && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.newPropertyCity}
             </span>
           )}
         </div>

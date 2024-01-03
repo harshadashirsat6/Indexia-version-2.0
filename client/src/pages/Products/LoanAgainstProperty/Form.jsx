@@ -15,13 +15,13 @@ import {
   employmentType,
   incomeRecievedAs,
   newPropertyType,
+  primaryBankAccount,
 } from "../../../configs/selectorConfigs";
 import { useState } from "react";
 const Form = ({ states, cities, selectedState, setSelectedState }) => {
   // const navigate = useNavigate();
   const dispatch = useDispatch();
   const { formData } = useSelector((store) => store.app);
-  
   // checkbox
   const [checkBox1, setCheckBox1] = useState(false);
   const [checkBox2, setCheckBox2] = useState(false);
@@ -74,6 +74,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           return value.toString().length === 10;
         }
       ),
+    primaryBankAccount: Yup.string("").required("select primary bank account"),
   });
   // Formik
   const formik = useFormik({
@@ -323,6 +324,39 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           )}
         </div>
         <div>
+          <span>Primary Bank Account</span>
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full py-2.5"
+              {...formik.getFieldProps("primaryBankAccount")}
+              value={formData.primaryBankAccount}
+              onChange={(e) =>
+                dispatch(
+                  setFormData({
+                    ...formData,
+                    primaryBankAccount: e.target.value,
+                  })
+                )
+              }
+            >
+              <option>Select</option>
+              {primaryBankAccount.map((ele) => {
+                return (
+                  <option key={ele} value={ele}>
+                    {ele}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          {formik.touched.primaryBankAccount &&
+            formik.errors.primaryBankAccount && (
+              <span className="text-red-500 text-xs font-bold">
+                {formik.errors.primaryBankAccount}
+              </span>
+            )}
+        </div>
+        <div>
           <span>Employer type</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
@@ -521,6 +555,41 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           {formik.touched.newPropertyType && formik.errors.newPropertyType && (
             <span className="text-red-500 text-xs font-bold">
               {formik.errors.newPropertyType}
+            </span>
+          )}
+        </div>
+
+        <div className="col-span-1 sm:col-span-2">
+          <span>Where are you planning to take property</span>
+        </div>
+        <div>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder="State"
+              type="text"
+              {...formik.getFieldProps("newPropertyState")}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
+          {formik.touched.newPropertyState &&
+            formik.errors.newPropertyState && (
+              <span className="text-red-500 text-xs font-bold">
+                {formik.errors.newPropertyState}
+              </span>
+            )}
+        </div>
+        <div>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder="City"
+              type="text"
+              {...formik.getFieldProps("newPropertyCity")}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
+          {formik.touched.newPropertyCity && formik.errors.newPropertyCity && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.newPropertyCity}
             </span>
           )}
         </div>

@@ -2,12 +2,10 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Form from "./Form";
 
-const HomeLoan = () => {
+const BalanceTransfer = () => {
   // state city api
   const [states, setStates] = useState([]);
   const [selectedState, setSelectedState] = useState("");
-  const [homeLoanState, setHomeLoanState] = useState("");
-
   var stateConfig = {
     url: "https://api.countrystatecity.in/v1/countries/In/states",
     key: "N00wMDJleEpjQ09wTjBhN0VSdUZxUGxWMlJKTGY1a0tRN0lpakh5Vw==",
@@ -25,7 +23,6 @@ const HomeLoan = () => {
   useEffect(() => {
     getStates();
   }, []);
-
   // get cities after selecting state
   const [cities, setCities] = useState([]);
   var cityConfig = {
@@ -46,7 +43,6 @@ const HomeLoan = () => {
   useEffect(() => {
     if (selectedState) {
       getCities();
-      console.log(homeLoanState);
     }
   }, [selectedState]);
 
@@ -69,4 +65,4 @@ const HomeLoan = () => {
   );
 };
 
-export default HomeLoan;
+export default BalanceTransfer;
