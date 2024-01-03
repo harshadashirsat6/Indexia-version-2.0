@@ -16,10 +16,16 @@ import {
   incomeRecievedAs,
   newPropertyType,
 } from "../../../configs/selectorConfigs";
+import { useState } from "react";
 const Form = ({ states, cities, selectedState, setSelectedState }) => {
   // const navigate = useNavigate();
   const dispatch = useDispatch();
   const { formData } = useSelector((store) => store.app);
+  
+  // checkbox
+  const [checkBox1, setCheckBox1] = useState(false);
+  const [checkBox2, setCheckBox2] = useState(false);
+  const [checkBox3, setCheckBox3] = useState(false);
 
   // Yup validation
   const validationSchema = Yup.object({
@@ -551,10 +557,37 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
             </span>
           )}
         </div>
+        <div className="col-span-2  sm:col-span-2">
+          <div>
+            <input
+              type="checkbox"
+              checked={checkBox1}
+              onChange={() => setCheckBox1(!checkBox1)}
+            />
+            <label className="pl-2">Terms & Conditions 1</label>
+          </div>
+          <div>
+            <input
+              type="checkbox"
+              checked={checkBox2}
+              onChange={() => setCheckBox2(!checkBox2)}
+            />
+            <label className="pl-2">Terms & Conditions 2</label>
+          </div>
+          <div>
+            <input
+              type="checkbox"
+              checked={checkBox3}
+              onChange={() => setCheckBox3(!checkBox3)}
+            />
+            <label className="pl-2">Terms & Conditions 3</label>
+          </div>
+        </div>
         <div className="w-1/2 mx-auto pt-2.5">
           <button
-            className="bg-cyan-400 py-2.5 w-full rounded-lg text-lg text-white font-normal duration-200 disabled:cursor-not-allowed"
+            className="bg-cyan-400 py-2.5 w-full rounded-lg text-lg text-white font-normal duration-200 disabled:cursor-not-allowed disabled:bg-gray-200"
             type="submit"
+            disabled={!checkBox1 || !checkBox2 || !checkBox3}
           >
             Submit
           </button>
