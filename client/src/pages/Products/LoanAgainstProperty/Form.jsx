@@ -74,7 +74,6 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           return value.toString().length === 10;
         }
       ),
-    primaryBankAccount: Yup.string("").required("select primary bank account"),
   });
   // Formik
   const formik = useFormik({
@@ -99,9 +98,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
   return (
     <div className="py-10">
       <div className="-mb-2.5 -ml-2.5 flex items-center space-x-2.5"></div>
-      <h1 className="text-xl flex flex-col space-y-2">
-        Loan Against Property
-      </h1>
+      <h1 className="text-xl flex flex-col space-y-2">Loan Against Property</h1>
       <form
         className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-5 py-10 "
         onSubmit={formik.handleSubmit}
@@ -324,7 +321,6 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
-              {...formik.getFieldProps("primaryBankAccount")}
               value={formData.primaryBankAccount}
               onChange={(e) =>
                 dispatch(
@@ -345,12 +341,6 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
               })}
             </select>
           </div>
-          {formik.touched.primaryBankAccount &&
-            formik.errors.primaryBankAccount && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.primaryBankAccount}
-              </span>
-            )}
         </div>
         <div>
           <span>Employer type</span>

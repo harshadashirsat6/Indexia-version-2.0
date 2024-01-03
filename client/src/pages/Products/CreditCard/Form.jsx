@@ -7,11 +7,11 @@ import {
   setShowSubmitLoanFormPaymentModal,
 } from "../../../store/appSlice";
 import {
-  loanTenure,
   residencyType,
   employmentType,
   incomeRecievedAs,
   employerType,
+  primaryBankAccount,
 } from "../../../configs/selectorConfigs";
 import { useState } from "react";
 
@@ -50,11 +50,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
       .required("Pancard number should be filled")
       .length(10)
       .matches(/^[A-Z0-9]{10}$/, "Invalid pancard number"),
-    loanAmount: Yup.number()
-      .integer("Loan amount must be a number")
-      .required("Loan amount should be filled")
-      .min(100000, "min 1 lakh"),
-    loanTenure: Yup.string("").required("select loan tenure "),
+   
     employerType: Yup.string("").required("select employer type"),
     employmentType: Yup.string("").required("select employment type"),
     employerName: Yup.string("").required("employer name should be filled"),
@@ -239,7 +235,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
             </span>
           )}
         </div>
-        <div>
+        {/* <div>
           <span>Loan amount</span>
           <div className="border-b border-slate-400 py-1">
             <input
@@ -254,8 +250,8 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
               {formik.errors.loanAmount}
             </span>
           )}
-        </div>
-        <div>
+        </div> */}
+        {/* <div>
           <span>Loan tenure</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
@@ -277,7 +273,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
               {formik.errors.loanTenure}
             </span>
           )}
-        </div>
+        </div> */}
         <div>
           <span>Employment type</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
@@ -408,6 +404,32 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
             >
               <option value="">Select</option>
               {incomeRecievedAs.map((ele, i) => {
+                return (
+                  <option key={ele} value={ele}>
+                    {ele}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+        </div>
+        <div>
+          <span>Primary Bank Account</span>
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full py-2.5"
+              value={formData.primaryBankAccount}
+              onChange={(e) =>
+                dispatch(
+                  setFormData({
+                    ...formData,
+                    primaryBankAccount: e.target.value,
+                  })
+                )
+              }
+            >
+              <option>Select</option>
+              {primaryBankAccount.map((ele) => {
                 return (
                   <option key={ele} value={ele}>
                     {ele}

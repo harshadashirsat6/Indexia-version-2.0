@@ -77,7 +77,6 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
         }
       ),
     loanStartDate: Yup.string("").required("*required"),
-    primaryBankAccount: Yup.string("").required("*required"),
   });
   // Formik
   const formik = useFormik({
@@ -317,7 +316,6 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
-              {...formik.getFieldProps("primaryBankAccount")}
               value={formData.primaryBankAccount}
               onChange={(e) =>
                 dispatch(
@@ -338,12 +336,6 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
               })}
             </select>
           </div>
-          {formik.touched.primaryBankAccount &&
-            formik.errors.primaryBankAccount && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.primaryBankAccount}
-              </span>
-            )}
         </div>
         <div>
           <span>Employer type</span>

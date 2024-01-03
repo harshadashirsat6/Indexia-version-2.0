@@ -7,11 +7,11 @@ import CreditCard from "./CreditCard";
 import BalanceTransfer from "./BalanceTransfer";
 import CommercialPurchase from "./CommercialPurchase";
 import LeaseRentDiscounting from "./LeaseRentDiscounting";
+import WorkingCapital from "./WorkingCapital";
+import CarLoan from "./CarLoan";
 
-// import CarLoan from "./CarLoan";
 // import EducationLoan from "./EducationLoan";
 // import ProjectLoan from "./ProjectLoan";
-// import WorkingCapital from "./WorkingCapital";
 // import LeaseRentDiscounting from "./LeaseRentDiscounting";
 
 const Products = () => {
@@ -27,11 +27,11 @@ const Products = () => {
       {param === "balance-transfer" && <BalanceTransfer />}
       {param === "commercial-purchase" && <CommercialPurchase />}
       {param === "lease-rent-discounting" && <LeaseRentDiscounting />}
-      {/* {param === "car-loan" && <CarLoan />}
-      {param === "education-loan" && <EducationLoan />}
-      {param === "project-loan" && <ProjectLoan />}
       {param === "working-capital" && <WorkingCapital />}
-      {param === "commercial-purchase" && <CommercialPurchase />}*/}
+      {param === "car-loan" && <CarLoan />}
+
+      {/*{param === "education-loan" && <EducationLoan />}
+      {param === "project-loan" && <ProjectLoan />} */}
     </>
   );
 };

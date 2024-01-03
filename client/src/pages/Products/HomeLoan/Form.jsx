@@ -74,7 +74,6 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           return value.toString().length === 10;
         }
     ),
-    primaryBankAccount: Yup.string("").required("select primary bank account"),
   });
   // Formik
   const formik = useFormik({
@@ -101,8 +100,8 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
       <div className="-mb-2.5 -ml-2.5 flex items-center space-x-2.5"></div>
       <h1 className="text-xl flex flex-col space-y-2">
         <span>
-          Unlock best <span>home loan</span> offers suitable for your needs
-          from <span>43+ lenders</span>
+          Unlock best <span>home loan</span> offers suitable for your needs from{" "}
+          <span>43+ lenders</span>
         </span>
         <span className="w-20 h-0.5 rounded-full bg-cyan-400"></span>
       </h1>
@@ -328,7 +327,6 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
-              {...formik.getFieldProps("primaryBankAccount")}
               value={formData.primaryBankAccount}
               onChange={(e) =>
                 dispatch(
@@ -349,12 +347,6 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
               })}
             </select>
           </div>
-          {formik.touched.primaryBankAccount &&
-            formik.errors.primaryBankAccount && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.primaryBankAccount}
-              </span>
-            )}
         </div>
         <div>
           <span>Employer type</span>
@@ -500,7 +492,6 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
               </span>
             )}
         </div>
-
         <div>
           <span className="text-sm">
             When are you planning to take the loan?
@@ -558,7 +549,6 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
             </span>
           )}
         </div>
-
         <div className="col-span-1 sm:col-span-2">
           <span>Where are you planning to take property</span>
         </div>

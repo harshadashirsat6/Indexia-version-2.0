@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 // import { useNavigate } from "react-router-dom";
@@ -7,17 +6,16 @@ import {
   setFormData,
   setShowSubmitLoanFormPaymentModal,
 } from "../../../store/appSlice";
-import {} from "../../../store/appSlice";
 import {
-  businessLoanTenure,
+  loanTenure,
   residencyType,
-  businessLoanEmploymentType,
-  businessType,
-  collateralOption,
+  employmentType,
+  incomeRecievedAs,
+  employerType,
   loanStartDate,
   primaryBankAccount,
-  yearsInCurrentBusiness,
 } from "../../../configs/selectorConfigs";
+import { useState } from "react";
 
 const Form = ({ states, cities, selectedState, setSelectedState }) => {
   // const navigate = useNavigate();
@@ -59,12 +57,9 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
       .required("Loan amount should be filled")
       .min(100000, "min 1 lakh"),
     loanTenure: Yup.string("").required("select loan tenure "),
+    employerType: Yup.string("").required("select employer type"),
     employmentType: Yup.string("").required("select employment type"),
-    businessType: Yup.string("").required("select business type"),
-    companyStartDate: Yup.string("").required("select company start date"),
-    companyCurrentYearTurnOverRange: Yup.string("").required("* mandatory"),
-    companyLastYearTurnOverRange: Yup.string("").required("* mandatory"),
-    collateralOption: Yup.string("").required("* mandatory"),
+    employerName: Yup.string("").required("employer name should be filled"),
     existingEmi: Yup.number()
       .integer("EMI must be a number")
       .required("EMI should be filled")
@@ -82,7 +77,9 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
         }
       ),
     loanStartDate: Yup.string("").required("*required"),
-    yearsInCurrentBusiness: Yup.string("").required("*required"),
+    carManufacturer: Yup.string("").required("*required"),
+    carModel: Yup.string("").required("*required"),
+    carPrice: Yup.number().integer("invalid price input").required("*required"),
   });
   // Formik
   const formik = useFormik({
@@ -102,13 +99,14 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
     dispatch(setShowSubmitLoanFormPaymentModal(true));
     dispatch(setFormData({ ...formData, ...values }));
   };
+
   return (
     <div className="py-10">
       <div className="-mb-2.5 -ml-2.5 flex items-center space-x-2.5"></div>
       <h1 className="text-xl flex flex-col space-y-2">
         <span>
-          Unlock best <span>personal loan</span> offers suitable for your needs
-          from <span>43+ lenders</span>
+          Unlock best <span>car loan</span> offers suitable for your needs from{" "}
+          <span>43+ lenders</span>
         </span>
         <span className="w-20 h-0.5 rounded-full bg-cyan-400"></span>
       </h1>
@@ -280,7 +278,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
               {...formik.getFieldProps("loanTenure")}
             >
               <option value="">Select</option>
-              {businessLoanTenure.map((tenure, i) => (
+              {loanTenure.map((tenure, i) => (
                 <option key={i} value={tenure}>
                   {tenure}
                 </option>
@@ -307,7 +305,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
               }
             >
               <option>Select</option>
-              {businessLoanEmploymentType.map((ele) => {
+              {employmentType.map((ele) => {
                 return (
                   <option key={ele} value={ele}>
                     {ele}
@@ -347,150 +345,9 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
               })}
             </select>
           </div>
+         
         </div>
         <div>
-          <span>Current Business City</span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder="As per on your pan card"
-              type="text"
-              {...formik.getFieldProps("currentBusinessCity")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-            />
-          </div>
-          {formik.touched.currentBusinessCity &&
-            formik.errors.currentBusinessCity && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.currentBusinessCity}
-              </span>
-            )}
-        </div>
-        <div>
-          <span>Years In Current Business</span>
-          <div className="border-b border-slate-400 py-1">
-            <select
-              className="w-full"
-              onChange={(e) =>
-                dispatch(
-                  setFormData({
-                    ...formData,
-                    yearsInCurrentBusiness: e.target.value,
-                  })
-                )
-              }
-              {...formik.getFieldProps("yearsInCurrentBusiness")}
-            >
-              {yearsInCurrentBusiness.map((ele, i) => {
-                return <option key={i}>{ele}</option>;
-              })}
-            </select>
-          </div>
-          {formik.touched.yearsInCurrentBusiness &&
-            formik.errors.yearsInCurrentBusiness && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.yearsInCurrentBusiness}
-              </span>
-            )}
-        </div>
-        <div>
-          <span>Business Type</span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full py-2.5"
-              name="businessType"
-              value={formData.businessType}
-              {...formik.getFieldProps("businessType")}
-            >
-              <option value="">Select</option>
-              {businessType.map((ele, i) => (
-                <option key={i} value={ele}>
-                  {ele}
-                </option>
-              ))}
-            </select>
-          </div>
-          {formik.touched.businessType && formik.errors.businessType && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.businessType}
-            </span>
-          )}
-        </div>
-        <div>
-          <span>Start Date</span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder="Start Date"
-              type="date"
-              {...formik.getFieldProps("companyStartDate")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-            />
-          </div>
-          {formik.touched.companyStartDate &&
-            formik.errors.companyStartDate && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.companyStartDate}
-              </span>
-            )}
-        </div>
-        <div>
-          <span>Current Year Turn Over</span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder="Current TurnOver"
-              type="text"
-              {...formik.getFieldProps("companyCurrentYearTurnOverRange")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-            />
-          </div>
-          {formik.touched.companyCurrentYearTurnOverRange &&
-            formik.errors.companyCurrentYearTurnOverRange && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.companyCurrentYearTurnOverRange}
-              </span>
-            )}
-        </div>
-        <div>
-          <span>Previous Year Turn over</span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder="Previous TurnOver"
-              type="text"
-              {...formik.getFieldProps("companyLastYearTurnOverRange")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-            />
-          </div>
-          {formik.touched.companyLastYearTurnOverRange &&
-            formik.errors.companyLastYearTurnOverRange && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.companyLastYearTurnOverRange}
-              </span>
-            )}
-        </div>
-        <div>
-          <span>Wish To Take Loan Against</span>
-          <div className="border-b border-slate-400 py-1 w-full">
-            <select
-              className="w-full"
-              {...formik.getFieldProps("collateralOption")}
-            >
-              <option>Select</option>
-              {collateralOption.map((ele, i) => {
-                return (
-                  <option key={i} value={ele}>
-                    {ele}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          {formik.touched.collateralOption &&
-            formik.errors.collateralOption && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.collateralOption}
-              </span>
-            )}
-        </div>
-        {/* <div>
           <span>Employer type</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
@@ -512,8 +369,8 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
               {formik.errors.employerType}
             </span>
           )}
-        </div> */}
-        {/* <div>
+        </div>
+        <div>
           <span>Employer name</span>
           <div className="border-b border-slate-400 py-1">
             <input
@@ -529,7 +386,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
               {formik.errors.employerName}
             </span>
           )}
-        </div> */}
+        </div>
         <div>
           <span>
             <span className="pr-1">
@@ -574,34 +431,32 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
             <span className="text-red-500 text-xs font-bold">min 12k</span>
           ) : null}
         </div>
-        {/* <div>
+        <div>
           <span>Income recieved as</span>
-          <div>
-            <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-              <select
-                className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
-                {...formik.getFieldProps("incomeRecievedAs")}
-                onChange={(e) =>
-                  dispatch(
-                    setFormData({
-                      ...formData,
-                      incomeRecievedAs: e.target.value,
-                    })
-                  )
-                }
-              >
-                <option value="">Select</option>
-                {incomeRecievedAs.map((ele, i) => {
-                  return (
-                    <option key={ele} value={ele}>
-                      {ele}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
+              {...formik.getFieldProps("incomeRecievedAs")}
+              onChange={(e) =>
+                dispatch(
+                  setFormData({
+                    ...formData,
+                    incomeRecievedAs: e.target.value,
+                  })
+                )
+              }
+            >
+              <option value="">Select</option>
+              {incomeRecievedAs.map((ele, i) => {
+                return (
+                  <option key={ele} value={ele}>
+                    {ele}
+                  </option>
+                );
+              })}
+            </select>
           </div>
-        </div> */}
+        </div>
         <div>
           <span>Existing EMI</span>
           <div className="border-b border-slate-400 py-1">
@@ -643,6 +498,57 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
             </span>
           )}
         </div>
+        <div className="col-span-2 sm:col-span-1">
+          <h1 className="font-bold">Vehicle Details</h1>
+        </div>
+        <div>
+          <span>Car Manufacture</span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder="ex: TATA,Volkswagen, Hyundai"
+              type="text"
+              {...formik.getFieldProps("carManufacturer")}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
+          {formik.touched.carManufacturer && formik.errors.carManufacturer && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.carManufacturer}
+            </span>
+          )}
+        </div>
+        <div>
+          <span>Car Model</span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder="ex:Camry, Civic, Corolla"
+              type="text"
+              {...formik.getFieldProps("carModel")}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
+          {formik.touched.carModel && formik.errors.carModel && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.carModel}
+            </span>
+          )}
+        </div>
+        <div>
+          <span>Car Price</span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              type="number"
+              {...formik.getFieldProps("carPrice")}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
+          {formik.touched.carPrice && formik.errors.carPrice && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.carPrice}
+            </span>
+          )}
+        </div>
+
         <div>
           <span>Email address</span>
           <div className="border-b border-slate-400 py-1">
