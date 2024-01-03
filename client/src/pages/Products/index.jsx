@@ -9,10 +9,8 @@ import CommercialPurchase from "./CommercialPurchase";
 import LeaseRentDiscounting from "./LeaseRentDiscounting";
 import WorkingCapital from "./WorkingCapital";
 import CarLoan from "./CarLoan";
-
-// import EducationLoan from "./EducationLoan";
-// import ProjectLoan from "./ProjectLoan";
-// import LeaseRentDiscounting from "./LeaseRentDiscounting";
+import ProjectLoan from "./ProjectLoan";
+import EducationLoan from "./EducationLoan";
 
 const Products = () => {
   const { param } = useParams();
@@ -29,9 +27,8 @@ const Products = () => {
       {param === "lease-rent-discounting" && <LeaseRentDiscounting />}
       {param === "working-capital" && <WorkingCapital />}
       {param === "car-loan" && <CarLoan />}
-
-      {/*{param === "education-loan" && <EducationLoan />}
-      {param === "project-loan" && <ProjectLoan />} */}
+      {param === "project-loan" && <ProjectLoan />}
+      {param === "education-loan" && <EducationLoan />}
     </>
   );
 };
