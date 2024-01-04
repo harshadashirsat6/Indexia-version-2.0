@@ -50,7 +50,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
       .required("Pancard number should be filled")
       .length(10)
       .matches(/^[A-Z0-9]{10}$/, "Invalid pancard number"),
-   
+
     employerType: Yup.string("").required("select employer type"),
     employmentType: Yup.string("").required("select employment type"),
     employerName: Yup.string("").required("employer name should be filled"),
@@ -112,6 +112,22 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
               {formik.errors.name}
             </span>
           )}
+        </div>
+        <div>
+          <span>Gender</span>
+          <div className="border-b border-slate-400 py-1">
+            <select
+              value={formData.gender}
+              name="gender"
+              onChange={(e) =>
+                dispatch(setFormData({ ...formData, gender: e.target.value }))
+              }
+            >
+              <option>Select</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
         </div>
         <div>
           <span>Date of birth</span>
