@@ -25,7 +25,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
   const [checkBox1, setCheckBox1] = useState(false);
   const [checkBox2, setCheckBox2] = useState(false);
   const [checkBox3, setCheckBox3] = useState(false);
-  
+
   // Yup validation
   const validationSchema = Yup.object({
     name: Yup.string("").min(5).required("Full name should be filled"),
@@ -108,7 +108,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
         <span className="w-20 h-0.5 rounded-full bg-cyan-400"></span>
       </h1>
       <form
-        className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-5 py-10 "
+        className="grid grid-cols-1 xl:grid-cols-2 gap-x-10 gap-y-5 py-10 bg-blue-100 "
         onSubmit={formik.handleSubmit}
       >
         <div>
