@@ -116,7 +116,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
         <div>
           <span>Gender</span>
           <div className="border-b border-slate-400 py-1">
-            <select
+            <select className="w-full"
               value={formData.gender}
               name="gender"
               onChange={(e) =>
