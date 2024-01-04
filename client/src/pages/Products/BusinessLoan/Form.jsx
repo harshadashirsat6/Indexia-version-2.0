@@ -105,17 +105,17 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
     dispatch(setFormData({ ...formData, ...values }));
   };
   return (
-    <div className="py-10">
+    <div className="py-10 ">
       <div className="-mb-2.5 -ml-2.5 flex items-center space-x-2.5"></div>
       <h1 className="text-xl flex flex-col space-y-2">
         <span>
-          Unlock best <span>personal loan</span> offers suitable for your needs
+          Unlock best <span>business loan</span> offers suitable for your needs
           from <span>43+ lenders</span>
         </span>
         <span className="w-20 h-0.5 rounded-full bg-cyan-400"></span>
       </h1>
       <form
-        className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-5 py-10 "
+        className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-5 py-10 bg-yellow "
         onSubmit={formik.handleSubmit}
       >
         <div>
