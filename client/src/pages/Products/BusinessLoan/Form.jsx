@@ -426,7 +426,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
               <span>Current Business City</span>
               <div className="border-b border-slate-400 py-1">
                 <input
-                  placeholder="As per on your pan card"
+                  placeholder=""
                   type="text"
                   value={formData.businessCity}
                   {...formik.getFieldProps("currentBusinessCity")}
@@ -612,7 +612,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
               <span>Current Business City</span>
               <div className="border-b border-slate-400 py-1">
                 <input
-                  placeholder="As per on your pan card"
+                  placeholder=""
                   type="text"
                   {...formik.getFieldProps("currentBusinessCity")}
                   className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
