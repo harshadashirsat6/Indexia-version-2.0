@@ -123,6 +123,23 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           )}
         </div>
         <div>
+          <span>Gender</span>
+          <div className="border-b border-slate-400 py-1">
+            <select
+              className="w-full"
+              value={formData.gender}
+              name="gender"
+              onChange={(e) =>
+                dispatch(setFormData({ ...formData, gender: e.target.value }))
+              }
+            >
+              <option>Select</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+        </div>
+        <div>
           <span>Date of birth</span>
           <div className="border-b border-slate-400 py-1">
             <input
