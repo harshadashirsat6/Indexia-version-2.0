@@ -18,6 +18,7 @@ import {
   yearsInCurrentBusiness,
   BusinessNature,
   companyType,
+  industryType,
 } from "../../../configs/selectorConfigs";
 
 const Form = ({ states, cities, selectedState, setSelectedState }) => {
@@ -218,7 +219,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           )}
         </div>
         <div>
-          <span>Residency Type</span>
+          <span>Ownsership of Residence/ Business</span>
           <div className="border-b border-slate-400 py-1">
             <select
               onChange={(e) =>
@@ -447,16 +448,20 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
-              name="companyType"
-              value={formData.companyType}
-              {...formik.getFieldProps("companyType")}
+              name="industryType"
+              value={formData.industryType}
+              onChange={(e) => {
+                dispatch(
+                  setFormData({ ...formData, industryType: e.target.value })
+                );
+              }}
             >
               <option value="">Select</option>
-              {/* {companyType.map((ele, i) => (
+              {industryType.map((ele, i) => (
                 <option key={i} value={ele}>
                   {ele}
                 </option>
-              ))} */}
+              ))}
             </select>
           </div>
           {formik.touched.businessType && formik.errors.businessType && (
@@ -466,25 +471,24 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           )}
         </div>
         <div>
-          <span>Sub-Industry Type</span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full py-2.5"
-              name="companyType"
-              value={formData.companyType}
-              {...formik.getFieldProps("companyType")}
-            >
-              <option value="">Select</option>
-              {/* {companyType.map((ele, i) => (
-                <option key={i} value={ele}>
-                  {ele}
-                </option>
-              ))} */}
-            </select>
+          <span>Sub Industry</span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder=""
+              type="text"
+              value={formData.subIndustryType}
+              onChange={(e) => {
+                dispatch(
+                  setFormData({ ...formData, subIndustryType: e.target.value })
+                );
+                s;
+              }}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
           </div>
-          {formik.touched.businessType && formik.errors.businessType && (
+          {formik.touched.name && formik.errors.name && (
             <span className="text-red-500 text-xs font-bold">
-              {formik.errors.businessType}
+              {formik.errors.name}
             </span>
           )}
         </div>
