@@ -76,7 +76,17 @@ export const businessLoanTenure = [
   "10-25 Years",
   "25-40 Years",
 ];
-export const businessType = [
+
+export const companyType = [
+  "Proprietorship",
+  "Partnership Firm",
+  "Privated Limited Company",
+  "Public Limited Company",
+  "Limited Liability Company",
+  "Director Applying As An Individual",
+  "Other",
+];
+export const BusinessNature = [
   "Manufacture",
   "Trader/Wholesaler",
   "Retailer",

@@ -12,11 +12,12 @@ import {
   businessLoanTenure,
   residencyType,
   businessLoanEmploymentType,
-  businessType,
   collateralOption,
   loanStartDate,
   primaryBankAccount,
   yearsInCurrentBusiness,
+  BusinessNature,
+  companyType,
 } from "../../../configs/selectorConfigs";
 
 const Form = ({ states, cities, selectedState, setSelectedState }) => {
@@ -348,6 +349,9 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
             </select>
           </div>
         </div>
+        <div className="col-span-1 sm:col-span-2">
+          <h1 className="font-bold"> Business Details</h1>
+        </div>
         <div>
           <span>Current Business City</span>
           <div className="border-b border-slate-400 py-1">
@@ -393,20 +397,89 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
             )}
         </div>
         <div>
-          <span>Business Type</span>
+          <span>Company Type</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
-              name="businessType"
-              value={formData.businessType}
-              {...formik.getFieldProps("businessType")}
+              name="companyType"
+              value={formData.companyType}
+              {...formik.getFieldProps("companyType")}
             >
               <option value="">Select</option>
-              {businessType.map((ele, i) => (
+              {companyType.map((ele, i) => (
                 <option key={i} value={ele}>
                   {ele}
                 </option>
               ))}
+            </select>
+          </div>
+          {formik.touched.businessType && formik.errors.businessType && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.businessType}
+            </span>
+          )}
+        </div>
+        <div>
+          <span>Nature Of Business</span>
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full py-2.5"
+              name="BusinessNature"
+              value={formData.BusinessNature}
+              {...formik.getFieldProps("BusinessNature")}
+            >
+              <option value="">Select</option>
+              {BusinessNature.map((ele, i) => (
+                <option key={i} value={ele}>
+                  {ele}
+                </option>
+              ))}
+            </select>
+          </div>
+          {formik.touched.businessType && formik.errors.businessType && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.businessType}
+            </span>
+          )}
+        </div>
+        <div>
+          <span>Industry Type</span>
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full py-2.5"
+              name="companyType"
+              value={formData.companyType}
+              {...formik.getFieldProps("companyType")}
+            >
+              <option value="">Select</option>
+              {/* {companyType.map((ele, i) => (
+                <option key={i} value={ele}>
+                  {ele}
+                </option>
+              ))} */}
+            </select>
+          </div>
+          {formik.touched.businessType && formik.errors.businessType && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.businessType}
+            </span>
+          )}
+        </div>
+        <div>
+          <span>Sub-Industry Type</span>
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full py-2.5"
+              name="companyType"
+              value={formData.companyType}
+              {...formik.getFieldProps("companyType")}
+            >
+              <option value="">Select</option>
+              {/* {companyType.map((ele, i) => (
+                <option key={i} value={ele}>
+                  {ele}
+                </option>
+              ))} */}
             </select>
           </div>
           {formik.touched.businessType && formik.errors.businessType && (

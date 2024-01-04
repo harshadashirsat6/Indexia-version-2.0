@@ -25,7 +25,9 @@ export const inputs = {
   // business
   currentBusinessCity: "",
   yearsInCurrentBusiness: "",
-  businessType: "",
+  compnayType: "",
+  businessNature: "",
+  subIndustryType: "",
   industryType: "",
   companyStartDate: "",
   companyCurrentYearTurnOverRange: "",
