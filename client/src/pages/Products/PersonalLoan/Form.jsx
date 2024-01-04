@@ -108,7 +108,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
         <span className="w-20 h-0.5 rounded-full bg-cyan-400"></span>
       </h1>
       <form
-        className="grid grid-cols-1 xl:grid-cols-2 gap-x-10 gap-y-5 py-10 bg-blue-100 "
+        className="grid grid-cols-1 xl:grid-cols-2 gap-x-10 gap-y-5 py-10"
         onSubmit={formik.handleSubmit}
       >
         <div>
