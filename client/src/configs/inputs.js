@@ -23,6 +23,8 @@ export const inputs = {
   loanStartDate: "",
   primaryBankAccount: "",
   // business
+  profession: "",
+  registrationNumber:"",
   currentBusinessCity: "",
   yearsInCurrentBusiness: "",
   compnayType: "",
