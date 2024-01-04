@@ -225,8 +225,8 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
             </span>
           )}
         </div>
-        <div>
-          <span>Ownsership of Residence/ Business</span>
+        <div className="col-span-1 sm:col-span-2">
+          <span>Ownsership of Residence/ Business Place</span>
           <div className="border-b border-slate-400 py-1">
             <select
               onChange={(e) =>
