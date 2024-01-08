@@ -16,6 +16,7 @@ import {
   primaryBankAccount,
 } from "../../../configs/selectorConfigs";
 import { useState } from "react";
+import { frameData } from "framer-motion";
 
 const Form = ({ states, cities, selectedState, setSelectedState }) => {
   // const navigate = useNavigate();
@@ -25,7 +26,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
   const [checkBox1, setCheckBox1] = useState(false);
   const [checkBox2, setCheckBox2] = useState(false);
   const [checkBox3, setCheckBox3] = useState(false);
-  
+
   // Yup validation
   const validationSchema = Yup.object({
     name: Yup.string("").min(5).required("Full name should be filled"),
@@ -63,8 +64,9 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
     existingEmi: Yup.number()
       .integer("EMI must be a number")
       .required("EMI should be filled")
-      .min(0, "min 0")
-      .max(30000, "max 30k"),
+      .min(0, "min 0"),
+    salary: Yup.number().required("Salary should be filled"),
+    isMonthly: Yup.boolean().required("isMonthly should be filled"),
     email: Yup.string("").email().required("Email should be filled"),
     contact: Yup.number()
       .integer("Invalid contact number")
@@ -78,6 +80,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
       ),
     primaryBankAccount: Yup.string("").required("*required"),
   });
+
   // Formik
   const formik = useFormik({
     initialValues: formData,
@@ -86,8 +89,10 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
       handleProceed(values);
     },
   });
-
   const handleProceed = (values) => {
+    if (formData.monthlyIncome || formData.yearlyIncome) {
+      console.log(frameData.monthlyIncome||formData.yearlyIncome)
+    }
     if (formData.monthlyIncome > 0 && formData.monthlyIncome < 12000) {
       console.log("salary error");
       return;
@@ -96,7 +101,6 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
     dispatch(setShowSubmitLoanFormPaymentModal(true));
     dispatch(setFormData({ ...formData, ...values }));
   };
-
   return (
     <div className="py-10">
       <div className="-mb-2.5 -ml-2.5 flex items-center space-x-2.5"></div>
@@ -121,7 +125,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
             </span>
           )}
         </div>
-        
+
         <div>
           <span>Date of birth</span>
           <div className="border-b border-slate-400 py-1">
@@ -151,13 +155,15 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
               }}
             >
               <option>Select</option>
-              {states.map((obj) => {
-                return (
-                  <option key={obj.id} value={obj.iso2}>
-                    {obj.name}
-                  </option>
-                );
-              })}
+              {states
+                .sort((a, b) => (a.name > b.name ? 1 : -1))
+                .map((obj) => {
+                  return (
+                    <option key={obj.id} value={obj.iso2}>
+                      {obj.name}
+                    </option>
+                  );
+                })}
             </select>
           </div>
           {formik.touched.state && formik.errors.state && (
@@ -464,7 +470,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
             </span>
           )}
         </div>
-      
+
         <div>
           <span>Email address</span>
           <div className="border-b border-slate-400 py-1">

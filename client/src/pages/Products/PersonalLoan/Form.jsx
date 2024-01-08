@@ -130,7 +130,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
             </span>
           )}
         </div>
-     
+
         <div>
           <span>Date of birth</span>
           <div className="border-b border-slate-400 py-1">
@@ -160,13 +160,15 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
               }}
             >
               <option>Select</option>
-              {states.map((obj) => {
-                return (
-                  <option key={obj.id} value={obj.iso2}>
-                    {obj.name}
-                  </option>
-                );
-              })}
+              {states
+                .sort((a, b) => (a.name > b.name ? 1 : -1))
+                .map((obj) => {
+                  return (
+                    <option key={obj.id} value={obj.iso2}>
+                      {obj.name}
+                    </option>
+                  );
+                })}
             </select>
           </div>
           {formik.touched.state && formik.errors.state && (
@@ -473,7 +475,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
             </span>
           )}
         </div>
-  
+
         <div>
           <span>Email address</span>
           <div className="border-b border-slate-400 py-1">

@@ -12,7 +12,6 @@ const Modal = () => {
     initialPopup,
   } = useSelector((store) => store.app);
   const homeModalShown = localStorage.getItem("homePageDetails");
-  console.log("homeModalShown", homeModalShown);
   return (
     <>
       {isOpenModal.label && (

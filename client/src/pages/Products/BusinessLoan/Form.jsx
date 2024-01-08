@@ -158,7 +158,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
               }}
             >
               <option>Select</option>
-              {states.map((obj) => {
+              {states.sort((a, b) => (a.name > b.name ? 1 : -1)).map((obj) => {
                 return (
                   <option key={obj.id} value={obj.iso2}>
                     {obj.name}
