@@ -76,7 +76,6 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           return value.toString().length === 10;
         }
       ),
-    loanStartDate: Yup.string("").required("*required"),
     primaryBankAccount: Yup.string("").required("*required"),
   });
   // Formik
@@ -465,31 +464,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
             </span>
           )}
         </div>
-        <div>
-          <span className="text-sm">
-            When are you planning to take the loan?
-          </span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full py-2.5"
-              name="loanStartDate"
-              value={formData.loanStartDate}
-              {...formik.getFieldProps("loanStartDate")}
-            >
-              <option value="">Select</option>
-              {loanStartDate.map((ele, i) => (
-                <option key={i} value={ele}>
-                  {ele}
-                </option>
-              ))}
-            </select>
-          </div>
-          {formik.touched.loanStartDate && formik.errors.loanStartDate && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.loanStartDate}
-            </span>
-          )}
-        </div>
+      
         <div>
           <span>Email address</span>
           <div className="border-b border-slate-400 py-1">

@@ -48,8 +48,11 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
     residencyType: Yup.string("").required("select residency type"),
     panCardNum: Yup.string()
       .required("Pancard number should be filled")
-      .length(10)
-      .matches(/^[A-Z0-9]{10}$/, "Invalid pancard number"),
+      .length(10, "Pan card number should be 10 characters")
+      .matches(
+        /^[A-Z0-9]{10}$/,
+        "Invalid pancard number, only uppercase letters and digits allowed"
+      ),
 
     employerType: Yup.string("").required("select employer type"),
     employmentType: Yup.string("").required("select employment type"),

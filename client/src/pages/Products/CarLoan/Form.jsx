@@ -50,8 +50,12 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
     residencyType: Yup.string("").required("select residency type"),
     panCardNum: Yup.string()
       .required("Pancard number should be filled")
-      .length(10)
-      .matches(/^[A-Z0-9]{10}$/, "Invalid pancard number"),
+      .length(10, "Pan card number should be 10 characters")
+      .matches(
+        /^[A-Z0-9]{10}$/,
+        "Invalid pancard number, only uppercase letters and digits allowed"
+      ),
+
     loanAmount: Yup.number()
       .integer("Loan amount must be a number")
       .required("Loan amount should be filled")
@@ -76,7 +80,6 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           return value.toString().length === 10;
         }
       ),
-    loanStartDate: Yup.string("").required("*required"),
     carManufacturer: Yup.string("").required("*required"),
     carModel: Yup.string("").required("*required"),
     carPrice: Yup.number().integer("invalid price input").required("*required"),
@@ -473,31 +476,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
             </span>
           )}
         </div>
-        <div>
-          <span className="text-sm">
-            When are you planning to take the loan?
-          </span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full py-2.5"
-              name="loanStartDate"
-              value={formData.loanStartDate}
-              {...formik.getFieldProps("loanStartDate")}
-            >
-              <option value="">Select</option>
-              {loanStartDate.map((ele, i) => (
-                <option key={i} value={ele}>
-                  {ele}
-                </option>
-              ))}
-            </select>
-          </div>
-          {formik.touched.loanStartDate && formik.errors.loanStartDate && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.loanStartDate}
-            </span>
-          )}
-        </div>
+   
         <div className="col-span-2 sm:col-span-1">
           <h1 className="font-bold">Vehicle Details</h1>
         </div>
