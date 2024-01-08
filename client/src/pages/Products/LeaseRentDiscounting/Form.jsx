@@ -121,23 +121,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
             </span>
           )}
         </div>
-        <div>
-          <span>Gender</span>
-          <div className="border-b border-slate-400 py-1">
-            <select
-              className="w-full"
-              value={formData.gender}
-              name="gender"
-              onChange={(e) =>
-                dispatch(setFormData({ ...formData, gender: e.target.value }))
-              }
-            >
-              <option>Select</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-            </select>
-          </div>
-        </div>
+     
         <div>
           <span>Date of birth</span>
           <div className="border-b border-slate-400 py-1">
@@ -329,7 +313,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           )}
         </div>
         <div>
-          <span>Primary Bank Account</span>
+          <span>Salary Bank Account</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
