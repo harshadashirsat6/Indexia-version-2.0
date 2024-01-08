@@ -91,7 +91,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
   });
   const handleProceed = (values) => {
     if (formData.monthlyIncome || formData.yearlyIncome) {
-      console.log(frameData.monthlyIncome||formData.yearlyIncome)
+      console.log(frameData.monthlyIncome || formData.yearlyIncome);
     }
     if (formData.monthlyIncome > 0 && formData.monthlyIncome < 12000) {
       console.log("salary error");
