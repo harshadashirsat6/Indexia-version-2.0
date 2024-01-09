@@ -19,7 +19,7 @@ export const inputs = {
   pincode: "",
   residencyType: "Owned by self/spouse",
   incomeReceivedAs: "",
-  existingEmi: "",
+  existingEmi: 0,
   loanStartDate: "",
   primaryBankAccount: "",
   // business

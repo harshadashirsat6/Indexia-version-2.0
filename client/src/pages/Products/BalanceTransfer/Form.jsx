@@ -139,11 +139,12 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
         return;
       }
     }
-    console.log("final resp", values);
+    setEmiError({ status: false, msg: "" });
+    setIncomeError({ status: false, message: "" });
     dispatch(setShowSubmitLoanFormPaymentModal(true));
     dispatch(setFormData({ ...formData, ...values }));
   };
-  console.log(emiError);
+  
   return (
     <div className="py-10">
       <div className="-mb-2.5 -ml-2.5 flex items-center space-x-2.5"></div>
@@ -429,6 +430,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
             </span>
           )}
         </div>
+        {/* salary monthly /yearly */}
         <div className=" py-1">
           {formData.employmentType === "Salaried" &&
           formData.employmentType === "Salaried" ? (
