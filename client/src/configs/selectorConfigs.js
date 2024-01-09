@@ -1,7 +1,8 @@
 export const residencyType = [
   "Owned by self/spouse",
   "Owned by parents/siblings",
-  "Rented with family/stay alone",
+  "Rented with family",
+  "Rent and stay alone",
   "Paying Guest/Hostel",
   "Company Provided",
 ];
