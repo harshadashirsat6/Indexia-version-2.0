@@ -651,7 +651,7 @@ const handleSubmit = (e) => {
             <label className="pl-2">Terms & Conditions 1</label> */}
 
             <ReCAPTCHA
-    sitekey="6Lc7IVEpAAAAAMjxsoOn13XKoF4P1yKsunnci2C8"
+    sitekey="6Lfg1FEpAAAAAEdYwmMkPI462Xy9HCDH6InIkL0j"
     onChange={(res)=>{
       setCheckBox3(true)
     }}
