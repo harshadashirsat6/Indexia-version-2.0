@@ -676,7 +676,6 @@ const handleSubmit = (e) => {
             Submit
           </button>
         </div>
-             <button type='submit'>Button</button>
       </form>
     </div>
   )
