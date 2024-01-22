@@ -179,8 +179,6 @@ function handaleBsTypeError(formData){
   const handaleChange = (e)=>{
       dispatch(setFormData(({...formData,[e.target.name]:e.target.value})))
   }
-
-
   return (
     <div className="py-10">
       <div className="-mb-2.5 -ml-2.5 flex items-center space-x-2.5"></div>
