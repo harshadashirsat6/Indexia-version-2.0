@@ -14,6 +14,7 @@ import {
   primaryBankAccount,
 } from "../../../configs/selectorConfigs";
 import { useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const Form = ({ states, cities, selectedState, setSelectedState }) => {
   // const navigate = useNavigate();
@@ -21,8 +22,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
   const { formData, isOpenModal } = useSelector((store) => store.app);
   // checkbox
   const [checkBox1, setCheckBox1] = useState(false);
-  const [checkBox2, setCheckBox2] = useState(false);
-  const [checkBox3, setCheckBox3] = useState(false);
+  const [checkBox2, setCheckBox2] = useState(true);
 
   // Yup validation
   const validationSchema = Yup.object({
@@ -574,37 +574,31 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
             </span>
           )}
         </div>
+        
         <div className="col-span-2  sm:col-span-2">
-          <div>
-            <input
-              type="checkbox"
-              checked={checkBox1}
-              onChange={() => setCheckBox1(!checkBox1)}
-            />
-            <label className="pl-2">Terms & Conditions 1</label>
+        <div>
+          <ReCAPTCHA
+              sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+             onChange={(res)=>{
+              setCheckBox1(true)
+            }}
+           />
           </div>
           <div>
             <input
               type="checkbox"
               checked={checkBox2}
-              onChange={() => setCheckBox2(!checkBox2)}
+              onChange={() => setCheckBox2(prev=>!prev)}
             />
-            <label className="pl-2">Terms & Conditions 2</label>
+            <label className="pl-2">Terms & Conditions 1 & Conditions 2</label>
           </div>
-          <div>
-            <input
-              type="checkbox"
-              checked={checkBox3}
-              onChange={() => setCheckBox3(!checkBox3)}
-            />
-            <label className="pl-2">Terms & Conditions 3</label>
-          </div>
+          
         </div>
         <div className="w-1/2 mx-auto pt-2.5">
           <button
             className="bg-cyan-400 py-2.5 w-full rounded-lg text-lg text-white font-normal duration-200 disabled:cursor-not-allowed disabled:bg-gray-200"
             type="submit"
-            disabled={!checkBox1 || !checkBox2 || !checkBox3}
+            disabled={!checkBox1 || !checkBox2 }
           >
             Submit
           </button>
