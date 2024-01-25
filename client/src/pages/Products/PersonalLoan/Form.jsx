@@ -47,8 +47,9 @@ const FormAB = ({states,cities,setSelectedState,selectedState}) => {
         // Adjust the age check as per your specific requirements
         return age <= 21;
     }
+
     function calculateEmi(){
-      if (persionalLoanObj.existingEmi !== 0) {
+      if (persionalLoanObj.existingEmi != 0) {
         const salary = persionalLoanObj.monthlyIncome || persionalLoanObj.yearlyIncome / 12;
         const emi = salary * 0.8;
         if (persionalLoanObj.existingEmi > emi) {
@@ -66,7 +67,7 @@ const FormAB = ({states,cities,setSelectedState,selectedState}) => {
     }
 
     const handaleContact  = ()=>{
-      if(persionalLoanObj?.contact?.length!==10){
+      if(persionalLoanObj?.contact?.length>10||persionalLoanObj?.contact?.length<10){
         return true
       }
       return false
@@ -80,8 +81,15 @@ const FormAB = ({states,cities,setSelectedState,selectedState}) => {
         city: YupString(persionalLoanObj.city).required("City should be filled"),
         pincode:YupString(persionalLoanObj.pincode).isInt('Pincode must be a number').required("Pincode should be filled"),
         residencyType: YupString(persionalLoanObj.residencyType).required("Select residency type"),
-        panCardNum: YupString(persionalLoanObj.panCardNum).required("Pancard number should be filled")
-        .length(10, "Pan card number should be 10 characters"),
+        panCardNum: YupString((persionalLoanObj.panCardNum+"".toLowerCase()))
+        .matches(/^[A-Z0-9]+$/, 'Only alphanumeric characters are allowed')       
+        .required("Pancard number should be filled")
+        .length(10, "Pan card number should be 10 characters")
+        .matches(
+          /^[a-zA-Z]{5}.*[a-zA-Z]$/,
+          "Invalid pancard number"
+        )
+        ,
         loanAmount: YupString(persionalLoanObj.loanAmount)
         .isInt("Loan amount must be a number")
         .minNumber(100000, "min 1 lakh")
@@ -93,7 +101,7 @@ const FormAB = ({states,cities,setSelectedState,selectedState}) => {
         yearlyIncome:YupString(persionalLoanObj.yearlyIncome||'').required("Please enter valid income"),
         monthlyIncome:YupString(persionalLoanObj.monthlyIncome||'')
         .minNumber(12000, "Salary min 12k").required("Please enter valid income"),
-        existingEmi: YupString(persionalLoanObj.existingEmi||'').test(calculateEmi,'EMI should be less than 80% of your monthly income').required("EMI should be filled"),
+        existingEmi: YupString(persionalLoanObj.existingEmi+"").test(calculateEmi,'EMI should be less than 80% of your monthly income').required("EMI should be filled"),
         email: YupString(persionalLoanObj.email).test(handaleMail,'Please enter correct email').required("Email should be filled"),
         contact: YupString(persionalLoanObj.contact).test(handaleContact, "Contact number must be of 10 digits").required("Contact number should be filled"),
 
@@ -106,23 +114,33 @@ const FormAB = ({states,cities,setSelectedState,selectedState}) => {
 
 
 
-//   console.log(validationSchema.state.validate(),persionalLoanObj.state)
+  // console.log(persionalLoanObj.panCardNum)
 
 const handleSubmit = (e) => {
     e.preventDefault(); // Corrected to include parentheses
     const val =   persionalLoanObj.employmentType ==='Salaried'?'monthlyIncome':'yearlyIncome' 
-
+    // console.log(validationSchema)
       let active = true
 
       for (const obj in validationSchema){
-        console.log(validationSchema[obj].validate())
-          if(active &&validationSchema[obj].validate() &&(['monthlyIncome','yearlyIncome']
-          .includes(obj)&& validationSchema[val].validate()) ){
 
-            console.log('fnjefjkn','-0399ru',obj)
-            active=false
-          }       
+       if(['monthlyIncome','yearlyIncome'].includes(obj)){ 
+       if( active && 
+        validationSchema[val].errorMessages.trim()){
+          active =false
+       }
+    }else if(!['monthlyIncome','yearlyIncome'].includes(obj) ){
+      if( active && 
+        validationSchema[obj].errorMessages.trim()){
+          active =false
+          console.log(validationSchema[obj].errorMessages)
+       }
+
+    }
+         
       }
+
+
       setTouchedInputs({
         name:true, dateOfBirth:true, state:true,city:true,
         pincode:true,residencyType:true,panCardNum:true,
@@ -151,7 +169,7 @@ const handleSubmit = (e) => {
         <span className="w-20 h-0.5 rounded-full bg-cyan-400 mt-3"></span>
 
       </h1>
-      <form className='grid w-full grid-cols-2 gap-8 ' onSubmit={handleSubmit} > 
+      <form className='block lg:grid lg:grid-cols-2  gap-8' onSubmit={handleSubmit} > 
 
       <div className="py-1 border-b border-slate-400 ">
            <span>Full name</span>
@@ -302,7 +320,11 @@ const handleSubmit = (e) => {
             <input
               placeholder="Enter permanent account number"
               type="text"
-              onChange={handaleChange}
+              onChange={
+                (e)=>{
+                  handaleChange({target:{name:'panCardNum',value: (e.target.value.toUpperCase())}})
+                }
+              }
               name='panCardNum'
               value={persionalLoanObj.panCardNum}
               onBlur={()=>setTouchedInputs(prev=>({...prev,panCardNum:true}))}

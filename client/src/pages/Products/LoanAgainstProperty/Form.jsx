@@ -110,10 +110,9 @@ function handaleBsTypeError(formData){
       .required("Pancard number should be filled")
       .length(10, "Pan card number should be 10 characters")
       .matches(
-        /^[A-Z0-9]{10}$/,
-        "Invalid pancard number, only uppercase letters and digits allowed"
-      ),
-
+        /^[a-zA-Z]{5}.*[a-zA-Z]$/,
+        "Invalid pancard number"
+      ).matches(/^[A-Z0-9]+$/, 'Only alphanumeric characters are allowed'),
     loanAmount: Yup.string("").required("Loan amount should be filled"),
     loanTenure: Yup.string("").required("select loan tenure "),
     employerType: Yup.string("").required("select employer type"),
@@ -155,7 +154,7 @@ function handaleBsTypeError(formData){
     msg: "",
   });
   const handleProceed = (values) => {
-    if(calculateEmi(formik.values.existingEmi,true) && incomeError.status){
+    if(emiError.status || incomeError.status){
       return 
     }
     setIncomeStatus({month:false,year:false})
@@ -183,8 +182,8 @@ function handaleBsTypeError(formData){
       <div className="-mb-2.5 -ml-2.5 flex items-center space-x-2.5"></div>
       <h1 className="text-xl flex flex-col space-y-2">Loan Against Property</h1>
       <form
-        className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-5 py-10 "
-        onSubmit={(e)=>{
+          className='block lg:grid lg:grid-cols-2  gap-8'        
+          onSubmit={(e)=>{
           e.preventDefault()
           setIncomeStatus({month:true,year:true})
           formik.handleSubmit()
@@ -283,7 +282,8 @@ function handaleBsTypeError(formData){
             <input
               placeholder="As per on your pan card"
               type="number"
-              {...formik.getFieldProps("pincode")}
+              {...formik.getFieldProps("name")}
+              onChange={(e) => formik.setFieldValue("name", e.target.value.toUpperCase())}
               className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
             />
           </div>
@@ -322,6 +322,7 @@ function handaleBsTypeError(formData){
               placeholder="Enter permanent account number"
               type="text"
               {...formik.getFieldProps("panCardNum")}
+              onChange={(e) => formik.setFieldValue("panCardNum", e.target.value.toUpperCase())}
               className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
             />
           </div>

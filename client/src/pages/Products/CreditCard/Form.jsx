@@ -13,7 +13,7 @@ import {
   employerType,
   primaryBankAccount,
 } from "../../../configs/selectorConfigs";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 
 const Form = ({ states, cities, selectedState, setSelectedState }) => {
@@ -23,6 +23,15 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
   // checkbox
   const [checkBox1, setCheckBox1] = useState(false);
   const [checkBox2, setCheckBox2] = useState(true);
+
+  
+  const [incomeStatus,setIncomeStatus] = useState({month:false,year:false})
+  const [persionalConditionalObj,setPersionalConditionalUseObj] = useState({
+    primaryBankAccount:'',
+    touched:false,
+    touched2:false
+  })
+
 
   // Yup validation
   const validationSchema = Yup.object({
@@ -50,9 +59,11 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
       .required("Pancard number should be filled")
       .length(10, "Pan card number should be 10 characters")
       .matches(
-        /^[A-Z0-9]{10}$/,
-        "Invalid pancard number, only uppercase letters and digits allowed"
-      ),
+        /^[a-zA-Z]{5}.*[a-zA-Z]$/,
+        "Invalid pancard number"
+      )
+      .matches(/^[A-Z0-9]+$/, 'Only alphanumeric characters are allowed')
+     ,
 
     employerType: Yup.string("").required("select employer type"),
     employmentType: Yup.string("").required("select employment type"),
@@ -83,6 +94,58 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
     },
   });
 
+  function calculateEmi(value,onsumbit){
+    if (value !== 0||onsumbit) {
+      const salary = formData.monthlyIncome || formData.yearlyIncome / 12;
+      const emi = salary * 0.8;
+        setEmiError({
+          status: value > emi,
+          msg: "EMI should be less than 80% of your monthly income",
+        });
+        return value > emi;
+    }
+    return true
+  }
+
+function handaleBsTypeError(formData){
+  if (
+    formData.employmentType === "Salaried" &&
+    formData.monthlyIncome === 0
+  ) {
+    setIncomeError({
+      status: true,
+      message: "Please enter valid income",
+    });
+    return false;
+  } else if (
+    formData.employmentType === "Salaried" &&
+    formData.monthlyIncome < 12000
+  ) {
+    setIncomeError({
+      status: true,
+      message: "salary min 12k",
+    });
+    return false;
+  } else if (
+    (formData.employmentType === "Self-employed business" ||
+      formData.employmentType === "Self-employed professional") &&
+    !(+formData.yearlyIncome)
+  ) {
+    setIncomeError({
+      status: true,
+      message: "Invalid income",
+    });
+    return false;
+  }else if(formData.employmentType === "Salaried"?
+  +formData.monthlyIncome:+formData.yearlyIncome){
+    setIncomeError({
+      status: false,
+      message: "",
+    });
+    return true;
+  }
+}  
+
   //income error
   const [incomeError, setIncomeError] = useState({
     status: false,
@@ -93,61 +156,43 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
     msg: "",
   });
   const handleProceed = (values) => {
-    console.log(formData);
-    if (
-      formData.employmentType === "Salaried" &&
-      formData.monthlyIncome === 0
-    ) {
-      setIncomeError({
-        status: true,
-        message: "Please enter valid income",
-      });
-      return;
-    } else if (
-      formData.employmentType === "Salaried" &&
-      formData.monthlyIncome < 12000
-    ) {
-      setIncomeError({
-        status: true,
-        message: "salary min 12k",
-      });
-      return;
-    } else if (
-      (formData.employmentType === "Self-employed business" ||
-        formData.employmentType === "Self-employed professional") &&
-      formData.yearlyIncome === 0
-    ) {
-      setIncomeError({
-        status: true,
-        message: "Invalid income",
-      });
-      return;
+  
+    if(emiError.status || incomeError.status ||
+      !formData.primaryBankAccount.trim()){
+      return 
     }
-
-    if (values.existingEmi !== 0) {
-      const salary = formData.monthlyIncome || formData.yearlyIncome / 12;
-      const emi = salary * 0.8;
-      if (values.existingEmi > emi) {
-        setEmiError({
-          status: true,
-          msg: "EMI should be less than 80% of your monthly income",
-        });
-        return;
-      }
-    }
-    setEmiError({ status: false, msg: "" });
-    setIncomeError({ status: false, message: "" });
+    setIncomeStatus({month:false,year:false})
     dispatch(setShowSubmitLoanFormPaymentModal(true));
-    dispatch(setFormData({ ...formData, ...values }));
+    dispatch(setFormData({ ...formData, ...values,
+      monthlyIncome:formData.monthlyIncome,
+      yearlyIncome:formData.yearlyIncome,
+      primaryBankAccount:formData.primaryBankAccount
+    }));
   };
+
+  useEffect(()=>{
+    calculateEmi(formik.values.existingEmi,true)
+    handaleBsTypeError(formData)
+  },[formData.monthlyIncome,
+    formData.yearlyIncome,
+    formik.values.existingEmi])
+
+    const handaleChange = (e)=>{
+      dispatch(setFormData(({...formData,[e.target.name]:e.target.value})))
+  }
+
+
   return (
     <div className="py-10">
       <div className="-mb-2.5 -ml-2.5 flex items-center space-x-2.5"></div>
       <h1 className="text-xl flex flex-col space-y-2">Credit Card</h1>
       <form
-        className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-5 py-10 "
-        onSubmit={formik.handleSubmit}
-      >
+          className='block lg:grid lg:grid-cols-2  gap-8'        
+          onSubmit={(e)=>{
+            e.preventDefault()
+            setIncomeStatus({month:true,year:true})
+            formik.handleSubmit()
+          }}      >
         <div>
           <span>Full name</span>
           <div className="border-b border-slate-400 py-1">
@@ -236,7 +281,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           )}
         </div>
         <div>
-          <span>Pincode</span>
+          <span>Residency Pincode</span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder=""
@@ -280,7 +325,8 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
               placeholder="Enter permanent account number"
               type="text"
               {...formik.getFieldProps("panCardNum")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              onChange={(e) => formik.setFieldValue("panCardNum", e.target.value.toUpperCase())}
+            className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
             />
           </div>
           {formik.touched.panCardNum && formik.errors.panCardNum && (
@@ -289,45 +335,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
             </span>
           )}
         </div>
-        {/* <div>
-          <span>Loan amount</span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder=""
-              type="number"
-              {...formik.getFieldProps("loanAmount")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-            />
-          </div>
-          {formik.touched.loanAmount && formik.errors.loanAmount && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.loanAmount}
-            </span>
-          )}
-        </div> */}
-        {/* <div>
-          <span>Loan tenure</span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full py-2.5"
-              name="loanTenure"
-              value={formData.loanTenure}
-              {...formik.getFieldProps("loanTenure")}
-            >
-              <option value="">Select</option>
-              {loanTenure.map((tenure, i) => (
-                <option key={i} value={tenure}>
-                  {tenure}
-                </option>
-              ))}
-            </select>
-          </div>
-          {formik.touched.loanTenure && formik.errors.loanTenure && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.loanTenure}
-            </span>
-          )}
-        </div> */}
+        
         <div>
           <span>Employment type</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
@@ -414,9 +422,10 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
               <input
                 placeholder="Enter your monthly income"
                 type="number"
-                name="monthlyIncome"
+                name="monthlyIncomeno"
                 value={formData.monthlyIncome}
                 onChange={(e) => {
+                  
                   dispatch(
                     setFormData({
                       ...formData,
@@ -426,9 +435,10 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
 
                   setIncomeError({ status: false, msg: "" });
                 }}
+                onBlur={()=>setIncomeStatus(prev=>({...prev,month:true}))}
                 className="bg-transparent w-full outline-none  placeholder:text-slate-500 border-b-[1px] border-slate-800"
               />
-              {incomeError.status === true && (
+              {incomeError.status && incomeStatus.month&& (
                 <span className="text-red-500 text-xs font-bold">
                   {incomeError?.message}
                 </span>
@@ -447,8 +457,10 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
               <input
                 placeholder="Enter your monthly income"
                 type="number"
-                name="yearlyIncome"
+                name="yearlyIncomeno"
                 value={formData.yearlyIncome}
+                onBlur={()=>setIncomeStatus(prev=>({...prev,year:true}))}
+
                 onChange={(e) => {
                   dispatch(
                     setFormData({
@@ -456,11 +468,11 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
                       yearlyIncome: e.target.value,
                     })
                   );
-                  setIncomeError({ status: false, msg: "" });
+                  // setIncomeError({ status: false, msg: "" });
                 }}
                 className="bg-transparent w-full outline-none  placeholder:text-slate-500 border-b-[1px] border-slate-800"
               />
-              {incomeError.status === true && (
+              {incomeError.status&&incomeStatus.year && (
                 <span className="text-red-500 text-xs font-bold">
                   {incomeError?.message}
                 </span>
@@ -499,17 +511,22 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
-              value={formData.primaryBankAccount}
-              onChange={(e) =>
-                dispatch(
-                  setFormData({
-                    ...formData,
-                    primaryBankAccount: e.target.value,
-                  })
-                )
-              }
+              value={persionalConditionalObj.primaryBankAccount||formData.primaryBankAccount}
+              onBlur={()=>setPersionalConditionalUseObj(prev=>({...prev,touched:true}))}
+              name="primaryBankAccount"
+              onChange={(e)=>{
+                if(e.target.value==='Other'){
+                  setPersionalConditionalUseObj
+                  (prev=>({...prev,primaryBankAccount:e.target.value}))
+                  handaleChange({target:{value:'',name:'primaryBankAccount'}})
+                }else{
+                  setPersionalConditionalUseObj
+                  (prev=>({...prev,primaryBankAccount:''}))
+                  handaleChange(e)
+                }      
+              }}
             >
-              <option>Select</option>
+              <option value={''}>Select</option>
               {primaryBankAccount.map((ele) => {
                 return (
                   <option key={ele} value={ele}>
@@ -518,8 +535,37 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
                 );
               })}
             </select>
+
           </div>
+              {(persionalConditionalObj.touched&&!formData.primaryBankAccount?.trim())
+                   &&persionalConditionalObj.primaryBankAccount!=='Other'? (
+                <span className="text-xs font-bold text-red-500  ">
+                  *required
+                </span>
+             ):''}
         </div>
+
+        {persionalConditionalObj.primaryBankAccount ==='Other'&& <div>
+          <span>Salary Bank Account Name</span>
+          <div className="py-1 border-b border-slate-400 duration-200">
+            <input
+              placeholder="Enter Salary Bank Account Name"
+              type="text"
+              // onChange={handaleChange}
+              name='primaryBankAccount'
+              onBlur={()=>setPersionalConditionalUseObj(prev=>({...prev,touched2:true}))}
+              value={formData.primaryBankAccount}
+              onChange={handaleChange}
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-500"
+            />
+           {(persionalConditionalObj.touched&&!formData.primaryBankAccount?.trim())
+                   &&persionalConditionalObj.primaryBankAccount==='Other'? (
+                <span className="text-xs font-bold text-red-500  ">
+                  *required
+                </span>
+             ):''}
+        </div>
+        </div>}
         <div>
           <span>Existing EMI</span>
           <div className="border-b border-slate-400 py-1">
@@ -530,16 +576,17 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
               className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
             />
           </div>
-          {formik.touched.existingEmi && formik.errors.existingEmi && (
-            <span className="text-red-500 text-xs font-bold">
+          {(formik.touched.existingEmi && formik.errors.existingEmi)? (
+            <span className="text-red-500 text-xs font-bold duration-200">
               {formik.errors.existingEmi}
             </span>
-          )}
-          {emiError.status === true && (
-            <span className="text-red-500 text-xs font-bold">
+          ):emiError.status === true? 
+          (
+            <span className="text-red-500 text-xs font-bold duration-200">
               {emiError?.msg}
             </span>
-          )}
+          ):''
+        }
         </div>
         <div>
           <span>Email address</span>

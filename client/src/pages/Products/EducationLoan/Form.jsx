@@ -25,7 +25,6 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
   // checkbox
   const [checkBox1, setCheckBox1] = useState(false);
   const [checkBox2, setCheckBox2] = useState(true);
-  const [checkBox3, setCheckBox3] = useState(false);
 
   // Yup validation
   const validationSchema = Yup.object({
@@ -53,9 +52,11 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
       .required("Pancard number should be filled")
       .length(10, "Pan card number should be 10 characters")
       .matches(
-        /^[A-Z0-9]{10}$/,
-        "Invalid pancard number, only uppercase letters and digits allowed"
-      ),
+        /^[a-zA-Z]{5}.*[a-zA-Z]$/,
+        "Invalid pancard number"
+      )
+      .matches(/^[A-Z0-9]+$/, 'Only alphanumeric characters are allowed')
+    ,
 
     loanAmount: Yup.number()
       .integer("Loan amount must be a number")
@@ -97,12 +98,12 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
     },
   });
 
+
   const handleProceed = (values) => {
     if (formData.monthlyIncome > 0 && formData.monthlyIncome < 12000) {
       console.log("salary error");
       return;
     }
-    console.log("final resp", values);
     dispatch(setShowSubmitLoanFormPaymentModal(true));
     dispatch(setFormData({ ...formData, ...values }));
   };
@@ -118,8 +119,8 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
         <span className="w-20 h-0.5 rounded-full bg-cyan-400"></span>
       </h1>
       <form
-        className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-5 py-10 "
-        onSubmit={formik.handleSubmit}
+          className='block lg:grid lg:grid-cols-2  gap-8'        
+          onSubmit={formik.handleSubmit}
       >
         <div>
           <span>Full name</span>
@@ -253,6 +254,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
               placeholder="Enter permanent account number"
               type="text"
               {...formik.getFieldProps("panCardNum")}
+              onChange={(e) => formik.setFieldValue("panCardNum", e.target.value.toUpperCase())}
               className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
             />
           </div>

@@ -15,7 +15,7 @@ const Products = () => {
   };
 
   return (
-    <main className="mb-10 md:mb-20 mt-10 md:mt-0 mx-5 sm:mx-10 md:mx-20 lg:mx-32 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2.5 sm:gap-5">
+    <main className="mb-10 md:mb-20 mt-10 md:mt-0 mx-5 sm:mx-10 md:mx-20   lg:mx-32 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2.5 sm:gap-5">
       {products.map((product, i) => {
         return (
           <section

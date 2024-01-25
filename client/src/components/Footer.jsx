@@ -10,7 +10,7 @@ import { footerConfig } from "../configs/footerConfig";
 const Footer = () => {
   return (
     <footer className="bg-gradient-to-r from-[#00093c] to-[#2d0b00] px-5 md:px-10 lg:px-20 xl:px-40 py-10 lg:py-20 text-slate-300 text-sm ">
-      <main className="flex flex-col lg:flex-row justify-between space-y-5 lg:space-y-0">
+      <main className="flex flex-col flex-wrap lg:flex-nowrap lg:flex-row justify-between space-y-5 ">
         <section className="space-y-3">
           <h1 className="text-xl font-acme text-slate-300 tracking-wide cursor-pointer">
             IndexiaFinance
@@ -47,7 +47,8 @@ const Footer = () => {
             </a>
           </div>
         </section>
-        <ul className="space-y-2.5 text-base">
+        <section className="grid grid-cols-2 md:grid-cols-3 gap-8">
+        <ul className="space-y-2.5 text-base ">
           {footerConfig.slice(0, 4).map((i) => (
             <motion.li
               whileHover={{ scale: 1.1, originX: 0 }}
@@ -59,7 +60,7 @@ const Footer = () => {
             </motion.li>
           ))}
         </ul>
-        <ul className="space-y-2.5 text-base">
+        <ul className="space-y-2.5 text-base ">
           {footerConfig.slice(4, 8).map((i) => (
             <motion.li
               whileHover={{ scale: 1.1, originX: 0 }}
@@ -71,7 +72,7 @@ const Footer = () => {
             </motion.li>
           ))}
         </ul>
-        <ul className="space-y-2.5 text-base">
+        <ul className="space-y-2.5 text-base col-span-2 sm:col-span-1">
           {footerConfig.slice(8).map((i) => (
             <motion.li
               whileHover={{ scale: 1.1, originX: 0 }}
@@ -83,6 +84,7 @@ const Footer = () => {
             </motion.li>
           ))}
         </ul>
+        </section >
       </main>
     </footer>
   );

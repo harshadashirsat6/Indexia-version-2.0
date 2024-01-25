@@ -59,9 +59,10 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
       .required("Pancard number should be filled")
       .length(10, "Pan card number should be 10 characters")
       .matches(
-        /^[A-Z0-9]{10}$/,
-        "Invalid pancard number, only uppercase letters and digits allowed"
-      ),
+        /^[a-zA-Z]{5}.*[a-zA-Z]$/,
+        "Invalid pancard number"
+      )
+      .matches(/^[A-Z0-9]+$/, 'Only alphanumeric characters are allowed')         ,
 
     loanAmount: Yup.string("").required("Loan amount should be filled"),
     loanTenure: Yup.string("").required("select loan tenure "),
@@ -158,7 +159,7 @@ function handaleBsTypeError(formData){
     msg: "",
   });
   const handleProceed = (values) => {
-    if(calculateEmi(formik.values.existingEmi,true) && incomeError.status){
+    if(emiError.status || incomeError.status){
       return 
     }
     setIncomeStatus({month:false,year:false})
@@ -190,8 +191,8 @@ function handaleBsTypeError(formData){
         <span className="w-20 h-0.5 rounded-full bg-cyan-400"></span>
       </h1>
       <form
-        className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-5 py-10 "
-        onSubmit={(e)=>{
+          className='block lg:grid lg:grid-cols-2  gap-8'        
+          onSubmit={(e)=>{
           e.preventDefault()
           setIncomeStatus({month:true,year:true})
           formik.handleSubmit()
@@ -329,6 +330,7 @@ function handaleBsTypeError(formData){
               placeholder="Enter permanent account number"
               type="text"
               {...formik.getFieldProps("panCardNum")}
+              onChange={(e) => formik.setFieldValue("panCardNum", e.target.value.toUpperCase())}
               className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
             />
           </div>
