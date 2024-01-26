@@ -695,7 +695,9 @@ const handleSubmit = (e) => {
           <button
             className="bg-cyan-400 py-2.5 w-full rounded-lg text-lg text-white font-normal duration-200 disabled:cursor-not-allowed disabled:bg-gray-200"
             type="submit"
-            disabled={(!checkBox1 || !checkBox2) }
+            // disabled={(!checkBox1 || !checkBox2) }
+            disabled={(!checkBox2) }
+
           >
             Submit
           </button>
