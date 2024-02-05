@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-// import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import ReCAPTCHA from "react-google-recaptcha";
 import {
@@ -22,6 +21,8 @@ import {
   industryType,
 } from "../../../configs/selectorConfigs";
 import { validationPenCard } from "../../../validation/validationFun";
+import { Link } from "react-router-dom";
+import { changeIntoDate } from "../../../validation/function";
 const Form = ({ states, cities, selectedState, setSelectedState }) => {
   // const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
   const [checkBox1, setCheckBox1] = useState(true);
   const [checkBox2, setCheckBox2] = useState(false);
   const [incomeStatus,setIncomeStatus] = useState({month:false,year:false})
-   
+  const [bankInValue,setBankInValue] = useState('')  
 
 function calculateEmi(value,onsumbit){
     if (value !== 0||onsumbit) {
@@ -90,49 +91,50 @@ function handaleBsTypeError(formData){
 
   // Yup validation
   const validationSchema = Yup.object({
-    name: Yup.string("").min(5).required("Full name should be filled"),
+    name: Yup.string("").min(5).required("Full name required"),
     dateOfBirth: Yup.string("")
       .required("Date of birth required")
       .test("age-check", "Must be at least 21 years old", function (value) {
         const currentDate = new Date();
-        const selectedDate = new Date(value);
+        const selectedDate = new Date(value.split('-').reverse().join('-'));
+        console.log(selectedState)
         const age = currentDate.getFullYear() - selectedDate.getFullYear();
 
         // Adjust the age check as per your specific requirements
         return age >= 21;
       }),
-    state: Yup.string("").required("State should be filled"),
-    city: Yup.string("").required("City should be filled"),
+    state: Yup.string("").required("State required"),
+    city: Yup.string("").required("City required"),
     pincode: Yup.number()
       .integer("Pincode must be a number")
-      .required("Pincode should be filled")
+      .required("Pincode required")
       .test("length-check", "Invalid pincode", function (value) {
         return value.toString().length === 6;
       }),
     residencyType: Yup.string("").required("select residency type"),
     panCardNum: Yup.string()
-      .required("Pancard number should be filled")
+      .required("Pancard number required")
       .length(10, "Pan card number should be 10 characters")
       .matches(
-        /^[a-zA-Z]{5}.*[a-zA-Z]$/,
+        /^[a-zA-Z]{5}\d{4}[a-zA-Z]$/,
         "Invalid pancard number"
       )
       .matches(/^[A-Z0-9]+$/, 'Only alphanumeric characters are allowed')      ,
 
     loanAmount: Yup.number()
       .integer("Loan amount must be a number")
-      .required("Loan amount should be filled")
+      .required("Loan amount required")
       .min(100000, "min 1 lakh"),
     collateralOption: Yup.string("").required("* mandatory"),
     existingEmi: Yup.number()
       .integer("EMI must be a number")
-      .required("EMI should be filled")
+      .required("EMI required")
       .min(0, "min 0")
       .max(30000, "max 30k"),
-    email: Yup.string("").email().required("Email should be filled"),
+    email: Yup.string("").email().required("Email required"),
     contact: Yup.number()
       .integer("Invalid contact number")
-      .required("Contact number should be filled")
+      .required("Contact number required")
       .test(
         "length-check",
         "contact number must be of 10 digits",
@@ -140,6 +142,8 @@ function handaleBsTypeError(formData){
           return value.toString().length === 10;
         }
       ),
+      primaryBankAccount:Yup.string("").required("*Income Bank Account Name required"),
+      primaryBankAccountOption:Yup.string("").required("*Income Bank Account required"),
   });
   // Formik
 
@@ -181,19 +185,27 @@ function handaleBsTypeError(formData){
     formik.values.existingEmi])
 
 
-
+    useEffect(()=>{
+      if(formik?.values?.primaryBankAccountOption?.trim()){
+        formik.setFieldTouched('primaryBankAccountOption',false)
+      }else{
+        formik.setFieldTouched('employerTypeOption',false)
+      }
+    },[formik?.values?.primaryBankAccountOption,
+      formik?.values?.employerTypeOption
+    ])
   return (
     <div className="py-10 ">
       <div className="-mb-2.5 -ml-2.5 flex items-center space-x-2.5"></div>
-      <h1 className="text-xl flex flex-col space-y-2">
+      <h1 className="text-xl flex mb-8 flex-col space-y-2 font-semibold text-gray-500" >
         <span>
-          Unlock best <span>business loan</span> offers suitable for your needs
-          from <span>43+ lenders</span>
+          Unlock best <span>home loan</span> offers suitable for your needs from{" "}
+          <span>43+ lenders</span>
         </span>
-        <span className="w-20 h-0.5 rounded-full bg-cyan-400"></span>
+        <span className="w-20 h-0.5 rounded-full bg-cyan-400 "></span>
       </h1>
       <form
-          className='block lg:grid lg:grid-cols-2  gap-8'        
+          className='block lg:grid lg:grid-cols-2  gap-8 '        
           onSubmit={(e)=>{
           e.preventDefault()
           setIncomeStatus({month:true,year:true})
@@ -201,10 +213,10 @@ function handaleBsTypeError(formData){
         }}
       >
         <div>
-          <span>Full name</span>
+          <span className="font-semibold text-gray-500">Full Name</span>
           <div className="border-b border-slate-400 py-1">
             <input
-              placeholder="As per on your pan card"
+              placeholder="As per PAN card"
               type="text"
               {...formik.getFieldProps("name")}
               className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
@@ -218,12 +230,27 @@ function handaleBsTypeError(formData){
         </div>
 
         <div>
-          <span>Date of birth</span>
+          <span className="font-semibold text-gray-500">Date of Birth (As per PAN card) </span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder="DD-MM-YYYY"
-              type="date"
-              {...formik.getFieldProps("dateOfBirth")}
+              type="text"
+               onBlur={()=>formik.setFieldTouched('dateOfBirth',true)}
+               value={formik.values.dateOfBirth}
+               onChange={(e) => {
+                
+
+                const formattedDate = changeIntoDate(e.target.value,'DD-MM-YYYY')
+
+                if(formattedDate.length>10){
+                    return
+                }
+
+                e.target.value = formattedDate
+                formik.setFieldValue('dateOfBirth',formattedDate)
+                
+              }}
+            
               className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
             />
           </div>
@@ -233,103 +260,12 @@ function handaleBsTypeError(formData){
             </span>
           )}
         </div>
-        <div>
-          <span>State</span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full py-2.5"
-              {...formik.getFieldProps("state")}
-              value={selectedState}
-              onChange={(e) => {
-                formik.handleChange(e);
-                setSelectedState(e.target.value);
-              }}
-            >
-              <option>Select</option>
-              {states
-                .sort((a, b) => (a.name > b.name ? 1 : -1))
-                .map((obj) => {
-                  return (
-                    <option key={obj.id} value={obj.iso2}>
-                      {obj.name}
-                    </option>
-                  );
-                })}
-            </select>
-          </div>
-          {formik.touched.state && formik.errors.state && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.state}
-            </span>
-          )}
-        </div>
-        <div>
-          <span>City</span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
-              disabled={!selectedState}
-              {...formik.getFieldProps("city")}
-            >
-              <option>Select</option>
-              {cities.map((obj) => {
-                return (
-                  <option key={obj.id} value={obj.name}>
-                    {obj.name}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          {formik.touched.city && formik.errors.city && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.city}
-            </span>
-          )}
-        </div>
-        <div>
-          <span>Residency Pincode</span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder=""
-              type="number"
-              {...formik.getFieldProps("pincode")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-            />
-          </div>
-          {formik.touched.pincode && formik.errors.pincode && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.pincode}
-            </span>
-          )}
-        </div>
-        <div >
-          <span>Ownsership of Residence/ Business Place</span>
-          <div className="border-b border-slate-400 py-1">
-            <select
-              onChange={(e) =>
-                dispatch(
-                  setFormData({ ...formData, residencyType: e.target.value })
-                )
-              }
-              {...formik.getFieldProps("residencyType")}
-            >
-              {residencyType.map((ele, i) => {
-                return <option key={i}>{ele}</option>;
-              })}
-            </select>
-          </div>
-          {formik.touched.residencyType && formik.errors.residencyType && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.residencyType}
-            </span>
-          )}
-        </div>
+      
         <div className="col-span-1 sm:col-span-2">
-          <span>PAN card number</span>
+          <span className="font-semibold text-gray-500" >PAN Card Number</span>
           <div className="border-b border-slate-400 py-1">
             <input
-              placeholder="Enter permanent account number"
+              placeholder="Enter Permanent Account Number"
               type="text"
               {...formik.getFieldProps("panCardNum")}
               onChange={(e) => formik.setFieldValue("panCardNum", e.target.value.toUpperCase())}
@@ -343,7 +279,7 @@ function handaleBsTypeError(formData){
           )}
         </div>
         <div>
-          <span>Loan amount</span>
+          <span className="font-semibold text-gray-500" >Loan Amount</span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder=""
@@ -359,7 +295,7 @@ function handaleBsTypeError(formData){
           )}
         </div>
         <div>
-          <span>Loan tenure</span>
+          <span className="font-semibold text-gray-500" >Loan Tenure</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
@@ -381,7 +317,7 @@ function handaleBsTypeError(formData){
           </div>
         </div>
         <div>
-          <span>Employment type</span>
+          <span className="font-semibold text-gray-500" >Employment Type</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
@@ -393,7 +329,7 @@ function handaleBsTypeError(formData){
                 )
               }
             >
-              <option>Select</option>
+              <option value="">Select</option>
               {businessLoanEmploymentType.map((ele) => {
                 return (
                   <option key={ele} value={ele}>
@@ -409,17 +345,17 @@ function handaleBsTypeError(formData){
           {formData.employmentType === "Salaried" &&
           formData.employmentType === "Salaried" ? (
             <div>
-              <span className="pr-1 gap-2">
-                <span className="px-1">
+              <span className="font-semibold text-gray-500">
+                <span >
                   {" "}
                   {formData.employmentType === "Salaried"
-                    ? "Monthly"
+                    ? "Monthly Net"
                     : "Yearly "}{" "}
                 </span>
                 Income
               </span>
               <input
-                placeholder="Enter your monthly income"
+                placeholder="Enter your Monthly Income"
                 type="number"
                 name="monthlyIncome"
                 value={formData.monthlyIncome}
@@ -445,8 +381,8 @@ function handaleBsTypeError(formData){
             </div>
           ) : (
             <div>
-              <span className="pr-1 gap-2">
-                <span className="px-1">
+              <span className="font-semibold text-gray-500">
+                <span className="font-semibold text-gray-500">
                   {formData.employmentType === "Salaried"
                     ? "Monthly"
                     : "Yearly "}
@@ -454,20 +390,20 @@ function handaleBsTypeError(formData){
                 Income
               </span>
               <input
-                placeholder="Enter your monthly income"
+                placeholder="Enter your Monthly Income"
                 type="number"
                 name="yearlyIncome"
                 value={formData.yearlyIncome}
                 onBlur={()=>setIncomeStatus(prev=>({...prev,year:true}))}
 
                 onChange={(e) => {
+                  
                   dispatch(
                     setFormData({
                       ...formData,
                       yearlyIncome: e.target.value,
                     })
                   );
-                  // setIncomeError({ status: false, msg: "" });
                 }}
                 className="bg-transparent w-full outline-none  placeholder:text-slate-500 border-b-[1px] border-slate-800"
               />
@@ -480,21 +416,25 @@ function handaleBsTypeError(formData){
           )}
         </div>
         <div>
-          <span>Income Bank Account</span>
+          <span className="font-semibold text-gray-500">Income Bank Account</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
-              value={formData.primaryBankAccount}
-              onChange={(e) =>
-                dispatch(
-                  setFormData({
-                    ...formData,
-                    primaryBankAccount: e.target.value,
-                  })
-                )
-              }
+              value={formik.values.primaryBankAccountOption}
+              onBlur={()=>formik.setFieldTouched('primaryBankAccountOption',true)}
+              onChange={(e) =>{
+                if(e.target.value==='Other'){
+                  formik.setFieldValue('primaryBankAccountOption',e.target.value)
+                  formik.setFieldValue('primaryBankAccount','')
+                  return 
+                }else{                  
+                  formik.setFieldValue('primaryBankAccountOption',e.target.value)
+                  formik.setFieldValue('primaryBankAccount',e.target.value)
+                }
+             
+              }}
             >
-              <option>Select</option>
+              <option value={''}>Select</option>
               {primaryBankAccount.map((ele) => {
                 return (
                   <option key={ele} value={ele}>
@@ -504,9 +444,34 @@ function handaleBsTypeError(formData){
               })}
             </select>
           </div>
+          {formik.touched.primaryBankAccountOption &&
+                formik.errors.primaryBankAccountOption && (
+                  <span className="text-red-500 text-xs font-bold">
+                    {formik.errors.primaryBankAccountOption}
+                  </span>
+                )}
         </div>
+       {formik.values.primaryBankAccountOption ==='Other'&&  <div>
+              <span className=" font-semibold text-gray-500" >Enter Income Bank Account Name</span>
+              <div className="border-b border-slate-400 py-1">
+                <input
+                  placeholder=""
+                  type="text"
+                  {...formik.getFieldProps("primaryBankAccount")}
+
+                  className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+                />
+              </div>
+              {formik.touched.primaryBankAccount &&
+                formik.errors.primaryBankAccount && (
+                  <span className="text-red-500 text-xs font-bold">
+                    {formik.errors.primaryBankAccount}
+                  </span>
+                )}
+         </div>}
+
         <div>
-          <span>Years In Current Business</span>
+          <span className="font-semibold text-gray-500" >Years In Current Business</span>
           <div className="border-b border-slate-400 py-1">
             <select
               className="w-full"
@@ -532,7 +497,7 @@ function handaleBsTypeError(formData){
               <h1 className="font-bold"> Business Details</h1>
             </div>
             <div>
-              <span>Current Business City</span>
+              <span className="font-semibold text-gray-500" >Current Business City</span>
               <div className="border-b border-slate-400 py-1">
                 <input
                   placeholder=""
@@ -550,7 +515,7 @@ function handaleBsTypeError(formData){
                 )}
             </div>
             <div>
-              <span>Company Type</span>
+              <span className="font-semibold text-gray-500" >Company Type</span>
               <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
                 <select
                   className="bg-transparent w-full py-2.5"
@@ -580,7 +545,7 @@ function handaleBsTypeError(formData){
               )}
             </div>
             <div>
-              <span>Nature Of Business</span>
+              <span className="font-semibold text-gray-500">Nature Of Business</span>
               <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
                 <select
                   className="bg-transparent w-full py-2.5"
@@ -605,7 +570,7 @@ function handaleBsTypeError(formData){
               </div>
             </div>
             <div>
-              <span>Industry Type</span>
+              <span className="font-semibold text-gray-500" >Industry Type</span>
               <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
                 <select
                   className="bg-transparent w-full py-2.5"
@@ -635,7 +600,7 @@ function handaleBsTypeError(formData){
               )}
             </div>
             <div>
-              <span>Sub Industry</span>
+              <span className="font-semibold text-gray-500" >Sub Industry</span>
               <div className="border-b border-slate-400 py-1">
                 <input
                   placeholder=""
@@ -660,7 +625,7 @@ function handaleBsTypeError(formData){
               )}
             </div>
             <div>
-              <span>Start Date</span>
+              <span className="font-semibold text-gray-500" >Start Date</span>
               <div className="border-b border-slate-400 py-1">
                 <input
                   placeholder="Start Date"
@@ -677,10 +642,10 @@ function handaleBsTypeError(formData){
                 )}
             </div>
             <div>
-              <span>Current Year Turn Over</span>
+              <span className="font-semibold text-gray-500" >Current Year Turn Over</span>
               <div className="border-b border-slate-400 py-1">
                 <input
-                  placeholder="Current TurnOver"
+                  placeholder="Current Turn Over"
                   type="text"
                   {...formik.getFieldProps("companyCurrentYearTurnOverRange")}
                   className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
@@ -694,7 +659,7 @@ function handaleBsTypeError(formData){
                 )}
             </div>
             <div>
-              <span>Previous Year Turn over</span>
+              <span className="font-semibold text-gray-500" >Previous Year Turn over</span>
               <div className="border-b border-slate-400 py-1">
                 <input
                   placeholder="Previous TurnOver"
@@ -717,7 +682,7 @@ function handaleBsTypeError(formData){
               <h1 className="font-bold"> Professional Business Details</h1>
             </div>
             <div>
-              <span>Current Business City</span>
+              <span className=" font-semibold text-gray-500" >Current Business City</span>
               <div className="border-b border-slate-400 py-1">
                 <input
                   placeholder=""
@@ -734,7 +699,7 @@ function handaleBsTypeError(formData){
                 )}
             </div>
             <div>
-              <span>Years In Current Profession</span>
+              <span className="font-semibold text-gray-500" >Years In Current Profession</span>
               <div className="border-b border-slate-400 py-1">
                 <select
                   className="w-full"
@@ -787,7 +752,7 @@ function handaleBsTypeError(formData){
               )}
             </div>
             <div>
-              <span>Profession Business Registration Number</span>
+              <span className="flex flex-col mb-8 text-xl font-semibold text-gray-500">Profession Business Registration Number</span>
               <div className="border-b border-slate-400 py-1">
                 <input
                   placeholder=""
@@ -806,7 +771,7 @@ function handaleBsTypeError(formData){
               </div>
             </div>
             <div>
-              <span>Start Date</span>
+              <span className="font-semibold text-gray-500" >Start Date</span>
               <div className="border-b border-slate-400 py-1">
                 <input
                   placeholder="Start Date"
@@ -825,7 +790,7 @@ function handaleBsTypeError(formData){
           </>
         )}
         <div>
-          <span>Wish To Take Loan Against</span>
+          <span className="font-semibold text-gray-500">Wish To Take Loan Against</span>
           <div className="border-b border-slate-400 py-1 w-full">
             <select
               className="w-full"
@@ -849,7 +814,7 @@ function handaleBsTypeError(formData){
             )}
         </div>
         <div>
-          <span>Existing EMI</span>
+          <span className="font-semibold text-gray-500" >Existing EMI</span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder="Enter your existing EMI if any"
@@ -871,9 +836,100 @@ function handaleBsTypeError(formData){
         }
       
         </div>
-
         <div>
-          <span>Email address</span>
+          <span className="font-semibold text-gray-500">State</span>
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full py-2.5"
+              {...formik.getFieldProps("state")}
+              value={selectedState}
+              onChange={(e) => {
+                formik.handleChange(e);
+                setSelectedState(e.target.value);
+              }}
+            >
+              <option value={''}>Select</option>
+              {states
+                .sort((a, b) => (a.name > b.name ? 1 : -1))
+                .map((obj) => {
+                  return (
+                    <option key={obj.id} value={obj.iso2}>
+                      {obj.name}
+                    </option>
+                  );
+                })}
+            </select>
+          </div>
+          {formik.touched.state && formik.errors.state && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.state}
+            </span>
+          )}
+        </div>
+        <div>
+          <span className="font-semibold text-gray-500">City</span>
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
+              disabled={!selectedState}
+              {...formik.getFieldProps("city")}
+            >
+              <option value={''}>Select</option>
+              {cities.map((obj) => {
+                return (
+                  <option key={obj.id} value={obj.name}>
+                    {obj.name}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          {formik.touched.city && formik.errors.city && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.city}
+            </span>
+          )}
+        </div>
+        <div>
+          <span className="font-semibold text-gray-500">Residence Pincode</span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder=""
+              type="number"
+              {...formik.getFieldProps("pincode")}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
+          {formik.touched.pincode && formik.errors.pincode && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.pincode}
+            </span>
+          )}
+        </div>
+        <div >
+          <span className="font-semibold text-gray-500">Ownsership of Residence/ Business Place</span>
+          <div className="border-b border-slate-400 py-1">
+            <select
+              onChange={(e) =>
+                dispatch(
+                  setFormData({ ...formData, residencyType: e.target.value })
+                )
+              }
+              {...formik.getFieldProps("residencyType")}
+            >
+              {residencyType.map((ele, i) => {
+                return <option key={i}>{ele}</option>;
+              })}
+            </select>
+          </div>
+          {formik.touched.residencyType && formik.errors.residencyType && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.residencyType}
+            </span>
+          )}
+        </div>
+        <div>
+          <span className="font-semibold text-gray-500" >Email address</span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder="Enter your email address"
@@ -889,7 +945,7 @@ function handaleBsTypeError(formData){
           )}
         </div>
         <div>
-          <span>Mobile number</span>
+          <span className="font-semibold text-gray-500" >Mobile number</span>
           <div className="flex items-center space-x-2.5 border-b border-slate-400 py-1">
             <img src="/india.png" alt="india" className="w-7 h-4" />
             <span className="whitespace-nowrap">+91 -</span>
@@ -921,17 +977,19 @@ function handaleBsTypeError(formData){
               checked={checkBox1}
               onChange={() => setCheckBox1(prev=>!prev)}
             />
-            <label className="pl-2">Terms & Conditions 1 & Conditions 2</label>
-          </div>
+        <label className="pl-2 font-semibold">
+             By continuing, you agree to Indexia Finance.
+              <Link className='text-blue-800'> Terms of Use </Link>
+               and <Link className='text-blue-800'> Privacy Policy</Link>.</label>
+                         </div>
           
         </div>
         <div className="w-1/2 mx-auto pt-2.5">
           <button
             className="bg-cyan-400 py-2.5 w-full rounded-lg text-lg text-white font-normal duration-200 disabled:cursor-not-allowed disabled:bg-gray-200"
             type="submit"
-            disabled={!checkBox1 }
-            // disabled={!checkBox1 || !checkBox2 }
-
+            // disabled={!checkBox1 }
+            disabled={!checkBox1 || !checkBox2 }
           >
             Submit
           </button>

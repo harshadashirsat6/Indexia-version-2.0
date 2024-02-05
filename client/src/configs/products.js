@@ -2,61 +2,61 @@ export const products = [
   {
     title: "personal-loan",
     description:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates  illo minima similique.",
+      "Select a credit card matching your lifestyle: consider rewards, fees, interest rates, credit limit, and introductory offers. Prioritize financial needs.",
   },
   {
     title: "business-loan",
     description:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates  illo minima similique.",
+      "Choose the perfect offer tailored for you from various banks and NBFCs, ensuring the best financial fit for your needs.",
   },
   {
     title: "home-loan",
     description:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates  illo minima similique.",
+      "Get swift small loans for urgent cash needs. Quick approval and minimal formalities to address immediate financial requirements effectively.",
   },
   {
     title: "loan-against-property",
     description:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates  illo minima similique.",
+      "Boost your business with affordable loans. Low-interest rates and flexible terms to facilitate expansion and financial growth seamlessly.",
   },
   {
     title: "balance-transfer",
     description:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates  illo minima similique.",
+      "Secure improved interest rates on your ongoing personal loan. Optimize your finances by reducing costs and enhancing savings effortlessly.",
   },
   {
     title: "project-loan",
     description:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates  illo minima similique.",
+      "Secure project funding with tailored loans. Competitive rates and flexible terms to support your ventures and bring your projects to fruition.",
   },
   {
     title: "car-loan",
     description:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates  illo minima similique.",
+      "Secure a car loan with competitive rates. Drive your dream car with flexible repayment options and a straightforward application process.",
   },
   {
     title: "education-loan",
     description:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates  illo minima similique.",
+      " Empower your education journey with a customized loan. Flexible terms and low-interest rates to support your academic aspirations without financial constraints.",
   },
   {
     title: "credit-card",
     description:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates  illo minima similique.",
+      "Access financial flexibility with a credit card. Enjoy convenience, rewards, and secure transactions. Choose a card that suits your lifestyle and spending habits.",
   },
   {
     title: "commercial-purchase",
     description:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates  illo minima similique.",
+      "Fund your commercial property acquisition efficiently. Explore tailored loans with competitive terms to expand your business and meet your strategic objectives effectively.",
   },
   {
     title: "working-capital",
     description:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates  illo minima similique.",
+      "Optimize your business cash flow with working capital loans. Secure short-term financing for daily operations, inventory, and growth. Streamline financial efficiency.",
   },
   {
     title: "lease-rent-discounting",
     description:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates  illo minima similique.",
+      "Unlock value from leased properties. Leverage lease rent-discounting to access immediate funds for your business needs, with favorable terms and conditions.",
   },
 ];

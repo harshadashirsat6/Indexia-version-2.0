@@ -11,7 +11,6 @@ const Modal = () => {
     showSubmitLoanFormPaymentModal,
     initialPopup,
   } = useSelector((store) => store.app);
-  const homeModalShown = localStorage.getItem("homePageDetails");
   return (
     <>
       {isOpenModal.label && (
@@ -29,11 +28,11 @@ const Modal = () => {
           <SubmitLoamFormPayment />
         </main>
       )}
-      {initialPopup === true && !homeModalShown && (
+      {/* {initialPopup === true && !homeModalShown && (
         <main className="fixed z-10 top-0 left-0 w-full h-full bg-black/25 backdrop-blur-sm grid place-items-center">
           <HomeModal />
         </main>
-      )}
+      )} */}
     </>
   );
 };

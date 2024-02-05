@@ -18,6 +18,7 @@ import {
   primaryBankAccount,
 } from "../../../configs/selectorConfigs";
 import { useState,useEffect } from "react";
+import { changeIntoDate } from "../../../validation/function";
 
 const Form = ({ states, cities, selectedState, setSelectedState }) => {
   // const navigate = useNavigate();
@@ -95,7 +96,7 @@ function handaleBsTypeError(formData){
       .required("Date of birth required")
       .test("age-check", "Must be at least 21 years old", function (value) {
         const currentDate = new Date();
-        const selectedDate = new Date(value);
+        const selectedDate = new Date(value.split('-').reverse().join('-'));
         const age = currentDate.getFullYear() - selectedDate.getFullYear();
 
         // Adjust the age check as per your specific requirements
@@ -228,12 +229,27 @@ function handaleBsTypeError(formData){
         </div>
 
         <div>
-          <span>Date of birth</span>
+          <span className="font-semibold text-gray-500">Date of Birth (As per PAN card) </span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder="DD-MM-YYYY"
-              type="date"
-              {...formik.getFieldProps("dateOfBirth")}
+              type="text"
+               onBlur={()=>formik.setFieldTouched('dateOfBirth',true)}
+               value={formik.values.dateOfBirth}
+               onChange={(e) => {
+                
+
+                const formattedDate = changeIntoDate(e.target.value,'DD-MM-YYYY')
+
+                if(formattedDate.length>10){
+                    return
+                }
+
+                e.target.value = formattedDate
+                formik.setFieldValue('dateOfBirth',formattedDate)
+                
+              }}
+            
               className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
             />
           </div>
@@ -243,6 +259,7 @@ function handaleBsTypeError(formData){
             </span>
           )}
         </div>
+
         <div>
           <span>State</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">

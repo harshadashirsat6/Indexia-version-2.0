@@ -136,6 +136,7 @@ export const employerType = [
   "Partnership",
   "Proprietorship",
   "Government",
+  "Other"
 ];
 
 export const educationEnrollmentStatus = ["Full-time", "Part-time"];

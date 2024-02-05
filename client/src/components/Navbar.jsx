@@ -31,7 +31,7 @@ const Navbar = ({ auth, setAuth }) => {
           className="h-10 cursor-pointer"
         />
       </section>
-      <section className="font-normal text-slate-600 ">
+      <section className=" text-slate-600 font-[500] ">
         <ul onClick={()=>setNavActive(prev=>!prev)} className={`fixed duration-200  ${navActive?'block':'sm:m-0 -mr-48'} border-l top-14 sm:top-0 sm:relative sm:w-fit sm:border-transparent  w-48 sm:h-fit sm:bg-transparent  h-screen bg-white right-0    sm:flex items-center  sm:space-x-5 text-sm`}>
           <li
             onClick={() =>{

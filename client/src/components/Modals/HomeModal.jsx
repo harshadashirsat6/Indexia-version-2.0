@@ -17,10 +17,12 @@ const HomeModal = () => {
       [e.target.name]: e.target.value,
     }));
   };
-  const handleSubmit = async () => {
+  const handleSubmit =  (e) => {
+    e.preventDefault()
     dispatch(setInitialPopup(false));
     localStorage.setItem("homePageDetails", true);
   };
+
   return (
     <motion.div
       initial={{ y: -50, opacity: 0 }}
@@ -31,7 +33,7 @@ const HomeModal = () => {
       <section>
         <h1 className="text-xl">Please fill your contact details</h1>
       </section>
-      <form className="w-full space-y-3 py-3 ">
+      <form className="w-full space-y-3 py-3 " onSubmit={handleSubmit}>
         <section className="">
           <input
             type="text"
@@ -45,7 +47,7 @@ const HomeModal = () => {
         </section>
         <section>
           <input
-            type="text"
+            type="email"
             placeholder="Email"
             required
             name="email"
@@ -56,7 +58,7 @@ const HomeModal = () => {
         </section>
         <section>
           <input
-            type="text"
+            type="number"
             placeholder="Contact"
             required
             name="contact"
@@ -65,16 +67,17 @@ const HomeModal = () => {
             className="px-1 py-1.5 border-[0.5px]  rounded-lg focus:outline-[0.5px] focus:outline-blue-300 w-full"
           />
         </section>
-      </form>
       <section className="flex w-full space-x-2.5">
         <button
-          onClick={handleSubmit}
+          type='submit'
           disabled={!formData.name || !formData.contact || !formData.email}
           className="bg-blue-400 hover:bg-blue-500 duration-200 w-full py-1 px-1 rounded-md text-white text-lg disabled:cursor-not-allowed disabled:bg-slate-400/20"
         >
           Sumbit
         </button>
       </section>
+      </form>
+
     </motion.div>
   );
 };

@@ -17,7 +17,7 @@ import {
 } from "../../../configs/selectorConfigs";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useState,useEffect } from "react";
-
+import { Link } from "react-router-dom";
 const Form = ({ states, cities, selectedState, setSelectedState }) => {
   // const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -195,7 +195,7 @@ function handaleBsTypeError(formData){
   return (
     <div className="py-10">
       <div className="-mb-2.5 -ml-2.5 flex items-center space-x-2.5"></div>
-      <h1 className="text-xl flex flex-col space-y-2">
+      <h1 className="font-semibold text-gray-500 text-xl flex flex-col space-y-2">
         <span>
           Unlock best <span>project loan</span> offers suitable for your needs
           from <span>43+ lenders</span>
@@ -210,7 +210,7 @@ function handaleBsTypeError(formData){
           formik.handleSubmit()
         }}      >
         <div>
-          <span>Full name</span>
+          <span className="font-semibold text-gray-500">Full name</span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder="As per on your pan card"
@@ -227,7 +227,7 @@ function handaleBsTypeError(formData){
         </div>
 
         <div>
-          <span>Date of birth</span>
+          <span className="font-semibold text-gray-500">Date of birth</span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder="DD-MM-YYYY"
@@ -243,7 +243,7 @@ function handaleBsTypeError(formData){
           )}
         </div>
         <div>
-          <span>State</span>
+          <span className="font-semibold text-gray-500">State</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
@@ -273,7 +273,7 @@ function handaleBsTypeError(formData){
           )}
         </div>
         <div>
-          <span>City</span>
+          <span className="font-semibold text-gray-500" >City</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
@@ -297,7 +297,7 @@ function handaleBsTypeError(formData){
           )}
         </div>
         <div>
-          <span>Residency Pincode</span>
+          <span className="font-semibold text-gray-500" >Residency Pincode</span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder=""
@@ -313,7 +313,7 @@ function handaleBsTypeError(formData){
           )}
         </div>
         <div>
-          <span>Residency Type</span>
+          <span className="font-semibold text-gray-500" >Residency Type</span>
           <div className="border-b border-slate-400 py-1">
             <select
               onChange={(e) =>
@@ -335,7 +335,7 @@ function handaleBsTypeError(formData){
           )}
         </div>
         <div className="col-span-1 sm:col-span-2">
-          <span>PAN card number</span>
+          <span className="font-semibold text-gray-500">PAN card number</span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder="Enter permanent account number"
@@ -353,7 +353,7 @@ function handaleBsTypeError(formData){
           )}
         </div>
         <div>
-          <span>Loan amount</span>
+          <span className="font-semibold text-gray-500">Loan amount</span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder=""
@@ -369,7 +369,7 @@ function handaleBsTypeError(formData){
           )}
         </div>
         <div>
-          <span>Loan tenure</span>
+          <span className="font-semibold text-gray-500" >Loan tenure</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
@@ -392,7 +392,7 @@ function handaleBsTypeError(formData){
           )}
         </div>
         <div>
-          <span>Employment type</span>
+          <span className="font-semibold text-gray-500" >Employment type</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
@@ -421,7 +421,7 @@ function handaleBsTypeError(formData){
           )}
         </div>
         <div>
-          <span>Salary Bank Account</span>
+          <span className="font-semibold text-gray-500" >Salary Bank Account</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
@@ -460,7 +460,7 @@ function handaleBsTypeError(formData){
         </div>
 
         {persionalConditionalObj.primaryBankAccount ==='Other'&& <div>
-          <span>Salary Bank Account Name</span>
+          <span className="font-semibold text-gray-500" >Salary Bank Account Name</span>
           <div className="py-1 border-b border-slate-400 duration-200">
             <input
               placeholder="Enter Salary Bank Account Name"
@@ -481,7 +481,7 @@ function handaleBsTypeError(formData){
         </div>
         </div>}
         <div>
-          <span>Employer type</span>
+          <span className="font-semibold text-gray-500" >Employer type</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
@@ -504,7 +504,7 @@ function handaleBsTypeError(formData){
           )}
         </div>
         <div>
-          <span>Employer name</span>
+          <span className="font-semibold text-gray-500" >Employer name</span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder="Enter your company name"
@@ -525,7 +525,7 @@ function handaleBsTypeError(formData){
           {formData.employmentType === "Salaried" &&
           formData.employmentType === "Salaried" ? (
             <div>
-              <span className="pr-1 gap-2">
+              <span className="font-semibold text-gray-500">
                 <span className="px-1">
                   {" "}
                   {formData.employmentType === "Salaried"
@@ -561,7 +561,7 @@ function handaleBsTypeError(formData){
             </div>
           ) : (
             <div>
-              <span className="pr-1 gap-2">
+              <span className="font-semibold text-gray-500">
                 <span className="px-1">
                   {formData.employmentType === "Salaried"
                     ? "Monthly"
@@ -596,7 +596,7 @@ function handaleBsTypeError(formData){
           )}
         </div>
         <div>
-          <span>Income recieved as</span>
+          <span className="font-semibold text-gray-500" >Income recieved as</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
@@ -622,7 +622,7 @@ function handaleBsTypeError(formData){
           </div>
         </div>
         <div>
-          <span>Existing EMI</span>
+          <span className="font-semibold text-gray-500" >Existing EMI</span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder="Enter your existing EMI if any"
@@ -649,7 +649,7 @@ function handaleBsTypeError(formData){
           <h1 className="font-bold ">Project Details</h1>
         </div>
         <div className="">
-          <span>Project Objective</span>
+          <span className="font-semibold text-gray-500">Project Objective</span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder="Goal and Objective of project"
@@ -666,7 +666,7 @@ function handaleBsTypeError(formData){
             )}
         </div>
         <div className="col-span-1 sm:col-span-2">
-          <span>Project Description</span>
+          <span className="font-semibold text-gray-500">Project Description</span>
           <div className="border-b border-slate-400 py-1">
             <textarea
               placeholder="ex: detail explaination about sector, field, sector, flow, material"
@@ -683,7 +683,7 @@ function handaleBsTypeError(formData){
             )}
         </div>
         <div className="col-span-1 sm:col-span-2">
-          <span>Scope Of Work and Deliverables</span>
+          <span className="font-semibold text-gray-500">Scope Of Work and Deliverables</span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder="Work & Deliverables"
@@ -701,7 +701,7 @@ function handaleBsTypeError(formData){
         </div>
 
         <div className="col-span-1 sm:col-span-2">
-          <span>Project Budget</span>
+          <span className="font-semibold text-gray-500" >Project Budget</span>
           <div className="border-b border-slate-400 py-1">
             <textarea
               placeholder="Entire Project Budget"
@@ -717,7 +717,7 @@ function handaleBsTypeError(formData){
           )}
         </div>
         <div>
-          <span>Project Commence Date</span>
+          <span className="font-semibold text-gray-500" >Project Commence Date</span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder="DD-MM-YYYY"
@@ -734,7 +734,7 @@ function handaleBsTypeError(formData){
             )}
         </div>
         <div>
-          <span>Expected Date of Completion</span>
+          <span className="font-semibold text-gray-500" >Expected Date of Completion</span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder="DD-MM-YYYY"
@@ -751,7 +751,7 @@ function handaleBsTypeError(formData){
             )}
         </div>
         <div>
-          <span>Email address</span>
+          <span className="font-semibold text-gray-500" >Email address</span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder="Enter your email address"
@@ -767,7 +767,7 @@ function handaleBsTypeError(formData){
           )}
         </div>
         <div>
-          <span>Mobile number</span>
+          <span className="font-semibold text-gray-500" >Mobile number</span>
           <div className="flex items-center space-x-2.5 border-b border-slate-400 py-1">
             <img src="/india.png" alt="india" className="w-7 h-4" />
             <span className="whitespace-nowrap">+91 -</span>
@@ -798,7 +798,10 @@ function handaleBsTypeError(formData){
               checked={checkBox2}
               onChange={() => setCheckBox2(prev=>!prev)}
             />
-            <label className="pl-2">Terms & Conditions 1 & Conditions 2</label>
+           <label className="pl-2 font-semibold">
+             By continuing, you agree to Indexia Finance.
+              <Link className='text-blue-800'> Terms of Use </Link>
+               and <Link className='text-blue-800'> Privacy Policy</Link>.</label>
           </div>
          
         </div>

@@ -10,6 +10,9 @@ import {
   setFormData,
   setShowSubmitLoanFormPaymentModal,
 } from "../../../store/appSlice";
+import { Link } from 'react-router-dom';
+import { changeIntoDate } from '../../../validation/function';
+import DatePicker from '../../../components/DatePicker/DatePicker';
 
 const FormAB = ({states,cities,setSelectedState,selectedState}) => {
     const { formData} = useSelector((store) => store.app);
@@ -24,6 +27,10 @@ const FormAB = ({states,cities,setSelectedState,selectedState}) => {
     const [persionalConditionalObj,setPersionalConditionalUseObj] = useState({
       primaryBankAccount:''
     })
+
+    const [employerTypeCondition,setEmployerCondition] = useState({
+      employerType:''
+    })
   
     const [touchedInputs, setTouchedInputs] = useState({
         name:false, dateOfBirth:false, state:false,city:false,
@@ -31,9 +38,9 @@ const FormAB = ({states,cities,setSelectedState,selectedState}) => {
         loanAmount:false,loanTenure:false,employmentType:false,
         employerType:false,employerName:false,yearlyIncome:false,
         monthlyIncome:false,existingEmi:false,contact:false,
-        email:false
-        
-        // primaryBankAccount:false,primaryBankAccountCon:false
+        email:false,
+        primaryBankAccount:false,primaryBankAccountCon:false,
+        employerType2:false
     });
 
     // ref 
@@ -42,9 +49,8 @@ const FormAB = ({states,cities,setSelectedState,selectedState}) => {
    
     function checkAge() {
         const currentDate = new Date();
-        const selectedDate = new Date(persionalLoanObj.dateOfBirth);
+        const selectedDate = new Date(persionalLoanObj.dateOfBirth.split('-').reverse().join('-'));
         const age = currentDate.getFullYear() - selectedDate.getFullYear();
-        // Adjust the age check as per your specific requirements
         return age <= 21;
     }
 
@@ -60,7 +66,7 @@ const FormAB = ({states,cities,setSelectedState,selectedState}) => {
     }
 
     const handaleMail  = ()=>{
-      if(!persionalLoanObj?.email?.includes('@gmail.com')){
+      if(!persionalLoanObj?.email?.includes('.com')||!persionalLoanObj?.email?.includes('@')){
         return true
       }
       return false
@@ -74,37 +80,38 @@ const FormAB = ({states,cities,setSelectedState,selectedState}) => {
     }
     const validationSchema = {
         name: YupString(persionalLoanObj.name).min(5,'Full Name  must be at least 5 characters')
-        .required("Full name should be filled"),
+        .required("Full name required"),
         dateOfBirth: YupString(persionalLoanObj.dateOfBirth).test(checkAge,'Must be at least 21 years old')
         .required("Date of birth required"),
-        state: YupString(persionalLoanObj.state).required("State should be filled"),
-        city: YupString(persionalLoanObj.city).required("City should be filled"),
-        pincode:YupString(persionalLoanObj.pincode).isInt('Pincode must be a number').required("Pincode should be filled"),
-        residencyType: YupString(persionalLoanObj.residencyType).required("Select residency type"),
+        state: YupString(persionalLoanObj.state).required("State required"),
+        city: YupString(persionalLoanObj.city).required("City required"),
+        pincode:YupString(persionalLoanObj.pincode).isInt('Pincode must be a number').required("Pincode required"),
+        residencyType: YupString(persionalLoanObj.residencyType).required("Residency type required"),
         panCardNum: YupString((persionalLoanObj.panCardNum+"".toLowerCase()))
         .matches(/^[A-Z0-9]+$/, 'Only alphanumeric characters are allowed')       
-        .required("Pancard number should be filled")
+        .required("Pancard number required")
         .length(10, "Pan card number should be 10 characters")
         .matches(
-          /^[a-zA-Z]{5}.*[a-zA-Z]$/,
+          /^[a-zA-Z]{5}\d{4}[a-zA-Z]$/,
           "Invalid pancard number"
         )
         ,
         loanAmount: YupString(persionalLoanObj.loanAmount)
         .isInt("Loan amount must be a number")
         .minNumber(100000, "min 1 lakh")
-        .required("Loan amount should be filled"),
-        loanTenure:YupString(persionalLoanObj.loanTenure).required("Select loan tenure "),
-        employmentType: YupString(persionalLoanObj.employmentType).required("Select Employment type"),
-        employerType: YupString(persionalLoanObj.employerType).required("Select employer type"),
-        employerName: YupString(persionalLoanObj.employerName).required("Select employer name"),
+        .required("Loan amount required"),
+        loanTenure:YupString(persionalLoanObj.loanTenure).required("Loan tenure required"),
+        employmentType: YupString(persionalLoanObj.employmentType).required("Employment type required"),
+        employerType: YupString(persionalLoanObj.employerType).required(" Employer type required"),
+        employerType2: YupString(persionalLoanObj.employerType).required("Employer type required"),
+        employerName: YupString(persionalLoanObj.employerName).required("Employer name required"),
         yearlyIncome:YupString(persionalLoanObj.yearlyIncome||'').required("Please enter valid income"),
         monthlyIncome:YupString(persionalLoanObj.monthlyIncome||'')
         .minNumber(12000, "Salary min 12k").required("Please enter valid income"),
-        existingEmi: YupString(persionalLoanObj.existingEmi+"").test(calculateEmi,'EMI should be less than 80% of your monthly income').required("EMI should be filled"),
-        email: YupString(persionalLoanObj.email).test(handaleMail,'Please enter correct email').required("Email should be filled"),
-        contact: YupString(persionalLoanObj.contact).test(handaleContact, "Contact number must be of 10 digits").required("Contact number should be filled"),
-
+        existingEmi: YupString(persionalLoanObj.existingEmi+"").test(calculateEmi,'EMI should be less than 80% of your monthly income').required("EMI required"),
+        email: YupString(persionalLoanObj.email).matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/,'Please enter correct email').required("Email required"),
+        contact: YupString(persionalLoanObj.contact).test(handaleContact, "Contact number must be of 10 digits").required("Contact number required"),
+        primaryBankAccount:YupString(persionalLoanObj.primaryBankAccount).required("Salary account required")
       };
 
 
@@ -147,7 +154,9 @@ const handleSubmit = (e) => {
         loanAmount:true,loanTenure:true,employmentType:true,
         employerType:true,employerName:true,yearlyIncome:true,
         monthlyIncome:true,existingEmi:true,contact:true,
-        email:true
+        email:true, 
+        primaryBankAccount:false,primaryBankAccountCon:false,
+        employerType2:false
     })
     if (active) {  
       dispatch(setShowSubmitLoanFormPaymentModal(true));
@@ -159,9 +168,13 @@ const handleSubmit = (e) => {
         setPersionalUseObj(prev=>({...prev,existingEmi:prev.existingEmi}))    
   },[persionalLoanObj.monthlyIncome,persionalLoanObj.yearlyIncome])
   
+
+  console.log(persionalLoanObj.dateOfBirth.split('-').join(''))
+
   return (
     <div className='py-4 ' >
-       <h1 className="flex flex-col mb-8 text-xl">
+      {/* <DatePicker/> */}
+       <h1 className="flex flex-col mb-8 text-xl font-semibold text-gray-500">
         <span>
           Unlock best <span>personal loan</span> offers suitable for your needs
           from <span>43+ lenders</span>
@@ -172,16 +185,16 @@ const handleSubmit = (e) => {
       <form className='block lg:grid lg:grid-cols-2  gap-8' onSubmit={handleSubmit} > 
 
       <div className="py-1 border-b border-slate-400 ">
-           <span>Full name</span>
+           <span className=' text-gray-500 font-semibold' >Full Name</span>
 
             <input
-              placeholder="As per on your pan card"
+              placeholder="As per PAN card"
               type="text"
               onChange={handaleChange}
               onBlur={()=>setTouchedInputs(prev=>({...prev,name:true}))}
               value={persionalLoanObj.name}
               name={"name"}
-              className="w-full bg-transparent border-none outline-none placeholder:text-slate-500"
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
             />
             
                 {touchedInputs.name? (
@@ -191,12 +204,19 @@ const handleSubmit = (e) => {
               ):''}
      </div>
      <div className="py-1 border-b border-slate-400 ">
-           <span>Date of birth</span>
+           <span className=' text-gray-500 font-semibold'>Date of Birth (As per PAN card) </span>
 
             <input
               placeholder="DD-MM-YYYY"
-              type="date"
-              onChange={handaleChange}
+              type="text"
+              onChange={(e)=>{
+           
+                const formattedDate = changeIntoDate(e.target.value,'DD-MM-YYYY');
+                if(formattedDate.length>10){
+                    return
+                }
+                handaleChange({target:{value:formattedDate,name:'dateOfBirth'}})
+              }}
               onBlur={()=>setTouchedInputs(prev=>({...prev,dateOfBirth:true}))}
               name={"dateOfBirth"}
               className="w-full bg-transparent border-none outline-none placeholder:text-slate-500"
@@ -209,8 +229,342 @@ const handleSubmit = (e) => {
               ):''}
      </div>
 
+        <div className="col-span-1 sm:col-span-2">
+          <span className=' text-gray-500 font-semibold' >PAN Card Number</span>
+          <div className="py-1 border-b border-slate-400">
+            <input
+              placeholder="Enter Permanent Account Number"
+              type="text"
+              onChange={
+                (e)=>{
+                  handaleChange({target:{name:'panCardNum',value: (e.target.value.toUpperCase())}})
+                }
+              }
+              name='panCardNum'
+              value={persionalLoanObj.panCardNum}
+              onBlur={()=>setTouchedInputs(prev=>({...prev,panCardNum:true}))}
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-500"
+            />
+          </div>
+
+             {touchedInputs.panCardNum? (
+                <span className="text-xs font-bold text-red-500">
+                  {validationSchema.panCardNum.validate()}
+                </span>
+              ):''}
+        </div>
+        <div>
+          <span className=' text-gray-500 font-semibold' >Loan Amount</span>
+          <div className="py-1 border-b border-slate-400">
+            <input
+              placeholder=""
+              type="number"
+              onBlur={()=>setTouchedInputs(prev=>({...prev,loanAmount:true}))}
+              onChange={handaleChange}
+              value={persionalLoanObj.loanAmount}
+              name='loanAmount'
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-500"
+            />
+          </div>
+          {touchedInputs.loanAmount? (
+                <span className="text-xs font-bold text-red-500">
+                  {validationSchema.loanAmount.validate()}
+                </span>
+             ):''}
+        </div>
+        <div>
+          <span className=' text-gray-500 font-semibold' >Loan Tenure</span>
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full py-2.5"
+              name="loanTenure"
+              value={persionalLoanObj.loanTenure}
+              onChange={handaleChange}
+              onBlur={()=>setTouchedInputs(prev=>({...prev,loanTenure:true}))}
+
+            >
+              <option value="">Select</option>
+              {loanTenure.map((tenure, i) => (
+                <option key={i} value={tenure}>
+                  {tenure}
+                </option>
+              ))}
+            </select>
+          </div>
+          {touchedInputs.loanTenure? (
+                <span className="text-xs font-bold text-red-500">
+                  {validationSchema.loanTenure.validate()}
+                </span>
+             ):''}
+        </div>
+        <div>
+          <span className=' text-gray-500 font-semibold' >Employment Type</span>
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full py-2.5"
+              value={persionalLoanObj.employmentType}
+              onChange={handaleChange}
+              name='employmentType'
+              onBlur={()=>setTouchedInputs(prev=>({...prev,employmentType:true}))}
+
+
+            >
+              <option value={''}>Select</option>
+              {employmentType.map((ele) => {
+                return (
+                  <option key={ele} value={ele}>
+                    {ele}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          {touchedInputs.employmentType? (
+                <span className="text-xs font-bold text-red-500">
+                  {validationSchema.employmentType.validate()}
+                </span>
+             ):''}
+        </div>
+        <div>
+          <span className=' text-gray-500 font-semibold' >Salary Bank Account</span>
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full py-2.5"
+              name='primaryBankAccount'
+              value={persionalConditionalObj.primaryBankAccount||persionalLoanObj.primaryBankAccount}
+              onChange={(e)=>{
+                if(e.target.value==='Other'){
+                  setPersionalConditionalUseObj
+                  (prev=>({...prev,primaryBankAccount:e.target.value}))
+                  handaleChange({target:{value:'',name:'primaryBankAccount'}})
+                }else{
+                  setPersionalConditionalUseObj
+                  (prev=>({...prev,primaryBankAccount:''}))
+                  handaleChange(e)
+                }      
+              }}
+              onBlur={()=>setTouchedInputs(prev=>({...prev,primaryBankAccount:true}))}
+            >
+              <option value={''}>Select</option>
+              {primaryBankAccount.map((ele) => {
+                return (
+                  <option key={ele} value={ele}>
+                    {ele}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          {touchedInputs.primaryBankAccount&&persionalConditionalObj.primaryBankAccount!=='Other'? (
+                <span className="text-xs font-bold text-red-500  ">
+                  {validationSchema.primaryBankAccount.validate()}
+                </span>
+             ):''}
+        </div>
+
+        {persionalConditionalObj.primaryBankAccount ==='Other'&& <div>
+          <span className=' text-gray-500 font-semibold' >Salary Account Bank Name</span>
+          <div className="py-1 border-b border-slate-400 duration-200">
+            <input
+              placeholder="Enter Salary Account Bank Name"
+              type="text"
+              name='primaryBankAccount'
+              onBlur={()=>setTouchedInputs(prev=>({...prev,primaryBankAccountCon:true}))}
+              value={persionalLoanObj.primaryBankAccount}
+              onChange={handaleChange}
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-500"
+            />
+          {touchedInputs.primaryBankAccountCon? (
+                <span className="text-xs font-bold text-red-500">
+                  {validationSchema.primaryBankAccount.validate()}
+                </span>
+             ):''}
+        </div>
+        </div>}
+
+
+
+        <div>
+          <span className=' text-gray-500 font-semibold' >Employer Type</span>
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full py-2.5"
+              onBlur={()=>setTouchedInputs(prev=>({...prev,employerType:true}))}
+              value={employerTypeCondition.employerType||persionalLoanObj.employerType}
+
+              onChange={(e)=>{
+                if(e.target.value==='Other'){
+                  setEmployerCondition
+                  (prev=>({...prev,employerType:e.target.value}))
+                  handaleChange({target:{value:'',name:'employerType'}})
+                }else{
+                  setEmployerCondition
+                  (prev=>({...prev,employerType:e.target.value}))
+                  handaleChange(e)
+                } 
+              }}
+              name='employerType'
+            >
+              
+              <option value={''}>Select</option>
+              {employerType.map((ele) => {
+                return (
+                  <option key={ele} value={ele}>
+                    {ele}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+        
+             {touchedInputs.employerType &&employerTypeCondition.employerType!=='Other'? (
+                <span className="text-xs font-bold text-red-500">
+                  {validationSchema.employerType.validate()}
+                </span>
+             ):''}
+        </div>
+        {employerTypeCondition.employerType ==='Other'&& <div>
+          <span className=' text-gray-500 font-semibold' >Employer Type</span>
+          <div className="py-1 border-b border-slate-400 duration-200">
+            <input
+              placeholder="Enter Employer Type"
+              type="text"
+              name='employerType'
+              onBlur={()=>setTouchedInputs(prev=>({...prev,employerType2:true}))}
+              value={persionalLoanObj.employerType}
+              onChange={handaleChange}
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-500"
+            />
+          {touchedInputs.employerType2? (
+                <span className="text-xs font-bold text-red-500">
+                  {validationSchema.employerType2.validate()}
+                </span>
+             ):''}
+        </div>
+        </div>}
+
+<div>
+          <span className=' text-gray-500 font-semibold' >Employer Name</span>
+          <div className="py-1 border-b border-slate-400">
+            <input
+              placeholder="Enter your company name"
+              type="text"
+              value={persionalLoanObj.employerName}
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-500"
+              onBlur={()=>setTouchedInputs(prev=>({...prev,employerName:true}))}
+              onChange={handaleChange}
+              name='employerName'
+            />
+          </div>
+           {touchedInputs.employerName? (
+                <span className="text-xs font-bold text-red-500">
+                  {validationSchema.employerName.validate()}
+                </span>
+             ):''}
+        </div>
+
+        <div className="py-1 ">
+          {persionalLoanObj.employmentType === "Salaried" &&
+          persionalLoanObj.employmentType === "Salaried" ? (
+            <div>
+              <span className=' text-gray-500 font-semibold'>
+                <span className="px-1">
+                  {" "}
+                  {persionalLoanObj.employmentType === "Salaried"
+                    ? "Monthly"
+                    : "Yearly "}{" "}
+                </span>
+                Income
+              </span>
+              <input
+                placeholder="Enter your monthly income"
+                type="number"
+                name="monthlyIncome"
+                value={persionalLoanObj.monthlyIncome}
+                onChange={handaleChange}
+                className="bg-transparent w-full outline-none  placeholder:text-slate-500 border-b-[1px] border-slate-800"
+                onBlur={()=>setTouchedInputs(prev=>({...prev,monthlyIncome:true}))}
+              />
+                {touchedInputs.monthlyIncome? (
+                <span className="text-xs font-bold text-red-500">
+                  {validationSchema.monthlyIncome.validate()}
+                </span>
+             ):''}
+            </div>
+          ) : (
+            <div>
+              <span className=' text-gray-500 font-semibold'>
+                <span className="px-1">
+                  {persionalLoanObj.employmentType === "Salaried"
+                    ? "Monthly Net"
+                    : "Yearly "}
+                </span>
+                Income
+              </span>
+              <input
+                placeholder="Enter your Monthly Income"
+                type="number"
+                name="yearlyIncome"
+                value={persionalLoanObj.yearlyIncome}
+                onChange={handaleChange}
+                className="bg-transparent w-full outline-none  placeholder:text-slate-500 border-b-[1px] border-slate-800"
+                onBlur={()=>setTouchedInputs(prev=>({...prev,yearlyIncome:true}))}
+              />
+               {touchedInputs.yearlyIncome? (
+                <span className="text-xs font-bold text-red-500">
+                  {validationSchema.yearlyIncome.validate()}
+                </span>
+             ):''}
+            </div>
+          )}
+        </div>
+
+        <div>
+          <span className=' text-gray-500 font-semibold'>Income recieved as</span>
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
+              name='incomeRecievedAs'
+              value={persionalLoanObj.incomeRecievedAs}
+              onChange={handaleChange}
+              onBlur={()=>setTouchedInputs(prev=>({...prev,incomeRecievedAs:true}))}
+
+            >
+              <option value="">Select</option>
+              {incomeRecievedAs.map((ele, i) => {
+                return (
+                  <option key={ele} value={ele}>
+                    {ele}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+        </div>
+        <div>
+          <span className=' text-gray-500 font-semibold' >Existing EMI</span>
+          <div className="py-1 border-b border-slate-400">
+            <input
+              placeholder="Enter your Existing EMI if any"
+              type="number"
+              value={persionalLoanObj.existingEmi}
+              onChange={handaleChange}
+              onBlur={()=>setTouchedInputs(prev=>({...prev,existingEmi:true}))}
+              name='existingEmi'
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-500"
+            />
+          </div>
+          {touchedInputs.existingEmi? (
+                <span className="text-xs font-bold text-red-500">
+                  {validationSchema.existingEmi.validate()}
+                </span>
+             ):''}
+        
+        </div>
+
+
      <div>
-          <span>State</span>
+          <span className=' text-gray-500 font-semibold' >State</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
@@ -246,7 +600,7 @@ const handleSubmit = (e) => {
               ):''}
         </div>
         <div>
-          <span>City</span>
+          <span className=' text-gray-500 font-semibold' >City</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
@@ -273,11 +627,11 @@ const handleSubmit = (e) => {
               ):''}
         </div>
         <div>
-          <span>Residency Pincode</span>
+          <span className=' text-gray-500 font-semibold' >Residence Pincode</span>
           <div className="py-1 border-b border-slate-400">
             <input
-              placeholder=""
               // type="number"
+              placeholder='Enter Residence Pincode'
               onChange={handaleChange}
               // {...formik.getFieldProps("pincode")}.
               onBlur={()=>setTouchedInputs(prev=>({...prev,pincode:true}))}
@@ -293,14 +647,14 @@ const handleSubmit = (e) => {
               ):''}
         </div>
         <div>
-          <span>Residency Type</span>
+          <span className=' text-gray-500 font-semibold' >Residence Type</span>
           <div className="py-1 border-b border-slate-400">
             <select
               onChange={handaleChange}
               name='residencyType'
               value={persionalLoanObj.residencyType}
               onBlur={()=>setTouchedInputs(prev=>({...prev,residencyType:true}))}
-
+              placeholder='Enter Residence Type'
             >
                <option value={""}>Select Residency Type</option>
               {residencyType.map((ele, i) => {
@@ -314,320 +668,12 @@ const handleSubmit = (e) => {
                 </span>
               ):''}
         </div>
-        <div className="col-span-1 sm:col-span-2">
-          <span>PAN card number</span>
-          <div className="py-1 border-b border-slate-400">
-            <input
-              placeholder="Enter permanent account number"
-              type="text"
-              onChange={
-                (e)=>{
-                  handaleChange({target:{name:'panCardNum',value: (e.target.value.toUpperCase())}})
-                }
-              }
-              name='panCardNum'
-              value={persionalLoanObj.panCardNum}
-              onBlur={()=>setTouchedInputs(prev=>({...prev,panCardNum:true}))}
-              className="w-full bg-transparent border-none outline-none placeholder:text-slate-500"
-            />
-          </div>
-
-             {touchedInputs.panCardNum? (
-                <span className="text-xs font-bold text-red-500">
-                  {validationSchema.panCardNum.validate()}
-                </span>
-              ):''}
-        </div>
-        <div>
-          <span>Loan amount</span>
-          <div className="py-1 border-b border-slate-400">
-            <input
-              placeholder=""
-              type="number"
-              // {...formik.getFieldProps("loanAmount")}
-              onBlur={()=>setTouchedInputs(prev=>({...prev,loanAmount:true}))}
-              onChange={handaleChange}
-              value={persionalLoanObj.loanAmount}
-              name='loanAmount'
-              className="w-full bg-transparent border-none outline-none placeholder:text-slate-500"
-            />
-          </div>
-          {touchedInputs.loanAmount? (
-                <span className="text-xs font-bold text-red-500">
-                  {validationSchema.loanAmount.validate()}
-                </span>
-             ):''}
-        </div>
-        <div>
-          <span>Loan tenure</span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full py-2.5"
-              name="loanTenure"
-              value={persionalLoanObj.loanTenure}
-              onChange={handaleChange}
-              onBlur={()=>setTouchedInputs(prev=>({...prev,loanTenure:true}))}
-
-            >
-              <option value="">Select</option>
-              {loanTenure.map((tenure, i) => (
-                <option key={i} value={tenure}>
-                  {tenure}
-                </option>
-              ))}
-            </select>
-          </div>
-          {touchedInputs.loanTenure? (
-                <span className="text-xs font-bold text-red-500">
-                  {validationSchema.loanTenure.validate()}
-                </span>
-             ):''}
-        </div>
-        <div>
-          <span>Employment type</span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full py-2.5"
-              value={persionalLoanObj.employmentType}
-              onChange={handaleChange}
-              name='employmentType'
-              onBlur={()=>setTouchedInputs(prev=>({...prev,employmentType:true}))}
-
-
-            >
-              <option value={''}>Select</option>
-              {employmentType.map((ele) => {
-                return (
-                  <option key={ele} value={ele}>
-                    {ele}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          {touchedInputs.employmentType? (
-                <span className="text-xs font-bold text-red-500">
-                  {validationSchema.employmentType.validate()}
-                </span>
-             ):''}
-        </div>
-        <div>
-          <span>Salary Bank Account</span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full py-2.5"
-              name='primaryBankAccount'
-              value={persionalConditionalObj.primaryBankAccount||persionalLoanObj.primaryBankAccount}
-              onChange={(e)=>{
-                if(e.target.value==='Other'){
-                  setPersionalConditionalUseObj
-                  (prev=>({...prev,primaryBankAccount:e.target.value}))
-                  handaleChange({target:{value:'',name:'primaryBankAccount'}})
-                }else{
-                  setPersionalConditionalUseObj
-                  (prev=>({...prev,primaryBankAccount:''}))
-                  handaleChange(e)
-                }      
-              }}
-              onBlur={()=>setTouchedInputs(prev=>({...prev,primaryBankAccount:true}))}
-            >
-              <option value={''}>Select</option>
-              {primaryBankAccount.map((ele) => {
-                return (
-                  <option key={ele} value={ele}>
-                    {ele}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          {/* {touchedInputs.primaryBankAccount&&persionalConditionalObj.primaryBankAccount!=='Other'? (
-                <span className="text-xs font-bold text-red-500  ">
-                  {validationSchema.primaryBankAccount.validate()}
-                </span>
-             ):''} */}
-        </div>
-
-        {persionalConditionalObj.primaryBankAccount ==='Other'&& <div>
-          <span>Salary Bank Account Name</span>
-          <div className="py-1 border-b border-slate-400 duration-200">
-            <input
-              placeholder="Enter Salary Bank Account Name"
-              type="text"
-              // onChange={handaleChange}
-              ref={renderInputBankRef}
-              name='primaryBankAccount'
-              onBlur={()=>setTouchedInputs(prev=>({...prev,primaryBankAccountCon:true}))}
-              value={persionalLoanObj.primaryBankAccount}
-              onChange={handaleChange}
-              className="w-full bg-transparent border-none outline-none placeholder:text-slate-500"
-            />
-          {/* {touchedInputs.primaryBankAccountCon? (
-                <span className="text-xs font-bold text-red-500">
-                  {validationSchema.primaryBankAccount.validate()}
-                </span>
-             ):''} */}
-        </div>
-        </div>}
-
-
-
-        <div>
-          <span>Employer type</span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full py-2.5"
-              onBlur={()=>setTouchedInputs(prev=>({...prev,employerType:true}))}
-              onChange={handaleChange}
-              value={persionalLoanObj.employerType}
-              name='employerType'
-            >
-              
-              <option value={''}>Select</option>
-              {employerType.map((ele) => {
-                return (
-                  <option key={ele} value={ele}>
-                    {ele}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          {/* {formik.touched.employerType && formik.errors.employerType && (
-            <span className="text-xs font-bold text-red-500">
-              {formik.errors.employerType}
-            </span>
-          )} */}
-             {touchedInputs.employerType? (
-                <span className="text-xs font-bold text-red-500">
-                  {validationSchema.employerType.validate()}
-                </span>
-             ):''}
-        </div>
-<div>
-          <span>Employer name</span>
-          <div className="py-1 border-b border-slate-400">
-            <input
-              placeholder="Enter your company name"
-              type="text"
-              value={persionalLoanObj.employerName}
-              className="w-full bg-transparent border-none outline-none placeholder:text-slate-500"
-              onBlur={()=>setTouchedInputs(prev=>({...prev,employerName:true}))}
-              onChange={handaleChange}
-              name='employerName'
-            />
-          </div>
-           {touchedInputs.employerName? (
-                <span className="text-xs font-bold text-red-500">
-                  {validationSchema.employerName.validate()}
-                </span>
-             ):''}
-        </div>
-
-        <div className="py-1 ">
-          {persionalLoanObj.employmentType === "Salaried" &&
-          persionalLoanObj.employmentType === "Salaried" ? (
-            <div>
-              <span className="gap-2 pr-1">
-                <span className="px-1">
-                  {" "}
-                  {persionalLoanObj.employmentType === "Salaried"
-                    ? "Monthly"
-                    : "Yearly "}{" "}
-                </span>
-                Income
-              </span>
-              <input
-                placeholder="Enter your monthly income"
-                type="number"
-                name="monthlyIncome"
-                value={persionalLoanObj.monthlyIncome}
-                onChange={handaleChange}
-                className="bg-transparent w-full outline-none  placeholder:text-slate-500 border-b-[1px] border-slate-800"
-                onBlur={()=>setTouchedInputs(prev=>({...prev,monthlyIncome:true}))}
-              />
-                {touchedInputs.monthlyIncome? (
-                <span className="text-xs font-bold text-red-500">
-                  {validationSchema.monthlyIncome.validate()}
-                </span>
-             ):''}
-            </div>
-          ) : (
-            <div>
-              <span className="gap-2 pr-1">
-                <span className="px-1">
-                  {persionalLoanObj.employmentType === "Salaried"
-                    ? "Monthly"
-                    : "Yearly "}
-                </span>
-                Income
-              </span>
-              <input
-                placeholder="Enter your monthly income"
-                type="number"
-                name="yearlyIncome"
-                value={persionalLoanObj.yearlyIncome}
-                onChange={handaleChange}
-                className="bg-transparent w-full outline-none  placeholder:text-slate-500 border-b-[1px] border-slate-800"
-                onBlur={()=>setTouchedInputs(prev=>({...prev,yearlyIncome:true}))}
-              />
-               {touchedInputs.yearlyIncome? (
-                <span className="text-xs font-bold text-red-500">
-                  {validationSchema.yearlyIncome.validate()}
-                </span>
-             ):''}
-            </div>
-          )}
-        </div>
-
-        <div>
-          <span>Income recieved as</span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
-              name='incomeRecievedAs'
-              value={persionalLoanObj.incomeRecievedAs}
-              onChange={handaleChange}
-              onBlur={()=>setTouchedInputs(prev=>({...prev,incomeRecievedAs:true}))}
-
-            >
-              <option value="">Select</option>
-              {incomeRecievedAs.map((ele, i) => {
-                return (
-                  <option key={ele} value={ele}>
-                    {ele}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-        </div>
-        <div>
-          <span>Existing EMI</span>
-          <div className="py-1 border-b border-slate-400">
-            <input
-              placeholder="Enter your existing EMI if any"
-              type="number"
-              value={persionalLoanObj.existingEmi}
-              onChange={handaleChange}
-              onBlur={()=>setTouchedInputs(prev=>({...prev,existingEmi:true}))}
-              name='existingEmi'
-              className="w-full bg-transparent border-none outline-none placeholder:text-slate-500"
-            />
-          </div>
-          {touchedInputs.existingEmi? (
-                <span className="text-xs font-bold text-red-500">
-                  {validationSchema.existingEmi.validate()}
-                </span>
-             ):''}
         
-        </div>
-
         <div>
-          <span>Email address</span>
+          <span className=' text-gray-500 font-semibold' >Email Address</span>
           <div className="py-1 border-b border-slate-400">
             <input
-              placeholder="Enter your email address"
+              placeholder="Enter your Email Address"
               type="text"
               value={persionalLoanObj.email}
               onChange={handaleChange}
@@ -643,7 +689,7 @@ const handleSubmit = (e) => {
              ):''}
         </div>
         <div>
-          <span>Mobile number</span>
+          <span className=' text-gray-500 font-semibold' >Mobile Number</span>
           <div className="flex items-center space-x-2.5 border-b border-slate-400 py-1">
             <img src="/india.png" alt="india" className="h-4 w-7" />
             <span className="whitespace-nowrap">+91 -</span>
@@ -664,7 +710,7 @@ const handleSubmit = (e) => {
         </div>
         <div className="col-span-2 sm:col-span-2">
           <div>
-            {/* <input
+            {/* <input 
               type="checkbox"
               checked={checkBox1}
               onChange={() => setCheckBox1(!checkBox1)}
@@ -686,7 +732,10 @@ const handleSubmit = (e) => {
               checked={checkBox2}
               onChange={() => setCheckBox2(prev=>!prev)}
             />
-            <label className="pl-2">Terms  & Conditions 1 & Conditions 2</label>
+            <label className="pl-2 font-semibold">
+             By continuing, you agree to Indexia Finance.
+              <Link className='text-blue-800'> Terms of Use </Link> 
+               and <Link className='text-blue-800'> Privacy Policy</Link>.</label>
           </div>
           
          
@@ -695,8 +744,8 @@ const handleSubmit = (e) => {
           <button
             className="bg-cyan-400 py-2.5 w-full rounded-lg text-lg text-white font-normal duration-200 disabled:cursor-not-allowed disabled:bg-gray-200"
             type="submit"
-            // disabled={(!checkBox1 || !checkBox2) }
-            disabled={(!checkBox2) }
+            disabled={(!checkBox1 || !checkBox2) }
+            // disabled={(!checkBox2) }
 
           >
             Submit

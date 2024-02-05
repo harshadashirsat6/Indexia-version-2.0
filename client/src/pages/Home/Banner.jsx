@@ -4,15 +4,15 @@ const Banner = () => {
   return (
     <main className="h-auto lg:h-screen flex flex-col lg:flex-row space-y-10 lg:space-y-0 items-center justify-center lg:justify-between mx-5 sm:mx-10 md:mx-20 lg:mx-32 mt-[calc(56px+20px)] lg:mt-0">
       <motion.section className="w-full lg:w-[600px] space-y-5">
-        <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-serif text-slate-400 lg:leading-none">
+        <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-serif text-slate-500 lg:leading-none">
           The Next{" "}
-          <span className="bg-gradient-to-br from-cyan-300 to-emerald-200 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-br from-cyan-400 to-emerald-300 bg-clip-text text-transparent">
             Generation
           </span>{" "}
           Finance Method
         </h1>
-        <p>
-          Discover the world of smart loans at IndexiaFinance. We bring you
+        <p className="text-gray-600 font-[500]">
+           Discover the world of smart loans at IndexiaFinance. We bring you
           financial solutions that make living smoother. Because managing your
           dreams shouldn't be complicated anymore.
         </p>
