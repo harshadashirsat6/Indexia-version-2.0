@@ -71,11 +71,11 @@ function handaleBsTypeError(formData){
   } else if (
     (formData.employmentType === "Self-employed business" ||
       formData.employmentType === "Self-employed professional") &&
-    !(+formData.yearlyIncome)
+      !(formData.yearlyIncome >= 120000) 
   ) {
     setIncomeError({
       status: true,
-      message: "Invalid income",
+      message: "Income Should be min 120000 or Greater ",
     });
     return false;
   }else if(formData.employmentType === "Salaried"?
@@ -387,11 +387,11 @@ function handaleBsTypeError(formData){
         </div>
         <div>
           <span>Loan tenure</span>
+
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
               name="loanTenure"
-              value={formData.loanTenure}
               {...formik.getFieldProps("loanTenure")}
             >
               <option value="">Select</option>
@@ -408,6 +408,33 @@ function handaleBsTypeError(formData){
             </span>
           )}
         </div>
+
+        <div>
+          <span>Loan tenure</span>
+          
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full py-2.5"
+              name="loanTenure"
+              {...formik.getFieldProps("loanTenure")}
+            >
+              <option value="">Select</option>
+              {loanTenure.map((tenure, i) => (
+                <option key={i} value={tenure}>
+                  {tenure}
+                </option>
+              ))}
+            </select>
+          </div>
+          {formik.touched.loanTenure && formik.errors.loanTenure && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.loanTenure}
+            </span>
+          )}
+
+
+        </div>
+
         <div>
           <span>Employment type</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">

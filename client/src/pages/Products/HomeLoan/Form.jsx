@@ -20,6 +20,8 @@ import {
 } from "../../../configs/selectorConfigs";
 import { useState,useEffect } from "react";
 import { changeIntoDate } from "../../../validation/function";
+import DatePicker from "../../../components/DatePicker/DatePicker";
+import { FaRegCalendarAlt } from "react-icons/fa";
 
 const Form = ({ states, cities, selectedState, setSelectedState }) => {
   // const navigate = useNavigate();
@@ -34,6 +36,8 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
     touched:false,
     touched2:false
   })
+  const [activeCl, setActiveCl] = useState(true);
+
   // Yup validation
   const validationSchema = Yup.object({
     name: Yup.string("").min(5).required("Full name required"),
@@ -67,6 +71,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
 
     loanAmount: Yup.string("").required("Loan amount required"),
     loanTenure: Yup.string("").required("Loan tenure required"),
+    loanTenureOption:Yup.string("").required("Loan tenure required"),
     employerType: Yup.string("").required("Employer type required"),
     employerTypeOption: Yup.string("").required("Employer type required"),
     employmentType: Yup.string("").required("Employment type required"),
@@ -127,11 +132,11 @@ function handaleBsTypeError(formData){
   } else if (
     (formData.employmentType === "Self-employed business" ||
       formData.employmentType === "Self-employed professional") &&
-    !(+formData.yearlyIncome)
+      !(formData.yearlyIncome >= 120000) 
   ) {
     setIncomeError({
       status: true,
-      message: "Invalid income",
+      message: "Income Should be min 120000 or Greater ",
     });
     return false;
   }else if(formData.employmentType === "Salaried"?
@@ -227,14 +232,15 @@ function handaleBsTypeError(formData){
         </div>
 
         <div>
-          <span className="font-semibold text-gray-500">Date of birth (As per PAN card) </span>
-          <div className="border-b border-slate-400 py-1">
+          <span className="font-semibold text-gray-500">Date of Birth (As per PAN card) </span>
+          <div className="border-b border-slate-400 py-1 flex relative">
             <input
               placeholder="DD-MM-YYYY"
               type="text"
                onBlur={()=>formik.setFieldTouched('dateOfBirth',true)}
                value={formik.values.dateOfBirth}
                onChange={(e) => {
+                
 
                 const formattedDate = changeIntoDate(e.target.value,'DD-MM-YYYY')
 
@@ -246,15 +252,37 @@ function handaleBsTypeError(formData){
                 formik.setFieldValue('dateOfBirth',formattedDate)
                 
               }}
-            
               className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
             />
+            <div id='e;ljfeijfie'  className="w-8 h-[inherit]  bg-gray-200 flex items-center justify-center rounded cursor-pointer"
+        onClick={(e)=>{if(e.target.id==='e;ljfeijfie'){
+          setActiveCl(prev=>!prev)
+          formik.setFieldTouched('dateOfBirth',true)
+        }}}
+        
+        >
+              <FaRegCalendarAlt 
+              onClick={(e)=>{
+                setActiveCl(prev=>!prev)
+                formik.setFieldTouched('dateOfBirth',true)
+              }}
+              />
+              <div  className={activeCl?'hidden':'block '}>
+              <DatePicker setActive={()=>{setActiveCl(true)}} handaleDate={(date)=>{
+                formik.setFieldValue('dateOfBirth',date)
+              }}
+              clearFun={()=>{  formik.setFieldValue('dateOfBirth','')}}
+              date={formik.dateOfBirth}
+              />
+              </div>
+            </div>
           </div>
           {formik.touched.dateOfBirth && formik.errors.dateOfBirth && (
             <span className="text-red-500 text-xs font-bold">
               {formik.errors.dateOfBirth}
             </span>
           )}
+
         </div>
         <div>
           <span className="font-semibold text-gray-500">State</span>
@@ -351,13 +379,25 @@ function handaleBsTypeError(formData){
           )}
         </div>
         <div>
-          <span className="font-semibold text-gray-500">Loan Tenure</span>
+          <span className="font-semibold text-gray-500" >Loan Tenure</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
               name="loanTenure"
-              value={formData.loanTenure}
-              {...formik.getFieldProps("loanTenure")}
+              value={formData.loanTenureOption}
+              onBlur={()=>formik.setFieldTouched('loanTenureOption',true)}
+              onChange={(e) =>{
+                if(e.target.value==='Other'){
+                  formik.setFieldValue('loanTenureOption',e.target.value)
+                  formik.setFieldValue('loanTenure','')
+                  return 
+                }else{                  
+                  formik.setFieldValue('loanTenureOption',e.target.value)
+                  formik.setFieldValue('loanTenure',e.target.value)
+                }
+             
+              }}
+
             >
               <option value="">Select</option>
               {homeLoanTenure.map((tenure, i) => (
@@ -367,12 +407,32 @@ function handaleBsTypeError(formData){
               ))}
             </select>
           </div>
-          {formik.touched.loanTenure && formik.errors.loanTenure && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.loanTenure}
-            </span>
-          )}
+          {formik.touched.loanTenureOption &&
+                formik.errors.loanTenureOption && (
+                  <span className="text-red-500 text-xs font-bold">
+                    {formik.errors.loanTenureOption}
+                  </span>
+                )}
         </div>
+
+        {formik.values.loanTenureOption ==='Other'&&  <div>
+              <span className=" font-semibold text-gray-500" >Enter Loan Tenure</span>
+              <div className="border-b border-slate-400 py-1">
+                <input
+                  placeholder=""
+                  type="text"
+                  {...formik.getFieldProps("loanTenure")}
+
+                  className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+                />
+              </div>
+              {formik.touched.loanTenure &&
+                formik.errors.loanTenure && (
+                  <span className="text-red-500 text-xs font-bold">
+                    {formik.errors.loanTenure}
+                  </span>
+                )}
+         </div>}
         <div>
           <span className="font-semibold text-gray-500">Employment Type</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">

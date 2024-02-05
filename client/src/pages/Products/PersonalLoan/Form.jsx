@@ -13,6 +13,7 @@ import {
 import { Link } from 'react-router-dom';
 import { changeIntoDate } from '../../../validation/function';
 import DatePicker from '../../../components/DatePicker/DatePicker';
+import { FaRegCalendarAlt } from "react-icons/fa";
 
 const FormAB = ({states,cities,setSelectedState,selectedState}) => {
     const { formData} = useSelector((store) => store.app);
@@ -20,16 +21,16 @@ const FormAB = ({states,cities,setSelectedState,selectedState}) => {
 
     const [checkBox2, setCheckBox2] = useState(true);
     const [checkBox1,setCheckBox1] = useState(false)
-    // const [checkBox3, setCheckBox3] = useState(false);
+    const [activeCl, setActiveCl] = useState(true);
 
-    const [persionalLoanObj,setPersionalUseObj] = useState({...formData})
+    const [persionalLoanObj,setPersionalUseObj] = useState({...formData,loanTenureOption:''})
 
     const [persionalConditionalObj,setPersionalConditionalUseObj] = useState({
       primaryBankAccount:''
     })
 
     const [employerTypeCondition,setEmployerCondition] = useState({
-      employerType:''
+      employerType:'',
     })
   
     const [touchedInputs, setTouchedInputs] = useState({
@@ -40,7 +41,7 @@ const FormAB = ({states,cities,setSelectedState,selectedState}) => {
         monthlyIncome:false,existingEmi:false,contact:false,
         email:false,
         primaryBankAccount:false,primaryBankAccountCon:false,
-        employerType2:false
+        employerType2:false,loanTenureOption:false
     });
 
     // ref 
@@ -98,9 +99,10 @@ const FormAB = ({states,cities,setSelectedState,selectedState}) => {
         ,
         loanAmount: YupString(persionalLoanObj.loanAmount)
         .isInt("Loan amount must be a number")
-        .minNumber(100000, "min 1 lakh")
+        .minNumber(0, "min 1 lakh")
         .required("Loan amount required"),
         loanTenure:YupString(persionalLoanObj.loanTenure).required("Loan tenure required"),
+        loanTenureOption:YupString(persionalLoanObj.loanTenureOption).required("Loan tenure required"),
         employmentType: YupString(persionalLoanObj.employmentType).required("Employment type required"),
         employerType: YupString(persionalLoanObj.employerType).required(" Employer type required"),
         employerType2: YupString(persionalLoanObj.employerType).required("Employer type required"),
@@ -156,7 +158,7 @@ const handleSubmit = (e) => {
         monthlyIncome:true,existingEmi:true,contact:true,
         email:true, 
         primaryBankAccount:false,primaryBankAccountCon:false,
-        employerType2:false
+        employerType2:false,loanTenureOption:false
     })
     if (active) {  
       dispatch(setShowSubmitLoanFormPaymentModal(true));
@@ -173,7 +175,6 @@ const handleSubmit = (e) => {
 
   return (
     <div className='py-4 ' >
-      {/* <DatePicker/> */}
        <h1 className="flex flex-col mb-8 text-xl font-semibold text-gray-500">
         <span>
           Unlock best <span>personal loan</span> offers suitable for your needs
@@ -205,7 +206,7 @@ const handleSubmit = (e) => {
      </div>
      <div className="py-1 border-b border-slate-400 ">
            <span className=' text-gray-500 font-semibold'>Date of Birth (As per PAN card) </span>
-
+           <div className={'flex relative'}>
             <input
               placeholder="DD-MM-YYYY"
               type="text"
@@ -222,12 +223,38 @@ const handleSubmit = (e) => {
               className="w-full bg-transparent border-none outline-none placeholder:text-slate-500"
               value={persionalLoanObj.dateOfBirth}
             />
-             {touchedInputs.dateOfBirth? (
+            
+
+             <div id='e;ljfeijfie'  className="w-8 h-[inherit]  bg-gray-200 flex items-center justify-center rounded cursor-pointer"
+        onClick={(e)=>{if(e.target.id==='e;ljfeijfie'){
+          setActiveCl(prev=>!prev)
+          setTouchedInputs(prev=>({...prev,dateOfBirth:true}))
+        }}}
+        
+        >
+              <FaRegCalendarAlt 
+              onClick={(e)=>{
+                setActiveCl(prev=>!prev)
+                setTouchedInputs(prev=>({...prev,dateOfBirth:true}))
+              }}
+              />
+              <div  className={activeCl?'hidden':'block '}>
+              <DatePicker setActive={()=>{setActiveCl(true)}} handaleDate={(date)=>{
+                handaleChange({target:{value:date,name:'dateOfBirth'}})
+              }}
+              clearFun={()=>{ handaleChange({target:{value:'',name:'dateOfBirth'}})}}
+              date={persionalLoanObj.dateOfBirth}
+              />
+              </div>
+            </div>
+            </div>
+            {touchedInputs.dateOfBirth? (
                 <span className="text-xs font-bold text-red-500">
                   {validationSchema.dateOfBirth.validate()}
                 </span>
               ):''}
      </div>
+     
 
         <div className="col-span-1 sm:col-span-2">
           <span className=' text-gray-500 font-semibold' >PAN Card Number</span>
@@ -277,10 +304,17 @@ const handleSubmit = (e) => {
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
-              name="loanTenure"
-              value={persionalLoanObj.loanTenure}
-              onChange={handaleChange}
-              onBlur={()=>setTouchedInputs(prev=>({...prev,loanTenure:true}))}
+              name="loanTenureOption"
+              value={persionalLoanObj.loanTenureOption}
+              onBlur={()=>setTouchedInputs(prev=>({...prev,loanTenureOption:true}))}
+
+              onChange={
+                (e)=>{
+                  handaleChange({target:{name:'loanTenureOption',value: (e.target.value)}})
+                  handaleChange({target:{name:'loanTenure',value: e.target.value==='Other'?'':e.target.value}})
+                }
+              }
+              
 
             >
               <option value="">Select</option>
@@ -291,12 +325,32 @@ const handleSubmit = (e) => {
               ))}
             </select>
           </div>
-          {touchedInputs.loanTenure? (
+          {touchedInputs.loanTenureOption? (
                 <span className="text-xs font-bold text-red-500">
-                  {validationSchema.loanTenure.validate()}
+                  {validationSchema.loanTenureOption.validate()}
                 </span>
              ):''}
         </div>
+        {persionalLoanObj.loanTenureOption==='Other'&&<div className="col-span-1 sm:col-span-2">
+          <span className=' text-gray-500 font-semibold' >Loan Tenure </span>
+          <div className="py-1 border-b border-slate-400">
+            <input
+              placeholder="Loan Tenure"
+              type="text"
+              onChange={handaleChange}
+              name='loanTenure'
+              value={persionalLoanObj.loanTenure}
+              onBlur={()=>setTouchedInputs(prev=>({...prev,loanTenure:true}))}
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-500"
+            />
+          </div>
+
+             {touchedInputs.loanTenure? (
+                <span className="text-xs font-bold text-red-500">
+                  {validationSchema.loanTenure.validate()}
+                </span>
+              ):''}
+        </div>}
         <div>
           <span className=' text-gray-500 font-semibold' >Employment Type</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">

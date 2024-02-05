@@ -64,8 +64,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
       .matches(/^[A-Z0-9]+$/, 'Only alphanumeric characters are allowed')
  , loanAmount: Yup.number()
       .integer("Loan amount must be a number")
-      .required("Loan amount should be filled")
-      .min(100000, "min 1 lakh"),
+      .required("Loan amount should be filled"),
     loanTenure: Yup.string("").required("select loan tenure "),
     employerType: Yup.string("").required("select employer type"),
     employmentType: Yup.string("").required("select employment type"),
@@ -136,7 +135,7 @@ function handaleBsTypeError(formData){
   } else if (
     (formData.employmentType === "Self-employed business" ||
       formData.employmentType === "Self-employed professional") &&
-    !(+formData.yearlyIncome)
+      !(formData.yearlyIncome >= 120000) 
   ) {
     setIncomeError({
       status: true,

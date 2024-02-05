@@ -22,12 +22,10 @@ export const yearlyIncome = [
 ];
 
 export const loanTenure = [
-  "<=1 Year",
-  "1-2 Years",
-  "2-3 Years",
-  "3-4 Years",
-  "4-5 Years",
+  "1-3 Years",
+  "3-5 Years",
   "5-7 Years",
+  "Other"
 ];
 export const loanStartDate = [
   "Within 30 days",
@@ -70,12 +68,11 @@ export const collateralOption = [
 ];
 
 export const businessLoanTenure = [
-  "<=5 Year",
+  "1-3 Years",
+  "3-5 Years",
   "5-7 Years",
-  "7-10 Years",
-  "10-15 Years",
-  "10-25 Years",
-  "25-40 Years",
+  "Other"
+
 ];
 
 export const companyType = [
@@ -153,12 +150,10 @@ export const homeLoanAmount = [
 ];
 
 export const homeLoanTenure = [
-  "<=5 Year",
+  "1-3 Years",
+  "3-5 Years",
   "5-7 Years",
-  "7-10 Years",
-  "10-15 Years",
-  "10-25 Years",
-  "25-30 Years",
+  "Other"
 ];
 
 export const newPropertyType = ["single-family home", "condominium"];

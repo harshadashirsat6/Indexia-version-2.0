@@ -20,11 +20,17 @@ import {
 } from "../../../configs/selectorConfigs";
 import { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
+import DatePicker from "../../../components/DatePicker/DatePicker";
+import { FaRegCalendarAlt } from "react-icons/fa";
+import { changeIntoDate } from "../../../validation/function";
+
 
 const Form = ({ states, cities, selectedState, setSelectedState }) => {
   // const navigate = useNavigate();
   const dispatch = useDispatch();
   const { formData, isOpenModal } = useSelector((store) => store.app);
+  const [activeCl, setActiveCl] = useState(true);
+
   // checkbox
   const [checkBox1, setCheckBox1] = useState(true);
   const [checkBox2, setCheckBox2] = useState(false);
@@ -70,11 +76,11 @@ function handaleBsTypeError(formData){
   } else if (
     (formData.employmentType === "Self-employed business" ||
       formData.employmentType === "Self-employed professional") &&
-    !(+formData.yearlyIncome)
+      !(formData.yearlyIncome >= 120000) 
   ) {
     setIncomeError({
       status: true,
-      message: "Invalid income",
+      message: "Income Should be min 120000 or Greater ",
     });
     return false;
   }else if(formData.employmentType === "Salaried"?
@@ -122,8 +128,7 @@ function handaleBsTypeError(formData){
 
     loanAmount: Yup.number()
       .integer("Loan amount must be a number")
-      .required("Loan amount required")
-      .min(100000, "min 1 lakh"),
+      .required("Loan amount required"),
     loanTenure: Yup.string("").required("select loan tenure "),
     employerType: Yup.string("").required("Employer type required"),
     employerTypeOption: Yup.string("").required("Employer type required"),
@@ -143,6 +148,7 @@ function handaleBsTypeError(formData){
       ),
       primaryBankAccount:Yup.string("").required("*Salary Bank account required"),
       primaryBankAccountOption:Yup.string("").required("*Salary Bank account required"),
+      loanTenureOption:Yup.string("").required("Loan tenure required")
   });
   // Formik
   const formik = useFormik({
@@ -227,38 +233,56 @@ function handaleBsTypeError(formData){
         </div>
         <div>
           <span className="font-semibold text-gray-500">Date of Birth (As per PAN card) </span>
-          <div className="border-b border-slate-400 py-1">
+          <div className="border-b border-slate-400 py-1 flex relative">
             <input
               placeholder="DD-MM-YYYY"
               type="text"
-              {...formik.getFieldProps("dateOfBirth")}
+               onBlur={()=>formik.setFieldTouched('dateOfBirth',true)}
+               value={formik.values.dateOfBirth}
                onChange={(e) => {
                 
 
-                const numericValue = e.target.value.replace(/\D/g, '');
-
-                const formattedDate = numericValue.replace(/(\d{0,2})(\d{0,2})(\d{0,4})/, function(_, day, month, year) {
-                                console.log(month)
-
-                  return (day ?  (+day>31?31:day) + (month ? '-' + (+month>12?12:month) + (year ? '-' + year : '') : '') : '');
-                });
+                const formattedDate = changeIntoDate(e.target.value,'DD-MM-YYYY')
 
                 if(formattedDate.length>10){
                     return
                 }
-                e.target.value = formattedDate
-                formik.handleChange(e);
 
+                e.target.value = formattedDate
+                formik.setFieldValue('dateOfBirth',formattedDate)
+                
               }}
-            
               className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
             />
+            <div id='e;ljfeijfie'  className="w-8 h-[inherit]  bg-gray-200 flex items-center justify-center rounded cursor-pointer"
+        onClick={(e)=>{if(e.target.id==='e;ljfeijfie'){
+          setActiveCl(prev=>!prev)
+          formik.setFieldTouched('dateOfBirth',true)
+        }}}
+        
+        >
+              <FaRegCalendarAlt 
+              onClick={(e)=>{
+                setActiveCl(prev=>!prev)
+                formik.setFieldTouched('dateOfBirth',true)
+              }}
+              />
+              <div  className={activeCl?'hidden':'block '}>
+              <DatePicker setActive={()=>{setActiveCl(true)}} handaleDate={(date)=>{
+                formik.setFieldValue('dateOfBirth',date)
+              }}
+              clearFun={()=>{  formik.setFieldValue('dateOfBirth','')}}
+              date={formik.dateOfBirth}
+              />
+              </div>
+            </div>
           </div>
           {formik.touched.dateOfBirth && formik.errors.dateOfBirth && (
             <span className="text-red-500 text-xs font-bold">
               {formik.errors.dateOfBirth}
             </span>
           )}
+
         </div>
         <div>
           <span   className="font-semibold text-gray-500">State</span>
@@ -349,28 +373,59 @@ function handaleBsTypeError(formData){
           )}
         </div>
         <div>
-          <span  className="font-semibold text-gray-500">Loan Tenure</span>
+          <span className="font-semibold text-gray-500" >Loan Tenure</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
               name="loanTenure"
-              value={formData.loanTenure}
-              {...formik.getFieldProps("loanTenure")}
+              value={formData.loanTenureOption}
+              onBlur={()=>formik.setFieldTouched('loanTenureOption',true)}
+              onChange={(e) =>{
+                if(e.target.value==='Other'){
+                  formik.setFieldValue('loanTenureOption',e.target.value)
+                  formik.setFieldValue('loanTenure','')
+                  return 
+                }else{                  
+                  formik.setFieldValue('loanTenureOption',e.target.value)
+                  formik.setFieldValue('loanTenure',e.target.value)
+                }
+             
+              }}
+
             >
               <option value="">Select</option>
-              {loanTenure.map((tenure, i) => (
+              {homeLoanTenure.map((tenure, i) => (
                 <option key={i} value={tenure}>
                   {tenure}
                 </option>
               ))}
             </select>
           </div>
-          {formik.touched.loanTenure && formik.errors.loanTenure && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.loanTenure}
-            </span>
-          )}
+          {formik.touched.loanTenureOption &&
+                formik.errors.loanTenureOption && (
+                  <span className="text-red-500 text-xs font-bold">
+                    {formik.errors.loanTenureOption}
+                  </span>
+                )}
         </div>
+        {formik.values.loanTenureOption ==='Other'&&  <div>
+              <span className=" font-semibold text-gray-500" >Enter Loan Tenure</span>
+              <div className="border-b border-slate-400 py-1">
+                <input
+                  placeholder=""
+                  type="text"
+                  {...formik.getFieldProps("loanTenure")}
+
+                  className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+                />
+              </div>
+              {formik.touched.loanTenure &&
+                formik.errors.loanTenure && (
+                  <span className="text-red-500 text-xs font-bold">
+                    {formik.errors.loanTenure}
+                  </span>
+                )}
+         </div>}
         <div>
           <span  className="font-semibold text-gray-500">Employment Type</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
