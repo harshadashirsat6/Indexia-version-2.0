@@ -18,7 +18,7 @@ import {
 import { useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 
-const Form = ({ states, cities, selectedState, setSelectedState }) => {
+const Form = ({ states, cities, selectedState, setSelectedState,user }) => {
   // const navigate = useNavigate();
   const dispatch = useDispatch();
   const { formData, isOpenModal } = useSelector((store) => store.app);
@@ -28,7 +28,6 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
 
   // Yup validation
   const validationSchema = Yup.object({
-    name: Yup.string("").min(5).required("Full name should be filled"),
     dateOfBirth: Yup.string("")
       .required("Date of birth required")
       .test("age-check", "Must be at least 21 years old", function (value) {
@@ -51,13 +50,8 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
     panCardNum: Yup.string()
       .required("Pancard number should be filled")
       .length(10, "Pan card number should be 10 characters")
-      .matches(
-        /^[a-zA-Z]{5}.*[a-zA-Z]$/,
-        "Invalid pancard number"
-      )
-      .matches(/^[A-Z0-9]+$/, 'Only alphanumeric characters are allowed')
-    ,
-
+      .matches(/^[a-zA-Z]{5}.*[a-zA-Z]$/, "Invalid pancard number")
+      .matches(/^[A-Z0-9]+$/, "Only alphanumeric characters are allowed"),
     loanAmount: Yup.number()
       .integer("Loan amount must be a number")
       .required("Loan amount should be filled")
@@ -71,17 +65,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
       .required("EMI should be filled")
       .min(0, "min 0")
       .max(30000, "max 30k"),
-    email: Yup.string("").email().required("Email should be filled"),
-    contact: Yup.number()
-      .integer("Invalid contact number")
-      .required("Contact number should be filled")
-      .test(
-        "length-check",
-        "contact number must be of 10 digits",
-        function (value) {
-          return value.toString().length === 10;
-        }
-      ),
+
     primaryBankAccount: Yup.string("").required("*required"),
     projectObjective: Yup.string("").required("*required"),
     projectDescription: Yup.string("").required("*required"),
@@ -97,7 +81,6 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
       handleProceed(values);
     },
   });
-
 
   const handleProceed = (values) => {
     if (formData.monthlyIncome > 0 && formData.monthlyIncome < 12000) {
@@ -119,24 +102,26 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
         <span className="w-20 h-0.5 rounded-full bg-cyan-400"></span>
       </h1>
       <form
-          className='block lg:grid lg:grid-cols-2  gap-8'        
-          onSubmit={formik.handleSubmit}
+        className="block lg:grid lg:grid-cols-2  gap-8"
+        onSubmit={formik.handleSubmit}
       >
         <div>
           <span>Full name</span>
           <div className="border-b border-slate-400 py-1">
             <input
-              placeholder="As per on your pan card"
+              placeholder=""
               type="text"
-              {...formik.getFieldProps("name")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              value={user?.name}
+              name="name"
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+              readOnly
             />
           </div>
-          {formik.touched.name && formik.errors.name && (
+          {/* {formik.touched.name && formik.errors.name && (
             <span className="text-red-500 text-xs font-bold">
               {formik.errors.name}
             </span>
-          )}
+          )} */}
         </div>
 
         <div>
@@ -254,7 +239,9 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
               placeholder="Enter permanent account number"
               type="text"
               {...formik.getFieldProps("panCardNum")}
-              onChange={(e) => formik.setFieldValue("panCardNum", e.target.value.toUpperCase())}
+              onChange={(e) =>
+                formik.setFieldValue("panCardNum", e.target.value.toUpperCase())
+              }
               className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
             />
           </div>
@@ -589,10 +576,12 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           <span>Email address</span>
           <div className="border-b border-slate-400 py-1">
             <input
-              placeholder="Enter your email address"
-              type="text"
-              {...formik.getFieldProps("email")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              placeholder=""
+              type="email"
+              value={user?.email}
+              name="email"
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+              readOnly
             />
           </div>
           {formik.touched.email && formik.errors.email && (
@@ -607,9 +596,12 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
             <img src="/india.png" alt="india" className="w-7 h-4" />
             <span className="whitespace-nowrap">+91 -</span>
             <input
+              placeholder=""
               type="number"
-              {...formik.getFieldProps("contact")}
-              className="bg-transparent w-full outline-none border-none"
+              value={user?.contact}
+              name="contact"
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+              readOnly
             />
           </div>
           {formik.touched.contact && formik.errors.contact && (
@@ -619,31 +611,29 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           )}
         </div>
         <div className="col-span-2  sm:col-span-2">
-        <div>
-          <ReCAPTCHA
+          <div>
+            <ReCAPTCHA
               sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-             onChange={(res)=>{
-              setCheckBox1(true)
-            }}
-           />
+              onChange={(res) => {
+                setCheckBox1(true);
+              }}
+            />
           </div>
           <div>
             <input
               type="checkbox"
               checked={checkBox2}
-              onChange={() => setCheckBox2(prev=>!prev)}
+              onChange={() => setCheckBox2((prev) => !prev)}
             />
             <label className="pl-2">Terms & Conditions 1 & Conditions 2</label>
           </div>
-          
         </div>
         <div className="w-1/2 mx-auto pt-2.5">
           <button
             className="bg-cyan-400 py-2.5 w-full rounded-lg text-lg text-white font-normal duration-200 disabled:cursor-not-allowed disabled:bg-gray-200"
             type="submit"
             // disabled={!checkBox1 || !checkBox2 }
-            disabled={!checkBox2 }
-
+            disabled={!checkBox2}
           >
             Submit
           </button>

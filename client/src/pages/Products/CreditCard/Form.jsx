@@ -13,10 +13,10 @@ import {
   employerType,
   primaryBankAccount,
 } from "../../../configs/selectorConfigs";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 
-const Form = ({ states, cities, selectedState, setSelectedState }) => {
+const Form = ({ states, cities, selectedState, setSelectedState,user }) => {
   // const navigate = useNavigate();
   const dispatch = useDispatch();
   const { formData, isOpenModal } = useSelector((store) => store.app);
@@ -24,18 +24,18 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
   const [checkBox1, setCheckBox1] = useState(false);
   const [checkBox2, setCheckBox2] = useState(true);
 
-  
-  const [incomeStatus,setIncomeStatus] = useState({month:false,year:false})
-  const [persionalConditionalObj,setPersionalConditionalUseObj] = useState({
-    primaryBankAccount:'',
-    touched:false,
-    touched2:false
-  })
-
+  const [incomeStatus, setIncomeStatus] = useState({
+    month: false,
+    year: false,
+  });
+  const [persionalConditionalObj, setPersionalConditionalUseObj] = useState({
+    primaryBankAccount: "",
+    touched: false,
+    touched2: false,
+  });
 
   // Yup validation
   const validationSchema = Yup.object({
-    name: Yup.string("").min(5).required("Full name should be filled"),
     dateOfBirth: Yup.string("")
       .required("Date of birth required")
       .test("age-check", "Must be at least 21 years old", function (value) {
@@ -58,13 +58,8 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
     panCardNum: Yup.string()
       .required("Pancard number should be filled")
       .length(10, "Pan card number should be 10 characters")
-      .matches(
-        /^[a-zA-Z]{5}.*[a-zA-Z]$/,
-        "Invalid pancard number"
-      )
-      .matches(/^[A-Z0-9]+$/, 'Only alphanumeric characters are allowed')
-     ,
-
+      .matches(/^[a-zA-Z]{5}.*[a-zA-Z]$/, "Invalid pancard number")
+      .matches(/^[A-Z0-9]+$/, "Only alphanumeric characters are allowed"),
     employerType: Yup.string("").required("select employer type"),
     employmentType: Yup.string("").required("select employment type"),
     employerName: Yup.string("").required("employer name should be filled"),
@@ -73,17 +68,6 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
       .required("EMI should be filled")
       .min(0, "min 0")
       .max(30000, "max 30k"),
-    email: Yup.string("").email().required("Email should be filled"),
-    contact: Yup.number()
-      .integer("Invalid contact number")
-      .required("Contact number should be filled")
-      .test(
-        "length-check",
-        "contact number must be of 10 digits",
-        function (value) {
-          return value.toString().length === 10;
-        }
-      ),
   });
   // Formik
   const formik = useFormik({
@@ -94,57 +78,60 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
     },
   });
 
-  function calculateEmi(value,onsumbit){
-    if (value !== 0||onsumbit) {
+  function calculateEmi(value, onsumbit) {
+    if (value !== 0 || onsumbit) {
       const salary = formData.monthlyIncome || formData.yearlyIncome / 12;
       const emi = salary * 0.8;
-        setEmiError({
-          status: value > emi,
-          msg: "EMI should be less than 80% of your monthly income",
-        });
-        return value > emi;
+      setEmiError({
+        status: value > emi,
+        msg: "EMI should be less than 80% of your monthly income",
+      });
+      return value > emi;
     }
-    return true
-  }
-
-function handaleBsTypeError(formData){
-  if (
-    formData.employmentType === "Salaried" &&
-    formData.monthlyIncome === 0
-  ) {
-    setIncomeError({
-      status: true,
-      message: "Please enter valid income",
-    });
-    return false;
-  } else if (
-    formData.employmentType === "Salaried" &&
-    formData.monthlyIncome < 12000
-  ) {
-    setIncomeError({
-      status: true,
-      message: "salary min 12k",
-    });
-    return false;
-  } else if (
-    (formData.employmentType === "Self-employed business" ||
-      formData.employmentType === "Self-employed professional") &&
-    !(+formData.yearlyIncome)
-  ) {
-    setIncomeError({
-      status: true,
-      message: "Invalid income",
-    });
-    return false;
-  }else if(formData.employmentType === "Salaried"?
-  +formData.monthlyIncome:+formData.yearlyIncome){
-    setIncomeError({
-      status: false,
-      message: "",
-    });
     return true;
   }
-}  
+
+  function handaleBsTypeError(formData) {
+    if (
+      formData.employmentType === "Salaried" &&
+      formData.monthlyIncome === 0
+    ) {
+      setIncomeError({
+        status: true,
+        message: "Please enter valid income",
+      });
+      return false;
+    } else if (
+      formData.employmentType === "Salaried" &&
+      formData.monthlyIncome < 12000
+    ) {
+      setIncomeError({
+        status: true,
+        message: "salary min 12k",
+      });
+      return false;
+    } else if (
+      (formData.employmentType === "Self-employed business" ||
+        formData.employmentType === "Self-employed professional") &&
+      !+formData.yearlyIncome
+    ) {
+      setIncomeError({
+        status: true,
+        message: "Invalid income",
+      });
+      return false;
+    } else if (
+      formData.employmentType === "Salaried"
+        ? +formData.monthlyIncome
+        : +formData.yearlyIncome
+    ) {
+      setIncomeError({
+        status: false,
+        message: "",
+      });
+      return true;
+    }
+  }
 
   //income error
   const [incomeError, setIncomeError] = useState({
@@ -156,58 +143,68 @@ function handaleBsTypeError(formData){
     msg: "",
   });
   const handleProceed = (values) => {
-  
-    if(emiError.status || incomeError.status ||
-      !formData.primaryBankAccount.trim()){
-      return 
+    if (
+      emiError.status ||
+      incomeError.status ||
+      !formData.primaryBankAccount.trim()
+    ) {
+      return;
     }
-    setIncomeStatus({month:false,year:false})
+    setIncomeStatus({ month: false, year: false });
     dispatch(setShowSubmitLoanFormPaymentModal(true));
-    dispatch(setFormData({ ...formData, ...values,
-      monthlyIncome:formData.monthlyIncome,
-      yearlyIncome:formData.yearlyIncome,
-      primaryBankAccount:formData.primaryBankAccount
-    }));
+    dispatch(
+      setFormData({
+        ...formData,
+        ...values,
+        monthlyIncome: formData.monthlyIncome,
+        yearlyIncome: formData.yearlyIncome,
+        primaryBankAccount: formData.primaryBankAccount,
+      })
+    );
   };
 
-  useEffect(()=>{
-    calculateEmi(formik.values.existingEmi,true)
-    handaleBsTypeError(formData)
-  },[formData.monthlyIncome,
+  useEffect(() => {
+    calculateEmi(formik.values.existingEmi, true);
+    handaleBsTypeError(formData);
+  }, [
+    formData.monthlyIncome,
     formData.yearlyIncome,
-    formik.values.existingEmi])
+    formik.values.existingEmi,
+  ]);
 
-    const handaleChange = (e)=>{
-      dispatch(setFormData(({...formData,[e.target.name]:e.target.value})))
-  }
-
+  const handaleChange = (e) => {
+    dispatch(setFormData({ ...formData, [e.target.name]: e.target.value }));
+  };
 
   return (
     <div className="py-10">
       <div className="-mb-2.5 -ml-2.5 flex items-center space-x-2.5"></div>
       <h1 className="text-xl flex flex-col space-y-2">Credit Card</h1>
       <form
-          className='block lg:grid lg:grid-cols-2  gap-8'        
-          onSubmit={(e)=>{
-            e.preventDefault()
-            setIncomeStatus({month:true,year:true})
-            formik.handleSubmit()
-          }}      >
+        className="block lg:grid lg:grid-cols-2  gap-8"
+        onSubmit={(e) => {
+          e.preventDefault();
+          setIncomeStatus({ month: true, year: true });
+          formik.handleSubmit();
+        }}
+      >
         <div>
           <span>Full name</span>
           <div className="border-b border-slate-400 py-1">
             <input
-              placeholder="As per on your pan card"
+              placeholder=""
               type="text"
-              {...formik.getFieldProps("name")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              value={user?.name}
+              name="name"
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+              readOnly
             />
           </div>
-          {formik.touched.name && formik.errors.name && (
+          {/* {formik.touched.name && formik.errors.name && (
             <span className="text-red-500 text-xs font-bold">
               {formik.errors.name}
             </span>
-          )}
+          )} */}
         </div>
 
         <div>
@@ -325,8 +322,10 @@ function handaleBsTypeError(formData){
               placeholder="Enter permanent account number"
               type="text"
               {...formik.getFieldProps("panCardNum")}
-              onChange={(e) => formik.setFieldValue("panCardNum", e.target.value.toUpperCase())}
-            className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              onChange={(e) =>
+                formik.setFieldValue("panCardNum", e.target.value.toUpperCase())
+              }
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
             />
           </div>
           {formik.touched.panCardNum && formik.errors.panCardNum && (
@@ -335,7 +334,7 @@ function handaleBsTypeError(formData){
             </span>
           )}
         </div>
-        
+
         <div>
           <span>Employment type</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
@@ -425,7 +424,6 @@ function handaleBsTypeError(formData){
                 name="monthlyIncomeno"
                 value={formData.monthlyIncome}
                 onChange={(e) => {
-                  
                   dispatch(
                     setFormData({
                       ...formData,
@@ -435,10 +433,12 @@ function handaleBsTypeError(formData){
 
                   setIncomeError({ status: false, msg: "" });
                 }}
-                onBlur={()=>setIncomeStatus(prev=>({...prev,month:true}))}
+                onBlur={() =>
+                  setIncomeStatus((prev) => ({ ...prev, month: true }))
+                }
                 className="bg-transparent w-full outline-none  placeholder:text-slate-500 border-b-[1px] border-slate-800"
               />
-              {incomeError.status && incomeStatus.month&& (
+              {incomeError.status && incomeStatus.month && (
                 <span className="text-red-500 text-xs font-bold">
                   {incomeError?.message}
                 </span>
@@ -459,8 +459,9 @@ function handaleBsTypeError(formData){
                 type="number"
                 name="yearlyIncomeno"
                 value={formData.yearlyIncome}
-                onBlur={()=>setIncomeStatus(prev=>({...prev,year:true}))}
-
+                onBlur={() =>
+                  setIncomeStatus((prev) => ({ ...prev, year: true }))
+                }
                 onChange={(e) => {
                   dispatch(
                     setFormData({
@@ -472,7 +473,7 @@ function handaleBsTypeError(formData){
                 }}
                 className="bg-transparent w-full outline-none  placeholder:text-slate-500 border-b-[1px] border-slate-800"
               />
-              {incomeError.status&&incomeStatus.year && (
+              {incomeError.status && incomeStatus.year && (
                 <span className="text-red-500 text-xs font-bold">
                   {incomeError?.message}
                 </span>
@@ -511,22 +512,36 @@ function handaleBsTypeError(formData){
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
-              value={persionalConditionalObj.primaryBankAccount||formData.primaryBankAccount}
-              onBlur={()=>setPersionalConditionalUseObj(prev=>({...prev,touched:true}))}
+              value={
+                persionalConditionalObj.primaryBankAccount ||
+                formData.primaryBankAccount
+              }
+              onBlur={() =>
+                setPersionalConditionalUseObj((prev) => ({
+                  ...prev,
+                  touched: true,
+                }))
+              }
               name="primaryBankAccount"
-              onChange={(e)=>{
-                if(e.target.value==='Other'){
-                  setPersionalConditionalUseObj
-                  (prev=>({...prev,primaryBankAccount:e.target.value}))
-                  handaleChange({target:{value:'',name:'primaryBankAccount'}})
-                }else{
-                  setPersionalConditionalUseObj
-                  (prev=>({...prev,primaryBankAccount:''}))
-                  handaleChange(e)
-                }      
+              onChange={(e) => {
+                if (e.target.value === "Other") {
+                  setPersionalConditionalUseObj((prev) => ({
+                    ...prev,
+                    primaryBankAccount: e.target.value,
+                  }));
+                  handaleChange({
+                    target: { value: "", name: "primaryBankAccount" },
+                  });
+                } else {
+                  setPersionalConditionalUseObj((prev) => ({
+                    ...prev,
+                    primaryBankAccount: "",
+                  }));
+                  handaleChange(e);
+                }
               }}
             >
-              <option value={''}>Select</option>
+              <option value={""}>Select</option>
               {primaryBankAccount.map((ele) => {
                 return (
                   <option key={ele} value={ele}>
@@ -535,37 +550,47 @@ function handaleBsTypeError(formData){
                 );
               })}
             </select>
-
           </div>
-              {(persionalConditionalObj.touched&&!formData.primaryBankAccount?.trim())
-                   &&persionalConditionalObj.primaryBankAccount!=='Other'? (
-                <span className="text-xs font-bold text-red-500  ">
-                  *required
-                </span>
-             ):''}
+          {persionalConditionalObj.touched &&
+          !formData.primaryBankAccount?.trim() &&
+          persionalConditionalObj.primaryBankAccount !== "Other" ? (
+            <span className="text-xs font-bold text-red-500  ">*required</span>
+          ) : (
+            ""
+          )}
         </div>
 
-        {persionalConditionalObj.primaryBankAccount ==='Other'&& <div>
-          <span>Salary Bank Account Name</span>
-          <div className="py-1 border-b border-slate-400 duration-200">
-            <input
-              placeholder="Enter Salary Bank Account Name"
-              type="text"
-              // onChange={handaleChange}
-              name='primaryBankAccount'
-              onBlur={()=>setPersionalConditionalUseObj(prev=>({...prev,touched2:true}))}
-              value={formData.primaryBankAccount}
-              onChange={handaleChange}
-              className="w-full bg-transparent border-none outline-none placeholder:text-slate-500"
-            />
-           {(persionalConditionalObj.touched&&!formData.primaryBankAccount?.trim())
-                   &&persionalConditionalObj.primaryBankAccount==='Other'? (
+        {persionalConditionalObj.primaryBankAccount === "Other" && (
+          <div>
+            <span>Salary Bank Account Name</span>
+            <div className="py-1 border-b border-slate-400 duration-200">
+              <input
+                placeholder="Enter Salary Bank Account Name"
+                type="text"
+                // onChange={handaleChange}
+                name="primaryBankAccount"
+                onBlur={() =>
+                  setPersionalConditionalUseObj((prev) => ({
+                    ...prev,
+                    touched2: true,
+                  }))
+                }
+                value={formData.primaryBankAccount}
+                onChange={handaleChange}
+                className="w-full bg-transparent border-none outline-none placeholder:text-slate-500"
+              />
+              {persionalConditionalObj.touched &&
+              !formData.primaryBankAccount?.trim() &&
+              persionalConditionalObj.primaryBankAccount === "Other" ? (
                 <span className="text-xs font-bold text-red-500  ">
                   *required
                 </span>
-             ):''}
-        </div>
-        </div>}
+              ) : (
+                ""
+              )}
+            </div>
+          </div>
+        )}
         <div>
           <span>Existing EMI</span>
           <div className="border-b border-slate-400 py-1">
@@ -576,33 +601,35 @@ function handaleBsTypeError(formData){
               className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
             />
           </div>
-          {(formik.touched.existingEmi && formik.errors.existingEmi)? (
+          {formik.touched.existingEmi && formik.errors.existingEmi ? (
             <span className="text-red-500 text-xs font-bold duration-200">
               {formik.errors.existingEmi}
             </span>
-          ):emiError.status === true? 
-          (
+          ) : emiError.status === true ? (
             <span className="text-red-500 text-xs font-bold duration-200">
               {emiError?.msg}
             </span>
-          ):''
-        }
+          ) : (
+            ""
+          )}
         </div>
         <div>
           <span>Email address</span>
           <div className="border-b border-slate-400 py-1">
             <input
-              placeholder="Enter your email address"
-              type="text"
-              {...formik.getFieldProps("email")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              placeholder=""
+              type="email"
+              value={user?.email}
+              name="email"
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+              readOnly
             />
           </div>
-          {formik.touched.email && formik.errors.email && (
+          {/* {formik.touched.email && formik.errors.email && (
             <span className="text-red-500 text-xs font-bold">
               {formik.errors.email}
             </span>
-          )}
+          )} */}
         </div>
         <div>
           <span>Mobile number</span>
@@ -610,44 +637,45 @@ function handaleBsTypeError(formData){
             <img src="/india.png" alt="india" className="w-7 h-4" />
             <span className="whitespace-nowrap">+91 -</span>
             <input
+              placeholder=""
               type="number"
-              {...formik.getFieldProps("contact")}
-              className="bg-transparent w-full outline-none border-none"
+              value={user?.contact}
+              name="contact"
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+              readOnly
             />
           </div>
-          {formik.touched.contact && formik.errors.contact && (
+          {/* {formik.touched.contact && formik.errors.contact && (
             <span className="text-red-500 text-xs font-bold">
               {formik.errors.contact}
             </span>
-          )}
+          )} */}
         </div>
-        
+
         <div className="col-span-2  sm:col-span-2">
-        <div>
-          <ReCAPTCHA
+          <div>
+            <ReCAPTCHA
               sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-             onChange={(res)=>{
-              setCheckBox1(true)
-            }}
-           />
+              onChange={(res) => {
+                setCheckBox1(true);
+              }}
+            />
           </div>
           <div>
             <input
               type="checkbox"
               checked={checkBox2}
-              onChange={() => setCheckBox2(prev=>!prev)}
+              onChange={() => setCheckBox2((prev) => !prev)}
             />
             <label className="pl-2">Terms & Conditions 1 & Conditions 2</label>
           </div>
-          
         </div>
         <div className="w-1/2 mx-auto pt-2.5">
           <button
             className="bg-cyan-400 py-2.5 w-full rounded-lg text-lg text-white font-normal duration-200 disabled:cursor-not-allowed disabled:bg-gray-200"
             type="submit"
             // disabled={!checkBox1 || !checkBox2 }
-            disabled={!checkBox2 }
-
+            disabled={!checkBox2}
           >
             Submit
           </button>

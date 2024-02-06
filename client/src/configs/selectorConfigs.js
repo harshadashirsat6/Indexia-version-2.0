@@ -46,6 +46,15 @@ export const primaryBankAccount = [
 ];
 
 // business loan inputs
+
+export const businessPlaceOwnershipTypeInputs = [
+  "Owned by self/spouse",
+  "Owned by parents/siblings",
+  "Rented with family",
+  "Rent and stay alone",
+  "Paying Guest/Hostel",
+  "Company Provided",
+];
 export const yearsInCurrentBusiness = [
   "Under 1 years",
   "1-2 years",
@@ -64,7 +73,7 @@ export const collateralOption = [
   "Gold",
   "Car",
   "Bill Discounting",
-  "None",
+  "Other",
 ];
 
 export const businessLoanTenure = [
@@ -89,7 +98,6 @@ export const BusinessNature = [
   "Trader/Wholesaler",
   "Retailer",
   "Service Provider",
-  "Others",
 ];
 
 export const industryType = [
