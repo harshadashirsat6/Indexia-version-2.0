@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Form from "./Form";
+import { useDispatch,useSelector } from "react-redux";
+import { setInitialPopup } from "../../../store/appSlice";
+
 
 const ProjectLoan = () => {
   // state city api
@@ -46,6 +49,17 @@ const ProjectLoan = () => {
     }
   }, [selectedState]);
 
+  const dispatch = useDispatch();
+  //get basic user details
+  const { userBasicDetails } = useSelector((state) => state.user);
+  if (
+    !userBasicDetails?.name ||
+    !userBasicDetails?.email ||
+    !userBasicDetails?.contact
+  ) {
+    dispatch(setInitialPopup(true));
+    localStorage.removeItem("homePageDetails");
+  }
   return (
     <main className="h-auto mt-[calc(56px)] md:mt-0 mb-10 md:mb-0 mx-5 sm:mx-10 md:mx-0 space-y-5 md:space-y-0">
       <aside className="relative w-full md:w-[80%] m-auto flex justify-start md:justify-center pt-0 md:pt-[10vh]">
@@ -58,6 +72,7 @@ const ProjectLoan = () => {
             cities={cities}
             selectedState={selectedState}
             setSelectedState={setSelectedState}
+            user={userBasicDetails}
           />
         </motion.div>
       </aside>

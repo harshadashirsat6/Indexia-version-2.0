@@ -19,7 +19,7 @@ import { useState } from "react";
 import { frameData } from "framer-motion";
 import ReCAPTCHA from "react-google-recaptcha";
 
-const Form = ({ states, cities, selectedState, setSelectedState }) => {
+const Form = ({ states, cities, selectedState, setSelectedState,user }) => {
   // const navigate = useNavigate();
   const dispatch = useDispatch();
   const { formData, isOpenModal } = useSelector((store) => store.app);
@@ -158,17 +158,19 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           <span>Full name</span>
           <div className="border-b border-slate-400 py-1">
             <input
-              placeholder="As per on your pan card"
+              placeholder=""
               type="text"
-              {...formik.getFieldProps("name")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              value={user?.name}
+              name="name"
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+              readOnly
             />
           </div>
-          {formik.touched.name && formik.errors.name && (
+          {/* {formik.touched.name && formik.errors.name && (
             <span className="text-red-500 text-xs font-bold">
               {formik.errors.name}
             </span>
-          )}
+          )} */}
         </div>
 
         <div>
@@ -552,17 +554,19 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           <span>Email address</span>
           <div className="border-b border-slate-400 py-1">
             <input
-              placeholder="Enter your email address"
-              type="text"
-              {...formik.getFieldProps("email")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              placeholder=""
+              type="email"
+              value={user?.email}
+              name="email"
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+              readOnly
             />
           </div>
-          {formik.touched.email && formik.errors.email && (
+          {/* {formik.touched.email && formik.errors.email && (
             <span className="text-red-500 text-xs font-bold">
               {formik.errors.email}
             </span>
-          )}
+          )} */}
         </div>
         <div>
           <span>Mobile number</span>
@@ -570,31 +574,34 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
             <img src="/india.png" alt="india" className="w-7 h-4" />
             <span className="whitespace-nowrap">+91 -</span>
             <input
+              placeholder=""
               type="number"
-              {...formik.getFieldProps("contact")}
-              className="bg-transparent w-full outline-none border-none"
+              value={user?.contact}
+              name="contact"
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+              readOnly
             />
           </div>
-          {formik.touched.contact && formik.errors.contact && (
+          {/* {formik.touched.contact && formik.errors.contact && (
             <span className="text-red-500 text-xs font-bold">
               {formik.errors.contact}
             </span>
-          )}
+          )} */}
         </div>
         <div className="col-span-2  sm:col-span-2">
-        <div>
-          <ReCAPTCHA
+          <div>
+            <ReCAPTCHA
               sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-             onChange={(res)=>{
-              setCheckBox1(true)
-            }}
-           />
+              onChange={(res) => {
+                setCheckBox1(true);
+              }}
+            />
           </div>
           <div>
             <input
               type="checkbox"
               checked={checkBox2}
-              onChange={() => setCheckBox2(prev=>!prev)}
+              onChange={() => setCheckBox2((prev) => !prev)}
             />
             <label className="pl-2">Terms & Conditions 3</label>
           </div>
@@ -603,7 +610,7 @@ const Form = ({ states, cities, selectedState, setSelectedState }) => {
           <button
             className="bg-cyan-400 py-2.5 w-full rounded-lg text-lg text-white font-normal duration-200 disabled:cursor-not-allowed disabled:bg-gray-200"
             type="submit"
-            disabled={!checkBox2 }
+            disabled={!checkBox2}
           >
             Submit
           </button>

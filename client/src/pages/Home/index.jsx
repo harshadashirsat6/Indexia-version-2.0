@@ -11,6 +11,7 @@ const Home = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setInitialPopup(true));
+    localStorage.removeItem("homePageDetails");
   });
   return (
     <>

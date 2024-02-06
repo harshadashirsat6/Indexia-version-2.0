@@ -79,8 +79,37 @@ const getProfileDetails = async (req, resp) => {
   }
 };
 
+
+//set user basic details name email and contact all should be equal else create new with new details
+const setBasicUserDetails = async (req, resp) => {
+  const { name, email, contact } = req.body
+  // await User.create(req.body)
+  if (!name || !email || !contact) {
+    return resp.send({ success: false, msg: 'All fields are required' })
+  }
+
+  try {
+    const isUserExists = await User.findOne({
+      $and: [
+        { contact: req.body.contact },
+        { email: req.body.email }
+      ]
+    })
+    if (isUserExists) {
+      return resp.send({ success: true, msg: 'user already exists', user: isUserExists })
+    }
+    else {
+      const newUser = await User.create(req.body)
+      return resp.send({ success: true, msg: 'new account created', user: newUser })
+    }
+  } catch (err) {
+    return resp.send({ success: false, msg: err.message })
+  }
+}
+
 module.exports = {
   login,
   singup,
   getProfileDetails,
+  setBasicUserDetails
 };

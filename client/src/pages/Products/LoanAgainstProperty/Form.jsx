@@ -23,76 +23,81 @@ import DatePicker from "../../../components/DatePicker/DatePicker";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { changeIntoDate } from "../../../validation/function";
 
-const Form = ({ states, cities, selectedState, setSelectedState }) => {
+const Form = ({ states, cities, selectedState, setSelectedState,user }) => {
   // const navigate = useNavigate();
   const dispatch = useDispatch();
   const { formData } = useSelector((store) => store.app);
   // checkbox
   const [checkBox1, setCheckBox1] = useState(true);
   const [checkBox2, setCheckBox2] = useState(false);
-  const [incomeStatus,setIncomeStatus] = useState({month:false,year:false})
+  const [incomeStatus, setIncomeStatus] = useState({
+    month: false,
+    year: false,
+  });
   const [activeCl, setActiveCl] = useState(true);
 
-  function calculateEmi(value,onsumbit){
-    if (value !== 0||onsumbit) {
+  function calculateEmi(value, onsumbit) {
+    if (value !== 0 || onsumbit) {
       const salary = formData.monthlyIncome || formData.yearlyIncome / 12;
       const emi = salary * 0.8;
-        setEmiError({
-          status: value > emi,
-          msg: "EMI should be less than 80% of your monthly income",
-        });
-        return value > emi;
+      setEmiError({
+        status: value > emi,
+        msg: "EMI should be less than 80% of your monthly income",
+      });
+      return value > emi;
     }
-    return true
-  }
-
-function handaleBsTypeError(formData){
-  if (
-    formData.employmentType === "Salaried" &&
-    formData.monthlyIncome === 0
-  ) {
-    setIncomeError({
-      status: true,
-      message: "Please enter valid income",
-    });
-    return false;
-  } else if (
-    formData.employmentType === "Salaried" &&
-    formData.monthlyIncome < 12000
-  ) {
-    setIncomeError({
-      status: true,
-      message: "salary min 12k",
-    });
-    return false;
-  } else if (
-    (formData.employmentType === "Self-employed business" ||
-      formData.employmentType === "Self-employed professional") &&
-      !(formData.yearlyIncome >= 120000) 
-  ) {
-    setIncomeError({
-      status: true,
-      message: "Income Should be min 120000 or Greater ",
-    });
-    return false;
-  }else if(formData.employmentType === "Salaried"?
-           +formData.monthlyIncome:+formData.yearlyIncome){
-    setIncomeError({
-      status: false,
-      message: "",
-    });
     return true;
   }
-}  
+
+  function handaleBsTypeError(formData) {
+    if (
+      formData.employmentType === "Salaried" &&
+      formData.monthlyIncome === 0
+    ) {
+      setIncomeError({
+        status: true,
+        message: "Please enter valid income",
+      });
+      return false;
+    } else if (
+      formData.employmentType === "Salaried" &&
+      formData.monthlyIncome < 12000
+    ) {
+      setIncomeError({
+        status: true,
+        message: "salary min 12k",
+      });
+      return false;
+    } else if (
+      (formData.employmentType === "Self-employed business" ||
+        formData.employmentType === "Self-employed professional") &&
+      !(formData.yearlyIncome >= 120000)
+    ) {
+      setIncomeError({
+        status: true,
+        message: "Income Should be min 120000 or Greater ",
+      });
+      return false;
+    } else if (
+      formData.employmentType === "Salaried"
+        ? +formData.monthlyIncome
+        : +formData.yearlyIncome
+    ) {
+      setIncomeError({
+        status: false,
+        message: "",
+      });
+      return true;
+    }
+  }
 
   // Yup validation
   const validationSchema = Yup.object({
-    name: Yup.string("").min(5).required("Full name required"),
     dateOfBirth: Yup.string("")
       .required("Date of birth required")
       .test("age-check", "Must be at least 21 years old", function (value) {
         const currentDate = new Date();
-        const selectedDate = new Date(value.split('-').reverse().join('-'));
+        const selectedDate = new Date(value.split("-").reverse().join("-"));
         const age = currentDate.getFullYear() - selectedDate.getFullYear();
 
         // Adjust the age check as per your specific requirements
@@ -110,36 +115,24 @@ function handaleBsTypeError(formData){
     panCardNum: Yup.string()
       .required("Pancard number required")
       .length(10, "Pan card number should be 10 characters")
-      .matches(
-        /^[a-zA-Z]{5}\d{4}[a-zA-Z]$/,
-        "Invalid pancard number"
-      ),
+      .matches(/^[a-zA-Z]{5}\d{4}[a-zA-Z]$/, "Invalid pancard number"),
     loanAmount: Yup.string("").required("Loan amount required"),
     loanTenure: Yup.string("").required("select loan tenure "),
     employerType: Yup.string("").required("Employer type required"),
     employerTypeOption: Yup.string("").required("Employer type required"),
-      employmentType: Yup.string("").required("select employment type"),
+    employmentType: Yup.string("").required("select employment type"),
     employerName: Yup.string("").required("employer name required"),
     existingEmi: Yup.number()
       .integer("EMI must be a number")
       .required("EMI required")
       .min(0, "min 0")
       .max(30000, "max 30k"),
-    email: Yup.string("").email().required("Email required"),
-    contact: Yup.number()
-      .integer("Invalid contact number")
-      .required("Contact number required")
-      .test(
-        "length-check",
-        "contact number must be of 10 digits",
-        function (value) {
-          return value.toString().length === 10;
-        }
-      ),
-      primaryBankAccount:Yup.string("").required("*Salary account required"),
-      primaryBankAccountOption:Yup.string("").required("*Salary account required"),
-      loanTenure: Yup.string("").required("Loan tenure required"),
-      loanTenureOption:Yup.string("").required("Loan tenure required")
+   
+    primaryBankAccount: Yup.string("").required("*Salary account required"),
+    primaryBankAccountOption: Yup.string("").required(
+      "*Salary account required"
+    ),
+    loanTenureOption: Yup.string("").required("Loan tenure required"),
   });
   // Formik
   const formik = useFormik({
@@ -160,109 +153,129 @@ function handaleBsTypeError(formData){
     msg: "",
   });
   const handleProceed = (values) => {
-    if(emiError.status || incomeError.status){
-      return 
+    if (emiError.status || incomeError.status) {
+      return;
     }
-    setIncomeStatus({month:false,year:false})
+    setIncomeStatus({ month: false, year: false });
     dispatch(setShowSubmitLoanFormPaymentModal(true));
-    dispatch(setFormData({
-       ...formData, ...values,
-       monthlyIncome:formData.monthlyIncome,
-       yearlyIncome:formData.yearlyIncome
-      }));
+    dispatch(
+      setFormData({
+        ...formData,
+        ...values,
+        monthlyIncome: formData.monthlyIncome,
+        yearlyIncome: formData.yearlyIncome,
+      })
+    );
   };
 
-  useEffect(()=>{
-    calculateEmi(formik.values.existingEmi,true)
-    handaleBsTypeError(formData)
-  },[formData.monthlyIncome,
+  useEffect(() => {
+    calculateEmi(formik.values.existingEmi, true);
+    handaleBsTypeError(formData);
+  }, [
+    formData.monthlyIncome,
     formData.yearlyIncome,
-    formik.values.existingEmi])
+    formik.values.existingEmi,
+  ]);
 
-  const handaleChange = (e)=>{
-    dispatch(setFormData(({...formData,[e.target.name]:e.target.value})))
-}
+  const handaleChange = (e) => {
+    dispatch(setFormData({ ...formData, [e.target.name]: e.target.value }));
+  };
 
-useEffect(()=>{
-  if(formik?.values?.primaryBankAccountOption?.trim()){
-    formik.setFieldTouched('primaryBankAccountOption',false)
-  }
-},[formik?.values?.primaryBankAccountOption])
+  useEffect(() => {
+    if (formik?.values?.primaryBankAccountOption?.trim()) {
+      formik.setFieldTouched("primaryBankAccountOption", false);
+    }
+  }, [formik?.values?.primaryBankAccountOption]);
 
   return (
     <div className="py-10">
       <div className="-mb-2.5 -ml-2.5 flex items-center space-x-2.5 "></div>
-      <h1 className="text-xl flex flex-col space-y-2 font-semibold text-gray-500">Loan Against Property</h1>
+      <h1 className="text-xl flex flex-col space-y-2 font-semibold text-gray-500">
+        Loan Against Property
+      </h1>
       <span className="w-20 h-0.5 rounded-full bg-cyan-400"></span>
 
       <form
-          className='block lg:grid lg:grid-cols-2  gap-8'        
-          onSubmit={(e)=>{
-          e.preventDefault()
-          setIncomeStatus({month:true,year:true})
-          formik.handleSubmit()
+        className="block lg:grid lg:grid-cols-2  gap-8"
+        onSubmit={(e) => {
+          e.preventDefault();
+          setIncomeStatus({ month: true, year: true });
+          formik.handleSubmit();
         }}
       >
         <div>
           <span className="font-semibold text-gray-500">Full Name</span>
           <div className="border-b border-slate-400 py-1">
             <input
-              placeholder="As per PAN card"
+              placeholder=""
               type="text"
-              {...formik.getFieldProps("name")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              value={user?.name}
+              name="name"
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+              readOnly
             />
           </div>
-          {formik.touched.name && formik.errors.name && (
+          {/* {formik.touched.name && formik.errors.name && (
             <span className="text-red-500 text-xs font-bold">
               {formik.errors.name}
             </span>
-          )}
+          )} */}
         </div>
 
         <div>
-          <span className="font-semibold text-gray-500">Date of Birth (As per PAN card) </span>
+          <span className="font-semibold text-gray-500">
+            Date of Birth (As per PAN card){" "}
+          </span>
           <div className="border-b border-slate-400 py-1 flex relative">
             <input
               placeholder="DD-MM-YYYY"
               type="text"
-               onBlur={()=>formik.setFieldTouched('dateOfBirth',true)}
-               value={formik.values.dateOfBirth}
-               onChange={(e) => {
-                
+              onBlur={() => formik.setFieldTouched("dateOfBirth", true)}
+              value={formik.values.dateOfBirth}
+              onChange={(e) => {
+                const formattedDate = changeIntoDate(
+                  e.target.value,
+                  "DD-MM-YYYY"
+                );
 
-                const formattedDate = changeIntoDate(e.target.value,'DD-MM-YYYY')
-
-                if(formattedDate.length>10){
-                    return
+                if (formattedDate.length > 10) {
+                  return;
                 }
 
-                e.target.value = formattedDate
-                formik.setFieldValue('dateOfBirth',formattedDate)
-                
+                e.target.value = formattedDate;
+                formik.setFieldValue("dateOfBirth", formattedDate);
               }}
               className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
             />
-            <div id='e;ljfeijfie'  className="w-8 h-[inherit]  bg-gray-200 flex items-center justify-center rounded cursor-pointer"
-        onClick={(e)=>{if(e.target.id==='e;ljfeijfie'){
-          setActiveCl(prev=>!prev)
-          formik.setFieldTouched('dateOfBirth',true)
-        }}}
-        
-        >
-              <FaRegCalendarAlt 
-              onClick={(e)=>{
-                setActiveCl(prev=>!prev)
-                formik.setFieldTouched('dateOfBirth',true)
+            <div
+              id="e;ljfeijfie"
+              className="w-8 h-[inherit]  bg-gray-200 flex items-center justify-center rounded cursor-pointer"
+              onClick={(e) => {
+                if (e.target.id === "e;ljfeijfie") {
+                  setActiveCl((prev) => !prev);
+                  formik.setFieldTouched("dateOfBirth", true);
+                }
               }}
+            >
+              <FaRegCalendarAlt
+                onClick={(e) => {
+                  setActiveCl((prev) => !prev);
+                  formik.setFieldTouched("dateOfBirth", true);
+                }}
               />
-              <div  className={activeCl?'hidden':'block '}>
-              <DatePicker setActive={()=>{setActiveCl(true)}} handaleDate={(date)=>{
-                formik.setFieldValue('dateOfBirth',date)
-              }}
-              clearFun={()=>{  formik.setFieldValue('dateOfBirth','')}}
-              date={formik.dateOfBirth}
-              />
+              <div className={activeCl ? "hidden" : "block "}>
+                <DatePicker
+                  setActive={() => {
+                    setActiveCl(true);
+                  }}
+                  handaleDate={(date) => {
+                    formik.setFieldValue("dateOfBirth", date);
+                  }}
+                  clearFun={() => {
+                    formik.setFieldValue("dateOfBirth", "");
+                  }}
+                  date={formik.dateOfBirth}
+                />
               </div>
             </div>
           </div>
@@ -271,11 +284,10 @@ useEffect(()=>{
               {formik.errors.dateOfBirth}
             </span>
           )}
-
         </div>
 
         <div>
-          <span  className="font-semibold text-gray-500">State</span>
+          <span className="font-semibold text-gray-500">State</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
@@ -305,7 +317,7 @@ useEffect(()=>{
           )}
         </div>
         <div>
-          <span  className="font-semibold text-gray-500">City</span>
+          <span className="font-semibold text-gray-500">City</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
@@ -328,15 +340,17 @@ useEffect(()=>{
             </span>
           )}
         </div>
-      
+
         <div className="col-span-1 sm:col-span-2">
-          <span  className="font-semibold text-gray-500">PAN Card Number</span>
+          <span className="font-semibold text-gray-500">PAN Card Number</span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder="Enter Permanent Account Number"
               type="text"
               {...formik.getFieldProps("panCardNum")}
-              onChange={(e) => formik.setFieldValue("panCardNum", e.target.value.toUpperCase())}
+              onChange={(e) =>
+                formik.setFieldValue("panCardNum", e.target.value.toUpperCase())
+              }
               className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
             />
           </div>
@@ -347,7 +361,7 @@ useEffect(()=>{
           )}
         </div>
         <div>
-          <span  className="font-semibold text-gray-500">Loan Amount</span>
+          <span className="font-semibold text-gray-500">Loan Amount</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
@@ -370,25 +384,23 @@ useEffect(()=>{
           )}
         </div>
         <div>
-          <span className="font-semibold text-gray-500" >Loan Tenure</span>
+          <span className="font-semibold text-gray-500">Loan Tenure</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
               name="loanTenure"
               value={formData.loanTenureOption}
-              onBlur={()=>formik.setFieldTouched('loanTenureOption',true)}
-              onChange={(e) =>{
-                if(e.target.value==='Other'){
-                  formik.setFieldValue('loanTenureOption',e.target.value)
-                  formik.setFieldValue('loanTenure','')
-                  return 
-                }else{                  
-                  formik.setFieldValue('loanTenureOption',e.target.value)
-                  formik.setFieldValue('loanTenure',e.target.value)
+              onBlur={() => formik.setFieldTouched("loanTenureOption", true)}
+              onChange={(e) => {
+                if (e.target.value === "Other") {
+                  formik.setFieldValue("loanTenureOption", e.target.value);
+                  formik.setFieldValue("loanTenure", "");
+                  return;
+                } else {
+                  formik.setFieldValue("loanTenureOption", e.target.value);
+                  formik.setFieldValue("loanTenure", e.target.value);
                 }
-             
               }}
-
             >
               <option value="">Select</option>
               {homeLoanTenure.map((tenure, i) => (
@@ -399,32 +411,34 @@ useEffect(()=>{
             </select>
           </div>
           {formik.touched.loanTenureOption &&
-                formik.errors.loanTenureOption && (
-                  <span className="text-red-500 text-xs font-bold">
-                    {formik.errors.loanTenureOption}
-                  </span>
-                )}
+            formik.errors.loanTenureOption && (
+              <span className="text-red-500 text-xs font-bold">
+                {formik.errors.loanTenureOption}
+              </span>
+            )}
         </div>
-        {formik.values.loanTenureOption ==='Other'&&  <div>
-              <span className=" font-semibold text-gray-500" >Enter Loan Tenure</span>
-              <div className="border-b border-slate-400 py-1">
-                <input
-                  placeholder=""
-                  type="text"
-                  {...formik.getFieldProps("loanTenure")}
-
-                  className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-                />
-              </div>
-              {formik.touched.loanTenure &&
-                formik.errors.loanTenure && (
-                  <span className="text-red-500 text-xs font-bold">
-                    {formik.errors.loanTenure}
-                  </span>
-                )}
-         </div>}
+        {formik.values.loanTenureOption === "Other" && (
+          <div>
+            <span className=" font-semibold text-gray-500">
+              Enter Loan Tenure
+            </span>
+            <div className="border-b border-slate-400 py-1">
+              <input
+                placeholder=""
+                type="text"
+                {...formik.getFieldProps("loanTenure")}
+                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              />
+            </div>
+            {formik.touched.loanTenure && formik.errors.loanTenure && (
+              <span className="text-red-500 text-xs font-bold">
+                {formik.errors.loanTenure}
+              </span>
+            )}
+          </div>
+        )}
         <div>
-          <span  className="font-semibold text-gray-500">Employment Type</span>
+          <span className="font-semibold text-gray-500">Employment Type</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
@@ -452,28 +466,36 @@ useEffect(()=>{
             </span>
           )}
         </div>
-       
 
         <div>
-          <span className="font-semibold text-gray-500">Salary Bank Account </span>
+          <span className="font-semibold text-gray-500">
+            Salary Bank Account{" "}
+          </span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
               value={formik.values.primaryBankAccountOption}
-              onBlur={()=>formik.setFieldTouched('primaryBankAccountOption',true)}
-              onChange={(e) =>{
-                if(e.target.value==='Other'){
-                  formik.setFieldValue('primaryBankAccountOption',e.target.value)
-                  formik.setFieldValue('primaryBankAccount','')
-                  return 
-                }else{                  
-                  formik.setFieldValue('primaryBankAccountOption',e.target.value)
-                  formik.setFieldValue('primaryBankAccount',e.target.value)
+              onBlur={() =>
+                formik.setFieldTouched("primaryBankAccountOption", true)
+              }
+              onChange={(e) => {
+                if (e.target.value === "Other") {
+                  formik.setFieldValue(
+                    "primaryBankAccountOption",
+                    e.target.value
+                  );
+                  formik.setFieldValue("primaryBankAccount", "");
+                  return;
+                } else {
+                  formik.setFieldValue(
+                    "primaryBankAccountOption",
+                    e.target.value
+                  );
+                  formik.setFieldValue("primaryBankAccount", e.target.value);
                 }
-             
               }}
             >
-              <option value={''}>Select</option>
+              <option value={""}>Select</option>
               {primaryBankAccount.map((ele) => {
                 return (
                   <option key={ele} value={ele}>
@@ -484,54 +506,53 @@ useEffect(()=>{
             </select>
           </div>
           {formik.touched.primaryBankAccountOption &&
-                formik.errors.primaryBankAccountOption && (
-                  <span className="text-red-500 text-xs font-bold">
-                    {formik.errors.primaryBankAccountOption}
-                  </span>
-                )}
+            formik.errors.primaryBankAccountOption && (
+              <span className="text-red-500 text-xs font-bold">
+                {formik.errors.primaryBankAccountOption}
+              </span>
+            )}
         </div>
-       {formik.values.primaryBankAccountOption ==='Other'&&  <div>
-              <span className=" font-semibold text-gray-500" >Salary Bank Account Name</span>
-              <div className="border-b border-slate-400 py-1">
-                <input
-                  placeholder="Enter Salary Bank Account Name"
-                  type="text"
-                  {...formik.getFieldProps("primaryBankAccount")}
+        {formik.values.primaryBankAccountOption === "Other" && (
+          <div>
+            <span className=" font-semibold text-gray-500">
+              Salary Bank Account Name
+            </span>
+            <div className="border-b border-slate-400 py-1">
+              <input
+                placeholder="Enter Salary Bank Account Name"
+                type="text"
+                {...formik.getFieldProps("primaryBankAccount")}
+                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              />
+            </div>
+            {formik.touched.primaryBankAccount &&
+              formik.errors.primaryBankAccount && (
+                <span className="text-red-500 text-xs font-bold">
+                  {formik.errors.primaryBankAccount}
+                </span>
+              )}
+          </div>
+        )}
 
-                  className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-                />
-              </div>
-              {formik.touched.primaryBankAccount &&
-                formik.errors.primaryBankAccount && (
-                  <span className="text-red-500 text-xs font-bold">
-                    {formik.errors.primaryBankAccount}
-                  </span>
-                )}
-         </div>}
-
-
-         <div>
+        <div>
           <span className="font-semibold text-gray-500">Employer Type</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
               value={formik.values.employerTypeOption}
-              onBlur={()=>formik.setFieldTouched('employerTypeOption',true)}
-
-              onChange={(e) =>{
-              
-                if(e.target.value==='Other'){
-                  formik.setFieldValue('employerTypeOption',e.target.value)
-                  formik.setFieldValue('employerType','')
-                  return 
-                }else{                  
-                  formik.setFieldValue('employerTypeOption',e.target.value)
-                  formik.setFieldValue('employerType',e.target.value)
+              onBlur={() => formik.setFieldTouched("employerTypeOption", true)}
+              onChange={(e) => {
+                if (e.target.value === "Other") {
+                  formik.setFieldValue("employerTypeOption", e.target.value);
+                  formik.setFieldValue("employerType", "");
+                  return;
+                } else {
+                  formik.setFieldValue("employerTypeOption", e.target.value);
+                  formik.setFieldValue("employerType", e.target.value);
                 }
-          
               }}
             >
-              <optio value={''}>Select</optio>
+              <optio value={""}>Select</optio>
               {employerType.map((ele) => {
                 return (
                   <option key={ele} value={ele}>
@@ -541,33 +562,34 @@ useEffect(()=>{
               })}
             </select>
           </div>
-          {formik.touched.employerTypeOption && formik.errors.employerTypeOption && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.employerTypeOption}
-            </span>
-          )}
+          {formik.touched.employerTypeOption &&
+            formik.errors.employerTypeOption && (
+              <span className="text-red-500 text-xs font-bold">
+                {formik.errors.employerTypeOption}
+              </span>
+            )}
         </div>
-        {formik.values.employerTypeOption ==='Other'&&  <div>
-              <span className=" font-semibold text-gray-500" >Employer type </span>
-              <div className="border-b border-slate-400 py-1">
-                <input
-                  type="text"
-                  {...formik.getFieldProps("employerType")}
-                  placeholder="Enter Employer type"
-                  className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-                />
-              </div>
-              {formik.touched.employerType &&
-                formik.errors.employerType && (
-                  <span className="text-red-500 text-xs font-bold">
-                    {formik.errors.employerType}
-                  </span>
-                )}
-         </div>}
-
+        {formik.values.employerTypeOption === "Other" && (
+          <div>
+            <span className=" font-semibold text-gray-500">Employer type </span>
+            <div className="border-b border-slate-400 py-1">
+              <input
+                type="text"
+                {...formik.getFieldProps("employerType")}
+                placeholder="Enter Employer type"
+                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              />
+            </div>
+            {formik.touched.employerType && formik.errors.employerType && (
+              <span className="text-red-500 text-xs font-bold">
+                {formik.errors.employerType}
+              </span>
+            )}
+          </div>
+        )}
 
         <div>
-          <span  className="font-semibold text-gray-500">Employer Name</span>
+          <span className="font-semibold text-gray-500">Employer Name</span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder="Enter your company name"
@@ -588,7 +610,7 @@ useEffect(()=>{
           {formData.employmentType === "Salaried" &&
           formData.employmentType === "Salaried" ? (
             <div>
-              <span  className="font-semibold text-gray-500">
+              <span className="font-semibold text-gray-500">
                 <span className="px-1">
                   {" "}
                   {formData.employmentType === "Salaried"
@@ -603,7 +625,6 @@ useEffect(()=>{
                 name="monthlyIncomeno"
                 value={formData.monthlyIncome}
                 onChange={(e) => {
-                  
                   dispatch(
                     setFormData({
                       ...formData,
@@ -613,10 +634,12 @@ useEffect(()=>{
 
                   setIncomeError({ status: false, msg: "" });
                 }}
-                onBlur={()=>setIncomeStatus(prev=>({...prev,month:true}))}
+                onBlur={() =>
+                  setIncomeStatus((prev) => ({ ...prev, month: true }))
+                }
                 className="bg-transparent w-full outline-none  placeholder:text-slate-500 border-b-[1px] border-slate-800"
               />
-              {incomeError.status && incomeStatus.month&& (
+              {incomeError.status && incomeStatus.month && (
                 <span className="text-red-500 text-xs font-bold">
                   {incomeError?.message}
                 </span>
@@ -624,7 +647,7 @@ useEffect(()=>{
             </div>
           ) : (
             <div>
-              <span  className="font-semibold text-gray-500">
+              <span className="font-semibold text-gray-500">
                 <span className="px-1">
                   {formData.employmentType === "Salaried"
                     ? "Monthly"
@@ -637,8 +660,9 @@ useEffect(()=>{
                 type="number"
                 name="yearlyIncomeno"
                 value={formData.yearlyIncome}
-                onBlur={()=>setIncomeStatus(prev=>({...prev,year:true}))}
-
+                onBlur={() =>
+                  setIncomeStatus((prev) => ({ ...prev, year: true }))
+                }
                 onChange={(e) => {
                   dispatch(
                     setFormData({
@@ -650,7 +674,7 @@ useEffect(()=>{
                 }}
                 className="bg-transparent w-full outline-none  placeholder:text-slate-500 border-b-[1px] border-slate-800"
               />
-              {incomeError.status&&incomeStatus.year && (
+              {incomeError.status && incomeStatus.year && (
                 <span className="text-red-500 text-xs font-bold">
                   {incomeError?.message}
                 </span>
@@ -659,7 +683,9 @@ useEffect(()=>{
           )}
         </div>
         <div>
-          <span  className="font-semibold text-gray-500">Income recieved as</span>
+          <span className="font-semibold text-gray-500">
+            Income recieved as
+          </span>
           <div>
             <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
               <select
@@ -687,7 +713,7 @@ useEffect(()=>{
           </div>
         </div>
         <div>
-          <span  className="font-semibold text-gray-500">Existing EMI</span>
+          <span className="font-semibold text-gray-500">Existing EMI</span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder="Enter your existing EMI if any"
@@ -696,22 +722,21 @@ useEffect(()=>{
               className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
             />
           </div>
-          {(formik.touched.existingEmi && formik.errors.existingEmi)? (
+          {formik.touched.existingEmi && formik.errors.existingEmi ? (
             <span className="text-red-500 text-xs font-bold duration-200">
               {formik.errors.existingEmi}
             </span>
-          ):emiError.status === true? 
-          (
+          ) : emiError.status === true ? (
             <span className="text-red-500 text-xs font-bold duration-200">
               {emiError?.msg}
             </span>
-          ):''
-        }
-      
+          ) : (
+            ""
+          )}
         </div>
 
         <div>
-          <span  className="font-semibold text-gray-500">Pincode</span>
+          <span className="font-semibold text-gray-500">Pincode</span>
           <div className="border-b border-slate-400 py-1">
             <input
               type="number"
@@ -728,7 +753,7 @@ useEffect(()=>{
         </div>
 
         <div className="col-span-1 sm:col-span-2">
-          <span  className="font-semibold text-gray-500">New Property Type</span>
+          <span className="font-semibold text-gray-500">New Property Type</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
@@ -761,7 +786,9 @@ useEffect(()=>{
         </div>
 
         <div className="col-span-1 sm:col-span-2">
-          <span  className="font-semibold text-gray-500">Where are you planning to take property</span>
+          <span className="font-semibold text-gray-500">
+            Where are you planning to take property
+          </span>
         </div>
         <div>
           <div className="border-b border-slate-400 py-1">
@@ -795,7 +822,7 @@ useEffect(()=>{
           )}
         </div>
         <div>
-          <span  className="font-semibold text-gray-500">Residence Pincode</span>
+          <span className="font-semibold text-gray-500">Residence Pincode</span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder="As per PAN card"
@@ -812,7 +839,7 @@ useEffect(()=>{
           )}
         </div>
         <div>
-          <span  className="font-semibold text-gray-500">Residence Type</span>
+          <span className="font-semibold text-gray-500">Residence Type</span>
           <div className="border-b border-slate-400 py-1">
             <select
               onChange={(e) =>
@@ -834,46 +861,51 @@ useEffect(()=>{
           )}
         </div>
         <div>
-          <span  className="font-semibold text-gray-500">Email address</span>
+          <span className="font-semibold text-gray-500">Email address</span>
           <div className="border-b border-slate-400 py-1">
             <input
-              placeholder="Enter your email address"
-              type="text"
-              {...formik.getFieldProps("email")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              placeholder=""
+              type="email"
+              value={user?.email}
+              name="email"
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+              readOnly
             />
           </div>
-          {formik.touched.email && formik.errors.email && (
+          {/* {formik.touched.email && formik.errors.email && (
             <span className="text-red-500 text-xs font-bold">
               {formik.errors.email}
             </span>
-          )}
+          )} */}
         </div>
         <div>
-          <span  className="font-semibold text-gray-500">Mobile number</span>
+          <span className="font-semibold text-gray-500">Mobile number</span>
           <div className="flex items-center space-x-2.5 border-b border-slate-400 py-1">
             <img src="/india.png" alt="india" className="w-7 h-4" />
             <span className="whitespace-nowrap">+91 -</span>
             <input
+              placeholder=""
               type="number"
-              {...formik.getFieldProps("contact")}
-              className="bg-transparent w-full outline-none border-none"
+              value={user?.contact}
+              name="contact"
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+              readOnly
             />
           </div>
-          {formik.touched.contact && formik.errors.contact && (
+          {/* {formik.touched.contact && formik.errors.contact && (
             <span className="text-red-500 text-xs font-bold">
               {formik.errors.contact}
             </span>
-          )}
+          )} */}
         </div>
         <div className="col-span-2  sm:col-span-2">
-        <div>
-          <ReCAPTCHA
+          <div>
+            <ReCAPTCHA
               sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-             onChange={(res)=>{
-              setCheckBox2(true)
-            }}
-           />
+              onChange={(res) => {
+                setCheckBox2(true);
+              }}
+            />
           </div>
           <div>
             <input
@@ -881,19 +913,18 @@ useEffect(()=>{
               checked={checkBox1}
               onChange={() => setCheckBox1(!checkBox1)}
             />
-  <label className="pl-2 font-semibold">
-             By continuing, you agree to Indexia Finance.
-              <Link className='text-blue-800'> Terms of Use </Link>
-               and <Link className='text-blue-800'> Privacy Policy</Link>.</label>
-                         </div>
-        
+            <label className="pl-2 font-semibold">
+              By continuing, you agree to Indexia Finance.
+              <Link className="text-blue-800"> Terms of Use </Link>
+              and <Link className="text-blue-800"> Privacy Policy</Link>.
+            </label>
+          </div>
         </div>
         <div className="w-1/2 mx-auto pt-2.5">
           <button
             className="bg-cyan-400 py-2.5 w-full rounded-lg text-lg text-white font-normal duration-200 disabled:cursor-not-allowed disabled:bg-gray-200"
             type="submit"
-            disabled={!checkBox1 || !checkBox2 }
-
+            disabled={!checkBox1 || !checkBox2}
           >
             Submit
           </button>
