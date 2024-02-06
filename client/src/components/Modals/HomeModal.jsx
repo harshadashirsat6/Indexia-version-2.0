@@ -41,7 +41,10 @@ const HomeModal = () => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
-        const resp = await axios.post("/set-basic-user-details", values);
+        const resp = await axios.post(
+          "https://indexia-server.onrender.com/set-basic-user-details",
+          values
+        );
         console.log(values);
         console.log(resp);
         if (resp.data.success) {
@@ -52,6 +55,7 @@ const HomeModal = () => {
           toast.error(resp.data.msg);
         }
       } catch (err) {
+        console.log(err);
         toast.error(err.message);
       }
     },
