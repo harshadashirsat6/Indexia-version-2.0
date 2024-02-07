@@ -617,7 +617,9 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 )}
             </div>
             <div>
-              <span className=" font-semibold text-gray-500">Current Business Pincode</span>
+              <span className=" font-semibold text-gray-500">
+                Current Business Pincode
+              </span>
               <div className="border-b border-slate-400 py-1">
                 <input
                   placeholder=""
@@ -635,7 +637,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </div>
             <div>
               <span className="font-semibold text-gray-500">
-                Ownership of Business Place
+                Status of Business Place
               </span>
               <div className="border-b border-slate-400 py-1">
                 <select
