@@ -127,6 +127,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     if (emiErrStatus) {
       return;
     }
+    console.log('values', values)
     dispatch(setShowSubmitLoanFormPaymentModal(true));
     dispatch(
       setFormData({
