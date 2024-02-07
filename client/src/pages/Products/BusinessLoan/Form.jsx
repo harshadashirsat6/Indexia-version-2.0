@@ -944,7 +944,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 )}
             </div>
             <div>
-              <span className=" font-semibold text-gray-500">Pincode</span>
+              <span className=" font-semibold text-gray-500">Current Business Pincode</span>
               <div className="border-b border-slate-400 py-1">
                 <input
                   placeholder=""
@@ -962,7 +962,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </div>
             <div>
               <span className="font-semibold text-gray-500">
-                Ownership of Business Place
+                Status of Business Place
               </span>
               <div className="border-b border-slate-400 py-1">
                 <select
@@ -988,7 +988,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                   </span>
                 )}
             </div>
-            <div>
+            {/* <div>
               <span className="font-semibold text-gray-500">
                 Years In Current Profession
               </span>
@@ -1016,7 +1016,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                     {formik.errors.yearsInCurrentBusiness}
                   </span>
                 )}
-            </div>
+            </div> */}
             <div>
               <span>Profession</span>
               <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
