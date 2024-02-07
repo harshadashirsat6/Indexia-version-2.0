@@ -91,25 +91,25 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     currentYearTurnOver: Yup.number()
       .integer("invalid input")
       .required("* required")
-      .test("grater-than", "cannot be 0 & >100 ", function (value) {
+      .test("grater-than", "invalid value", function (value) {
         return value > 100;
       }),
     previousYearTurnOver: Yup.number()
       .integer("invalid input")
       .required("* required")
-      .test("grater-than", "cannot be 0 & >100 ", function (value) {
+      .test("grater-than", "invalid value", function (value) {
         return value > 100;
       }),
     currentYearNetProfit: Yup.number()
       .integer("invalid input")
       .required("* required")
-      .test("grater-than", "cannot be 0 & >100 ", function (value) {
+      .test("grater-than", "invalid value", function (value) {
         return value > 100;
       }),
     previousYearNetProfit: Yup.number()
       .integer("invalid input")
       .required("* required")
-      .test("grater-than", "cannot be 0 & >100 ", function (value) {
+      .test("grater-than", "invalid value", function (value) {
         return value > 100;
       }),
   });
@@ -617,7 +617,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 )}
             </div>
             <div>
-              <span className=" font-semibold text-gray-500">Pincode</span>
+              <span className=" font-semibold text-gray-500">Current Business Pincode</span>
               <div className="border-b border-slate-400 py-1">
                 <input
                   placeholder=""

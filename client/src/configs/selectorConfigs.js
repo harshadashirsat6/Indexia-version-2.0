@@ -77,11 +77,7 @@ export const collateralOption = [
 ];
 
 export const businessLoanTenure = [
-  "1-3 Years",
-  "3-5 Years",
-  "5-7 Years",
-  "Other"
-
+  1, 2, 3, 4, 5, 6, 7
 ];
 
 export const companyType = [
@@ -98,6 +94,7 @@ export const BusinessNature = [
   "Trader/Wholesaler",
   "Retailer",
   "Service Provider",
+  "other"
 ];
 
 export const industryType = [
