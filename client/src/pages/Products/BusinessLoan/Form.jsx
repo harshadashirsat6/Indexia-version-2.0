@@ -772,7 +772,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 </span>
               )}
             </div>
-            <div>
+            {/* <div>
               <span className="font-semibold text-gray-500">Start Date</span>
               <div className="border-b border-slate-400 py-1">
                 <input
@@ -788,7 +788,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                     {formik.errors.companyStartDate}
                   </span>
                 )}
-            </div>
+            </div> */}
             <div>
               <span className="font-semibold text-gray-500">
                 Current Year Turn Over
@@ -1030,7 +1030,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 />
               </div>
             </div>
-            <div>
+            {/* <div>
               <span className="font-semibold text-gray-500">Start Date</span>
               <div className="border-b border-slate-400 py-1">
                 <input
@@ -1046,7 +1046,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                     {formik.errors.companyStartDate}
                   </span>
                 )}
-            </div>
+            </div> */}
           </>
         )}
         <div>
