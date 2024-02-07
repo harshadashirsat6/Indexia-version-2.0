@@ -16,7 +16,7 @@ import {
   loanStartDate,
   primaryBankAccount,
   yearsInCurrentBusiness,
-  BusinessNature,
+  businessNature,
   companyType,
   industryType,
   businessPlaceOwnershipTypeInputs,
@@ -617,7 +617,9 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 )}
             </div>
             <div>
-              <span className=" font-semibold text-gray-500">Current Business Pincode</span>
+              <span className=" font-semibold text-gray-500">
+                Current Business Pincode
+              </span>
               <div className="border-b border-slate-400 py-1">
                 <input
                   placeholder=""
@@ -635,7 +637,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </div>
             <div>
               <span className="font-semibold text-gray-500">
-                Ownership of Business Place
+                Status of Business Place
               </span>
               <div className="border-b border-slate-400 py-1">
                 <select
@@ -691,6 +693,22 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 </span>
               )}
             </div>
+            {formData.companyType === "Other" && (
+              <div>
+                <div>
+                  <span className=" font-semibold text-gray-500">
+                    Mention Company Type
+                  </span>
+                  <div className="border-b border-slate-400 py-1">
+                    <input
+                      placeholder=""
+                      type="text"
+                      className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
             <div>
               <span className="font-semibold text-gray-500">
                 Nature Of Business
@@ -698,19 +716,19 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
                 <select
                   className="bg-transparent w-full py-2.5"
-                  name="BusinessNature"
-                  value={formData.BusinessNature}
+                  name="businessNature"
+                  value={formData.businessNature}
                   onChange={(e) => {
                     dispatch(
                       setFormData({
                         ...formData,
-                        BusinessNature: e.target.value,
+                        businessNature: e.target.value,
                       })
                     );
                   }}
                 >
                   <option value="">Select</option>
-                  {BusinessNature.map((ele, i) => (
+                  {businessNature.map((ele, i) => (
                     <option key={i} value={ele}>
                       {ele}
                     </option>
@@ -718,6 +736,22 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 </select>
               </div>
             </div>
+            {formData.businessNature === "Other" && (
+              <div>
+                <div>
+                  <span className=" font-semibold text-gray-500">
+                    Mention Business Nature
+                  </span>
+                  <div className="border-b border-slate-400 py-1">
+                    <input
+                      placeholder=""
+                      type="text"
+                      className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
             <div>
               <span className="font-semibold text-gray-500">Industry Type</span>
               <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
