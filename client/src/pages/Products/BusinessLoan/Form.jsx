@@ -1083,7 +1083,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </div> */}
           </>
         )}
-        <div>
+        {/* <div>
           <span className="font-semibold text-gray-500">
             Wish To Take Loan Against
           </span>
@@ -1131,7 +1131,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 )}
             </div>
           </div>
-        )}
+        )} */}
 
         <div>
           <span className="font-semibold text-gray-500">Existing EMI</span>
@@ -1155,7 +1155,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           {/* emi error */}
         </div>
         <div>
-          <span className="font-semibold text-gray-500">State</span>
+          <span className="font-semibold text-gray-500">Residence State</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
@@ -1185,7 +1185,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           )}
         </div>
         <div>
-          <span className="font-semibold text-gray-500">City</span>
+          <span className="font-semibold text-gray-500">Residence City</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
@@ -1226,7 +1226,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
         </div>
         <div>
           <span className="font-semibold text-gray-500">
-            Ownership of Residence
+            Status of Residence
           </span>
           <div className="border-b border-slate-400 py-1">
             <select
