@@ -34,25 +34,8 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
   // checkbox
   const [checkBox1, setCheckBox1] = useState(true);
   const [checkBox2, setCheckBox2] = useState(false);
-  const [incomeStatus, setIncomeStatus] = useState({
-    month: false,
-    year: false,
-  });
   const [bankInValue, setBankInValue] = useState("");
   const [activeCl, setActiveCl] = useState(true);
-
-  function calculateEmi(value, onsumbit) {
-    if (value !== 0 || onsumbit) {
-      const salary = formData.currentYearTurnOver / 12;
-      const emi = salary * 0.8;
-      setEmiError({
-        status: value > emi,
-        msg: "EMI should be less than 80% of your current year turn over / 12",
-      });
-      return value > emi;
-    }
-    return true;
-  }
 
   // Yup validation
   const validationSchema = Yup.object({
@@ -91,9 +74,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     existingEmi: Yup.number()
       .integer("EMI must be a number")
       .required("EMI required")
-      .min(0, "min 0")
-      .max(30000, "max 30k"),
-
+      .min(0, "min 0"),
     primaryBankAccount: Yup.string("").required(
       "*Income Bank Account Name required"
     ),
@@ -107,6 +88,30 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
       .test("grater-than", "must be greater than 5", function (value) {
         return value > 5;
       }),
+    currentYearTurnOver: Yup.number()
+      .integer("invalid input")
+      .required("* required")
+      .test("grater-than", "cannot be 0 & >100 ", function (value) {
+        return value > 100;
+      }),
+    previousYearTurnOver: Yup.number()
+      .integer("invalid input")
+      .required("* required")
+      .test("grater-than", "cannot be 0 & >100 ", function (value) {
+        return value > 100;
+      }),
+    currentYearNetProfit: Yup.number()
+      .integer("invalid input")
+      .required("* required")
+      .test("grater-than", "cannot be 0 & >100 ", function (value) {
+        return value > 100;
+      }),
+    previousYearNetProfit: Yup.number()
+      .integer("invalid input")
+      .required("* required")
+      .test("grater-than", "cannot be 0 & >100 ", function (value) {
+        return value > 100;
+      }),
   });
   // Formik
 
@@ -119,35 +124,17 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
   });
 
   const handleProceed = (values) => {
-    if (emiError.status || incomeError.status) {
+    if (emiErrStatus) {
       return;
     }
-    setIncomeStatus({ month: false, year: false });
     dispatch(setShowSubmitLoanFormPaymentModal(true));
     dispatch(
       setFormData({
         ...formData,
         ...values,
-        monthlyIncome: formData.monthlyIncome,
-        yearlyIncome: formData.yearlyIncome,
       })
     );
   };
-
-  //income error
-  const [incomeError, setIncomeError] = useState({
-    status: false,
-    message: "",
-  });
-  const [emiError, setEmiError] = useState({
-    status: false,
-    msg: "",
-  });
-
-  useEffect(() => {
-    calculateEmi(formik.values.existingEmi, true);
-    // handaleBsTypeError(formData);
-  }, [formData.currentYearTurnOver]);
 
   useEffect(() => {
     if (formik?.values?.primaryBankAccountOption?.trim()) {
@@ -159,6 +146,33 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     formik?.values?.primaryBankAccountOption,
     formik?.values?.employerTypeOption,
   ]);
+
+  //emi and current turn over
+  const [emiErr, setEmiErr] = useState("");
+  const [emiErrStatus, setEmiErrStatus] = useState(false);
+  useEffect(() => {
+    if (
+      formik.values.existingEmi > 0 &&
+      formik.values.currentYearTurnOver === 0
+    ) {
+      setEmiErrStatus(true);
+      return setEmiErr("please mention your  currnt year turnover");
+    } else if (formik.values.currentYearTurnOver > 0) {
+      const currentYearTurnOverValue = formik.values.currentYearTurnOver;
+      const monthlyVal = currentYearTurnOverValue / 12;
+      const percentageVal = (monthlyVal * 80) / 100;
+      console.log(percentageVal);
+      if (formik.values.existingEmi > percentageVal) {
+        setEmiErrStatus(true);
+        return setEmiErr(`existing emi should be <=  ${percentageVal}`);
+      } else if (formik.values.existingEmi <= percentageVal) {
+        setEmiErrStatus(true);
+        return setEmiErr("");
+      }
+    }
+    setEmiErrStatus(false);
+  }, [formik.values.existingEmi, formik.values.currentYearTurnOver]);
+
   return (
     <div className="py-10 ">
       <div className="-mb-2.5 -ml-2.5 flex items-center space-x-2.5"></div>
@@ -173,7 +187,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
         className="block lg:grid lg:grid-cols-2  gap-8 "
         onSubmit={(e) => {
           e.preventDefault();
-          setIncomeStatus({ month: true, year: true });
           formik.handleSubmit();
         }}
       >
@@ -232,7 +245,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               }}
             >
               <FaRegCalendarAlt
-                onClick={(e) => {
+                onClick={() => {
                   setActiveCl((prev) => !prev);
                   formik.setFieldTouched("dateOfBirth", true);
                 }}
@@ -259,7 +272,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </span>
           )}
         </div>
-
         <div className="col-span-1 sm:col-span-2">
           <span className="font-semibold text-gray-500">PAN Card Number</span>
           <div className="border-b border-slate-400 py-1">
@@ -749,7 +761,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                         subIndustryType: e.target.value,
                       })
                     );
-                    s;
                   }}
                   className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
                 />
@@ -784,7 +795,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               <div className="border-b border-slate-400 py-1">
                 <input
                   placeholder="Current Turn Over"
-                  type="text"
+                  type="number"
                   {...formik.getFieldProps("currentYearTurnOver")}
                   className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
                 />
@@ -808,10 +819,10 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                   className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
                 />
               </div>
-              {formik.touched.companyLastYearTurnOverRange &&
-                formik.errors.companyLastYearTurnOverRange && (
+              {formik.touched.previousYearTurnOver &&
+                formik.errors.previousYearTurnOver && (
                   <span className="text-red-500 text-xs font-bold">
-                    {formik.errors.companyLastYearTurnOverRange}
+                    {formik.errors.previousYearTurnOver}
                   </span>
                 )}
             </div>
@@ -1063,28 +1074,30 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               </span>
             )}
         </div>
-        {formik.values.collateralOption==='Other' &&  <div>
+        {formik.values.collateralOption === "Other" && (
           <div>
-            <span className=" font-semibold text-gray-500">
-              Collateral Option Type
-            </span>
-            <div className="border-b border-slate-400 py-1">
-              <input
-                placeholder=""
-                type="text"
-                {...formik.getFieldProps("otherCollateralOptionType")}
-                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-              />
+            <div>
+              <span className=" font-semibold text-gray-500">
+                Collateral Option Type
+              </span>
+              <div className="border-b border-slate-400 py-1">
+                <input
+                  placeholder=""
+                  type="text"
+                  {...formik.getFieldProps("otherCollateralOptionType")}
+                  className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+                />
+              </div>
+              {formik.touched.otherCollateralOptionType &&
+                formik.errors.otherCollateralOptionType && (
+                  <span className="text-red-500 text-xs font-bold">
+                    {formik.errors.otherCollateralOptionType}
+                  </span>
+                )}
             </div>
-            {formik.touched.otherCollateralOptionType &&
-              formik.errors.otherCollateralOptionType && (
-                <span className="text-red-500 text-xs font-bold">
-                  {formik.errors.otherCollateralOptionType}
-                </span>
-              )}
           </div>
-        </div>}
-       
+        )}
+
         <div>
           <span className="font-semibold text-gray-500">Existing EMI</span>
           <div className="border-b border-slate-400 py-1">
@@ -1099,13 +1112,12 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             <span className="text-red-500 text-xs font-bold duration-200">
               {formik.errors.existingEmi}
             </span>
-          ) : emiError.status === true ? (
+          ) : emiErr ? (
             <span className="text-red-500 text-xs font-bold duration-200">
-              {emiError?.msg}
+              {emiErr}
             </span>
-          ) : (
-            ""
-          )}
+          ) : null}
+          {/* emi error */}
         </div>
         <div>
           <span className="font-semibold text-gray-500">State</span>
