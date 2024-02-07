@@ -119,6 +119,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     initialValues: formData,
     validationSchema: validationSchema,
     onSubmit: (values) => {
+      console.log('values clicked')
       handleProceed(values);
     },
   });
