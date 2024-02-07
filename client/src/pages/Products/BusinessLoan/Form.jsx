@@ -44,7 +44,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
       .test("age-check", "Must be at least 21 years old", function (value) {
         const currentDate = new Date();
         const selectedDate = new Date(value.split("-").reverse().join("-"));
-        console.log(selectedState);
+        // console.log(selectedState);
         const age = currentDate.getFullYear() - selectedDate.getFullYear();
 
         // Adjust the age check as per your specific requirements
