@@ -7,9 +7,11 @@ import axios from "../../axios";
 import { setUserBasicDetails } from "../../store/user";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import { ImSpinner9 } from "react-icons/im";
 
 const HomeModal = () => {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
   //validation schema
   const validationSchema = Yup.object({
@@ -40,24 +42,26 @@ const HomeModal = () => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
+      setLoading(true);
       try {
-        const resp = await axios.post(
-          "https://indexia-server.onrender.com/set-basic-user-details",
-          values
-        );
-        console.log(values);
-        console.log(resp);
+        const resp = await axios.post("/set-basic-user-details", values);
+        // console.log(values);
+        // console.log(resp);
         if (resp.data.success) {
           dispatch(setUserBasicDetails(resp.data.user));
           dispatch(setInitialPopup(false));
           localStorage.setItem("homePageDetails", true);
+          setLoading(false);
         } else {
+          setLoading(false);
           toast.error(resp.data.msg);
         }
       } catch (err) {
+        setLoading(false);
         console.log(err);
         toast.error(err.message);
       }
+      setLoading(false);
     },
   });
 
@@ -118,14 +122,21 @@ const HomeModal = () => {
           ) : null}
         </section>
         <section className="flex w-full space-x-2.5">
-          <button
-            type="submit"
-            // disabled={!formData.name || !formData.contact || !formData.email}
-            // disabled={!formik.dirty || !formik.isValid}
-            className="bg-blue-400 hover:bg-blue-500 duration-200 w-full py-1 px-1 rounded-md text-white text-lg disabled:cursor-not-allowed disabled:bg-slate-400/20"
-          >
-            Sumbit
-          </button>
+          {loading ? (
+            <button className="bg-blue-400 hover:bg-blue-500 duration-200 w-full py-2 px-1 rounded-md text-white text-lg disabled:cursor-not-allowed disabled:bg-slate-400/20 flex justify-center items-center">
+              <ImSpinner9 className="animate-spin text-blue-800" />
+            </button>
+          ) : (
+            <button
+              type="submit"
+              // disabled={!formData.name || !formData.contact || !formData.email}
+              // disabled={!formik.dirty || !formik.isValid}
+
+              className="bg-blue-400 hover:bg-blue-500 duration-200 w-full py-1 px-1 rounded-md text-white text-lg disabled:cursor-not-allowed disabled:bg-slate-400/20"
+            >
+              Sumbit
+            </button>
+          )}
         </section>
       </form>
     </motion.div>
