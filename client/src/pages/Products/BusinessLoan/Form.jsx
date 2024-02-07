@@ -44,7 +44,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
       .test("age-check", "Must be at least 21 years old", function (value) {
         const currentDate = new Date();
         const selectedDate = new Date(value.split("-").reverse().join("-"));
-        // console.log(selectedState);
+        console.log(selectedState);
         const age = currentDate.getFullYear() - selectedDate.getFullYear();
 
         // Adjust the age check as per your specific requirements
@@ -119,18 +119,15 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     initialValues: formData,
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log('values clicked')
-      // handleProceed(values);
+      handleProceed(values);
     },
   });
 
   const handleProceed = (values) => {
-    // if (emiErrStatus) {
-    //   console.log('err')
-    //   return;
-    // }
-    
-    console.log('values', values)
+    if (emiErrStatus) {
+      return;
+    }
+    console.log("values", values);
     dispatch(setShowSubmitLoanFormPaymentModal(true));
     dispatch(
       setFormData({
@@ -176,7 +173,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     }
     setEmiErrStatus(false);
   }, [formik.values.existingEmi, formik.values.currentYearTurnOver]);
-console.log('checkboxex 1 and 2', checkBox1, checkBox2)
+
   return (
     <div className="py-10 ">
       <div className="-mb-2.5 -ml-2.5 flex items-center space-x-2.5"></div>
@@ -775,7 +772,7 @@ console.log('checkboxex 1 and 2', checkBox1, checkBox2)
                 </span>
               )}
             </div>
-            <div>
+            {/* <div>
               <span className="font-semibold text-gray-500">Start Date</span>
               <div className="border-b border-slate-400 py-1">
                 <input
@@ -791,7 +788,7 @@ console.log('checkboxex 1 and 2', checkBox1, checkBox2)
                     {formik.errors.companyStartDate}
                   </span>
                 )}
-            </div>
+            </div> */}
             <div>
               <span className="font-semibold text-gray-500">
                 Current Year Turn Over
@@ -1033,7 +1030,7 @@ console.log('checkboxex 1 and 2', checkBox1, checkBox2)
                 />
               </div>
             </div>
-            <div>
+            {/* <div>
               <span className="font-semibold text-gray-500">Start Date</span>
               <div className="border-b border-slate-400 py-1">
                 <input
@@ -1049,7 +1046,7 @@ console.log('checkboxex 1 and 2', checkBox1, checkBox2)
                     {formik.errors.companyStartDate}
                   </span>
                 )}
-            </div>
+            </div> */}
           </>
         )}
         <div>
