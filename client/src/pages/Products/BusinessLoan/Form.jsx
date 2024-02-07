@@ -120,7 +120,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       console.log('values clicked')
-      handleProceed(values);
+      // handleProceed(values);
     },
   });
 
