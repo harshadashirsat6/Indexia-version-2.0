@@ -128,6 +128,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     //   console.log('err')
     //   return;
     // }
+    
     console.log('values', values)
     dispatch(setShowSubmitLoanFormPaymentModal(true));
     dispatch(
@@ -174,7 +175,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     }
     setEmiErrStatus(false);
   }, [formik.values.existingEmi, formik.values.currentYearTurnOver]);
-
+console.log('checkboxex 1 and 2', checkBox1, checkBox2)
   return (
     <div className="py-10 ">
       <div className="-mb-2.5 -ml-2.5 flex items-center space-x-2.5"></div>
