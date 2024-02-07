@@ -125,6 +125,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
 
   const handleProceed = (values) => {
     if (emiErrStatus) {
+      console.log('err')
       return;
     }
     console.log('values', values)
