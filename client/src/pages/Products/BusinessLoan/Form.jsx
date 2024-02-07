@@ -124,11 +124,11 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
   });
 
   const handleProceed = (values) => {
+    console.log("err", emiErrStatus);
     if (emiErrStatus) {
-      console.log('err')
       return;
     }
-    console.log('values', values)
+    console.log("values", values);
     dispatch(setShowSubmitLoanFormPaymentModal(true));
     dispatch(
       setFormData({
