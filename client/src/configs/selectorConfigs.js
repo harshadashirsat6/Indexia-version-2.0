@@ -94,7 +94,7 @@ export const BusinessNature = [
   "Trader/Wholesaler",
   "Retailer",
   "Service Provider",
-  "other"
+  "Other"
 ];
 
 export const industryType = [
