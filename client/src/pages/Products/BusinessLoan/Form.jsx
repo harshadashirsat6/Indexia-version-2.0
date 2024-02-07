@@ -1043,7 +1043,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 </span>
               )}
             </div>
-            <div>
+            {/* <div>
               <span className="flex flex-col mb-8 text-xl font-semibold text-gray-500">
                 Profession Business Registration Number
               </span>
@@ -1063,7 +1063,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                   className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
                 />
               </div>
-            </div>
+            </div> */}
             {/* <div>
               <span className="font-semibold text-gray-500">Start Date</span>
               <div className="border-b border-slate-400 py-1">
