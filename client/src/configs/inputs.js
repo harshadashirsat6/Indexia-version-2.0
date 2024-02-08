@@ -24,6 +24,7 @@ export const inputs = {
   primaryBankAccount: "",
   // business
   profession: "",
+  otherProfession:"",
   registrationNumber:"",
   businessPlaceOwnershipType:"",
   currentBusinessState:"",
