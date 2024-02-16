@@ -476,6 +476,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
         </div>
         <div>
           <span className="font-semibold text-gray-500">
+            {" "}
             Status of Residence
           </span>
           <div className="border-b border-slate-400 py-1">
@@ -1463,7 +1464,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           )}
         </div>
 
-        <div>
+        {/* <div>
           <span className="font-semibold text-gray-500">
             Wish To Take Loan Against
           </span>
@@ -1511,7 +1512,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 )}
             </div>
           </div>
-        )}
+        )} */}
         <div>
           <span className="font-semibold text-gray-500">Existing EMI</span>
           <div className="border-b border-slate-400 py-1">
