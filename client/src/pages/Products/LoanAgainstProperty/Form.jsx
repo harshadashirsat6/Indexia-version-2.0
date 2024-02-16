@@ -38,15 +38,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
   // checkbox
   const [checkBox1, setCheckBox1] = useState(true);
   const [checkBox2, setCheckBox2] = useState(false);
-  const [incomeStatus, setIncomeStatus] = useState({
-    month: false,
-    year: false,
-  });
-  const [persionalConditionalObj, setPersionalConditionalUseObj] = useState({
-    primaryBankAccount: "",
-    touched: false,
-    touched2: false,
-  });
   const [activeCl, setActiveCl] = useState(true);
 
   // Yup validation
@@ -54,13 +45,13 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     name: Yup.string("").min(5).required("Full name required"),
     dateOfBirth: Yup.string("")
       .required("Date of birth required")
-      .test("age-check", "Must be at least 21 years old", function (value) {
+      .test("age-check", "age must be between 21 and 67", function (value) {
         const currentDate = new Date();
         const selectedDate = new Date(value.split("-").reverse().join("-"));
         const age = currentDate.getFullYear() - selectedDate.getFullYear();
 
         // Adjust the age check as per your specific requirements
-        return age >= 21;
+        return age >= 21 && age <= 67;
       }),
     state: Yup.string("").required("State required"),
     city: Yup.string("").required("City required"),
@@ -84,8 +75,8 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     loanTenure: Yup.number()
       .integer("Loan amount must be a number")
       .required("Loan amount required")
-      .min(1, "min 1")
-      .max(30, "max 30"),
+      .min(3, "min 3")
+      .max(44, "max 44"),
     // loanTenureOption: Yup.string("").required("Loan tenure required"),
     employerType: Yup.string("").required("Employer type required"),
     employerTypeOption: Yup.string("").required("Employer type required"),
@@ -138,14 +129,12 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     if (emiErrStatus) {
       return;
     }
-    setIncomeStatus({ month: false, year: false });
     dispatch(setShowSubmitLoanFormPaymentModal(true));
     dispatch(
       setFormData({
         ...formData,
         ...values,
         monthlyIncome: formData.monthlyIncome,
-        yearlyIncome: formData.yearlyIncome,
       })
     );
   };
@@ -165,57 +154,69 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
   const [incomeError, setIncomeError] = useState({});
   const [emiErr, setEmiErr] = useState("");
   const [emiErrStatus, setEmiErrStatus] = useState(false);
+
+  //emi , salary and current turn over
   useEffect(() => {
-    let salaryVal;
     if (formData.employmentType === "Salaried") {
-      salaryVal = formData.monthlyIncome;
+      if (!formData.monthlyIncome) {
+        return setIncomeError({ status: true, msg: "please enter salary" });
+      }
+      if (formData.monthlyIncome === 0 && formik.values.existingEmi > 0) {
+        setEmiErrStatus(true);
+        return setEmiErr("salary invalid. please mention your salary");
+      } else if (formData.monthlyIncome > 0) {
+        if (formData.monthlyIncome < 12000) {
+          setEmiErrStatus(false);
+          return setIncomeError({
+            status: true,
+            msg: "salary should be greater 12000",
+          });
+        } else if (
+          formData.monthlyIncome > 12000 &&
+          formik.values.existingEmi > 0
+        ) {
+          console.log("err3");
+          const salaryVal = formData.monthlyIncome;
+          console.log("salary val", salaryVal);
+          const percentageVal = (salaryVal * 80) / 100;
+          console.log(percentageVal);
+          if (formik.values.existingEmi > percentageVal) {
+            setEmiErrStatus(true);
+            return setEmiErr(`existing emi should be <=  ${percentageVal}`);
+          } else if (formik.values.existingEmi <= percentageVal) {
+            setEmiErrStatus(false);
+            return setEmiErr("");
+          }
+          return setEmiErr("");
+        }
+      }
     } else {
-      salaryVal = formData.yearlyIncome;
-    }
-    console.log(salaryVal);
-    if (formik.values.existingEmi > 0 && salaryVal === 0) {
-      setEmiErrStatus(true);
-      return setEmiErr("please mention your salary");
-    } else if (salaryVal > 0) {
-      const percentageVal = (salaryVal * 80) / 100;
-      if (formik.values.existingEmi > percentageVal) {
+      if (
+        formik.values.existingEmi > 0 &&
+        formik.values.currentYearTurnOver === 0
+      ) {
         setEmiErrStatus(true);
-        return setEmiErr(`existing emi should be <=  ${percentageVal}`);
-      } else if (formik.values.existingEmi <= percentageVal) {
-        setEmiErrStatus(true);
-        return setEmiErr("");
+        return setEmiErr("please mention your  currnt year turnover");
+      } else if (formik.values.currentYearTurnOver > 0) {
+        const currentYearTurnOverValue = formik.values.currentYearTurnOver;
+        const monthlyVal = currentYearTurnOverValue / 12;
+        const percentageVal = (monthlyVal * 80) / 100;
+        console.log(percentageVal);
+        if (formik.values.existingEmi > percentageVal) {
+          setEmiErrStatus(true);
+          return setEmiErr(`existing emi should be <=  ${percentageVal}`);
+        } else if (formik.values.existingEmi <= percentageVal) {
+          setEmiErrStatus(false);
+          return setEmiErr("");
+        }
       }
     }
-    setEmiErrStatus(false);
   }, [
     formik.values.existingEmi,
+    formik.values.currentYearTurnOver,
     formData.monthlyIncome,
-    formData.yearlyIncome,
     formData.employmentType,
   ]);
-  //emi and current turn over
-  useEffect(() => {
-    if (
-      formik.values.existingEmi > 0 &&
-      formik.values.currentYearTurnOver === 0
-    ) {
-      setEmiErrStatus(true);
-      return setEmiErr("please mention your  currnt year turnover");
-    } else if (formik.values.currentYearTurnOver > 0) {
-      const currentYearTurnOverValue = formik.values.currentYearTurnOver;
-      const monthlyVal = currentYearTurnOverValue / 12;
-      const percentageVal = (monthlyVal * 80) / 100;
-      console.log(percentageVal);
-      if (formik.values.existingEmi > percentageVal) {
-        setEmiErrStatus(true);
-        return setEmiErr(`existing emi should be <=  ${percentageVal}`);
-      } else if (formik.values.existingEmi <= percentageVal) {
-        setEmiErrStatus(true);
-        return setEmiErr("");
-      }
-    }
-    setEmiErrStatus(false);
-  }, [formik.values.existingEmi, formik.values.currentYearTurnOver]);
 
   //New property state and city
   const [newpropertyStates, setNewpropertyState] = useState([]);
@@ -318,7 +319,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
         className="block lg:grid lg:grid-cols-2  gap-8"
         onSubmit={(e) => {
           e.preventDefault();
-          setIncomeStatus({ month: true, year: true });
           formik.handleSubmit();
         }}
       >
@@ -462,7 +462,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           <span className="font-semibold text-gray-500">Residence Pincode</span>
           <div className="border-b border-slate-400 py-1">
             <input
-              placeholder=""
+              placeholder="Enter Pincode"
               type="number"
               {...formik.getFieldProps("pincode")}
               className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
@@ -754,6 +754,35 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </div>
             <div>
               <span className="font-semibold text-gray-500">
+                Monthly Income
+              </span>
+              <div className="border-b border-slate-400 py-1">
+                <input
+                  placeholder="Enter your monthly income"
+                  type="number"
+                  name="monthlyIncomeno"
+                  value={formData.monthlyIncome}
+                  onChange={(e) => {
+                    dispatch(
+                      setFormData({
+                        ...formData,
+                        monthlyIncome: e.target.value,
+                      })
+                    );
+
+                    setIncomeError({ status: false, msg: "" });
+                  }}
+                  className="bg-transparent w-full outline-none  placeholder:text-slate-500 "
+                />
+              </div>
+              {incomeError.status && (
+                <span className="text-red-500 text-xs font-bold">
+                  {incomeError.msg}
+                </span>
+              )}
+            </div>
+            <div>
+              <span className="font-semibold text-gray-500">
                 Income recieved as
               </span>
               <div>
@@ -783,9 +812,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               </div>
             </div>
           </>
-        ) : null}
-
-        {formData.employmentType === "Self-employed business" ? (
+        ) : formData.employmentType === "Self-employed business" ? (
           <>
             <div className="col-span-1 sm:col-span-2">
               <h1 className="font-bold"> Business Details</h1>
@@ -901,7 +928,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               </span>
               <div className="border-b border-slate-400 py-1">
                 <input
-                  placeholder=""
+                  placeholder="Enter Pincode"
                   type="text"
                   {...formik.getFieldProps("currentBusinessPincode")}
                   className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
@@ -1345,126 +1372,30 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 </div>
               </div>
             )}
-            {/* <div>
-              <span className="flex flex-col mb-8 text-xl font-semibold text-gray-500">
-                Profession Business Registration Number
-              </span>
-              <div className="border-b border-slate-400 py-1">
-                <input
-                  placeholder=""
-                  type="text"
-                  value={formData.registrationNumber}
-                  onChange={(e) =>
-                    dispatch(
-                      setFormData({
-                        ...formData,
-                        registrationNumber: e.target.value,
-                      })
-                    )
-                  }
-                  className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-                />
-              </div>
-            </div> */}
-            {/* <div>
-              <span className="font-semibold text-gray-500">Start Date</span>
-              <div className="border-b border-slate-400 py-1">
-                <input
-                  placeholder="Start Date"
-                  type="date"
-                  {...formik.getFieldProps("companyStartDate")}
-                  className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-                />
-              </div>
-              {formik.touched.companyStartDate &&
-                formik.errors.companyStartDate && (
-                  <span className="text-red-500 text-xs font-bold">
-                    {formik.errors.companyStartDate}
-                  </span>
-                )}
-            </div> */}
           </>
         )}
-        {/* salary monthly /yearly */}
 
-        <div className=" py-1">
-          {formData.employmentType === "Salaried" &&
-          formData.employmentType === "Salaried" ? (
-            <div>
-              <span className="font-semibold text-gray-500">
-                <span className="px-1">
-                  {" "}
-                  {formData.employmentType === "Salaried"
-                    ? "Monthly"
-                    : "Yearly "}{" "}
-                </span>
-                Income
-              </span>
-              <input
-                placeholder="Enter your monthly income"
-                type="number"
-                name="monthlyIncomeno"
-                value={formData.monthlyIncome}
-                onChange={(e) => {
-                  dispatch(
-                    setFormData({
-                      ...formData,
-                      monthlyIncome: e.target.value,
-                    })
-                  );
-
-                  setIncomeError({ status: false, msg: "" });
-                }}
-                onBlur={() =>
-                  setIncomeStatus((prev) => ({ ...prev, month: true }))
-                }
-                className="bg-transparent w-full outline-none  placeholder:text-slate-500 border-b-[1px] border-slate-800"
-              />
-              {incomeError.status && incomeStatus.month && (
-                <span className="text-red-500 text-xs font-bold">
-                  {incomeError?.message}
-                </span>
-              )}
-            </div>
-          ) : (
-            <div>
-              <span className="font-semibold text-gray-500">
-                <span className="px-1">
-                  {formData.employmentType === "Salaried"
-                    ? "Monthly"
-                    : "Yearly "}
-                </span>
-                Income
-              </span>
-              <input
-                placeholder="Enter your monthly income"
-                type="number"
-                name="yearlyIncomeno"
-                value={formData.yearlyIncome}
-                onBlur={() =>
-                  setIncomeStatus((prev) => ({ ...prev, year: true }))
-                }
-                onChange={(e) => {
-                  dispatch(
-                    setFormData({
-                      ...formData,
-                      yearlyIncome: e.target.value,
-                    })
-                  );
-                  // setIncomeError({ status: false, msg: "" });
-                }}
-                className="bg-transparent w-full outline-none  placeholder:text-slate-500 border-b-[1px] border-slate-800"
-              />
-              {incomeError.status && incomeStatus.year && (
-                <span className="text-red-500 text-xs font-bold">
-                  {incomeError?.message}
-                </span>
-              )}
-            </div>
-          )}
+        <div>
+          <span className="font-semibold text-gray-500">Existing EMI</span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder="Enter your existing EMI if any"
+              type="number"
+              {...formik.getFieldProps("existingEmi")}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
+          {formik.touched.existingEmi && formik.errors.existingEmi ? (
+            <span className="text-red-500 text-xs font-bold duration-200">
+              {formik.errors.existingEmi}
+            </span>
+          ) : emiErrStatus ? (
+            <span className="text-red-500 text-xs font-bold duration-200">
+              {emiErr}
+            </span>
+          ) : null}
         </div>
-
-        {/* <div>
+        <div>
           <span className="font-semibold text-gray-500">
             Wish To Take Loan Against
           </span>
@@ -1512,28 +1443,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 )}
             </div>
           </div>
-        )} */}
-        <div>
-          <span className="font-semibold text-gray-500">Existing EMI</span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder="Enter your existing EMI if any"
-              type="number"
-              {...formik.getFieldProps("existingEmi")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-            />
-          </div>
-          {formik.touched.existingEmi && formik.errors.existingEmi ? (
-            <span className="text-red-500 text-xs font-bold duration-200">
-              {formik.errors.existingEmi}
-            </span>
-          ) : emiErr ? (
-            <span className="text-red-500 text-xs font-bold duration-200">
-              {emiErr}
-            </span>
-          ) : null}
-        </div>
-
+        )}
         <div className="">
           <span className="font-semibold text-gray-500">New Property Type</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
