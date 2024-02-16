@@ -181,7 +181,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           console.log(percentageVal);
           if (formik.values.existingEmi > percentageVal) {
             setEmiErrStatus(true);
-            return setEmiErr(`existing emi should be <=  ${percentageVal}`);
+            return setEmiErr(`existing emi should less than ${percentageVal}`);
           } else if (formik.values.existingEmi <= percentageVal) {
             setEmiErrStatus(false);
             return setEmiErr("");
