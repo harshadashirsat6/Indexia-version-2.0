@@ -45,13 +45,13 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     name: Yup.string("").min(5).required("Full name required"),
     dateOfBirth: Yup.string("")
       .required("Date of birth required")
-      .test("age-check", "age must be between 21 and 67", function (value) {
+      .test("age-check", "age must be between 23 and 60", function (value) {
         const currentDate = new Date();
         const selectedDate = new Date(value.split("-").reverse().join("-"));
         const age = currentDate.getFullYear() - selectedDate.getFullYear();
 
         // Adjust the age check as per your specific requirements
-        return age >= 21 && age <= 67;
+        return age >= 23 && age <= 60;
       }),
     state: Yup.string("").required("State required"),
     city: Yup.string("").required("City required"),
@@ -76,7 +76,8 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
       .integer("Loan amount must be a number")
       .required("Loan amount required")
       .min(3, "min 3")
-      .max(44, "max 44"),
+      .max(40, "max 40"),
+
     // loanTenureOption: Yup.string("").required("Loan tenure required"),
     employerType: Yup.string("").required("Employer type required"),
     employerTypeOption: Yup.string("").required("Employer type required"),
@@ -103,17 +104,15 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     primaryBankAccountOption: Yup.string("").required(
       "Income Bank Account required"
     ),
-    otherPropertyTypeOption: Yup.string("").required(
-      "Income Bank Account required"
-    ),
-    newPropertyState: Yup.string("").required("State required"),
-    newPropertyCity: Yup.string("").required("City required"),
-    newPropertyPincode: Yup.number()
-      .integer("Pincode must be a number")
-      .required("Pincode required")
-      .test("length-check", "Invalid pincode", function (value) {
-        return value.toString().length === 6;
-      }),
+    // propertyAge: Yup.string("").required("Income Bank Account required"),
+    // newPropertyState: Yup.string("").required("State required"),
+    // newPropertyCity: Yup.string("").required("City required"),
+    // newPropertyPincode: Yup.number()
+    //   .integer("Pincode must be a number")
+    //   .required("Pincode required")
+    //   .test("length-check", "Invalid pincode", function (value) {
+    //     return value.toString().length === 6;
+    //   }),
   });
 
   // Formik
@@ -127,6 +126,9 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
 
   const handleProceed = (values) => {
     if (emiErrStatus) {
+      return;
+    }
+    if (loanTenureErr.status) {
       return;
     }
     dispatch(setShowSubmitLoanFormPaymentModal(true));
@@ -172,7 +174,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             msg: "salary should be greater 12000",
           });
         } else if (
-          formData.monthlyIncome > 12000 &&
+          formData.monthlyIncome >= 12000 &&
           formik.values.existingEmi > 0
         ) {
           console.log("err3");
@@ -182,7 +184,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           console.log(percentageVal);
           if (formik.values.existingEmi > percentageVal) {
             setEmiErrStatus(true);
-            return setEmiErr(`existing emi should be <=  ${percentageVal}`);
+            return setEmiErr(`existing emi should less than ${percentageVal}`);
           } else if (formik.values.existingEmi <= percentageVal) {
             setEmiErrStatus(false);
             return setEmiErr("");
@@ -217,6 +219,31 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     formData.monthlyIncome,
     formData.employmentType,
   ]);
+
+  //loan tenure dob validation
+  const [loanTenureErr, setLoanTenureErr] = useState({
+    status: false,
+    msg: "",
+  });
+  useEffect(() => {
+    const currentDate = new Date();
+    const selectedDate = new Date(
+      formik.values.dateOfBirth.split("-").reverse().join("-")
+    );
+    const age = currentDate.getFullYear() - selectedDate.getFullYear();
+    console.log(age);
+    if (age >= 23 && age <= 63) {
+      const tenureVal = 63 - age;
+      if (tenureVal !== formik.values.loanTenure) {
+        return setLoanTenureErr({
+          status: true,
+          msg: `for age ${age}, max loan tenure is ${tenureVal} years`,
+        });
+      } else {
+        setLoanTenureErr({ status: false, msg: "" });
+      }
+    }
+  }, [formik.values.dateOfBirth, formik.values.loanTenure]);
 
   //New property state and city
   const [newpropertyStates, setNewpropertyState] = useState([]);
@@ -545,11 +572,15 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
             />
           </div>
-          {formik.touched.loanTenure && formik.errors.loanTenure && (
+          {formik.touched.loanTenure && formik.errors.loanTenure ? (
             <span className="text-red-500 text-xs font-bold">
               {formik.errors.loanTenure}
             </span>
-          )}
+          ) : loanTenureErr.status ? (
+            <span className="text-red-500 text-xs font-bold">
+              {loanTenureErr.msg}
+            </span>
+          ) : null}
         </div>
 
         {/* {formik.values.loanTenureOption === "Other" && (
@@ -1106,11 +1137,11 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                   className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
                 />
               </div>
-              {formik.touched.name && formik.errors.name && (
+              {/* {formik.touched.name && formik.errors.name && (
                 <span className="text-red-500 text-xs font-bold">
                   {formik.errors.name}
                 </span>
-              )}
+              )} */}
             </div>
             {/* <div>
               <span className="font-semibold text-gray-500">Start Date</span>
@@ -1444,7 +1475,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </div>
           </div>
         )}
-        <div className="">
+        {/* <div className="">
           <span className="font-semibold text-gray-500">New Property Type</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
@@ -1476,7 +1507,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </span>
           )}
         </div>
-        {formData.newPropertyType === "Other" && (
+        {formData.newPropertyType === "Old construction" && (
           <div>
             <span className=" font-semibold text-gray-500">
               Mention new property type
@@ -1485,16 +1516,15 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               <input
                 placeholder=""
                 type="text"
-                {...formik.getFieldProps("otherPropertyTypeOption")}
+                {...formik.getFieldProps("propertyAge")}
                 className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
               />
             </div>
-            {formik.touched.otherPropertyTypeOption &&
-              formik.errors.otherPropertyTypeOption && (
-                <span className="text-red-500 text-xs font-bold">
-                  {formik.errors.otherPropertyTypeOption}
-                </span>
-              )}
+            {formik.touched.propertyAge && formik.errors.propertyAge && (
+              <span className="text-red-500 text-xs font-bold">
+                {formik.errors.propertyAge}
+              </span>
+            )}
           </div>
         )}
         <div className="col-span-1 sm:col-span-2">
@@ -1577,7 +1607,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 {formik.errors.newPropertyPincode}
               </span>
             )}
-        </div>
+        </div> */}
 
         <div>
           <span className="font-semibold text-gray-500">Email Address</span>
