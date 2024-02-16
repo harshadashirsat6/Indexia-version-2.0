@@ -19,8 +19,11 @@ const HomeModal = () => {
       .min(5, "Name should be at least 5 characters")
       .required("Name is required"),
     email: Yup.string()
-      .email("Invalid email format")
-      .required("Email is required"),
+  .email("Invalid email format")
+  .required("Email is required")
+  .transform((value) => value.toLowerCase())
+  .matches(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, 'Invalid email format'),
+
     contact: Yup.number()
       .typeError("Contact must be a number")
       .positive("Contact must be a positive number")
