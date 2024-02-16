@@ -171,7 +171,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             msg: "salary should be greater 12000",
           });
         } else if (
-          formData.monthlyIncome > 12000 &&
+          formData.monthlyIncome >= 12000 &&
           formik.values.existingEmi > 0
         ) {
           console.log("err3");
@@ -1394,7 +1394,55 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </span>
           ) : null}
         </div>
-       
+        <div>
+          <span className="font-semibold text-gray-500">
+            Wish To Take Loan Against
+          </span>
+          <div className="border-b border-slate-400 py-1 w-full">
+            <select
+              className="w-full"
+              {...formik.getFieldProps("collateralOption")}
+            >
+              <option>Select</option>
+              {collateralOption.map((ele, i) => {
+                return (
+                  <option key={i} value={ele}>
+                    {ele}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          {formik.touched.collateralOption &&
+            formik.errors.collateralOption && (
+              <span className="text-red-500 text-xs font-bold">
+                {formik.errors.collateralOption}
+              </span>
+            )}
+        </div>
+        {formik.values.collateralOption === "Other" && (
+          <div>
+            <div>
+              <span className=" font-semibold text-gray-500">
+                Collateral Option Type
+              </span>
+              <div className="border-b border-slate-400 py-1">
+                <input
+                  placeholder=""
+                  type="text"
+                  {...formik.getFieldProps("otherCollateralOptionType")}
+                  className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+                />
+              </div>
+              {formik.touched.otherCollateralOptionType &&
+                formik.errors.otherCollateralOptionType && (
+                  <span className="text-red-500 text-xs font-bold">
+                    {formik.errors.otherCollateralOptionType}
+                  </span>
+                )}
+            </div>
+          </div>
+        )}
         <div className="">
           <span className="font-semibold text-gray-500">New Property Type</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
