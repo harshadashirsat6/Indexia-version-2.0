@@ -104,15 +104,15 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     primaryBankAccountOption: Yup.string("").required(
       "Income Bank Account required"
     ),
-    propertyAge: Yup.string("").required("Income Bank Account required"),
-    newPropertyState: Yup.string("").required("State required"),
-    newPropertyCity: Yup.string("").required("City required"),
-    newPropertyPincode: Yup.number()
-      .integer("Pincode must be a number")
-      .required("Pincode required")
-      .test("length-check", "Invalid pincode", function (value) {
-        return value.toString().length === 6;
-      }),
+    // propertyAge: Yup.string("").required("Income Bank Account required"),
+    // newPropertyState: Yup.string("").required("State required"),
+    // newPropertyCity: Yup.string("").required("City required"),
+    // newPropertyPincode: Yup.number()
+    //   .integer("Pincode must be a number")
+    //   .required("Pincode required")
+    //   .test("length-check", "Invalid pincode", function (value) {
+    //     return value.toString().length === 6;
+    //   }),
   });
 
   // Formik
@@ -1475,7 +1475,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </div>
           </div>
         )}
-        <div className="">
+        {/* <div className="">
           <span className="font-semibold text-gray-500">New Property Type</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
@@ -1607,7 +1607,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 {formik.errors.newPropertyPincode}
               </span>
             )}
-        </div>
+        </div> */}
 
         <div>
           <span className="font-semibold text-gray-500">Email Address</span>
