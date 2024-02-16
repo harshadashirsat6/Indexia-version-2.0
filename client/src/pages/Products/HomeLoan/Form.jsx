@@ -128,6 +128,9 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     if (emiErrStatus) {
       return;
     }
+    if (loanTenureErr.status) {
+      return;
+    }
     dispatch(setShowSubmitLoanFormPaymentModal(true));
     dispatch(
       setFormData({
@@ -216,6 +219,26 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     formData.monthlyIncome,
     formData.employmentType,
   ]);
+
+  //loan tenure dob validation
+  const [loanTenureErr, setLoanTenureErr] = useState({
+    status: false,
+    msg: "",
+  });
+  useEffect(() => {
+    const currentDate = new Date();
+    const selectedDate = new Date(
+      formik.values.dateOfBirth.split("-").reverse().join("-")
+    );
+    const age = currentDate.getFullYear() - selectedDate.getFullYear();
+    console.log('age',age)
+    if (age === 67 && formik.values.loanTenure !== 3) {
+      setLoanTenureErr({
+        status: true,
+        msg: `for age 67, max loan tenure is 3 years`,
+      });
+    }
+  }, [formik.values.dateOfBirth, formik.values.loanTenure]);
 
   //New property state and city
   const [newpropertyStates, setNewpropertyState] = useState([]);
@@ -544,11 +567,15 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
             />
           </div>
-          {formik.touched.loanTenure && formik.errors.loanTenure && (
+          {formik.touched.loanTenure && formik.errors.loanTenure ? (
             <span className="text-red-500 text-xs font-bold">
               {formik.errors.loanTenure}
             </span>
-          )}
+          ) : loanTenureErr.status ? (
+            <span className="text-red-500 text-xs font-bold">
+              {loanTenureErr.msg}
+            </span>
+          ) : null}
         </div>
 
         {/* {formik.values.loanTenureOption === "Other" && (
