@@ -1080,35 +1080,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                   </span>
                 )}
             </div>
-            {/* <div>
-              <span className="font-semibold text-gray-500">
-                Years In Current Profession
-              </span>
-              <div className="border-b border-slate-400 py-1">
-                <select
-                  className="w-full"
-                  onChange={(e) =>
-                    dispatch(
-                      setFormData({
-                        ...formData,
-                        yearsInCurrentBusiness: e.target.value,
-                      })
-                    )
-                  }
-                  {...formik.getFieldProps("yearsInCurrentBusiness")}
-                >
-                  {yearsInCurrentBusiness.map((ele, i) => {
-                    return <option key={i}>{ele}</option>;
-                  })}
-                </select>
-              </div>
-              {formik.touched.yearsInCurrentBusiness &&
-                formik.errors.yearsInCurrentBusiness && (
-                  <span className="text-red-500 text-xs font-bold">
-                    {formik.errors.yearsInCurrentBusiness}
-                  </span>
-                )}
-            </div> */}
+            
             <div>
               <span>Profession</span>
               <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
