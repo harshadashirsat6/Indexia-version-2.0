@@ -82,7 +82,7 @@ const HomeModal = () => {
         <section className="">
           <input
             type="text"
-            placeholder="Name"
+            placeholder="As per pan card"
             required
             name="name"
             value={formik.values.name}

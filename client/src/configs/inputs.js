@@ -44,12 +44,13 @@ export const inputs = {
   collateralOption: "",
   otherCollateralOptionType:"",
   // property
-  newPropertyType: "single-family home",
+  newPropertyType: "",
   newHouseNumber: "",
   newPropertyLocality: "",
   newPropertyCity: "",
   newPropertyState: "",
   newPropertyPincode: "",
+  propertyAge:"",
   // vehicle
   carManufacturer: "",
   carModel: "",

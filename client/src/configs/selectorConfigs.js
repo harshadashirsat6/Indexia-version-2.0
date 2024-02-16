@@ -161,4 +161,4 @@ export const homeLoanTenure = [
   "Other"
 ];
 
-export const newPropertyType = ["single-family home", "condominium"];
+export const newPropertyType = ["Under construction", "Ready new construction", "Old construction"];

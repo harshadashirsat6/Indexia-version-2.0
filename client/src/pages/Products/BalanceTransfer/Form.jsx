@@ -518,7 +518,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </span>
             <div className="border-b border-slate-400 py-1">
               <input
-                placeholder=""
                 type="text"
                 {...formik.getFieldProps("primaryBankAccount")}
                 placeholder="Enter Salary Bank Account Name"
