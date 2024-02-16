@@ -48,7 +48,7 @@ const HomeModal = () => {
         // console.log(values);
         // console.log(resp);
         if (resp.data.success) {
-          dispatch(setUserBasicDetails(resp.data.user));
+          dispatch(setUserBasicDetails({name:formik.values.name, email:formik.values.email, contact:formik.values.contact}));
           dispatch(setInitialPopup(false));
           localStorage.setItem("homePageDetails", true);
           setLoading(false);
