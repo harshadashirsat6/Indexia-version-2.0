@@ -45,13 +45,13 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     name: Yup.string("").min(5).required("Full name required"),
     dateOfBirth: Yup.string("")
       .required("Date of birth required")
-      .test("age-check", "age must be between 21 and 67", function (value) {
+      .test("age-check", "age must be between 23 and 60", function (value) {
         const currentDate = new Date();
         const selectedDate = new Date(value.split("-").reverse().join("-"));
         const age = currentDate.getFullYear() - selectedDate.getFullYear();
 
         // Adjust the age check as per your specific requirements
-        return age >= 21 && age <= 67;
+        return age >= 23 && age <= 60;
       }),
     state: Yup.string("").required("State required"),
     city: Yup.string("").required("City required"),
@@ -76,7 +76,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
       .integer("Loan amount must be a number")
       .required("Loan amount required")
       .min(3, "min 3")
-      .max(44, "max 44"),
+      .max(40, "max 40"),
 
     // loanTenureOption: Yup.string("").required("Loan tenure required"),
     employerType: Yup.string("").required("Employer type required"),
@@ -231,12 +231,17 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
       formik.values.dateOfBirth.split("-").reverse().join("-")
     );
     const age = currentDate.getFullYear() - selectedDate.getFullYear();
-    console.log('age',age)
-    if (age === 67 && formik.values.loanTenure !== 3) {
-      setLoanTenureErr({
-        status: true,
-        msg: `for age 67, max loan tenure is 3 years`,
-      });
+    console.log(age);
+    if (age >= 23 && age <= 63) {
+      const tenureVal = 63 - age;
+      if (tenureVal !== formik.values.loanTenure) {
+        return setLoanTenureErr({
+          status: true,
+          msg: `for age ${age}, max loan tenure is ${tenureVal} years`,
+        });
+      } else {
+        setLoanTenureErr({ status: false, msg: "" });
+      }
     }
   }, [formik.values.dateOfBirth, formik.values.loanTenure]);
 
@@ -1132,11 +1137,11 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                   className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
                 />
               </div>
-              {formik.touched.name && formik.errors.name && (
+              {/* {formik.touched.name && formik.errors.name && (
                 <span className="text-red-500 text-xs font-bold">
                   {formik.errors.name}
                 </span>
-              )}
+              )} */}
             </div>
             {/* <div>
               <span className="font-semibold text-gray-500">Start Date</span>
