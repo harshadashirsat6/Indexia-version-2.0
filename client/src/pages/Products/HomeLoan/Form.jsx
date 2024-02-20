@@ -1056,7 +1056,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               <div>
                 <div>
                   <span className=" font-semibold text-gray-500">
-                    Mention other business place type
+                    Mention status business place 
                   </span>
                   <div className="border-b border-slate-400 py-1">
                     <input
