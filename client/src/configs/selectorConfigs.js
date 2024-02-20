@@ -42,18 +42,14 @@ export const primaryBankAccount = [
   "Kotak Mahindra Bank",
   "AXIS",
   "Citibank",
+  "Multiple transaction banks",
   "Other",
 ];
 
 // business loan inputs
 
 export const businessPlaceOwnershipTypeInputs = [
-  "Owned by self/spouse",
-  "Owned by parents/siblings",
-  "Rented with family",
-  "Rent and stay alone",
-  "Paying Guest/Hostel",
-  "Company Provided",
+  "Owned" , "Rented","Lease", "Other"
 ];
 export const yearsInCurrentBusiness = [
   "Under 1 years",
@@ -119,6 +115,7 @@ export const industryType = [
   "Plastic",
   "Rubber",
   "Textiles",
+  'Other'
 ];
 
 export const loanAmount = [
@@ -130,7 +127,7 @@ export const loanAmount = [
   "₹10 Lacs +",
 ];
 
-export const incomeRecievedAs = ["Cash", "Cheque", "Electronically deposited"];
+export const incomeRecievedAs = ["Cash", "Cheque", "Electronically deposited-IMPS", "Electronically deposited-NFT/RTGS"];
 
 export const employerType = [
   "Privated limited",
