@@ -36,6 +36,7 @@ export const inputs = {
   businessNature: "",
   subIndustryType: "",
   industryType: "",
+  otherIndustryType:"",
   companyStartDate: "",
   currentYearTurnOver: 0,
   previousYearTurnOver: 0,
@@ -43,6 +44,7 @@ export const inputs = {
   previousYearNetProfit:0,
   collateralOption: "",
   otherCollateralOptionType:"",
+  otherBusinessPlaceType:"",
   // property
   newPropertyType: "",
   newHouseNumber: "",
@@ -51,6 +53,7 @@ export const inputs = {
   newPropertyState: "",
   newPropertyPincode: "",
   propertyAge:"",
+  multipleBankAccounts:[],
   // vehicle
   carManufacturer: "",
   carModel: "",

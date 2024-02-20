@@ -74,7 +74,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     otherCollateralOptionType: Yup.string("").required("* required"),
     loanTenure: Yup.number()
       .integer("Loan amount must be a number")
-      .required("Loan amount required")
+      .required("Loan tenure required")
       .min(3, "min 3")
       .max(40, "max 40"),
 
@@ -184,7 +184,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           console.log(percentageVal);
           if (formik.values.existingEmi > percentageVal) {
             setEmiErrStatus(true);
-            return setEmiErr(`existing emi should less than ${percentageVal}`);
+            return setEmiErr(`Existing EMI should less than ${percentageVal}`);
           } else if (formik.values.existingEmi <= percentageVal) {
             setEmiErrStatus(false);
             return setEmiErr("");
@@ -237,7 +237,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
       if (tenureVal !== formik.values.loanTenure) {
         return setLoanTenureErr({
           status: true,
-          msg: `for age ${age}, max loan tenure is ${tenureVal} years`,
+          msg: `For age ${age}, max loan tenure is ${tenureVal} years`,
         });
       } else {
         setLoanTenureErr({ status: false, msg: "" });
@@ -331,6 +331,26 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
       getBusinessCities();
     }
   }, [selectedBusinessState]);
+  //multiple transaction bank name
+  const [bankName, setBankName] = useState("");
+  const [bankNameErr, setBankNameErr] = useState("");
+  const [bankNameArr = [], setBankNameArr] = useState([]);
+  //auto dash in birthdate
+  const formatBirthdate = (inputDate) => {
+    const cleanedInput = inputDate.replace(/[^\d]/g, ""); // Remove non-numeric characters
+    console.log(cleanedInput);
+    const day = cleanedInput.slice(0, 2);
+    const month = cleanedInput.slice(2, 4);
+    const year = cleanedInput.slice(4, 8);
+
+    if (cleanedInput.length > 4) {
+      return `${day}-${month}-${year}`;
+    } else if (cleanedInput.length > 2) {
+      return `${day}-${month}`;
+    } else {
+      return cleanedInput;
+    }
+  };
 
   return (
     <div className="py-10">
@@ -367,28 +387,17 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </span>
           )} */}
         </div>
-
         <div>
-          <span className="font-semibold text-gray-500">
-            Date of Birth (As per PAN card){" "}
-          </span>
+          <span className="font-semibold text-gray-500">Date of Birth</span>
           <div className="border-b border-slate-400 py-1 flex relative">
             <input
-              placeholder="DD-MM-YYYY"
+              placeholder=""
               type="text"
               onBlur={() => formik.setFieldTouched("dateOfBirth", true)}
               value={formik.values.dateOfBirth}
               onChange={(e) => {
-                const formattedDate = changeIntoDate(
-                  e.target.value,
-                  "DD-MM-YYYY"
-                );
+                const formattedDate = formatBirthdate(e.target.value);
 
-                if (formattedDate.length > 10) {
-                  return;
-                }
-
-                e.target.value = formattedDate;
                 formik.setFieldValue("dateOfBirth", formattedDate);
               }}
               className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
@@ -526,7 +535,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </span>
           )}
         </div>
-
         <div className="col-span-1 sm:col-span-2">
           <span className="font-semibold text-gray-500">PAN Card Number</span>
           <div className="border-b border-slate-400 py-1">
@@ -582,27 +590,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </span>
           ) : null}
         </div>
-
-        {/* {formik.values.loanTenureOption === "Other" && (
-          <div>
-            <span className=" font-semibold text-gray-500">
-              Enter Loan Tenure
-            </span>
-            <div className="border-b border-slate-400 py-1">
-              <input
-                placeholder=""
-                type="text"
-                {...formik.getFieldProps("loanTenure")}
-                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-              />
-            </div>
-            {formik.touched.loanTenure && formik.errors.loanTenure && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.loanTenure}
-              </span>
-            )}
-          </div>
-        )} */}
         <div>
           <span className="font-semibold text-gray-500">Employment Type</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
@@ -634,7 +621,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
         </div>
         <div>
           <span className="font-semibold text-gray-500">
-            Income Bank Account
+            Transaction Bank Name
           </span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
@@ -682,7 +669,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
         {formik.values.primaryBankAccountOption === "Other" && (
           <div>
             <span className=" font-semibold text-gray-500">
-              Salary Bank Account Name
+              Other transaction Bank Name
             </span>
             <div className="border-b border-slate-400 py-1">
               <input
@@ -701,10 +688,76 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           </div>
         )}
 
+        {formik.values.primaryBankAccountOption ===
+          "Multiple transaction banks" && (
+          <div>
+            <span className=" font-semibold text-gray-500">
+              Mention multiple transaction bank names
+            </span>
+            <div className="border-b border-slate-400 py-1 flex ">
+              <input
+                placeholder=""
+                type="text"
+                name="bankName"
+                value={bankName}
+                onChange={(e) => {
+                  setBankNameErr();
+                  setBankName(e.target.value);
+                }}
+                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              />
+              <button
+                type="button"
+                // onClick={() => {
+                //   if (bankName) {
+                //     formData.multipleBankAccounts.push(bankName);
+                //     setBankName("");
+                //   } else {
+                //     setBankNameErr("Bank name cannot be empty");
+                //   }
+                // }}
+                onClick={() => {
+                  if (bankName) {
+                    setBankNameArr([...bankNameArr, bankName]);
+                  } else {
+                    setBankNameErr("Bank name cannot be empty");
+                  }
+                }}
+                className="bg-blue-300 hover:bg-blue-200 text-black  font-bold rounded-lg px-5 py-0.5 "
+              >
+                Add
+              </button>
+            </div>
+            {bankNameArr.length ? (
+              <div>
+                {bankNameArr.slice(0, 3).map((bankname, i) => (
+                  <p key={i} className="flex gap-2">
+                    <span>{i + 1}.</span>
+                    <span>{bankname}</span>
+                  </p>
+                ))}
+              </div>
+            ) : null}
+            {bankNameArr.length > 3 && (
+              <span className="text-red-500 text-xs font-bold">
+                You can add upto 3 banks only
+              </span>
+            )}
+            <span>
+              {bankNameErr ? (
+                <span className="text-red-500 text-xs font-bold">
+                  {bankNameErr}
+                </span>
+              ) : null}
+            </span>
+          </div>
+        )}
+
+        {/* salary */}
         {formData.employmentType === "Salaried" ? (
           <>
             <div>
-              <span className="font-semibold text-gray-500">Employer Type</span>
+              <span className="font-semibold text-gray-500">Company Type</span>
               <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
                 <select
                   className="bg-transparent w-full py-2.5"
@@ -749,7 +802,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             {formik.values.employerTypeOption === "Other" && (
               <div>
                 <span className=" font-semibold text-gray-500">
-                  Employer Type{" "}
+                  Other company type
                 </span>
                 <div className="border-b border-slate-400 py-1">
                   <input
@@ -767,7 +820,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               </div>
             )}
             <div>
-              <span className="font-semibold text-gray-500">Employer Name</span>
+              <span className="font-semibold text-gray-500">Company Name</span>
               <div className="border-b border-slate-400 py-1">
                 <input
                   placeholder="Enter your company name"
@@ -785,11 +838,11 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </div>
             <div>
               <span className="font-semibold text-gray-500">
-                Monthly Income
+                Monthly Net Income
               </span>
               <div className="border-b border-slate-400 py-1">
                 <input
-                  placeholder="Enter your monthly income"
+                  placeholder="Take home salary"
                   type="number"
                   name="monthlyIncomeno"
                   value={formData.monthlyIncome}
@@ -871,10 +924,10 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 </select>
               </div>
             </div>
-            {formData.yearsInCurrentBusiness === "over 5 years" && (
+            {/* {formData.yearsInCurrentBusiness === "over 5 years" && (
               <div>
                 <span className=" font-semibold text-gray-500">
-                  Please mention current years in business
+                  Please mention years in current business
                 </span>
                 <div className="border-b border-slate-400 py-1">
                   <input
@@ -891,8 +944,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                     </span>
                   )}
               </div>
-            )}
-
+            )} */}
             <div>
               <span className="font-semibold text-gray-500">
                 Current Business State
@@ -1000,6 +1052,32 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                   </span>
                 )}
             </div>
+            {formik.values.businessPlaceOwnershipType === "Other" && (
+              <div>
+                <div>
+                  <span className=" font-semibold text-gray-500">
+                    Mention status business place 
+                  </span>
+                  <div className="border-b border-slate-400 py-1">
+                    <input
+                      placeholder=""
+                      type="text"
+                      name="otherBusinessPlaceType"
+                      value={formData.otherBusinessPlaceType}
+                      onChange={(e) =>
+                        dispatch(
+                          setFormData({
+                            ...formData,
+                            otherBusinessPlaceType: e.target.value,
+                          })
+                        )
+                      }
+                      className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
             <div>
               <span className="font-semibold text-gray-500">Company Type</span>
               <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
@@ -1119,6 +1197,33 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 </span>
               )}
             </div>
+            {formData.industryType === "Other" && (
+              <div>
+                <div>
+                  <span className=" font-semibold text-gray-500">
+                    Other Industry Type
+                  </span>
+                  <div className="border-b border-slate-400 py-1">
+                    <input
+                      placeholder=""
+                      type="text"
+                      name="otherIndustryType"
+                      value={formData.otherIndustryType}
+                      onChange={(e) =>
+                        dispatch(
+                          setFormData({
+                            ...formData,
+                            otherIndustryType: e.target.value,
+                          })
+                        )
+                      }
+                      className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
             <div>
               <span className="font-semibold text-gray-500">Sub Industry</span>
               <div className="border-b border-slate-400 py-1">
@@ -1143,23 +1248,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 </span>
               )} */}
             </div>
-            {/* <div>
-              <span className="font-semibold text-gray-500">Start Date</span>
-              <div className="border-b border-slate-400 py-1">
-                <input
-                  placeholder="Start Date"
-                  type="date"
-                  {...formik.getFieldProps("companyStartDate")}
-                  className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-                />
-              </div>
-              {formik.touched.companyStartDate &&
-                formik.errors.companyStartDate && (
-                  <span className="text-red-500 text-xs font-bold">
-                    {formik.errors.companyStartDate}
-                  </span>
-                )}
-            </div> */}
             <div>
               <span className="font-semibold text-gray-500">
                 Current Year Turn Over
@@ -1200,7 +1288,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </div>
             <div>
               <span className="font-semibold text-gray-500">
-                Current Year Net Profit
+                Current Year Net Income
               </span>
               <div className="border-b border-slate-400 py-1">
                 <input
@@ -1219,7 +1307,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </div>
             <div>
               <span className="font-semibold text-gray-500">
-                Previous Year Net Profit
+                Previous Year Net Income
               </span>
               <div className="border-b border-slate-400 py-1">
                 <input
@@ -1349,7 +1437,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                   </span>
                 )}
             </div>
-
             <div>
               <span>Profession</span>
               <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
@@ -1405,12 +1492,62 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             )}
           </>
         )}
-
+        {/* <div>
+          <span className="font-semibold text-gray-500">
+            Wish To Take Loan Against
+          </span>
+          <div className="border-b border-slate-400 py-1 w-full">
+            <select
+              className="w-full"
+              {...formik.getFieldProps("collateralOption")}
+            >
+              <option>Select</option>
+              {collateralOption.map((ele, i) => {
+                return (
+                  <option key={i} value={ele}>
+                    {ele}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          {formik.touched.collateralOption &&
+            formik.errors.collateralOption && (
+              <span className="text-red-500 text-xs font-bold">
+                {formik.errors.collateralOption}
+              </span>
+            )}
+        </div>
+        {formik.values.collateralOption === "Other" && (
+          <div>
+            <div>
+              <span className=" font-semibold text-gray-500">
+                Collateral Option Type
+              </span>
+              <div className="border-b border-slate-400 py-1">
+                <input
+                  placeholder=""
+                  type="text"
+                  {...formik.getFieldProps("otherCollateralOptionType")}
+                  className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+                />
+              </div>
+              {formik.touched.otherCollateralOptionType &&
+                formik.errors.otherCollateralOptionType && (
+                  <span className="text-red-500 text-xs font-bold">
+                    {formik.errors.otherCollateralOptionType}
+                  </span>
+                )}
+            </div>
+          </div>
+        )} */}
         <div>
-          <span className="font-semibold text-gray-500">Existing EMI</span>
+          <span className="font-semibold text-gray-500">
+            Existing Total EMI
+          </span>
           <div className="border-b border-slate-400 py-1">
             <input
-              placeholder="Enter your existing EMI if any"
+              placeholder="Enter your existing EMI amount, If any"
               type="number"
               {...formik.getFieldProps("existingEmi")}
               className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
@@ -1428,7 +1565,9 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
         </div>
 
         <div className="">
-          <span className="font-semibold text-gray-500">New Property Type</span>
+          <span className="font-semibold text-gray-500">
+            New Property Type (Buying property)
+          </span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
@@ -1462,7 +1601,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
         {formData.newPropertyType === "Old construction" && (
           <div>
             <span className=" font-semibold text-gray-500">
-              Mention new property type
+              Mention old construction property age
             </span>
             <div className="border-b border-slate-400 py-1">
               <input
@@ -1472,16 +1611,16 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
               />
             </div>
-            {formik.touched.propertyAge && formik.errors.propertyAge && (
+            {/* {formik.touched.propertyAge && formik.errors.propertyAge && (
               <span className="text-red-500 text-xs font-bold">
                 {formik.errors.propertyAge}
               </span>
-            )}
+            )} */}
           </div>
         )}
         <div className="col-span-1 sm:col-span-2">
           <span className="font-semibold text-gray-500">
-            Where are you planning to take property
+            Where are you planning to buy property
           </span>
         </div>
         <div>
