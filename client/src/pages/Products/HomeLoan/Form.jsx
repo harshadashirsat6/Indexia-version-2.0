@@ -19,6 +19,7 @@ import {
   newPropertyType,
   primaryBankAccount,
   yearlyIncome,
+  salaryBankAccount,
   //business
   yearsInCurrentBusiness,
   BusinessNature,
@@ -388,10 +389,12 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           )} */}
         </div>
         <div>
-          <span className="font-semibold text-gray-500">Date of Birth</span>
+          <span className="font-semibold text-gray-500">
+            Date of Birth (as per pan card)
+          </span>
           <div className="border-b border-slate-400 py-1 flex relative">
             <input
-              placeholder=""
+              placeholder="DD-MM-YYYY"
               type="text"
               onBlur={() => formik.setFieldTouched("dateOfBirth", true)}
               value={formik.values.dateOfBirth}
@@ -512,8 +515,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
         </div>
         <div>
           <span className="font-semibold text-gray-500">
-            {" "}
-            Status of Residence
+            Status of Current Residence
           </span>
           <div className="border-b border-slate-400 py-1">
             <select
@@ -571,7 +573,9 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           )}
         </div>
         <div>
-          <span className="font-semibold text-gray-500">Loan Tenure</span>
+          <span className="font-semibold text-gray-500">
+            Loan Tenure (in years)
+          </span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder=""
@@ -619,52 +623,99 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </span>
           )}
         </div>
-        <div>
-          <span className="font-semibold text-gray-500">
-            Transaction Bank Name
-          </span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full py-2.5"
-              name="primaryBankAccount"
-              value={formik.values.primaryBankAccountOption}
-              onBlur={() =>
-                formik.setFieldTouched("primaryBankAccountOption", true)
-              }
-              onChange={(e) => {
-                if (e.target.value === "Other") {
-                  formik.setFieldValue(
-                    "primaryBankAccountOption",
-                    e.target.value
-                  );
-                  formik.setFieldValue("primaryBankAccount", "");
-                  return;
-                } else {
-                  formik.setFieldValue(
-                    "primaryBankAccountOption",
-                    e.target.value
-                  );
-                  formik.setFieldValue("primaryBankAccount", e.target.value);
+        {formData.employmentType === "Salaried" ?( <div>
+            <span className="font-semibold text-gray-500">
+              Salary Bank Name
+            </span>
+            <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+              <select
+                className="bg-transparent w-full py-2.5"
+                name="primaryBankAccount"
+                value={formik.values.primaryBankAccountOption}
+                onBlur={() =>
+                  formik.setFieldTouched("primaryBankAccountOption", true)
                 }
-              }}
-            >
-              <option value={""}>Select</option>
-              {primaryBankAccount.map((ele) => {
-                return (
-                  <option key={ele} value={ele}>
-                    {ele}
-                  </option>
-                );
-              })}
-            </select>
+                onChange={(e) => {
+                  if (e.target.value === "Other") {
+                    formik.setFieldValue(
+                      "primaryBankAccountOption",
+                      e.target.value
+                    );
+                    formik.setFieldValue("primaryBankAccount", "");
+                    return;
+                  } else {
+                    formik.setFieldValue(
+                      "primaryBankAccountOption",
+                      e.target.value
+                    );
+                    formik.setFieldValue("primaryBankAccount", e.target.value);
+                  }
+                }}
+              >
+                <option value={""}>Select</option>
+                {salaryBankAccount.map((ele) => {
+                  return (
+                    <option key={ele} value={ele}>
+                      {ele}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+            {formik.touched.primaryBankAccountOption &&
+              formik.errors.primaryBankAccountOption && (
+                <span className="text-red-500 text-xs font-bold">
+                  {formik.errors.primaryBankAccountOption}
+                </span>
+              )}
+          </div>) :(
+          <div>
+            <span className="font-semibold text-gray-500">
+              Transaction Bank Name
+            </span>
+            <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+              <select
+                className="bg-transparent w-full py-2.5"
+                name="primaryBankAccount"
+                value={formik.values.primaryBankAccountOption}
+                onBlur={() =>
+                  formik.setFieldTouched("primaryBankAccountOption", true)
+                }
+                onChange={(e) => {
+                  if (e.target.value === "Other") {
+                    formik.setFieldValue(
+                      "primaryBankAccountOption",
+                      e.target.value
+                    );
+                    formik.setFieldValue("primaryBankAccount", "");
+                    return;
+                  } else {
+                    formik.setFieldValue(
+                      "primaryBankAccountOption",
+                      e.target.value
+                    );
+                    formik.setFieldValue("primaryBankAccount", e.target.value);
+                  }
+                }}
+              >
+                <option value={""}>Select</option>
+                {primaryBankAccount.map((ele) => {
+                  return (
+                    <option key={ele} value={ele}>
+                      {ele}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+            {formik.touched.primaryBankAccountOption &&
+              formik.errors.primaryBankAccountOption && (
+                <span className="text-red-500 text-xs font-bold">
+                  {formik.errors.primaryBankAccountOption}
+                </span>
+              )}
           </div>
-          {formik.touched.primaryBankAccountOption &&
-            formik.errors.primaryBankAccountOption && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.primaryBankAccountOption}
-              </span>
-            )}
-        </div>
+        )}
 
         {formik.values.primaryBankAccountOption === "Other" && (
           <div>
@@ -1056,7 +1107,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               <div>
                 <div>
                   <span className=" font-semibold text-gray-500">
-                    Mention status business place 
+                    Mention status business place
                   </span>
                   <div className="border-b border-slate-400 py-1">
                     <input

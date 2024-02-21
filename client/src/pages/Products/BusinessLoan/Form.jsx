@@ -219,6 +219,21 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
       getBusinessCities();
     }
   }, [selectedBusinessState]);
+  const formatBirthdate = (inputDate) => {
+    const cleanedInput = inputDate.replace(/[^\d]/g, ""); // Remove non-numeric characters
+    console.log(cleanedInput);
+    const day = cleanedInput.slice(0, 2);
+    const month = cleanedInput.slice(2, 4);
+    const year = cleanedInput.slice(4, 8);
+
+    if (cleanedInput.length > 4) {
+      return `${day}-${month}-${year}`;
+    } else if (cleanedInput.length > 2) {
+      return `${day}-${month}`;
+    } else {
+      return cleanedInput;
+    }
+  };
 
   return (
     <div className="py-10 ">
@@ -267,16 +282,8 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               onBlur={() => formik.setFieldTouched("dateOfBirth", true)}
               value={formik.values.dateOfBirth}
               onChange={(e) => {
-                const formattedDate = changeIntoDate(
-                  e.target.value,
-                  "DD-MM-YYYY"
-                );
+                const formattedDate = formatBirthdate(e.target.value);
 
-                if (formattedDate.length > 10) {
-                  return;
-                }
-
-                e.target.value = formattedDate;
                 formik.setFieldValue("dateOfBirth", formattedDate);
               }}
               className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
@@ -1080,7 +1087,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                   </span>
                 )}
             </div>
-            
+
             <div>
               <span>Profession</span>
               <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">

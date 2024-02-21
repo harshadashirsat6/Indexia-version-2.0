@@ -33,6 +33,17 @@ export const loanStartDate = [
   "91-180 days",
   "180+ days",
 ];
+export const salaryBankAccount = [
+  "HDFC",
+  "SBI",
+  "Bank Of India",
+  "ICICI",
+  "Punjab National Bank",
+  "Kotak Mahindra Bank",
+  "AXIS",
+  "Citibank",
+  "Other",
+];
 export const primaryBankAccount = [
   "HDFC",
   "SBI",
@@ -49,7 +60,7 @@ export const primaryBankAccount = [
 // business loan inputs
 
 export const businessPlaceOwnershipTypeInputs = [
-  "Owned" , "Rented","Lease", "Other"
+  "Owned", "Rented", "Lease", "Other"
 ];
 export const yearsInCurrentBusiness = [
   "Under 1 years",
@@ -65,10 +76,9 @@ export const businessLoanEmploymentType = [
 ];
 
 export const collateralOption = [
-  "Property",
-  "Gold",
-  "Car",
-  "Bill Discounting",
+  "Residential Property",
+  "Commercial Property",
+  "Industrial Property",
   "Other",
 ];
 
