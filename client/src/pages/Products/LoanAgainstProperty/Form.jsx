@@ -357,8 +357,8 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
       <div className="-mb-2.5 -ml-2.5 flex items-center space-x-2.5"></div>
       <h1 className="text-xl flex mb-8 flex-col space-y-2 font-semibold text-gray-500">
         <span>
-          Unlock best <span>home loan</span> offers suitable for your needs from{" "}
-          <span>43+ lenders</span>
+          Unlock the best <span>Loan Against Property</span> offers suitable for
+          your needs from <span>43+ lenders</span>
         </span>
         <span className="w-20 h-0.5 rounded-full bg-cyan-400"></span>
       </h1>
@@ -388,10 +388,12 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           )} */}
         </div>
         <div>
-          <span className="font-semibold text-gray-500">Date of Birth</span>
+          <span className="font-semibold text-gray-500">
+            Date of Birth (as per pan card)
+          </span>
           <div className="border-b border-slate-400 py-1 flex relative">
             <input
-              placeholder=""
+              placeholder="DD-MM-YYYY"
               type="text"
               onBlur={() => formik.setFieldTouched("dateOfBirth", true)}
               value={formik.values.dateOfBirth}
@@ -441,7 +443,9 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           )}
         </div>
         <div>
-          <span className="font-semibold text-gray-500">Residence State</span>
+          <span className="font-semibold text-gray-500">
+            Current Residence State
+          </span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
@@ -471,7 +475,9 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           )}
         </div>
         <div>
-          <span className="font-semibold text-gray-500"> Residence City</span>
+          <span className="font-semibold text-gray-500">
+            Current Residence City
+          </span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
@@ -495,7 +501,9 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           )}
         </div>
         <div>
-          <span className="font-semibold text-gray-500">Residence Pincode</span>
+          <span className="font-semibold text-gray-500">
+            Current Residence Pincode
+          </span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder="Enter Pincode"
@@ -513,7 +521,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
         <div>
           <span className="font-semibold text-gray-500">
             {" "}
-            Status of Residence
+            Status of Current Residence
           </span>
           <div className="border-b border-slate-400 py-1">
             <select
@@ -571,7 +579,9 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           )}
         </div>
         <div>
-          <span className="font-semibold text-gray-500">Loan Tenure</span>
+          <span className="font-semibold text-gray-500">
+            Loan Tenure (in years)
+          </span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder=""
@@ -619,52 +629,101 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </span>
           )}
         </div>
-        <div>
-          <span className="font-semibold text-gray-500">
-            Transaction Bank Name
-          </span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full py-2.5"
-              name="primaryBankAccount"
-              value={formik.values.primaryBankAccountOption}
-              onBlur={() =>
-                formik.setFieldTouched("primaryBankAccountOption", true)
-              }
-              onChange={(e) => {
-                if (e.target.value === "Other") {
-                  formik.setFieldValue(
-                    "primaryBankAccountOption",
-                    e.target.value
-                  );
-                  formik.setFieldValue("primaryBankAccount", "");
-                  return;
-                } else {
-                  formik.setFieldValue(
-                    "primaryBankAccountOption",
-                    e.target.value
-                  );
-                  formik.setFieldValue("primaryBankAccount", e.target.value);
+        {formData.employmentType === "Salaried" ? (
+          <div>
+            <span className="font-semibold text-gray-500">
+              Salary Bank Name
+            </span>
+            <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+              <select
+                className="bg-transparent w-full py-2.5"
+                name="primaryBankAccount"
+                value={formik.values.primaryBankAccountOption}
+                onBlur={() =>
+                  formik.setFieldTouched("primaryBankAccountOption", true)
                 }
-              }}
-            >
-              <option value={""}>Select</option>
-              {primaryBankAccount.map((ele) => {
-                return (
-                  <option key={ele} value={ele}>
-                    {ele}
-                  </option>
-                );
-              })}
-            </select>
+                onChange={(e) => {
+                  if (e.target.value === "Other") {
+                    formik.setFieldValue(
+                      "primaryBankAccountOption",
+                      e.target.value
+                    );
+                    formik.setFieldValue("primaryBankAccount", "");
+                    return;
+                  } else {
+                    formik.setFieldValue(
+                      "primaryBankAccountOption",
+                      e.target.value
+                    );
+                    formik.setFieldValue("primaryBankAccount", e.target.value);
+                  }
+                }}
+              >
+                <option value={""}>Select</option>
+                {salaryBankAccount.map((ele) => {
+                  return (
+                    <option key={ele} value={ele}>
+                      {ele}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+            {formik.touched.primaryBankAccountOption &&
+              formik.errors.primaryBankAccountOption && (
+                <span className="text-red-500 text-xs font-bold">
+                  {formik.errors.primaryBankAccountOption}
+                </span>
+              )}
           </div>
-          {formik.touched.primaryBankAccountOption &&
-            formik.errors.primaryBankAccountOption && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.primaryBankAccountOption}
-              </span>
-            )}
-        </div>
+        ) : (
+          <div>
+            <span className="font-semibold text-gray-500">
+              Transaction Bank Name
+            </span>
+            <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+              <select
+                className="bg-transparent w-full py-2.5"
+                name="primaryBankAccount"
+                value={formik.values.primaryBankAccountOption}
+                onBlur={() =>
+                  formik.setFieldTouched("primaryBankAccountOption", true)
+                }
+                onChange={(e) => {
+                  if (e.target.value === "Other") {
+                    formik.setFieldValue(
+                      "primaryBankAccountOption",
+                      e.target.value
+                    );
+                    formik.setFieldValue("primaryBankAccount", "");
+                    return;
+                  } else {
+                    formik.setFieldValue(
+                      "primaryBankAccountOption",
+                      e.target.value
+                    );
+                    formik.setFieldValue("primaryBankAccount", e.target.value);
+                  }
+                }}
+              >
+                <option value={""}>Select</option>
+                {primaryBankAccount.map((ele) => {
+                  return (
+                    <option key={ele} value={ele}>
+                      {ele}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+            {formik.touched.primaryBankAccountOption &&
+              formik.errors.primaryBankAccountOption && (
+                <span className="text-red-500 text-xs font-bold">
+                  {formik.errors.primaryBankAccountOption}
+                </span>
+              )}
+          </div>
+        )}
 
         {formik.values.primaryBankAccountOption === "Other" && (
           <div>
@@ -820,7 +879,9 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               </div>
             )}
             <div>
-              <span className="font-semibold text-gray-500">Company Name</span>
+              <span className="font-semibold text-gray-500">
+                Company Full Name
+              </span>
               <div className="border-b border-slate-400 py-1">
                 <input
                   placeholder="Enter your company name"
@@ -1526,7 +1587,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               </span>
               <div className="border-b border-slate-400 py-1">
                 <input
-                  placeholder=""
+                  placeholder="wish to take loan against"
                   type="text"
                   {...formik.getFieldProps("otherCollateralOptionType")}
                   className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
@@ -1541,6 +1602,33 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </div>
           </div>
         )}
+        <div>
+          <span className="font-semibold text-gray-500">
+            Collateral Property approximate value
+          </span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder="value of your collateral property"
+              type="Number"
+              name="collateralPropertyValue"
+              value={formData.collateralPropertyValue}
+              onChange={(e) =>
+                dispatch(
+                  setFormData({
+                    ...formData,
+                    collateralPropertyValue: e.target.value,
+                  })
+                )
+              }
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+            />
+          </div>
+          {/* {formik.touched.name && formik.errors.name && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.name}
+            </span>
+          )} */}
+        </div>
         <div>
           <span className="font-semibold text-gray-500">
             Existing Total EMI
@@ -1564,9 +1652,9 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           ) : null}
         </div>
 
-        <div className="">
+        {/* <div className="">
           <span className="font-semibold text-gray-500">
-            New Property Type (Buying property)
+            Existing Property Type
           </span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
@@ -1597,35 +1685,11 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               {formik.errors.newPropertyType}
             </span>
           )}
-        </div>
-        {formData.newPropertyType === "Old construction" && (
-          <div>
-            <span className=" font-semibold text-gray-500">
-              Mention old construction property age
-            </span>
-            <div className="border-b border-slate-400 py-1">
-              <input
-                placeholder=""
-                type="text"
-                {...formik.getFieldProps("propertyAge")}
-                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-              />
-            </div>
-            {/* {formik.touched.propertyAge && formik.errors.propertyAge && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.propertyAge}
-              </span>
-            )} */}
-          </div>
-        )}
-        <div className="col-span-1 sm:col-span-2">
-          <span className="font-semibold text-gray-500">
-            Where are you planning to buy property
-          </span>
-        </div>
+        </div> */}
+
         <div>
           <span className="font-semibold text-gray-500">
-            New Property State
+            Collateral Property State
           </span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
@@ -1657,7 +1721,9 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             )}
         </div>
         <div>
-          <span className="font-semibold text-gray-500">New Property City</span>
+          <span className="font-semibold text-gray-500">
+            Collateral Property City
+          </span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
@@ -1682,7 +1748,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
         </div>
         <div>
           <span className=" font-semibold text-gray-500">
-            New Property Pincode
+            Collateral Property Pincode
           </span>
           <div className="border-b border-slate-400 py-1">
             <input
