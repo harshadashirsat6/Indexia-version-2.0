@@ -199,7 +199,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     <div className="py-10">
       <div className="-mb-2.5 -ml-2.5 flex items-center space-x-2.5"></div>
       <h1 className="text-xl flex flex-col space-y-2 font-semibold text-gray-500">
-        Balance Transfer
+        Balance Transfer & Top-up
         <span className="w-20 h-0.5 rounded-full bg-cyan-400 mb-8"></span>
       </h1>
       <form
@@ -292,7 +292,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           )}
         </div>
         <div>
-          <span className="font-semibold text-gray-500">State</span>
+          <span className="font-semibold text-gray-500">Current Residence State</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
@@ -322,7 +322,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           )}
         </div>
         <div>
-          <span className="font-semibold text-gray-500">City</span>
+          <span className="font-semibold text-gray-500">Current Residence City</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
@@ -345,7 +345,44 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </span>
           )}
         </div>
-
+        <div>
+          <span className="font-semibold text-gray-500">Current Residence Pincode</span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder=""
+              type="number"
+              {...formik.getFieldProps("pincode")}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
+          {formik.touched.pincode && formik.errors.pincode && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.pincode}
+            </span>
+          )}
+        </div>
+        <div>
+          <span className="font-semibold text-gray-500">Status Of Current Residence </span>
+          <div className="border-b border-slate-400 py-1">
+            <select
+              onChange={(e) =>
+                dispatch(
+                  setFormData({ ...formData, residencyType: e.target.value })
+                )
+              }
+              {...formik.getFieldProps("residencyType")}
+            >
+              {residencyType.map((ele, i) => {
+                return <option key={i}>{ele}</option>;
+              })}
+            </select>
+          </div>
+          {formik.touched.residencyType && formik.errors.residencyType && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.residencyType}
+            </span>
+          )}
+        </div>
         <div className="col-span-1 sm:col-span-2">
           <span className="font-semibold text-gray-500">PAN Card Number</span>
           <div className="border-b border-slate-400 py-1">
@@ -366,7 +403,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           )}
         </div>
         <div>
-          <span className="font-semibold text-gray-500">Loan Amount</span>
+          <span className="font-semibold text-gray-500">Existing Maxinmum Loan Amount</span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder=""
@@ -729,42 +766,31 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           )}
         </div>
         <div>
-          <span className="font-semibold text-gray-500">Residence Pincode</span>
+          <span className="font-semibold text-gray-500">
+            Property valuation
+          </span>
           <div className="border-b border-slate-400 py-1">
             <input
-              placeholder=""
-              type="number"
-              {...formik.getFieldProps("pincode")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-            />
-          </div>
-          {formik.touched.pincode && formik.errors.pincode && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.pincode}
-            </span>
-          )}
-        </div>
-        <div>
-          <span className="font-semibold text-gray-500">Residence Type</span>
-          <div className="border-b border-slate-400 py-1">
-            <select
+              placeholder="value of your collateral property"
+              type="Number"
+              name="collateralPropertyValue"
+              value={formData.collateralPropertyValue}
               onChange={(e) =>
                 dispatch(
-                  setFormData({ ...formData, residencyType: e.target.value })
+                  setFormData({
+                    ...formData,
+                    collateralPropertyValue: e.target.value,
+                  })
                 )
               }
-              {...formik.getFieldProps("residencyType")}
-            >
-              {residencyType.map((ele, i) => {
-                return <option key={i}>{ele}</option>;
-              })}
-            </select>
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+            />
           </div>
-          {formik.touched.residencyType && formik.errors.residencyType && (
+          {/* {formik.touched.name && formik.errors.name && (
             <span className="text-red-500 text-xs font-bold">
-              {formik.errors.residencyType}
+              {formik.errors.name}
             </span>
-          )}
+          )} */}
         </div>
         <div>
           <span className="font-semibold text-gray-500">Email Address</span>
