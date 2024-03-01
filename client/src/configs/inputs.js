@@ -23,6 +23,7 @@ export const inputs = {
   loanStartDate: "",
   primaryBankAccount: "",
   // business
+  compnayName: "",
   profession: "",
   otherProfession: "",
   registrationNumber: "",
@@ -74,4 +75,11 @@ export const inputs = {
   projectBudget: "",
   projectStartDate: "",
   expectedDateOfComletion: "",
+  //credit card
+  existingCreditCardStatus: "",
+  existingCreditCardBankName: "",
+  otherExistingCreditCardBankName: "",
+  exisitingCreditCardLimit: "",
+  newCreditCardBankName: "",
+  otherNewCreditCardBankName: "",
 };

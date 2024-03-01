@@ -21,12 +21,7 @@ export const yearlyIncome = [
   "₹10 Lacs +",
 ];
 
-export const loanTenure = [
-  "1-3 Years",
-  "3-5 Years",
-  "5-7 Years",
-  "Other"
-];
+export const loanTenure = ["1-3 Years", "3-5 Years", "5-7 Years", "Other"];
 export const loanStartDate = [
   "Within 30 days",
   "31-90 days",
@@ -60,7 +55,10 @@ export const primaryBankAccount = [
 // business loan inputs
 
 export const businessPlaceOwnershipTypeInputs = [
-  "Owned", "Rented", "Lease", "Other"
+  "Owned",
+  "Rented",
+  "Lease",
+  "Other",
 ];
 export const yearsInCurrentBusiness = [
   "Under 1 years",
@@ -82,9 +80,7 @@ export const collateralOption = [
   "Other",
 ];
 
-export const businessLoanTenure = [
-  1, 2, 3, 4, 5, 6, 7
-];
+export const businessLoanTenure = [1, 2, 3, 4, 5, 6, 7];
 
 export const companyType = [
   "Proprietorship",
@@ -100,7 +96,7 @@ export const BusinessNature = [
   "Trader/Wholesaler",
   "Retailer",
   "Service Provider",
-  "Other"
+  "Other",
 ];
 
 export const industryType = [
@@ -125,7 +121,7 @@ export const industryType = [
   "Plastic",
   "Rubber",
   "Textiles",
-  'Other'
+  "Other",
 ];
 
 export const loanAmount = [
@@ -137,7 +133,12 @@ export const loanAmount = [
   "₹10 Lacs +",
 ];
 
-export const incomeRecievedAs = ["Cash", "Cheque", "Electronically deposited-IMPS", "Electronically deposited-NFT/RTGS"];
+export const incomeRecievedAs = [
+  "Cash",
+  "Cheque",
+  "Electronically deposited-IMPS",
+  "Electronically deposited-NFT/RTGS",
+];
 
 export const employerType = [
   "Privated limited",
@@ -145,7 +146,7 @@ export const employerType = [
   "Partnership",
   "Proprietorship",
   "Government",
-  "Other"
+  "Other",
 ];
 
 export const educationEnrollmentStatus = ["Full-time", "Part-time"];
@@ -161,11 +162,28 @@ export const homeLoanAmount = [
   "₹75 Lacs +",
 ];
 
-export const homeLoanTenure = [
-  "1-3 Years",
-  "3-5 Years",
-  "5-7 Years",
-  "Other"
+export const homeLoanTenure = ["1-3 Years", "3-5 Years", "5-7 Years", "Other"];
+
+export const newPropertyType = [
+  "Under construction",
+  "Ready new construction",
+  "Old construction",
 ];
 
-export const newPropertyType = ["Under construction", "Ready new construction", "Old construction"];
+export const BanksForCreditCards = [
+  "State Bank of India (SBI)",
+  "ICICI Bank",
+  "HDFC Bank",
+  "Axis Bank",
+  "Kotak Mahindra Bank",
+  "Standard Chartered Bank",
+  "HSBC",
+  "Citibank",
+  "IDFC First Bank",
+  "RBL Bank",
+  "Yes Bank",
+  "IndusInd Bank",
+  "Bank of Baroda",
+  "Punjab National Bank (PNB)",
+  "Other",
+];
