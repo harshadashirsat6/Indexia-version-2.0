@@ -233,17 +233,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     );
     const age = currentDate.getFullYear() - selectedDate.getFullYear();
     console.log(age);
-    if (age >= 23 && age <= 63) {
-      const tenureVal = 63 - age;
-      if (tenureVal !== formik.values.loanTenure) {
-        return setLoanTenureErr({
-          status: true,
-          msg: `For age ${age}, max loan tenure is ${tenureVal} years`,
-        });
-      } else {
-        setLoanTenureErr({ status: false, msg: "" });
-      }
-    }
   }, [formik.values.dateOfBirth, formik.values.loanTenure]);
 
   //New property state and city
@@ -358,8 +347,8 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
       <div className="-mb-2.5 -ml-2.5 flex items-center space-x-2.5"></div>
       <h1 className="text-xl flex mb-8 flex-col space-y-2 font-semibold text-gray-500">
         <span>
-          Unlock best <span>home loan</span> offers suitable for your needs from{" "}
-          <span>43+ lenders</span>
+          Unlock best <span>Education Loan</span> offers suitable for your needs
+          from <span>43+ lenders</span>
         </span>
         <span className="w-20 h-0.5 rounded-full bg-cyan-400"></span>
       </h1>
@@ -444,7 +433,9 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           )}
         </div>
         <div>
-          <span className="font-semibold text-gray-500">Current Residence State</span>
+          <span className="font-semibold text-gray-500">
+            Current Residence State
+          </span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
@@ -474,7 +465,9 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           )}
         </div>
         <div>
-          <span className="font-semibold text-gray-500">Current Residence City</span>
+          <span className="font-semibold text-gray-500">
+            Current Residence City
+          </span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
@@ -498,7 +491,9 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           )}
         </div>
         <div>
-          <span className="font-semibold text-gray-500">Current Residence Pincode</span>
+          <span className="font-semibold text-gray-500">
+            Current Residence Pincode
+          </span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder="Enter Pincode"
@@ -623,7 +618,8 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </span>
           )}
         </div>
-        {formData.employmentType === "Salaried" ?( <div>
+        {formData.employmentType === "Salaried" ? (
+          <div>
             <span className="font-semibold text-gray-500">
               Salary Bank Name
             </span>
@@ -668,7 +664,8 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                   {formik.errors.primaryBankAccountOption}
                 </span>
               )}
-          </div>) :(
+          </div>
+        ) : (
           <div>
             <span className="font-semibold text-gray-500">
               Transaction Bank Name

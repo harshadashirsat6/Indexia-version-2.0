@@ -310,7 +310,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
       <div className="-mb-2.5 -ml-2.5 flex items-center space-x-2.5"></div>
       <h1 className="text-xl flex mb-8 flex-col space-y-2 font-semibold text-gray-500">
         <span>
-          Unlock best <span>home loan</span> offers suitable for your needs from{" "}
+          Unlock best <span>Car loan</span> offers suitable for your needs from{" "}
           <span>43+ lenders</span>
         </span>
         <span className="w-20 h-0.5 rounded-full bg-cyan-400"></span>
