@@ -71,6 +71,7 @@ export const inputs = {
   carShowroomPrice: "",
   carInsuranceType: "",
   // education
+  studentPancard:"",
   parentRelation: "",
   parentName: "",
   parentDob: "",

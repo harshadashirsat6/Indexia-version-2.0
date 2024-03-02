@@ -69,6 +69,11 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
       .length(10, "Pan card number should be 10 characters")
       .matches(/^[a-zA-Z]{5}\d{4}[a-zA-Z]$/, "Invalid pancard number")
       .matches(/^[A-Z0-9]+$/, "Only alphanumeric characters are allowed"),
+    studentPanCard: Yup.string()
+      .required("Pancard number required")
+      .length(10, "Pan card number should be 10 characters")
+      .matches(/^[a-zA-Z]{5}\d{4}[a-zA-Z]$/, "Invalid pancard number")
+      .matches(/^[A-Z0-9]+$/, "Only alphanumeric characters are allowed"),
     loanAmount: Yup.number()
       .integer("Loan amount must be a number")
       .required("Loan amount required"),
@@ -121,7 +126,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
   });
 
   const handleProceed = (values) => {
-    if (emiErr.status) {
+    if (loanErr.status) {
       return;
     }
 
@@ -148,22 +153,27 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
 
   //emi and income
   const [incomeError, setIncomeError] = useState({});
-  const [emiErr, setEmiErr] = useState({ status: false, message: "" });
+  const [loanErr, setLoanErr] = useState({ status: false, message: "" });
 
   //emi , cost and current turn over
   useEffect(() => {
-    const emi = formik.values.existingEmi;
+    const loanAmount = formik.values.loanAmount;
     const cost = formik.values.educationCost;
-    const finalEmiValue = Math.floor((cost * 90) / 100);
-    if (cost === 0) {
-      setEmiErr({ status: false, message: "Enter education cost" });
-    } else if (emi > finalEmiValue) {
-      setEmiErr({
+    const finalLoanAmount = Math.floor((cost * 90) / 100);
+
+    if (
+      formik.values.educationCost === 0 ||
+      !formik.values.educationCost ||
+      formik.values.educationCost === null
+    ) {
+      setLoanErr({ status: true, message: "Enter education cost" });
+    } else if (loanAmount > finalLoanAmount) {
+      setLoanErr({
         status: true,
-        message: `Emi should not be greater than ${finalEmiValue}`,
+        message: `Loan amount should not be greater than ${finalLoanAmount}`,
       });
-    } else if (emi <= finalEmiValue) {
-      setEmiErr({ status: false, message: "" });
+    } else if (loanAmount <= finalLoanAmount) {
+      setLoanErr({ status: false, message: "" });
     }
   }, [formik.values.educationCost, formik.values.existingEmi]);
   //current business state and current business city
@@ -231,7 +241,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
       return cleanedInput;
     }
   };
-  console.log(emiErr);
+
   return (
     <div className="py-10">
       <div className="-mb-2.5 -ml-2.5 flex items-center space-x-2.5"></div>
@@ -363,6 +373,28 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </span>
           )}
         </div>
+        <div className="col-span-1 sm:col-span-2">
+          <span className="font-semibold text-gray-500">PAN Card Number</span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder="Optional"
+              type="text"
+              {...formik.getFieldProps("studentPanCard")}
+              onChange={(e) =>
+                formik.setFieldValue(
+                  "studentPanCard",
+                  e.target.value.toUpperCase()
+                )
+              }
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
+          {formik.touched.studentPanCard && formik.errors.studentPanCard && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.studentPanCard}
+            </span>
+          )}
+        </div>
         <div>
           <span className="font-semibold text-gray-500">
             Required Loan Amount
@@ -375,11 +407,15 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
             />
           </div>
-          {formik.touched.loanAmount && formik.errors.loanAmount && (
+          {formik.touched.loanAmount && formik.errors.loanAmount ? (
             <span className="text-red-500 text-xs font-bold">
               {formik.errors.loanAmount}
             </span>
-          )}
+          ) : loanErr.status ? (
+            <span className="text-red-500 text-xs font-bold">
+              {loanErr.message}
+            </span>
+          ) : null}
         </div>
         <div>
           <span className="font-semibold text-gray-500">
@@ -1560,10 +1596,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           {formik.touched.existingEmi && formik.errors.existingEmi ? (
             <span className="text-red-500 text-xs font-bold duration-200">
               {formik.errors.existingEmi}
-            </span>
-          ) : emiErr.status ? (
-            <span className="text-red-500 text-xs font-bold duration-200">
-              {emiErr.message}
             </span>
           ) : null}
         </div>
