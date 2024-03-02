@@ -1593,7 +1593,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               </div>
             </div>
             <div>
-              <span>Old car vehicle number</span>
+              <span>Old vehicle number</span>
               <div className="border-b border-slate-400 py-1">
                 <input
                   placeholder=""
@@ -1633,7 +1633,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               </div>
             </div>
             <div>
-              <span>Old car insurance number (if any)</span>
+              <span>Old vehicle insurance number (if any)</span>
               <div className="border-b border-slate-400 py-1">
                 <input
                   placeholder=""
