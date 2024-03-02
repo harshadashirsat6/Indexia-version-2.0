@@ -61,8 +61,22 @@ export const inputs = {
   carModel: "",
   manufacturingYear: "",
   vehicleVIN: "",
+  transmission: "",
+  buyCarType: "",//old , new
+  oldCarRegistartionYear: "",
+  oldCarVehicleNumber: "",
+  carInsuranceNumber: "",
+  valueOfOldCar: "",
+  carOnroadPrice: "",
+  carShowroomPrice: "",
+  carInsuranceType: "",
   // education
+  parentRelation: "",
+  parentName: "",
+  parentDob: "",
+  country: "",
   fieldOfStudy: "",
+  countryName: "",
   universityName: "",
   instituteName: "",
   enrollmentStatus: "",
@@ -82,4 +96,12 @@ export const inputs = {
   exisitingCreditCardLimit: "",
   newCreditCardBankName: "",
   otherNewCreditCardBankName: "",
+  //BALANCE TRANSFER 
+  typeOfBalanceTransfer: "HL",
+  homeLoanTenure: "",
+  homeLoanROI: "",
+  lapTenure: "",
+  lapROI: "",
+  topupAmount:"",
+  transferPropertyValue:""
 };

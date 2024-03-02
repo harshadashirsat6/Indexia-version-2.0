@@ -3,9 +3,7 @@ import * as Yup from "yup";
 import ReCAPTCHA from "react-google-recaptcha";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  setFormData,
-} from "../../../store/appSlice";
+import { setFormData } from "../../../store/appSlice";
 import {
   employerType,
   residencyType,
@@ -77,13 +75,13 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
         "contact number must be of 10 digits",
         function (value) {
           return value.toString().length === 10;
-        },
+        }
       ),
     primaryBankAccount: Yup.string("").required(
-      "Income Bank Account Name required",
+      "Income Bank Account Name required"
     ),
     primaryBankAccountOption: Yup.string("").required(
-      "Income Bank Account required",
+      "Income Bank Account required"
     ),
   });
 
@@ -103,7 +101,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
         ...formData,
         ...values,
         monthlyIncome: formData.monthlyIncome,
-      }),
+      })
     );
     console.log(formData);
   };
@@ -189,7 +187,8 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
       <div className="-mb-2.5 -ml-2.5 flex items-center space-x-2.5"></div>
       <h1 className="text-xl flex mb-8 flex-col space-y-2 font-semibold text-gray-500">
         <span>
-          Unlock best <span>home loan</span> offers suitable for your needs from{" "}
+          Unlock best <span>Credit Card</span> offers suitable for your needs
+          from
           <span>43+ lenders</span>
         </span>
         <span className="w-20 h-0.5 rounded-full bg-cyan-400"></span>
@@ -356,9 +355,10 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           </span>
           <div className="border-b border-slate-400 py-1">
             <select
+              className="w-full"
               onChange={(e) =>
                 dispatch(
-                  setFormData({ ...formData, residencyType: e.target.value }),
+                  setFormData({ ...formData, residencyType: e.target.value })
                 )
               }
               {...formik.getFieldProps("residencyType")}
@@ -407,7 +407,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                   setFormData({
                     ...formData,
                     existingCreditCardStatus: e.target.value,
-                  }),
+                  })
                 )
               }
               className="w-full"
@@ -434,7 +434,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                       setFormData({
                         ...formData,
                         existingCreditCardBankName: e.target.value,
-                      }),
+                      })
                     )
                   }
                 >
@@ -465,7 +465,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                         setFormData({
                           ...formData,
                           otherExistingCreditCardBankName: e.target.value,
-                        }),
+                        })
                       )
                     }
                     className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
@@ -488,7 +488,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                       setFormData({
                         ...formData,
                         exisitingCreditCardLimit: e.target.value,
-                      }),
+                      })
                     )
                   }
                   className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
@@ -511,7 +511,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                   setFormData({
                     ...formData,
                     newCreditCardBankName: e.target.value,
-                  }),
+                  })
                 )
               }
             >
@@ -542,7 +542,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                     setFormData({
                       ...formData,
                       otherNewCreditCardBankName: e.target.value,
-                    }),
+                    })
                   )
                 }
                 className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
@@ -559,7 +559,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               value={formData.employmentType}
               onChange={(e) =>
                 dispatch(
-                  setFormData({ ...formData, employmentType: e.target.value }),
+                  setFormData({ ...formData, employmentType: e.target.value })
                 )
               }
             >
@@ -596,14 +596,14 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                   if (e.target.value === "Other") {
                     formik.setFieldValue(
                       "primaryBankAccountOption",
-                      e.target.value,
+                      e.target.value
                     );
                     formik.setFieldValue("primaryBankAccount", "");
                     return;
                   } else {
                     formik.setFieldValue(
                       "primaryBankAccountOption",
-                      e.target.value,
+                      e.target.value
                     );
                     formik.setFieldValue("primaryBankAccount", e.target.value);
                   }
@@ -643,14 +643,14 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                   if (e.target.value === "Other") {
                     formik.setFieldValue(
                       "primaryBankAccountOption",
-                      e.target.value,
+                      e.target.value
                     );
                     formik.setFieldValue("primaryBankAccount", "");
                     return;
                   } else {
                     formik.setFieldValue(
                       "primaryBankAccountOption",
-                      e.target.value,
+                      e.target.value
                     );
                     formik.setFieldValue("primaryBankAccount", e.target.value);
                   }
@@ -778,14 +778,14 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                     if (e.target.value === "Other") {
                       formik.setFieldValue(
                         "employerTypeOption",
-                        e.target.value,
+                        e.target.value
                       );
                       formik.setFieldValue("employerType", "");
                       return;
                     } else {
                       formik.setFieldValue(
                         "employerTypeOption",
-                        e.target.value,
+                        e.target.value
                       );
                       formik.setFieldValue("employerType", e.target.value);
                     }
@@ -860,7 +860,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                       setFormData({
                         ...formData,
                         monthlyIncome: e.target.value,
-                      }),
+                      })
                     );
 
                     setIncomeError({ status: false, msg: "" });
@@ -888,7 +888,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                         setFormData({
                           ...formData,
                           incomeRecievedAs: e.target.value,
-                        }),
+                        })
                       )
                     }
                   >
@@ -936,7 +936,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                       setFormData({
                         ...formData,
                         yearsInCurrentBusiness: e.target.value,
-                      }),
+                      })
                     )
                   }
                 >
@@ -1036,7 +1036,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                       setFormData({
                         ...formData,
                         businessPlaceOwnershipType: e.target.value,
-                      }),
+                      })
                     )
                   }
                   {...formik.getFieldProps("businessPlaceOwnershipType")}
@@ -1070,7 +1070,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                           setFormData({
                             ...formData,
                             otherBusinessPlaceType: e.target.value,
-                          }),
+                          })
                         )
                       }
                       className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
@@ -1091,7 +1091,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                       setFormData({
                         ...formData,
                         companyType: e.target.value,
-                      }),
+                      })
                     )
                   }
                 >
@@ -1139,7 +1139,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                       setFormData({
                         ...formData,
                         businessNature: e.target.value,
-                      }),
+                      })
                     );
                   }}
                 >
@@ -1180,7 +1180,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                       setFormData({
                         ...formData,
                         industryType: e.target.value,
-                      }),
+                      })
                     );
                   }}
                 >
@@ -1215,7 +1215,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                           setFormData({
                             ...formData,
                             otherIndustryType: e.target.value,
-                          }),
+                          })
                         )
                       }
                       className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
@@ -1237,7 +1237,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                       setFormData({
                         ...formData,
                         subIndustryType: e.target.value,
-                      }),
+                      })
                     );
                   }}
                   className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
@@ -1421,7 +1421,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                       setFormData({
                         ...formData,
                         businessPlaceOwnershipType: e.target.value,
-                      }),
+                      })
                     )
                   }
                   {...formik.getFieldProps("businessPlaceOwnershipType")}
@@ -1447,7 +1447,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                   value={formData.profession}
                   onChange={(e) =>
                     dispatch(
-                      setFormData({ ...formData, profession: e.target.value }),
+                      setFormData({ ...formData, profession: e.target.value })
                     )
                   }
                 >
@@ -1481,7 +1481,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                           setFormData({
                             ...formData,
                             otherProfession: e.target.value,
-                          }),
+                          })
                         )
                       }
                       className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
