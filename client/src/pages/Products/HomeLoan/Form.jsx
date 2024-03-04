@@ -9,16 +9,11 @@ import {
 } from "../../../store/appSlice";
 import {
   employerType,
-  homeLoanAmount,
-  homeLoanTenure,
-  loanStartDate,
-  collateralOption,
   residencyType,
   employmentType,
   incomeRecievedAs,
   newPropertyType,
   primaryBankAccount,
-  yearlyIncome,
   salaryBankAccount,
   //business
   yearsInCurrentBusiness,
@@ -105,7 +100,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     primaryBankAccountOption: Yup.string("").required(
       "Income Bank Account required"
     ),
-    propertyAge: Yup.string("").required("Income Bank Account required"),
+    companyName: Yup.string("").required("* required"),
     newPropertyState: Yup.string("").required("State required"),
     newPropertyCity: Yup.string("").required("City required"),
     newPropertyPincode: Yup.number()
@@ -371,11 +366,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               readOnly
             />
           </div>
-          {/* {formik.touched.name && formik.errors.name && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.name}
-            </span>
-          )} */}
         </div>
         <div>
           <span className="font-semibold text-gray-500">
@@ -948,6 +938,23 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           <>
             <div className="col-span-1 sm:col-span-2">
               <h1 className="font-bold"> Business Details</h1>
+            </div>
+            <div>
+              <span className="font-semibold text-gray-500">Company Name</span>
+              <div className="border-b border-slate-400 py-1">
+                <input
+                  placeholder="Enter your company name"
+                  type="text"
+                  value={formData.companyName}
+                  {...formik.getFieldProps("companyName")}
+                  className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+                />
+              </div>
+              {formik.touched.companyName && formik.errors.companyName && (
+                <span className="text-red-500 text-xs font-bold">
+                  {formik.errors.companyName}
+                </span>
+              )}
             </div>
             <div>
               <span className="font-semibold text-gray-500">
@@ -1540,55 +1547,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             )}
           </>
         )}
-        {/* <div>
-          <span className="font-semibold text-gray-500">
-            Wish To Take Loan Against
-          </span>
-          <div className="border-b border-slate-400 py-1 w-full">
-            <select
-              className="w-full"
-              {...formik.getFieldProps("collateralOption")}
-            >
-              <option>Select</option>
-              {collateralOption.map((ele, i) => {
-                return (
-                  <option key={i} value={ele}>
-                    {ele}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          {formik.touched.collateralOption &&
-            formik.errors.collateralOption && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.collateralOption}
-              </span>
-            )}
-        </div>
-        {formik.values.collateralOption === "Other" && (
-          <div>
-            <div>
-              <span className=" font-semibold text-gray-500">
-                Collateral Option Type
-              </span>
-              <div className="border-b border-slate-400 py-1">
-                <input
-                  placeholder=""
-                  type="text"
-                  {...formik.getFieldProps("otherCollateralOptionType")}
-                  className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-                />
-              </div>
-              {formik.touched.otherCollateralOptionType &&
-                formik.errors.otherCollateralOptionType && (
-                  <span className="text-red-500 text-xs font-bold">
-                    {formik.errors.otherCollateralOptionType}
-                  </span>
-                )}
-            </div>
-          </div>
-        )} */}
+
         <div>
           <span className="font-semibold text-gray-500">
             Existing Total EMI

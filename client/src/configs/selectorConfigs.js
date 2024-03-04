@@ -22,12 +22,14 @@ export const yearlyIncome = [
 ];
 
 export const loanTenure = ["1-3 Years", "3-5 Years", "5-7 Years", "Other"];
+
 export const loanStartDate = [
   "Within 30 days",
   "31-90 days",
   "91-180 days",
   "180+ days",
 ];
+
 export const salaryBankAccount = [
   "HDFC",
   "SBI",
@@ -39,6 +41,7 @@ export const salaryBankAccount = [
   "Citibank",
   "Other",
 ];
+
 export const primaryBankAccount = [
   "HDFC",
   "SBI",
@@ -151,19 +154,6 @@ export const employerType = [
 
 export const educationEnrollmentStatus = ["Full-time", "Part-time"];
 
-// home loan
-
-export const homeLoanAmount = [
-  "Upto ₹15 Lacs",
-  "₹15 - ₹20 Lacs",
-  "₹20 - ₹30 Lacs",
-  "₹30 - ₹50 Lacs",
-  "₹50 - ₹75 Lacs",
-  "₹75 Lacs +",
-];
-
-export const homeLoanTenure = ["1-3 Years", "3-5 Years", "5-7 Years", "Other"];
-
 export const newPropertyType = [
   "Under construction",
   "Ready new construction",
@@ -192,7 +182,7 @@ export const transmissionTypes = [
   "Diesel", "Petrol", "CNG", "Electric"
 ]
 
-export const countries=[
+export const countries = [
   "Afghanistan",
   "Albania",
   "Algeria",
@@ -389,5 +379,30 @@ export const countries=[
   "Yemen",
   "Zambia",
   "Zimbabwe"
+]
+export const homeLoanAmount = [""]
+export const homeLoanTenure = [""]
+//comercial purchase loan
+
+export const commercialLoanAmount = [
+  "Upto ₹20 Lacs",
+  "₹20 - ₹30 Lacs",
+  "₹30- ₹40 Lacs",
+  "₹40 - ₹50 Lacs",
+  "₹50- ₹60 Lacs",
+  "₹60- ₹70 Lacs",
+  "₹70- ₹80 Lacs",
+  "₹80- ₹90 Lacs",
+  "₹90 Lacs- ₹ 1 Cr",
+  "₹1 Cr above",
+];
+
+export const commercialPropertyType = [
+  "Commercial", "Industrial", "Other"
+]
+
+
+export const existingWokringCapitalLoanTypes = [
+  "Personal loan", "Business loan", "Home loan", "Car loan", "Working Capital", "Project Loan", "OD/CC", "Loan against share", "Gold loan", "Other",
 ]
 

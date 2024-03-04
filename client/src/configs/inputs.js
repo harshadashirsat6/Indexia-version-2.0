@@ -22,6 +22,8 @@ export const inputs = {
   existingEmi: 0,
   loanStartDate: "",
   primaryBankAccount: "",
+  existingLoanTenure: "",
+  existingLoanAmount: "",
   // business
   compnayName: "",
   profession: "",
@@ -55,6 +57,7 @@ export const inputs = {
   newPropertyState: "",
   newPropertyPincode: "",
   propertyAge: "",
+  propertyValue: "",
   multipleBankAccounts: [],
   // vehicle
   carManufacturer: "",
@@ -71,7 +74,7 @@ export const inputs = {
   carShowroomPrice: "",
   carInsuranceType: "",
   // education
-  studentPancard:"",
+  studentPancard: "",
   parentRelation: "",
   parentName: "",
   parentDob: "",
@@ -84,12 +87,20 @@ export const inputs = {
   courseDuration: "",
   educationCost: "",
   // project loan
+  projectType: "",
+  otherProjectType: "",
   projectDescription: "",
   projectObjective: "",
   scopeOfWorkandDeliverables: "",
   projectBudget: "",
   projectStartDate: "",
   expectedDateOfComletion: "",
+  projectState: "",
+  projectCity: "",
+  projectPincode: "",
+  projectCost: "",
+  ownInvestmentOnProject: "",
+  projectCompletionTime: "",
   //credit card
   existingCreditCardStatus: "",
   existingCreditCardBankName: "",
@@ -103,6 +114,9 @@ export const inputs = {
   homeLoanROI: "",
   lapTenure: "",
   lapROI: "",
-  topupAmount:"",
-  transferPropertyValue:""
+  topupAmount: "",
+  transferPropertyValue: "",
+  //working capital
+  existingLoanExposure: [],
+  otherExistingLoanExposure:"",
 };
