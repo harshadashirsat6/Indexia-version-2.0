@@ -851,7 +851,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 <input
                   placeholder="Enter your company name"
                   type="text"
-                  value={formData.companyName}
+                  value={formData.employerName}
                   {...formik.getFieldProps("employerName")}
                   className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
                 />
@@ -926,6 +926,19 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           <>
             <div className="col-span-1 sm:col-span-2">
               <h1 className="font-bold"> Business Details</h1>
+            </div>
+            <div>
+              <span className="font-semibold text-gray-500">Company Name</span>
+              <div className="border-b border-slate-400 py-1">
+                <input
+                  placeholder=""
+                  type="text"
+                  value={formData.companyName}
+                  name="companyName"
+                  className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+                  readOnly
+                />
+              </div>
             </div>
             <div>
               <span className="font-semibold text-gray-500">
