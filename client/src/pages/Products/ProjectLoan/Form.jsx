@@ -755,7 +755,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             EMPLOYMENT AND INCOME DETAILS
           </h1>
         </div>
-        <div className="pt-5">
+        <div className="">
           <span className="font-semibold text-gray-500">Employment Type</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
