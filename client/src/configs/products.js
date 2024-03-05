@@ -60,12 +60,12 @@ export const products = [
       "Unlock value from leased properties. Leverage lease rent-discounting to access immediate funds for your business needs, with favorable terms and conditions.",
   },
   {
-    title: "OD/CC-limit",
+    title: "OD-CC limit",
     description:
       "Unlock value from leased properties. Leverage lease rent-discounting to access immediate funds for your business needs, with favorable terms and conditions.",
   },
   {
-    title: "loan-against-share",
+    title: "loan-against share",
     description:
       "Unlock value from leased properties. Leverage lease rent-discounting to access immediate funds for your business needs, with favorable terms and conditions.",
   },

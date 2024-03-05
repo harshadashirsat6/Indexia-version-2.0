@@ -276,11 +276,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               readOnly
             />
           </div>
-          {/* {formik.touched.name && formik.errors.name && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.name}
-            </span>
-          )} */}
         </div>
         <div>
           <span className="font-semibold text-gray-500">Email Address</span>
