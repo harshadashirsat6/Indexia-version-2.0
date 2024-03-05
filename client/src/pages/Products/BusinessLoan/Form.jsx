@@ -112,7 +112,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
       .test("grater-than", "invalid value", function (value) {
         return value > 100;
       }),
-    companyName: Yup.string("").required("* required"),
+    
     currentBusinessState: Yup.string("").required("State required"),
     currentBusinessCity: Yup.string("").required("City required"),
   });
@@ -562,16 +562,12 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 <input
                   placeholder="Enter your company name"
                   type="text"
+                  name='companyName'
                   value={formData.companyName}
-                  {...formik.getFieldProps("companyName")}
+                 onChange={(e)=>dispatch(setFormData({...formData, companyName:e.target.value}))}
                   className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
                 />
               </div>
-              {formik.touched.companyName && formik.errors.companyName && (
-                <span className="text-red-500 text-xs font-bold">
-                  {formik.errors.companyName}
-                </span>
-              )}
             </div>
             <div>
               <span className="font-semibold text-gray-500">
