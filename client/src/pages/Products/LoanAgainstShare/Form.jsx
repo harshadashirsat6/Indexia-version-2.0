@@ -1,123 +1,106 @@
-import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useSelector, useDispatch } from "react-redux";
 import ReCAPTCHA from "react-google-recaptcha";
+import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import {
   setFormData,
   setShowSubmitLoanFormPaymentModal,
 } from "../../../store/appSlice";
-import {} from "../../../store/appSlice";
 import {
-  businessLoanTenure,
+  employerType,
   residencyType,
-  businessLoanEmploymentType,
-  collateralOption,
-  loanStartDate,
+  employmentType,
+  incomeRecievedAs,
   primaryBankAccount,
+  //business
   yearsInCurrentBusiness,
   BusinessNature,
   companyType,
   industryType,
   businessPlaceOwnershipTypeInputs,
 } from "../../../configs/selectorConfigs";
-import { validationPenCard } from "../../../validation/validationFun";
-import { Link } from "react-router-dom";
-import { changeIntoDate } from "../../../validation/function";
-import { FaRegCalendarAlt } from "react-icons/fa";
+import { useState, useEffect } from "react";
 import DatePicker from "../../../components/DatePicker/DatePicker";
+import { FaRegCalendarAlt } from "react-icons/fa";
 
 const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
   // const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { formData, isOpenModal } = useSelector((store) => store.app);
+  const { formData } = useSelector((store) => store.app);
   // checkbox
   const [checkBox1, setCheckBox1] = useState(true);
   const [checkBox2, setCheckBox2] = useState(false);
-  const [bankInValue, setBankInValue] = useState("");
   const [activeCl, setActiveCl] = useState(true);
 
   // Yup validation
   const validationSchema = Yup.object({
+    name: Yup.string("").min(5).required("Full name required"),
     dateOfBirth: Yup.string("")
       .required("Date of birth required")
-      .test("age-check", "Must be at least 21 years old", function (value) {
+      .test("age-check", "age must be between 23 and 60", function (value) {
         const currentDate = new Date();
         const selectedDate = new Date(value.split("-").reverse().join("-"));
-        console.log(selectedState);
         const age = currentDate.getFullYear() - selectedDate.getFullYear();
 
         // Adjust the age check as per your specific requirements
-        return age >= 21;
+        return age >= 18;
       }),
     state: Yup.string("").required("State required"),
     city: Yup.string("").required("City required"),
     pincode: Yup.number()
-      .integer("Pincode must be a number")
+      .integer("Invalid pincode")
       .required("Pincode required")
       .test("length-check", "Invalid pincode", function (value) {
         return value.toString().length === 6;
       }),
-    residencyType: Yup.string("").required("select residency type"),
+    residencyType: Yup.string("").required("Residency type required"),
     panCardNum: Yup.string()
       .required("Pancard number required")
       .length(10, "Pan card number should be 10 characters")
       .matches(/^[a-zA-Z]{5}\d{4}[a-zA-Z]$/, "Invalid pancard number")
       .matches(/^[A-Z0-9]+$/, "Only alphanumeric characters are allowed"),
-
     loanAmount: Yup.number()
       .integer("Loan amount must be a number")
       .required("Loan amount required"),
-    loanTenure: Yup.string("").required("Loan tenure required"),
-    loanTenureOption: Yup.string("").required("Loan tenure required"),
     collateralOption: Yup.string("").required("* mandatory"),
+    otherCollateralOptionType: Yup.string("").required("* required"),
+    loanTenure: Yup.number()
+      .integer("Loan amount must be a number")
+      .required("Loan tenure required")
+      .min(3, "min 3")
+      .max(40, "max 40"),
+
+    // loanTenureOption: Yup.string("").required("Loan tenure required"),
+    employerType: Yup.string("").required("Employer type required"),
+    employerTypeOption: Yup.string("").required("Employer type required"),
+    employmentType: Yup.string("").required("Employment type required"),
+    employerName: Yup.string("").required("Employer name required"),
     existingEmi: Yup.number()
       .integer("EMI must be a number")
       .required("EMI required")
       .min(0, "min 0"),
+    email: Yup.string("").email().required("Email required"),
+    contact: Yup.number()
+      .integer("Invalid contact number")
+      .required("Contact number required")
+      .test(
+        "length-check",
+        "contact number must be of 10 digits",
+        function (value) {
+          return value.toString().length === 10;
+        }
+      ),
     primaryBankAccount: Yup.string("").required(
-      "*Income Bank Account Name required"
+      "Income Bank Account Name required"
     ),
     primaryBankAccountOption: Yup.string("").required(
-      "*Income Bank Account required"
+      "Income Bank Account required"
     ),
-    otherCollateralOptionType: Yup.string("").required("* required"),
-    YearsInBusinessOver5: Yup.number()
-      .integer("invalid input")
-      .required("* required")
-      .test("grater-than", "must be greater than 5", function (value) {
-        return value > 5;
-      }),
-    currentYearTurnOver: Yup.number()
-      .integer("invalid input")
-      .required("* required")
-      .test("grater-than", "invalid value", function (value) {
-        return value > 100;
-      }),
-    previousYearTurnOver: Yup.number()
-      .integer("invalid input")
-      .required("* required")
-      .test("grater-than", "invalid value", function (value) {
-        return value > 100;
-      }),
-    currentYearNetProfit: Yup.number()
-      .integer("invalid input")
-      .required("* required")
-      .test("grater-than", "invalid value", function (value) {
-        return value > 100;
-      }),
-    previousYearNetProfit: Yup.number()
-      .integer("invalid input")
-      .required("* required")
-      .test("grater-than", "invalid value", function (value) {
-        return value > 100;
-      }),
-    companyName: Yup.string("").required("* required"),
-    currentBusinessState: Yup.string("").required("State required"),
-    currentBusinessCity: Yup.string("").required("City required"),
+    companyShareName: Yup.string("").required("* required"),
   });
-  // Formik
 
+  // Formik
   const formik = useFormik({
     initialValues: formData,
     validationSchema: validationSchema,
@@ -130,12 +113,13 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     if (emiErrStatus) {
       return;
     }
-    console.log("values", values);
+
     dispatch(setShowSubmitLoanFormPaymentModal(true));
     dispatch(
       setFormData({
         ...formData,
         ...values,
+        monthlyIncome: formData.monthlyIncome,
       })
     );
   };
@@ -151,43 +135,128 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     formik?.values?.employerTypeOption,
   ]);
 
-  //emi and current turn over
+  //emi and income
+  const [incomeError, setIncomeError] = useState({});
   const [emiErr, setEmiErr] = useState("");
   const [emiErrStatus, setEmiErrStatus] = useState(false);
+
+  //emi , salary and current turn over
   useEffect(() => {
-    if (
-      formik.values.existingEmi > 0 &&
-      formik.values.currentYearTurnOver === 0
-    ) {
-      setEmiErrStatus(true);
-      return setEmiErr("please mention your  currnt year turnover");
-    } else if (formik.values.currentYearTurnOver > 0) {
-      const currentYearTurnOverValue = formik.values.currentYearTurnOver;
-      const monthlyVal = currentYearTurnOverValue / 12;
-      const percentageVal = (monthlyVal * 80) / 100;
-      console.log(percentageVal);
-      if (formik.values.existingEmi > percentageVal) {
+    if (formData.employmentType === "Salaried") {
+      if (!formData.monthlyIncome) {
+        return setIncomeError({ status: true, msg: "please enter salary" });
+      }
+      if (formData.monthlyIncome === 0 && formik.values.existingEmi > 0) {
         setEmiErrStatus(true);
-        return setEmiErr(`existing emi should be <=  ${percentageVal}`);
-      } else if (formik.values.existingEmi <= percentageVal) {
+        return setEmiErr("salary invalid. please mention your salary");
+      } else if (formData.monthlyIncome > 0) {
+        if (formData.monthlyIncome < 12000) {
+          setEmiErrStatus(false);
+          return setIncomeError({
+            status: true,
+            msg: "salary should be greater 12000",
+          });
+        } else if (
+          formData.monthlyIncome >= 12000 &&
+          formik.values.existingEmi > 0
+        ) {
+          console.log("err3");
+          const salaryVal = formData.monthlyIncome;
+          console.log("salary val", salaryVal);
+          const percentageVal = (salaryVal * 80) / 100;
+          console.log(percentageVal);
+          if (formik.values.existingEmi > percentageVal) {
+            setEmiErrStatus(true);
+            return setEmiErr(`Existing EMI should less than ${percentageVal}`);
+          } else if (formik.values.existingEmi <= percentageVal) {
+            setEmiErrStatus(false);
+            return setEmiErr("");
+          }
+          return setEmiErr("");
+        }
+      }
+    } else {
+      if (
+        formik.values.existingEmi > 0 &&
+        formik.values.currentYearTurnOver === 0
+      ) {
         setEmiErrStatus(true);
-        return setEmiErr("");
+        return setEmiErr("please mention your  currnt year turnover");
+      } else if (formik.values.currentYearTurnOver > 0) {
+        const currentYearTurnOverValue = formik.values.currentYearTurnOver;
+        const monthlyVal = currentYearTurnOverValue / 12;
+        const percentageVal = (monthlyVal * 80) / 100;
+        console.log(percentageVal);
+        if (formik.values.existingEmi > percentageVal) {
+          setEmiErrStatus(true);
+          return setEmiErr(`existing emi should be <=  ${percentageVal}`);
+        } else if (formik.values.existingEmi <= percentageVal) {
+          setEmiErrStatus(false);
+          return setEmiErr("");
+        }
       }
     }
-    setEmiErrStatus(false);
-  }, [formik.values.existingEmi, formik.values.currentYearTurnOver]);
+  }, [
+    formik.values.existingEmi,
+    formik.values.currentYearTurnOver,
+    formData.monthlyIncome,
+    formData.employmentType,
+  ]);
+
+  //New property state and city
+  const [newpropertyStates, setNewpropertyState] = useState([]);
+  const [selectedNewpropertyState, setSelectedNewpropertyState] = useState("");
+  var newPropertyStateConfig = {
+    url: "https://api.countrystatecity.in/v1/countries/In/states",
+    key: "N00wMDJleEpjQ09wTjBhN0VSdUZxUGxWMlJKTGY1a0tRN0lpakh5Vw==",
+  };
+  const getNewPropertyStates = async () => {
+    await fetch(newPropertyStateConfig.url, {
+      headers: { "X-CSCAPI-KEY": newPropertyStateConfig.key },
+    })
+      .then((resp) => resp.json())
+      .then((resp) => {
+        setNewpropertyState(resp);
+        console.log(resp);
+      })
+      .catch((err) => console.log(err));
+  };
+  useEffect(() => {
+    getNewPropertyStates();
+  }, []);
+  // get cities after selecting state
+  const [newpropertyCities, setNewpropertyCities] = useState([]);
+  var newPropertyCityConfig = {
+    url: `https://api.countrystatecity.in/v1/countries/IN/states/${selectedNewpropertyState}/cities`,
+    key: "N00wMDJleEpjQ09wTjBhN0VSdUZxUGxWMlJKTGY1a0tRN0lpakh5Vw==",
+  };
+  const getNewPropertyCities = async () => {
+    await fetch(newPropertyCityConfig.url, {
+      headers: { "X-CSCAPI-KEY": newPropertyCityConfig.key },
+    })
+      .then((resp) => resp.json())
+      .then((resp) => {
+        setNewpropertyCities(resp);
+      })
+      .catch((err) => console.log(err));
+  };
+  useEffect(() => {
+    if (selectedNewpropertyState) {
+      getNewPropertyCities();
+    }
+  }, [selectedNewpropertyState]);
 
   //current business state and current business city
   // state city api
   const [businessStates, setBusinessStates] = useState([]);
   const [selectedBusinessState, setSelectedBusinessState] = useState("");
-  var stateConfig = {
+  var businessStateConfig = {
     url: "https://api.countrystatecity.in/v1/countries/In/states",
     key: "N00wMDJleEpjQ09wTjBhN0VSdUZxUGxWMlJKTGY1a0tRN0lpakh5Vw==",
   };
   const getBusinessStates = async () => {
-    await fetch(stateConfig.url, {
-      headers: { "X-CSCAPI-KEY": stateConfig.key },
+    await fetch(businessStateConfig.url, {
+      headers: { "X-CSCAPI-KEY": businessStateConfig.key },
     })
       .then((resp) => resp.json())
       .then((resp) => {
@@ -201,13 +270,13 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
   }, []);
   // get cities after selecting state
   const [businessCities, setBusinessCities] = useState([]);
-  var cityConfig = {
+  var businessCityConfig = {
     url: `https://api.countrystatecity.in/v1/countries/IN/states/${selectedBusinessState}/cities`,
     key: "N00wMDJleEpjQ09wTjBhN0VSdUZxUGxWMlJKTGY1a0tRN0lpakh5Vw==",
   };
   const getBusinessCities = async () => {
-    await fetch(cityConfig.url, {
-      headers: { "X-CSCAPI-KEY": cityConfig.key },
+    await fetch(businessCityConfig.url, {
+      headers: { "X-CSCAPI-KEY": businessCityConfig.key },
     })
       .then((resp) => resp.json())
       .then((resp) => {
@@ -220,6 +289,11 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
       getBusinessCities();
     }
   }, [selectedBusinessState]);
+  //multiple transaction bank name
+  const [bankName, setBankName] = useState("");
+  const [bankNameErr, setBankNameErr] = useState("");
+  const [bankNameArr = [], setBankNameArr] = useState([]);
+  //auto dash in birthdate
   const formatBirthdate = (inputDate) => {
     const cleanedInput = inputDate.replace(/[^\d]/g, ""); // Remove non-numeric characters
     console.log(cleanedInput);
@@ -237,117 +311,32 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
   };
 
   return (
-    <div className="py-10 ">
+    <div className="py-10">
       <div className="-mb-2.5 -ml-2.5 flex items-center space-x-2.5"></div>
       <h1 className="text-xl flex mb-8 flex-col space-y-2 font-semibold text-gray-500">
         <span>
-          Unlock best <span>business loan</span> offers suitable for your needs
-          from <span>43+ lenders</span>
+          Unlock the best <span>Loan Against Property</span> offers suitable for
+          your needs from <span>43+ lenders</span>
         </span>
-        <span className="w-20 h-0.5 rounded-full bg-cyan-400 "></span>
+        <span className="w-20 h-0.5 rounded-full bg-cyan-400"></span>
       </h1>
       <form
-        className="block lg:grid lg:grid-cols-2  gap-8 "
+        className="block lg:grid lg:grid-cols-2  gap-8"
         onSubmit={(e) => {
           e.preventDefault();
           formik.handleSubmit();
         }}
       >
-        <div>
-          <span className="font-semibold text-gray-500">Full Name</span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder="As per your pan card"
-              type="text"
-              value={user?.name}
-              name="name"
-              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
-              readOnly
-            />
-          </div>
-          {/* {formik.touched.name && formik.errors.name && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.name}
-            </span>
-          )} */}
+        {/* loan requirements */}
+        <div className="col-span-1 sm:col-span-2">
+          <h1 className="font-bold text-blue-600 underline underline-offset-4 ">
+            LOAN REQUIREMENTS
+          </h1>
         </div>
-
         <div>
           <span className="font-semibold text-gray-500">
-            Date of Birth (As per PAN card){" "}
+            Required Loan Amount
           </span>
-          <div className="border-b border-slate-400 py-1 flex relative">
-            <input
-              placeholder="DD-MM-YYYY"
-              type="text"
-              onBlur={() => formik.setFieldTouched("dateOfBirth", true)}
-              value={formik.values.dateOfBirth}
-              onChange={(e) => {
-                const formattedDate = formatBirthdate(e.target.value);
-
-                formik.setFieldValue("dateOfBirth", formattedDate);
-              }}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-            />
-            <div
-              id="e;ljfeijfie"
-              className="w-8 h-[inherit]  bg-gray-200 flex items-center justify-center rounded cursor-pointer"
-              onClick={(e) => {
-                if (e.target.id === "e;ljfeijfie") {
-                  setActiveCl((prev) => !prev);
-                  formik.setFieldTouched("dateOfBirth", true);
-                }
-              }}
-            >
-              <FaRegCalendarAlt
-                onClick={() => {
-                  setActiveCl((prev) => !prev);
-                  formik.setFieldTouched("dateOfBirth", true);
-                }}
-              />
-              <div className={activeCl ? "hidden" : "block "}>
-                <DatePicker
-                  setActive={() => {
-                    setActiveCl(true);
-                  }}
-                  handaleDate={(date) => {
-                    formik.setFieldValue("dateOfBirth", date);
-                  }}
-                  clearFun={() => {
-                    formik.setFieldValue("dateOfBirth", "");
-                  }}
-                  date={formik.dateOfBirth}
-                />
-              </div>
-            </div>
-          </div>
-          {formik.touched.dateOfBirth && formik.errors.dateOfBirth && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.dateOfBirth}
-            </span>
-          )}
-        </div>
-        <div className="col-span-1 sm:col-span-2">
-          <span className="font-semibold text-gray-500">PAN Card Number</span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder="Enter Permanent Account Number"
-              type="text"
-              {...formik.getFieldProps("panCardNum")}
-              onChange={(e) =>
-                formik.setFieldValue("panCardNum", e.target.value.toUpperCase())
-              }
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-            />
-          </div>
-          {formik.touched.panCardNum && formik.errors.panCardNum && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.panCardNum}
-            </span>
-          )}
-        </div>
-        <div>
-          <span className="font-semibold text-gray-500">Loan Amount</span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder=""
@@ -363,113 +352,135 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           )}
         </div>
         <div>
-          <span className="font-semibold text-gray-500">Loan Tenure</span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full py-2.5"
-              name="loanTenure"
-              value={formData.loanTenureOption}
-              onBlur={() => formik.setFieldTouched("loanTenureOption", true)}
-              onChange={(e) => {
-                if (e.target.value === "Other") {
-                  formik.setFieldValue("loanTenureOption", e.target.value);
-                  formik.setFieldValue("loanTenure", "");
-                  return;
-                } else {
-                  formik.setFieldValue("loanTenureOption", e.target.value);
-                  formik.setFieldValue("loanTenure", e.target.value);
-                }
-              }}
-            >
-              <option value="">Select</option>
-              {businessLoanTenure.map((tenure, i) => (
-                <option key={i} value={tenure}>
-                  {tenure}
-                </option>
-              ))}
-            </select>
+          <span className="font-semibold text-gray-500">
+            Required Loan Tenure (in years)
+          </span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder=""
+              type="number"
+              {...formik.getFieldProps("loanTenure")}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
           </div>
-          {formik.touched.loanTenureOption &&
-            formik.errors.loanTenureOption && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.loanTenureOption}
-              </span>
-            )}
-        </div>
-        {formik.values.loanTenureOption === "Other" && (
-          <div>
-            <span className=" font-semibold text-gray-500">
-              Enter Loan Tenure
+          {formik.touched.loanTenure && formik.errors.loanTenure ? (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.loanTenure}
             </span>
-            <div className="border-b border-slate-400 py-1">
-              <input
-                placeholder=""
-                type="text"
-                {...formik.getFieldProps("loanTenure")}
-                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-              />
-            </div>
-            {formik.touched.loanTenure && formik.errors.loanTenure && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.loanTenure}
-              </span>
-            )}
-          </div>
-        )}
+          ) : null}
+        </div>
         <div>
+          <span className="font-semibold text-gray-500">
+            Company Share Name
+          </span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder=""
+              type="text"
+              name="companyShareName"
+              value={formData.companyShareName}
+              onChange={(e) => {
+                dispatch(
+                  setFormData({ ...formData, companyShareName: e.target.value })
+                );
+              }}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
+        </div>
+        <div>
+          <span className="font-semibold text-gray-500">
+            Value of one share
+          </span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder=""
+              type="number"
+              name="valueOfOneShare"
+              value={formData.valueOfOneShare}
+              onChange={(e) => {
+                dispatch(
+                  setFormData({ ...formData, valueOfOneShare: e.target.value })
+                );
+              }}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
+        </div>
+        <div>
+          <span className="font-semibold text-gray-500">Quantity</span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder=""
+              type="number"
+              name="shareQuantity"
+              value={formData.shareQuantity}
+              onChange={(e) => {
+                dispatch(
+                  setFormData({ ...formData, shareQuantity: e.target.value })
+                );
+              }}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
+        </div>
+        <div>
+          <span className="font-semibold text-gray-500">Total share price</span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder=""
+              type="number"
+              name="totalSharePrice"
+              value={formData.valueOfOneShare * formData.shareQuantity}
+              onChange={(e) => {
+                dispatch(
+                  setFormData({ ...formData, totalSharePrice: e.target.value })
+                );
+              }}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
+        </div>
+        <div>
+          <span className="font-semibold text-gray-500">Market Value</span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder=""
+              type="number"
+              name="marektValue"
+              value={formData.marektValue}
+              onChange={(e) => {
+                dispatch(
+                  setFormData({ ...formData, marektValue: e.target.value })
+                );
+              }}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
+        </div>
+        {/* loan requirement ends */}
+
+        {/* employment and income details */}
+        <div className="col-span-1 sm:col-span-2 py-8">
+          <h1 className="font-bold text-blue-600 underline underline-offset-4">
+            EMPLOYMENT AND INCOME DETAILS
+          </h1>
+        </div>
+        <div className="pt-5">
           <span className="font-semibold text-gray-500">Employment Type</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
+              {...formik.getFieldProps("employmentType")}
               value={formData.employmentType}
-              name="employmentType"
               onChange={(e) =>
                 dispatch(
                   setFormData({ ...formData, employmentType: e.target.value })
                 )
               }
             >
-              <option value="">Select</option>
-              {businessLoanEmploymentType.map((ele) => {
-                return (
-                  <option key={ele} value={ele}>
-                    {ele}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-        </div>
-        <div>
-          <span className="font-semibold text-gray-500">
-            Income Bank Account
-          </span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full py-2.5"
-              value={formik.values.primaryBankAccountOption}
-              onBlur={() =>
-                formik.setFieldTouched("primaryBankAccountOption", true)
-              }
-              onChange={(e) => {
-                if (e.target.value === "Other") {
-                  formik.setFieldValue(
-                    "primaryBankAccountOption",
-                    e.target.value
-                  );
-                  formik.setFieldValue("primaryBankAccount", "");
-                  return;
-                } else {
-                  formik.setFieldValue(
-                    "primaryBankAccountOption",
-                    e.target.value
-                  );
-                  formik.setFieldValue("primaryBankAccount", e.target.value);
-                }
-              }}
-            >
               <option value={""}>Select</option>
-              {primaryBankAccount.map((ele) => {
+              {employmentType.map((ele) => {
                 return (
                   <option key={ele} value={ele}>
                     {ele}
@@ -478,17 +489,111 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               })}
             </select>
           </div>
-          {formik.touched.primaryBankAccountOption &&
-            formik.errors.primaryBankAccountOption && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.primaryBankAccountOption}
-              </span>
-            )}
+          {formik.touched.employmentType && formik.errors.employmentType && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.employmentType}
+            </span>
+          )}
         </div>
+        {formData.employmentType === "Salaried" ? (
+          <div>
+            <span className="font-semibold text-gray-500">
+              Salary Bank Name
+            </span>
+            <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+              <select
+                className="bg-transparent w-full py-2.5"
+                name="primaryBankAccount"
+                value={formik.values.primaryBankAccountOption}
+                onBlur={() =>
+                  formik.setFieldTouched("primaryBankAccountOption", true)
+                }
+                onChange={(e) => {
+                  if (e.target.value === "Other") {
+                    formik.setFieldValue(
+                      "primaryBankAccountOption",
+                      e.target.value
+                    );
+                    formik.setFieldValue("primaryBankAccount", "");
+                    return;
+                  } else {
+                    formik.setFieldValue(
+                      "primaryBankAccountOption",
+                      e.target.value
+                    );
+                    formik.setFieldValue("primaryBankAccount", e.target.value);
+                  }
+                }}
+              >
+                <option value={""}>Select</option>
+                {primaryBankAccount.map((ele) => {
+                  return (
+                    <option key={ele} value={ele}>
+                      {ele}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+            {formik.touched.primaryBankAccountOption &&
+              formik.errors.primaryBankAccountOption && (
+                <span className="text-red-500 text-xs font-bold">
+                  {formik.errors.primaryBankAccountOption}
+                </span>
+              )}
+          </div>
+        ) : (
+          <div>
+            <span className="font-semibold text-gray-500">
+              Transaction Bank Name
+            </span>
+            <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+              <select
+                className="bg-transparent w-full py-2.5"
+                name="primaryBankAccount"
+                value={formik.values.primaryBankAccountOption}
+                onBlur={() =>
+                  formik.setFieldTouched("primaryBankAccountOption", true)
+                }
+                onChange={(e) => {
+                  if (e.target.value === "Other") {
+                    formik.setFieldValue(
+                      "primaryBankAccountOption",
+                      e.target.value
+                    );
+                    formik.setFieldValue("primaryBankAccount", "");
+                    return;
+                  } else {
+                    formik.setFieldValue(
+                      "primaryBankAccountOption",
+                      e.target.value
+                    );
+                    formik.setFieldValue("primaryBankAccount", e.target.value);
+                  }
+                }}
+              >
+                <option value={""}>Select</option>
+                {primaryBankAccount.map((ele) => {
+                  return (
+                    <option key={ele} value={ele}>
+                      {ele}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+            {formik.touched.primaryBankAccountOption &&
+              formik.errors.primaryBankAccountOption && (
+                <span className="text-red-500 text-xs font-bold">
+                  {formik.errors.primaryBankAccountOption}
+                </span>
+              )}
+          </div>
+        )}
         {formik.values.primaryBankAccountOption === "Other" && (
           <div>
             <span className=" font-semibold text-gray-500">
-              Enter Income Bank Account Name
+              Other transaction Bank Name
             </span>
             <div className="border-b border-slate-400 py-1">
               <input
@@ -506,56 +611,128 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               )}
           </div>
         )}
-
-        <div>
-          <span className="font-semibold text-gray-500">
-            Years In Current Business
-          </span>
-          <div className="border-b border-slate-400 py-1">
-            <select
-              className="w-full"
-              value={formData.yearsInCurrentBusiness}
-              onChange={(e) =>
-                dispatch(
-                  setFormData({
-                    ...formData,
-                    yearsInCurrentBusiness: e.target.value,
-                  })
-                )
-              }
-            >
-              {yearsInCurrentBusiness.map((ele, i) => {
-                return <option key={i}>{ele}</option>;
-              })}
-            </select>
-          </div>
-        </div>
-        {formData.yearsInCurrentBusiness === "over 5 years" && (
+        {formik.values.primaryBankAccountOption ===
+          "Multiple transaction banks" && (
           <div>
             <span className=" font-semibold text-gray-500">
-              Please mention current years in business
+              Mention multiple transaction bank names
             </span>
-            <div className="border-b border-slate-400 py-1">
+            <div className="border-b border-slate-400 py-1 flex ">
               <input
-                placeholder="over 5 years"
+                placeholder=""
                 type="text"
-                {...formik.getFieldProps("YearsInBusinessOver5")}
+                name="bankName"
+                value={bankName}
+                onChange={(e) => {
+                  setBankNameErr();
+                  setBankName(e.target.value);
+                }}
                 className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
               />
+              <button
+                type="button"
+                onClick={() => {
+                  if (bankName) {
+                    setBankNameArr([...bankNameArr, bankName]);
+                  } else {
+                    setBankNameErr("Bank name cannot be empty");
+                  }
+                }}
+                className="bg-blue-300 hover:bg-blue-200 text-black  font-bold rounded-lg px-5 py-0.5 "
+              >
+                Add
+              </button>
             </div>
-            {formik.touched.YearsInBusinessOver5 &&
-              formik.errors.YearsInBusinessOver5 && (
+            {bankNameArr.length ? (
+              <div>
+                {bankNameArr.slice(0, 3).map((bankname, i) => (
+                  <p key={i} className="flex gap-2">
+                    <span>{i + 1}.</span>
+                    <span>{bankname}</span>
+                  </p>
+                ))}
+              </div>
+            ) : null}
+            {bankNameArr.length > 3 && (
+              <span className="text-red-500 text-xs font-bold">
+                You can add upto 3 banks only
+              </span>
+            )}
+            <span>
+              {bankNameErr ? (
                 <span className="text-red-500 text-xs font-bold">
-                  {formik.errors.YearsInBusinessOver5}
+                  {bankNameErr}
                 </span>
-              )}
+              ) : null}
+            </span>
           </div>
         )}
-        {formData.employmentType === "Self-employed business" ? (
+        {/* salary */}
+        {formData.employmentType === "Salaried" ? (
           <>
-            <div className="col-span-1 sm:col-span-2">
-              <h1 className="font-bold"> Business Details</h1>
+            <div>
+              <span className="font-semibold text-gray-500">Company Type</span>
+              <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+                <select
+                  className="bg-transparent w-full py-2.5"
+                  value={formik.values.employerTypeOption}
+                  onBlur={() =>
+                    formik.setFieldTouched("employerTypeOption", true)
+                  }
+                  onChange={(e) => {
+                    if (e.target.value === "Other") {
+                      formik.setFieldValue(
+                        "employerTypeOption",
+                        e.target.value
+                      );
+                      formik.setFieldValue("employerType", "");
+                      return;
+                    } else {
+                      formik.setFieldValue(
+                        "employerTypeOption",
+                        e.target.value
+                      );
+                      formik.setFieldValue("employerType", e.target.value);
+                    }
+                  }}
+                >
+                  <optio value={""}>Select</optio>
+                  {employerType.map((ele) => {
+                    return (
+                      <option key={ele} value={ele}>
+                        {ele}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+              {formik.touched.employerTypeOption &&
+                formik.errors.employerTypeOption && (
+                  <span className="text-red-500 text-xs font-bold">
+                    {formik.errors.employerTypeOption}
+                  </span>
+                )}
             </div>
+            {formik.values.employerTypeOption === "Other" && (
+              <div>
+                <span className=" font-semibold text-gray-500">
+                  Other company type
+                </span>
+                <div className="border-b border-slate-400 py-1">
+                  <input
+                    type="text"
+                    {...formik.getFieldProps("employerType")}
+                    placeholder="Enter Employer type"
+                    className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+                  />
+                </div>
+                {formik.touched.employerType && formik.errors.employerType && (
+                  <span className="text-red-500 text-xs font-bold">
+                    {formik.errors.employerType}
+                  </span>
+                )}
+              </div>
+            )}
             <div>
               <span className="font-semibold text-gray-500">Company Name</span>
               <div className="border-b border-slate-400 py-1">
@@ -563,15 +740,103 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                   placeholder="Enter your company name"
                   type="text"
                   value={formData.companyName}
-                  {...formik.getFieldProps("companyName")}
+                  {...formik.getFieldProps("employerName")}
                   className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
                 />
               </div>
-              {formik.touched.companyName && formik.errors.companyName && (
+              {formik.touched.employerName && formik.errors.employerName && (
                 <span className="text-red-500 text-xs font-bold">
-                  {formik.errors.companyName}
+                  {formik.errors.employerName}
                 </span>
               )}
+            </div>
+            <div>
+              <span className="font-semibold text-gray-500">
+                Monthly Net Income
+              </span>
+              <div className="border-b border-slate-400 py-1">
+                <input
+                  placeholder="Take home salary"
+                  type="number"
+                  name="monthlyIncomeno"
+                  value={formData.monthlyIncome}
+                  onChange={(e) => {
+                    dispatch(
+                      setFormData({
+                        ...formData,
+                        monthlyIncome: e.target.value,
+                      })
+                    );
+
+                    setIncomeError({ status: false, msg: "" });
+                  }}
+                  className="bg-transparent w-full outline-none  placeholder:text-slate-500 "
+                />
+              </div>
+              {incomeError.status && (
+                <span className="text-red-500 text-xs font-bold">
+                  {incomeError.msg}
+                </span>
+              )}
+            </div>
+            <div>
+              <span className="font-semibold text-gray-500">
+                Income recieved as
+              </span>
+              <div>
+                <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+                  <select
+                    className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
+                    {...formik.getFieldProps("incomeRecievedAs")}
+                    onChange={(e) =>
+                      dispatch(
+                        setFormData({
+                          ...formData,
+                          incomeRecievedAs: e.target.value,
+                        })
+                      )
+                    }
+                  >
+                    <option value="">Select</option>
+                    {incomeRecievedAs.map((ele, i) => {
+                      return (
+                        <option key={ele} value={ele}>
+                          {ele}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+              </div>
+            </div>
+          </>
+        ) : formData.employmentType === "Self-employed business" ? (
+          <>
+            <div className="col-span-1 sm:col-span-2">
+              <h1 className="font-bold"> Business Details</h1>
+            </div>
+            <div>
+              <span className="font-semibold text-gray-500">
+                Years In Current Business
+              </span>
+              <div className="border-b border-slate-400 py-1">
+                <select
+                  className="w-full"
+                  value={formData.yearsInCurrentBusiness}
+                  onChange={(e) =>
+                    dispatch(
+                      setFormData({
+                        ...formData,
+                        yearsInCurrentBusiness: e.target.value,
+                      })
+                    )
+                  }
+                >
+                  {yearsInCurrentBusiness.map((ele, i) => {
+                    return <option key={i}>{ele}</option>;
+                  })}
+                </select>
+              </div>
             </div>
             <div>
               <span className="font-semibold text-gray-500">
@@ -639,7 +904,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               </span>
               <div className="border-b border-slate-400 py-1">
                 <input
-                  placeholder=""
+                  placeholder="Enter Pincode"
                   type="text"
                   {...formik.getFieldProps("currentBusinessPincode")}
                   className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
@@ -680,6 +945,32 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                   </span>
                 )}
             </div>
+            {formik.values.businessPlaceOwnershipType === "Other" && (
+              <div>
+                <div>
+                  <span className=" font-semibold text-gray-500">
+                    Mention status business place
+                  </span>
+                  <div className="border-b border-slate-400 py-1">
+                    <input
+                      placeholder=""
+                      type="text"
+                      name="otherBusinessPlaceType"
+                      value={formData.otherBusinessPlaceType}
+                      onChange={(e) =>
+                        dispatch(
+                          setFormData({
+                            ...formData,
+                            otherBusinessPlaceType: e.target.value,
+                          })
+                        )
+                      }
+                      className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
             <div>
               <span className="font-semibold text-gray-500">Company Type</span>
               <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
@@ -799,6 +1090,33 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 </span>
               )}
             </div>
+            {formData.industryType === "Other" && (
+              <div>
+                <div>
+                  <span className=" font-semibold text-gray-500">
+                    Other Industry Type
+                  </span>
+                  <div className="border-b border-slate-400 py-1">
+                    <input
+                      placeholder=""
+                      type="text"
+                      name="otherIndustryType"
+                      value={formData.otherIndustryType}
+                      onChange={(e) =>
+                        dispatch(
+                          setFormData({
+                            ...formData,
+                            otherIndustryType: e.target.value,
+                          })
+                        )
+                      }
+                      className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
             <div>
               <span className="font-semibold text-gray-500">Sub Industry</span>
               <div className="border-b border-slate-400 py-1">
@@ -817,29 +1135,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                   className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
                 />
               </div>
-              {formik.touched.name && formik.errors.name && (
-                <span className="text-red-500 text-xs font-bold">
-                  {formik.errors.name}
-                </span>
-              )}
             </div>
-            {/* <div>
-              <span className="font-semibold text-gray-500">Start Date</span>
-              <div className="border-b border-slate-400 py-1">
-                <input
-                  placeholder="Start Date"
-                  type="date"
-                  {...formik.getFieldProps("companyStartDate")}
-                  className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-                />
-              </div>
-              {formik.touched.companyStartDate &&
-                formik.errors.companyStartDate && (
-                  <span className="text-red-500 text-xs font-bold">
-                    {formik.errors.companyStartDate}
-                  </span>
-                )}
-            </div> */}
             <div>
               <span className="font-semibold text-gray-500">
                 Current Year Turn Over
@@ -880,7 +1176,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </div>
             <div>
               <span className="font-semibold text-gray-500">
-                Current Year Net Profit
+                Current Year Net Income
               </span>
               <div className="border-b border-slate-400 py-1">
                 <input
@@ -899,7 +1195,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </div>
             <div>
               <span className="font-semibold text-gray-500">
-                Previous Year Net Profit
+                Previous Year Net Income
               </span>
               <div className="border-b border-slate-400 py-1">
                 <input
@@ -1029,7 +1325,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                   </span>
                 )}
             </div>
-
             <div>
               <span>Profession</span>
               <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
@@ -1085,30 +1380,133 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             )}
           </>
         )}
+        {/* profession and income details end*/}
 
+        {/* personal details */}
+        <div className="col-span-1 sm:col-span-2 py-8">
+          <h1 className="font-bold text-blue-600 underline underline-offset-4">
+            PERSONAL DETAILS
+          </h1>
+        </div>
         <div>
-          <span className="font-semibold text-gray-500">Existing EMI</span>
+          <span className="font-semibold text-gray-500">Full name</span>
           <div className="border-b border-slate-400 py-1">
             <input
-              placeholder="Enter your existing EMI if any"
+              placeholder=""
+              type="text"
+              value={user?.name}
+              name="name"
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+              readOnly
+            />
+          </div>
+        </div>
+        <div>
+          <span className="font-semibold text-gray-500">Email Address</span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder=""
+              type="email"
+              value={user?.email}
+              name="email"
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+              readOnly
+            />
+          </div>
+        </div>
+        <div>
+          <span className="font-semibold text-gray-500">Mobile Number</span>
+          <div className="flex items-center space-x-2.5 border-b border-slate-400 py-1">
+            <img src="/india.png" alt="india" className="w-7 h-4" />
+            <span className="whitespace-nowrap">+91 -</span>
+            <input
+              placeholder=""
               type="number"
-              {...formik.getFieldProps("existingEmi")}
+              value={user?.contact}
+              name="contact"
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+              readOnly
+            />
+          </div>
+        </div>
+        <div>
+          <span className="font-semibold text-gray-500">
+            Date of Birth (as per pan card)
+          </span>
+          <div className="border-b border-slate-400 py-1 flex relative">
+            <input
+              placeholder="DD-MM-YYYY"
+              type="text"
+              onBlur={() => formik.setFieldTouched("dateOfBirth", true)}
+              value={formik.values.dateOfBirth}
+              onChange={(e) => {
+                const formattedDate = formatBirthdate(e.target.value);
+
+                formik.setFieldValue("dateOfBirth", formattedDate);
+              }}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+            <div
+              id="e;ljfeijfie"
+              className="w-8 h-[inherit]  bg-gray-200 flex items-center justify-center rounded cursor-pointer"
+              onClick={(e) => {
+                if (e.target.id === "e;ljfeijfie") {
+                  setActiveCl((prev) => !prev);
+                  formik.setFieldTouched("dateOfBirth", true);
+                }
+              }}
+            >
+              <FaRegCalendarAlt
+                onClick={(e) => {
+                  setActiveCl((prev) => !prev);
+                  formik.setFieldTouched("dateOfBirth", true);
+                }}
+              />
+              <div className={activeCl ? "hidden" : "block "}>
+                <DatePicker
+                  setActive={() => {
+                    setActiveCl(true);
+                  }}
+                  handaleDate={(date) => {
+                    formik.setFieldValue("dateOfBirth", date);
+                  }}
+                  clearFun={() => {
+                    formik.setFieldValue("dateOfBirth", "");
+                  }}
+                  date={formik.dateOfBirth}
+                />
+              </div>
+            </div>
+          </div>
+          {formik.touched.dateOfBirth && formik.errors.dateOfBirth && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.dateOfBirth}
+            </span>
+          )}
+        </div>
+        <div className="col-span-1 sm:col-span-2">
+          <span className="font-semibold text-gray-500">PAN Card Number</span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder="Enter Permanent Account Number"
+              type="text"
+              {...formik.getFieldProps("panCardNum")}
+              onChange={(e) =>
+                formik.setFieldValue("panCardNum", e.target.value.toUpperCase())
+              }
               className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
             />
           </div>
-          {formik.touched.existingEmi && formik.errors.existingEmi ? (
-            <span className="text-red-500 text-xs font-bold duration-200">
-              {formik.errors.existingEmi}
+          {formik.touched.panCardNum && formik.errors.panCardNum && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.panCardNum}
             </span>
-          ) : emiErr ? (
-            <span className="text-red-500 text-xs font-bold duration-200">
-              {emiErr}
-            </span>
-          ) : null}
-          {/* emi error */}
+          )}
         </div>
         <div>
-          <span className="font-semibold text-gray-500">Residence State</span>
+          <span className="font-semibold text-gray-500">
+            Current Residence State
+          </span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
@@ -1119,7 +1517,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 setSelectedState(e.target.value);
               }}
             >
-              <option value={""}>Select</option>
+              <option>Select</option>
               {states
                 .sort((a, b) => (a.name > b.name ? 1 : -1))
                 .map((obj) => {
@@ -1138,14 +1536,16 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           )}
         </div>
         <div>
-          <span className="font-semibold text-gray-500">Residence City</span>
+          <span className="font-semibold text-gray-500">
+            Current Residence City
+          </span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
               disabled={!selectedState}
               {...formik.getFieldProps("city")}
             >
-              <option value={""}>Select</option>
+              <option>Select</option>
               {cities.map((obj) => {
                 return (
                   <option key={obj.id} value={obj.name}>
@@ -1162,10 +1562,12 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           )}
         </div>
         <div>
-          <span className="font-semibold text-gray-500">Residence Pincode</span>
+          <span className="font-semibold text-gray-500">
+            Current Residence Pincode
+          </span>
           <div className="border-b border-slate-400 py-1">
             <input
-              placeholder=""
+              placeholder="Enter Pincode"
               type="number"
               {...formik.getFieldProps("pincode")}
               className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
@@ -1179,7 +1581,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
         </div>
         <div>
           <span className="font-semibold text-gray-500">
-            Status of Residence
+            Status of Current Residence
           </span>
           <div className="border-b border-slate-400 py-1">
             <select
@@ -1201,44 +1603,9 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </span>
           )}
         </div>
-        <div>
-          <span className="font-semibold text-gray-500">Email address</span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder="As per your pan card"
-              type="email"
-              value={user?.email}
-              name="email"
-              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
-              readOnly
-            />
-          </div>
-          {/* {formik.touched.email && formik.errors.email && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.email}
-            </span>
-          )} */}
-        </div>
-        <div>
-          <span className="font-semibold text-gray-500">Mobile number</span>
-          <div className="flex items-center space-x-2.5 border-b border-slate-400 py-1">
-            <img src="/india.png" alt="india" className="w-7 h-4" />
-            <span className="whitespace-nowrap">+91 -</span>
-            <input
-              placeholder="contact number"
-              type="text"
-              value={user?.contact}
-              name="contact"
-              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
-              readOnly
-            />
-          </div>
-          {/* {formik.touched.contact && formik.errors.contact && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.contact}
-            </span>
-          )} */}
-        </div>
+
+        {/* personal details end */}
+
         <div className="col-span-2  sm:col-span-2">
           <div>
             <ReCAPTCHA
@@ -1248,6 +1615,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               }}
             />
           </div>
+
           <div>
             <input
               type="checkbox"
@@ -1265,8 +1633,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           <button
             className="bg-cyan-400 py-2.5 w-full rounded-lg text-lg text-white font-normal duration-200 disabled:cursor-not-allowed disabled:bg-gray-200"
             type="submit"
-            // disabled={!checkBox1 }
-            disabled={!checkBox1 || !checkBox2}
+            disabled={!checkBox1 || !checkBox2} // disabled={!checkBox1 }
           >
             Submit
           </button>

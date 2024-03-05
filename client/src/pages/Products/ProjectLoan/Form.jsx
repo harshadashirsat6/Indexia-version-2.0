@@ -1892,7 +1892,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </span>
           )}
         </div>
-        {/* personal details ends */}
+        {/* personal details end */}
 
         <div className="col-span-2  sm:col-span-2">
           <div>

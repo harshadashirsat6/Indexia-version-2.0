@@ -118,5 +118,21 @@ export const inputs = {
   transferPropertyValue: "",
   //working capital
   existingLoanExposure: [],
-  otherExistingLoanExposure:"",
+  otherExistingLoanExposure: "",
+  //LRD
+  leasePropertyValue: "",
+  leasePropertyDuration: "",
+  monthlyIncomeThroughLease: 0,
+  totalIncome: 0,
+  totalAmountToBeReceivedFromLease: "",
+  //loan against share
+  companyShareName: "",
+  valueOfOneShare: 0,
+  shareQuantity: 0,
+  totalSharePrice: 0,
+  marektValue: "",
+  //od-cc
+  collatoralPropertyState: "",
+  collatoralPropertyCity: "",
+  collatoralPropertyPincode: ""
 };

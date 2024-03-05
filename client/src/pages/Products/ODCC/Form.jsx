@@ -9,20 +9,25 @@ import {
 } from "../../../store/appSlice";
 import {
   employerType,
+  homeLoanAmount,
+  homeLoanTenure,
+  loanStartDate,
+  collateralOption,
   residencyType,
   employmentType,
   incomeRecievedAs,
+  newPropertyType,
   primaryBankAccount,
+  yearlyIncome,
   //business
   yearsInCurrentBusiness,
   BusinessNature,
   companyType,
   industryType,
   businessPlaceOwnershipTypeInputs,
-  collateralOption,
-  existingWokringCapitalLoanTypes,
 } from "../../../configs/selectorConfigs";
 import { useState, useEffect } from "react";
+import { changeIntoDate } from "../../../validation/function";
 import DatePicker from "../../../components/DatePicker/DatePicker";
 import { FaRegCalendarAlt } from "react-icons/fa";
 
@@ -46,7 +51,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
         const age = currentDate.getFullYear() - selectedDate.getFullYear();
 
         // Adjust the age check as per your specific requirements
-        return age >= 18;
+        return age >= 23 && age <= 60;
       }),
     state: Yup.string("").required("State required"),
     city: Yup.string("").required("City required"),
@@ -62,10 +67,9 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
       .length(10, "Pan card number should be 10 characters")
       .matches(/^[a-zA-Z]{5}\d{4}[a-zA-Z]$/, "Invalid pancard number")
       .matches(/^[A-Z0-9]+$/, "Only alphanumeric characters are allowed"),
-
-    existingLoanAmount: Yup.number()
+    loanAmount: Yup.number()
       .integer("Loan amount must be a number")
-      .required("* required"),
+      .required("Loan amount required"),
     collateralOption: Yup.string("").required("* mandatory"),
     otherCollateralOptionType: Yup.string("").required("* required"),
     loanTenure: Yup.number()
@@ -73,9 +77,8 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
       .required("Loan tenure required")
       .min(3, "min 3")
       .max(40, "max 40"),
-    existingLoanTenure: Yup.number()
-      .integer("Loan amount must be a number")
-      .required("* required"),
+
+    // loanTenureOption: Yup.string("").required("Loan tenure required"),
     employerType: Yup.string("").required("Employer type required"),
     employerTypeOption: Yup.string("").required("Employer type required"),
     employmentType: Yup.string("").required("Employment type required"),
@@ -101,7 +104,15 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     primaryBankAccountOption: Yup.string("").required(
       "Income Bank Account required"
     ),
-    companyName: Yup.string("").required("* required"),
+    propertyAge: Yup.string("").required("Income Bank Account required"),
+    newPropertyState: Yup.string("").required("State required"),
+    newPropertyCity: Yup.string("").required("City required"),
+    newPropertyPincode: Yup.number()
+      .integer("Pincode must be a number")
+      .required("Pincode required")
+      .test("length-check", "Invalid pincode", function (value) {
+        return value.toString().length === 6;
+      }),
   });
 
   // Formik
@@ -208,6 +219,31 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     formData.monthlyIncome,
     formData.employmentType,
   ]);
+
+  //loan tenure dob validation
+  const [loanTenureErr, setLoanTenureErr] = useState({
+    status: false,
+    msg: "",
+  });
+  useEffect(() => {
+    const currentDate = new Date();
+    const selectedDate = new Date(
+      formik.values.dateOfBirth.split("-").reverse().join("-")
+    );
+    const age = currentDate.getFullYear() - selectedDate.getFullYear();
+    console.log(age);
+    if (age >= 23 && age <= 63) {
+      const tenureVal = 63 - age;
+      if (tenureVal !== formik.values.loanTenure) {
+        return setLoanTenureErr({
+          status: true,
+          msg: `For age ${age}, max loan tenure is ${tenureVal} years`,
+        });
+      } else {
+        setLoanTenureErr({ status: false, msg: "" });
+      }
+    }
+  }, [formik.values.dateOfBirth, formik.values.loanTenure]);
 
   //New property state and city
   const [newpropertyStates, setNewpropertyState] = useState([]);
@@ -316,26 +352,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     }
   };
 
-  //add exsting loan types
-  const [loanTypesArr, setLoanTypesArr] = useState(
-    formData.existingLoanExposure
-  );
-  const handleCheckboxChange = (product) => {
-    const isExist = loanTypesArr.find((ele) => ele === product);
-    if (isExist) {
-      const arr = loanTypesArr.filter((ele) => ele !== product);
-      setLoanTypesArr(arr);
-    } else {
-      setLoanTypesArr([...loanTypesArr, product]);
-    }
-    if (product === "none") {
-      setLoanTypesArr([product]);
-    }
-  };
-  useEffect(() => {
-    console.log(loanTypesArr);
-  }, [handleCheckboxChange]);
-
   return (
     <div className="py-10">
       <div className="-mb-2.5 -ml-2.5 flex items-center space-x-2.5"></div>
@@ -354,9 +370,9 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
         }}
       >
         {/* loan requirements */}
-        <div className="col-span-1 sm:col-span-2 py-8">
-          <h1 className="font-bold text-blue-600 underline underline-offset-4">
-            LOAN REQUIREMENT
+        <div className="col-span-1 sm:col-span-2">
+          <h1 className="font-bold text-blue-600 underline underline-offset-4 ">
+            LOAN REQUIREMENTS
           </h1>
         </div>
         <div>
@@ -393,65 +409,9 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             <span className="text-red-500 text-xs font-bold">
               {formik.errors.loanTenure}
             </span>
-          ) : null}
-        </div>
-        <div>
-          <span className="font-semibold text-gray-500">
-            Existing Total Loan Amount
-          </span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder=""
-              type="number"
-              {...formik.getFieldProps("existingLoanAmount")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-            />
-          </div>
-          {formik.touched.existingLoanAmount &&
-            formik.errors.existingLoanAmount && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.existingLoanAmount}
-              </span>
-            )}
-        </div>
-        <div>
-          <span className="font-semibold text-gray-500">
-            Existing Loan Tenure (in years)
-          </span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder=""
-              type="number"
-              {...formik.getFieldProps("existingLoanTenure")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-            />
-          </div>
-          {formik.touched.existingLoanTenure &&
-          formik.errors.existingLoanTenure ? (
+          ) : loanTenureErr.status ? (
             <span className="text-red-500 text-xs font-bold">
-              {formik.errors.existingLoanTenure}
-            </span>
-          ) : null}
-        </div>
-        <div>
-          <span className="font-semibold text-gray-500">
-            Existing Total EMI
-          </span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder="Enter your existing EMI amount, If any"
-              type="number"
-              {...formik.getFieldProps("existingEmi")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-            />
-          </div>
-          {formik.touched.existingEmi && formik.errors.existingEmi ? (
-            <span className="text-red-500 text-xs font-bold duration-200">
-              {formik.errors.existingEmi}
-            </span>
-          ) : emiErrStatus ? (
-            <span className="text-red-500 text-xs font-bold duration-200">
-              {emiErr}
+              {loanTenureErr.msg}
             </span>
           ) : null}
         </div>
@@ -528,50 +488,87 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
         </div>
         <div>
           <span className="font-semibold text-gray-500">
-            Exisiting Loan Exposure
+            Collateral Property State
           </span>
-          <div className=" py-1 w-full">
-            <section>
-              {existingWokringCapitalLoanTypes.map((ele) => {
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full py-2.5"
+              {...formik.getFieldProps("newPropertyState")}
+              value={selectedNewpropertyState}
+              onChange={(e) => {
+                formik.handleChange(e);
+                setSelectedNewpropertyState(e.target.value);
+              }}
+            >
+              <option value={""}>Select</option>
+              {newpropertyStates
+                .sort((a, b) => (a.name > b.name ? 1 : -1))
+                .map((obj) => {
+                  return (
+                    <option key={obj.id} value={obj.iso2}>
+                      {obj.name}
+                    </option>
+                  );
+                })}
+            </select>
+          </div>
+          {formik.touched.newPropertyState &&
+            formik.errors.newPropertyState && (
+              <span className="text-red-500 text-xs font-bold">
+                {formik.errors.newPropertyState}
+              </span>
+            )}
+        </div>
+        <div>
+          <span className="font-semibold text-gray-500">
+            Collateral Property City
+          </span>
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
+              disabled={!selectedNewpropertyState}
+              {...formik.getFieldProps("newPropertyCity")}
+            >
+              <option value={""}>Select</option>
+              {newpropertyCities.map((obj) => {
                 return (
-                  <div key={ele} className="flex gap-2 text-black text-lg">
-                    <span>
-                      <input
-                        type="checkbox"
-                        checked={!!loanTypesArr.find((item) => item === ele)}
-                        onChange={() => handleCheckboxChange(ele)}
-                      />
-                    </span>
-                    <span>{ele}</span>
-                  </div>
+                  <option key={obj.id} value={obj.name}>
+                    {obj.name}
+                  </option>
                 );
               })}
-            </section>
+            </select>
           </div>
+          {formik.touched.newPropertyCity && formik.errors.newPropertyCity && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.newPropertyCity}
+            </span>
+          )}
         </div>
-        {loanTypesArr.includes("Other") ? (
-          <div>
-            {console.log("hi")}
-            <div>
-              <span className=" font-semibold text-gray-500">
-                Other Existing Loan Type
-              </span>
-              <div className="border-b border-slate-400 py-1">
-                <input
-                  placeholder="wish to take loan against"
-                  type="text"
-                  {...formik.getFieldProps("otherExistingLoanExposure")}
-                  className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-                />
-              </div>
-            </div>
+        <div>
+          <span className=" font-semibold text-gray-500">
+            Collateral Property Pincode
+          </span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder="Enter pincode"
+              type="text"
+              {...formik.getFieldProps("newPropertyPincode")}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
           </div>
-        ) : null}
-        {/* loan requirements end */}
+          {formik.touched.newPropertyPincode &&
+            formik.errors.newPropertyPincode && (
+              <span className="text-red-500 text-xs font-bold">
+                {formik.errors.newPropertyPincode}
+              </span>
+            )}
+        </div>
+        {/* loan requirement ends */}
 
         {/* employment and income details */}
         <div className="col-span-1 sm:col-span-2 py-8">
-          <h1 className="font-bold text-blue-600 underline undVAerline-offset-4">
+          <h1 className="font-bold text-blue-600 underline underline-offset-4">
             EMPLOYMENT AND INCOME DETAILS
           </h1>
         </div>
@@ -1712,8 +1709,10 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </span>
           )}
         </div>
-        {/* personal details ends */}
 
+        {/* personal details end */}
+
+        
         <div className="col-span-2  sm:col-span-2">
           <div>
             <ReCAPTCHA
