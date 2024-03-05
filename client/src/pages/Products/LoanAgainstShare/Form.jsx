@@ -733,22 +733,18 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 )}
               </div>
             )}
-            <div>
+             <div>
               <span className="font-semibold text-gray-500">Company Name</span>
               <div className="border-b border-slate-400 py-1">
                 <input
                   placeholder="Enter your company name"
                   type="text"
+                  name='companyName'
                   value={formData.companyName}
-                  {...formik.getFieldProps("employerName")}
+                 onChange={(e)=>dispatch(setFormData({...formData, companyName:e.target.value}))}
                   className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
                 />
               </div>
-              {formik.touched.employerName && formik.errors.employerName && (
-                <span className="text-red-500 text-xs font-bold">
-                  {formik.errors.employerName}
-                </span>
-              )}
             </div>
             <div>
               <span className="font-semibold text-gray-500">
