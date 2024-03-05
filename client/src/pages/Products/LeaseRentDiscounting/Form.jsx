@@ -474,7 +474,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               </span>
               <div className="border-b border-slate-400 py-1">
                 <input
-                  placeholder="wish to take loan against"
+                  placeholder=""
                   type="text"
                   {...formik.getFieldProps("otherExistingLoanExposure")}
                   className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
