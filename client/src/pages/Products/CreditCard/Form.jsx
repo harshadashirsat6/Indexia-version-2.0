@@ -834,7 +834,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 <input
                   placeholder="Enter your company name"
                   type="text"
-                  value={formData.companyName}
+                  value={formData.employerName}
                   {...formik.getFieldProps("employerName")}
                   className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
                 />
