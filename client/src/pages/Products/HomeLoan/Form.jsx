@@ -487,7 +487,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </span>
           ) : null}
         </div>
-        <div>
+        {/* <div>
           <span className="font-semibold text-gray-500">
             Wish To Take Loan Against
           </span>
@@ -512,7 +512,8 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 {formik.errors.collateralOption}
               </span>
             )}
-        </div>
+        </div> */}
+        
         <div className="col-span-1 sm:col-span-2">
           <span className="font-semibold text-gray-500">
             Where are you planning to buy property
