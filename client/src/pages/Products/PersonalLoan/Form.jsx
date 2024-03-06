@@ -394,7 +394,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </span>
           ) : null}
         </div>
-        <div>
+        {/* <div>
           <span className="font-semibold text-gray-500">
             Existing Total Loan Amount
           </span>
@@ -431,7 +431,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               {formik.errors.existingLoanTenure}
             </span>
           ) : null}
-        </div>
+        </div> */}
         <div>
           <span className="font-semibold text-gray-500">
             Existing Total EMI
@@ -455,7 +455,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           ) : null}
         </div>
 
-        {/* loan requirements end */}
         {/* loan exposures */}
         <div className="col-span-1 sm:col-span-2 py-8">
           <h1 className="font-bold text-blue-600 underline undVAerline-offset-4">

@@ -454,77 +454,8 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </span>
           ) : null}
         </div>
-        <div>
-          <span className="font-semibold text-gray-500">
-            Wish To Take Loan Against
-          </span>
-          <div className="border-b border-slate-400 py-1 w-full">
-            <select
-              className="w-full"
-              {...formik.getFieldProps("collateralOption")}
-            >
-              <option>Select</option>
-              {collateralOption.map((ele, i) => {
-                return (
-                  <option key={i} value={ele}>
-                    {ele}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          {formik.touched.collateralOption &&
-            formik.errors.collateralOption && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.collateralOption}
-              </span>
-            )}
-        </div>
-        {formik.values.collateralOption === "Other" && (
-          <div>
-            <div>
-              <span className=" font-semibold text-gray-500">
-                Collateral Option Type
-              </span>
-              <div className="border-b border-slate-400 py-1">
-                <input
-                  placeholder="wish to take loan against"
-                  type="text"
-                  {...formik.getFieldProps("otherCollateralOptionType")}
-                  className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-                />
-              </div>
-              {formik.touched.otherCollateralOptionType &&
-                formik.errors.otherCollateralOptionType && (
-                  <span className="text-red-500 text-xs font-bold">
-                    {formik.errors.otherCollateralOptionType}
-                  </span>
-                )}
-            </div>
-          </div>
-        )}
-        <div>
-          <span className="font-semibold text-gray-500">
-            Collateral Property approximate value
-          </span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder="value of your collateral property"
-              type="Number"
-              name="collateralPropertyValue"
-              value={formData.collateralPropertyValue}
-              onChange={(e) =>
-                dispatch(
-                  setFormData({
-                    ...formData,
-                    collateralPropertyValue: e.target.value,
-                  })
-                )
-              }
-              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
-            />
-          </div>
-        </div>
+        
+        
 
         {/* loan requirements end */}
 
@@ -561,7 +492,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               </span>
               <div className="border-b border-slate-400 py-1">
                 <input
-                  placeholder="wish to take loan against"
+                  placeholder=""
                   type="text"
                   {...formik.getFieldProps("otherExistingLoanExposure")}
                   className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
