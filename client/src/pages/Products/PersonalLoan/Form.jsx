@@ -455,7 +455,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           ) : null}
         </div>
         {/* loan requirements end */}
-
+        
         {/* loan exposures */}
         <div className="col-span-1 sm:col-span-2 py-8">
           <h1 className="font-bold text-blue-600 underline undVAerline-offset-4">
@@ -499,7 +499,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           </div>
         ) : null}
         {/* loan exposure end */}
-
         {/* employment and income details */}
         <div className="col-span-1 sm:col-span-2 py-8">
           <h1 className="font-bold text-blue-600 underline undVAerline-offset-4">
@@ -1434,7 +1433,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           </>
         )}
         {/* profession and income details end*/}
-
         {/* personal details */}
         <div className="col-span-1 sm:col-span-2 py-8">
           <h1 className="font-bold text-blue-600 underline underline-offset-4">
@@ -1657,7 +1655,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           )}
         </div>
         {/* personal details ends */}
-
         <div className="col-span-2  sm:col-span-2">
           <div>
             <ReCAPTCHA
