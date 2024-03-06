@@ -282,7 +282,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
         <div className="col-span-1 sm:col-span-2">
           <h1 className="font-bold text-blue-600 underline underline-offset-4 ">
             LOAN REQUIREMNETS
-            </h1>
+          </h1>
         </div>
         <div>
           <span className="font-semibold text-gray-500">
@@ -446,7 +446,49 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           )}
         </div>
         {/* loan requiremnets end */}
-
+        {/* loan exposures */}
+        <div className="col-span-1 sm:col-span-2 py-8">
+          <h1 className="font-bold text-blue-600 underline undVAerline-offset-4">
+            Loan Exposures
+          </h1>
+          <div className=" py-1 w-full">
+            <section className="">
+              {existingWokringCapitalLoanTypes.map((ele) => {
+                return (
+                  <div key={ele} className="flex gap-2 text-black text-lg">
+                    <span>
+                      <input
+                        type="checkbox"
+                        checked={!!loanTypesArr.find((item) => item === ele)}
+                        onChange={() => handleCheckboxChange(ele)}
+                      />
+                    </span>
+                    <span>{ele}</span>
+                  </div>
+                );
+              })}
+            </section>
+          </div>
+        </div>
+        {loanTypesArr.includes("Other") ? (
+          <div>
+            {console.log("hi")}
+            <div>
+              <span className=" font-semibold text-gray-500">
+                Other Existing Loan Type
+              </span>
+              <div className="border-b border-slate-400 py-1">
+                <input
+                  placeholder="wish to take loan against"
+                  type="text"
+                  {...formik.getFieldProps("otherExistingLoanExposure")}
+                  className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+                />
+              </div>
+            </div>
+          </div>
+        ) : null}
+        {/* loan exposure end */}
         {/* personal details parents */}
         <div className="col-span-1 sm:col-span-2">
           <h1 className="font-bold text-blue-600 underline underline-offset-4 ">
@@ -1613,49 +1655,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           ) : null}
         </div>
         {/* income details end */}
- {/* loan exposures */}
- <div className="col-span-1 sm:col-span-2 py-8">
-          <h1 className="font-bold text-blue-600 underline undVAerline-offset-4">
-            Loan Exposures
-          </h1>
-          <div className=" py-1 w-full">
-            <section className="">
-              {existingWokringCapitalLoanTypes.map((ele) => {
-                return (
-                  <div key={ele} className="flex gap-2 text-black text-lg">
-                    <span>
-                      <input
-                        type="checkbox"
-                        checked={!!loanTypesArr.find((item) => item === ele)}
-                        onChange={() => handleCheckboxChange(ele)}
-                      />
-                    </span>
-                    <span>{ele}</span>
-                  </div>
-                );
-              })}
-            </section>
-          </div>
-        </div>
-        {loanTypesArr.includes("Other") ? (
-          <div>
-            {console.log("hi")}
-            <div>
-              <span className=" font-semibold text-gray-500">
-                Other Existing Loan Type
-              </span>
-              <div className="border-b border-slate-400 py-1">
-                <input
-                  placeholder="wish to take loan against"
-                  type="text"
-                  {...formik.getFieldProps("otherExistingLoanExposure")}
-                  className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-                />
-              </div>
-            </div>
-          </div>
-        ) : null}
-        {/* loan exposure end */}
 
         {/* personal details student */}
         <div className="col-span-1 sm:col-span-2">
