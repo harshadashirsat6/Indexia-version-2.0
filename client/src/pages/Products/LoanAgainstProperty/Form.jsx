@@ -25,6 +25,7 @@ import {
   companyType,
   industryType,
   businessPlaceOwnershipTypeInputs,
+  existingWokringCapitalLoanTypes,
 } from "../../../configs/selectorConfigs";
 import { useState, useEffect } from "react";
 import { changeIntoDate } from "../../../validation/function";
