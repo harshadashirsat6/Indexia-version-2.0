@@ -738,7 +738,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
         {/* employment and income details */}
         <div className="col-span-1 sm:col-span-2 py-8">
           <h1 className="font-bold text-blue-600 underline underline-offset-4">
-            EMPLOYMENT AND INCOME DETAILS
+             INCOME DETAILS
           </h1>
         </div>
         <div className="">

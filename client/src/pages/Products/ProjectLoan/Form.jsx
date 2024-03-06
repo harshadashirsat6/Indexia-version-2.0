@@ -20,6 +20,7 @@ import {
   companyType,
   industryType,
   businessPlaceOwnershipTypeInputs,
+  existingWokringCapitalLoanTypes,
 } from "../../../configs/selectorConfigs";
 import { useState, useEffect } from "react";
 import DatePicker from "../../../components/DatePicker/DatePicker";
@@ -340,13 +341,33 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     }
   };
 
+  //add exsting loan types
+  const [loanTypesArr, setLoanTypesArr] = useState(
+    formData.existingLoanExposure
+  );
+  const handleCheckboxChange = (product) => {
+    const isExist = loanTypesArr.find((ele) => ele === product);
+    if (isExist) {
+      const arr = loanTypesArr.filter((ele) => ele !== product);
+      setLoanTypesArr(arr);
+    } else {
+      setLoanTypesArr([...loanTypesArr, product]);
+    }
+    if (product === "none") {
+      setLoanTypesArr([product]);
+    }
+  };
+  useEffect(() => {
+    console.log(loanTypesArr);
+  }, [handleCheckboxChange]);
+
   return (
     <div className="py-10">
       <div className="-mb-2.5 -ml-2.5 flex items-center space-x-2.5"></div>
       <h1 className="text-xl flex mb-8 flex-col space-y-2 font-semibold text-gray-500">
         <span>
-          Unlock the best <span>Project Loan</span> offers suitable for
-          your needs from <span>43+ lenders</span>
+          Unlock the best <span>Project Loan</span> offers suitable for your
+          needs from <span>43+ lenders</span>
         </span>
         <span className="w-20 h-0.5 rounded-full bg-cyan-400"></span>
       </h1>
@@ -749,10 +770,54 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
         </div>
         {/* project details end */}
 
+        {/* loan exposures */}
+        <div className="col-span-1 sm:col-span-2 py-8">
+          <h1 className="font-bold text-blue-600 underline undVAerline-offset-4">
+            Loan Exposures
+          </h1>
+          <div className=" py-1 w-full">
+            <section className="">
+              {existingWokringCapitalLoanTypes.map((ele) => {
+                return (
+                  <div key={ele} className="flex gap-2 text-black text-lg">
+                    <span>
+                      <input
+                        type="checkbox"
+                        checked={!!loanTypesArr.find((item) => item === ele)}
+                        onChange={() => handleCheckboxChange(ele)}
+                      />
+                    </span>
+                    <span>{ele}</span>
+                  </div>
+                );
+              })}
+            </section>
+          </div>
+        </div>
+        {loanTypesArr.includes("Other") ? (
+          <div>
+            {console.log("hi")}
+            <div>
+              <span className=" font-semibold text-gray-500">
+                Other Existing Loan Type
+              </span>
+              <div className="border-b border-slate-400 py-1">
+                <input
+                  placeholder="wish to take loan against"
+                  type="text"
+                  {...formik.getFieldProps("otherExistingLoanExposure")}
+                  className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+                />
+              </div>
+            </div>
+          </div>
+        ) : null}
+        {/* loan exposure end */}
+
         {/* employment and income details */}
         <div className="col-span-1 sm:col-span-2 py-8">
           <h1 className="font-bold text-blue-600 underline underline-offset-4">
-            EMPLOYMENT AND INCOME DETAILS
+             INCOME DETAILS
           </h1>
         </div>
         <div className="">
@@ -1022,7 +1087,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 )}
               </div>
             )}
-           <div>
+            <div>
               <span className="font-semibold text-gray-500">Company Name</span>
               <div className="border-b border-slate-400 py-1">
                 <input

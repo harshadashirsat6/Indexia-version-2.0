@@ -101,7 +101,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     primaryBankAccountOption: Yup.string("").required(
       "Income Bank Account required"
     ),
-
   });
 
   // Formik
@@ -526,12 +525,16 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             />
           </div>
         </div>
-        <div>
-          <span className="font-semibold text-gray-500">
-            Exisiting Loan Exposure
-          </span>
+
+        {/* loan requirements end */}
+
+        {/* loan exposures */}
+        <div className="col-span-1 sm:col-span-2 py-8">
+          <h1 className="font-bold text-blue-600 underline undVAerline-offset-4">
+            Loan Exposures
+          </h1>
           <div className=" py-1 w-full">
-            <section>
+            <section className="">
               {existingWokringCapitalLoanTypes.map((ele) => {
                 return (
                   <div key={ele} className="flex gap-2 text-black text-lg">
@@ -567,12 +570,12 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </div>
           </div>
         ) : null}
-        {/* loan requirements end */}
+        {/* loan exposure end */}
 
         {/* employment and income details */}
         <div className="col-span-1 sm:col-span-2 py-8">
           <h1 className="font-bold text-blue-600 underline undVAerline-offset-4">
-            EMPLOYMENT AND INCOME DETAILS
+            INCOME DETAILS
           </h1>
         </div>
         <div className="">

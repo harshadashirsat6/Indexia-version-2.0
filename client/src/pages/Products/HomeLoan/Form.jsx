@@ -12,18 +12,17 @@ import {
   residencyType,
   employmentType,
   incomeRecievedAs,
-  newPropertyType,
   primaryBankAccount,
-  salaryBankAccount,
   //business
   yearsInCurrentBusiness,
   BusinessNature,
   companyType,
   industryType,
   businessPlaceOwnershipTypeInputs,
+  collateralOption,
+  existingWokringCapitalLoanTypes,
 } from "../../../configs/selectorConfigs";
 import { useState, useEffect } from "react";
-import { changeIntoDate } from "../../../validation/function";
 import DatePicker from "../../../components/DatePicker/DatePicker";
 import { FaRegCalendarAlt } from "react-icons/fa";
 
@@ -47,7 +46,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
         const age = currentDate.getFullYear() - selectedDate.getFullYear();
 
         // Adjust the age check as per your specific requirements
-        return age >= 23 && age <= 60;
+        return age >= 18;
       }),
     state: Yup.string("").required("State required"),
     city: Yup.string("").required("City required"),
@@ -63,9 +62,10 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
       .length(10, "Pan card number should be 10 characters")
       .matches(/^[a-zA-Z]{5}\d{4}[a-zA-Z]$/, "Invalid pancard number")
       .matches(/^[A-Z0-9]+$/, "Only alphanumeric characters are allowed"),
-    loanAmount: Yup.number()
+
+    existingLoanAmount: Yup.number()
       .integer("Loan amount must be a number")
-      .required("Loan amount required"),
+      .required("* required"),
     collateralOption: Yup.string("").required("* mandatory"),
     otherCollateralOptionType: Yup.string("").required("* required"),
     loanTenure: Yup.number()
@@ -73,8 +73,9 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
       .required("Loan tenure required")
       .min(3, "min 3")
       .max(40, "max 40"),
-
-    // loanTenureOption: Yup.string("").required("Loan tenure required"),
+    existingLoanTenure: Yup.number()
+      .integer("Loan amount must be a number")
+      .required("* required"),
     employerType: Yup.string("").required("Employer type required"),
     employerTypeOption: Yup.string("").required("Employer type required"),
     employmentType: Yup.string("").required("Employment type required"),
@@ -119,6 +120,26 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
       handleProceed(values);
     },
   });
+
+  //loan tenure dob validation
+  const [loanTenureErr, setLoanTenureErr] = useState({
+    status: false,
+    msg: "",
+  });
+  useEffect(() => {
+    const currentDate = new Date();
+    const selectedDate = new Date(
+      formik.values.dateOfBirth.split("-").reverse().join("-")
+    );
+    const age = currentDate.getFullYear() - selectedDate.getFullYear();
+    console.log("age", age);
+    if (age === 67 && formik.values.loanTenure !== 3) {
+      setLoanTenureErr({
+        status: true,
+        msg: `for age 67, max loan tenure is 3 years`,
+      });
+    }
+  }, [formik.values.dateOfBirth, formik.values.loanTenure]);
 
   const handleProceed = (values) => {
     if (emiErrStatus) {
@@ -215,20 +236,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     formData.monthlyIncome,
     formData.employmentType,
   ]);
-
-  //loan tenure dob validation
-  const [loanTenureErr, setLoanTenureErr] = useState({
-    status: false,
-    msg: "",
-  });
-  useEffect(() => {
-    const currentDate = new Date();
-    const selectedDate = new Date(
-      formik.values.dateOfBirth.split("-").reverse().join("-")
-    );
-    const age = currentDate.getFullYear() - selectedDate.getFullYear();
-    console.log(age);
-  }, [formik.values.dateOfBirth, formik.values.loanTenure]);
 
   //New property state and city
   const [newpropertyStates, setNewpropertyState] = useState([]);
@@ -337,13 +344,33 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     }
   };
 
+  //add exsting loan types
+  const [loanTypesArr, setLoanTypesArr] = useState(
+    formData.existingLoanExposure
+  );
+  const handleCheckboxChange = (product) => {
+    const isExist = loanTypesArr.find((ele) => ele === product);
+    if (isExist) {
+      const arr = loanTypesArr.filter((ele) => ele !== product);
+      setLoanTypesArr(arr);
+    } else {
+      setLoanTypesArr([...loanTypesArr, product]);
+    }
+    if (product === "none") {
+      setLoanTypesArr([product]);
+    }
+  };
+  useEffect(() => {
+    console.log(loanTypesArr);
+  }, [handleCheckboxChange]);
+
   return (
     <div className="py-10">
       <div className="-mb-2.5 -ml-2.5 flex items-center space-x-2.5"></div>
       <h1 className="text-xl flex mb-8 flex-col space-y-2 font-semibold text-gray-500">
         <span>
-          Unlock best <span>Education Loan</span> offers suitable for your needs
-          from <span>43+ lenders</span>
+          Unlock the best <span>Working Capital Loan</span> offers suitable for
+          your needs from <span>43+ lenders</span>
         </span>
         <span className="w-20 h-0.5 rounded-full bg-cyan-400"></span>
       </h1>
@@ -354,195 +381,16 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           formik.handleSubmit();
         }}
       >
-        <div>
-          <span className="font-semibold text-gray-500">Full name</span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder=""
-              type="text"
-              value={user?.name}
-              name="name"
-              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
-              readOnly
-            />
-          </div>
+        {/* loan requirements */}
+        <div className="col-span-1 sm:col-span-2 py-8">
+          <h1 className="font-bold text-blue-600 underline underline-offset-4">
+            LOAN REQUIREMENT
+          </h1>
         </div>
         <div>
           <span className="font-semibold text-gray-500">
-            Date of Birth (as per pan card)
+            Required Loan Amount
           </span>
-          <div className="border-b border-slate-400 py-1 flex relative">
-            <input
-              placeholder="DD-MM-YYYY"
-              type="text"
-              onBlur={() => formik.setFieldTouched("dateOfBirth", true)}
-              value={formik.values.dateOfBirth}
-              onChange={(e) => {
-                const formattedDate = formatBirthdate(e.target.value);
-
-                formik.setFieldValue("dateOfBirth", formattedDate);
-              }}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-            />
-            <div
-              id="e;ljfeijfie"
-              className="w-8 h-[inherit]  bg-gray-200 flex items-center justify-center rounded cursor-pointer"
-              onClick={(e) => {
-                if (e.target.id === "e;ljfeijfie") {
-                  setActiveCl((prev) => !prev);
-                  formik.setFieldTouched("dateOfBirth", true);
-                }
-              }}
-            >
-              <FaRegCalendarAlt
-                onClick={(e) => {
-                  setActiveCl((prev) => !prev);
-                  formik.setFieldTouched("dateOfBirth", true);
-                }}
-              />
-              <div className={activeCl ? "hidden" : "block "}>
-                <DatePicker
-                  setActive={() => {
-                    setActiveCl(true);
-                  }}
-                  handaleDate={(date) => {
-                    formik.setFieldValue("dateOfBirth", date);
-                  }}
-                  clearFun={() => {
-                    formik.setFieldValue("dateOfBirth", "");
-                  }}
-                  date={formik.dateOfBirth}
-                />
-              </div>
-            </div>
-          </div>
-          {formik.touched.dateOfBirth && formik.errors.dateOfBirth && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.dateOfBirth}
-            </span>
-          )}
-        </div>
-        <div>
-          <span className="font-semibold text-gray-500">
-            Current Residence State
-          </span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full py-2.5"
-              {...formik.getFieldProps("state")}
-              value={selectedState}
-              onChange={(e) => {
-                formik.handleChange(e);
-                setSelectedState(e.target.value);
-              }}
-            >
-              <option>Select</option>
-              {states
-                .sort((a, b) => (a.name > b.name ? 1 : -1))
-                .map((obj) => {
-                  return (
-                    <option key={obj.id} value={obj.iso2}>
-                      {obj.name}
-                    </option>
-                  );
-                })}
-            </select>
-          </div>
-          {formik.touched.state && formik.errors.state && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.state}
-            </span>
-          )}
-        </div>
-        <div>
-          <span className="font-semibold text-gray-500">
-            Current Residence City
-          </span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
-              disabled={!selectedState}
-              {...formik.getFieldProps("city")}
-            >
-              <option>Select</option>
-              {cities.map((obj) => {
-                return (
-                  <option key={obj.id} value={obj.name}>
-                    {obj.name}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          {formik.touched.city && formik.errors.city && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.city}
-            </span>
-          )}
-        </div>
-        <div>
-          <span className="font-semibold text-gray-500">
-            Current Residence Pincode
-          </span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder="Enter Pincode"
-              type="number"
-              {...formik.getFieldProps("pincode")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-            />
-          </div>
-          {formik.touched.pincode && formik.errors.pincode && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.pincode}
-            </span>
-          )}
-        </div>
-        <div>
-          <span className="font-semibold text-gray-500">
-            Status of Current Residence
-          </span>
-          <div className="border-b border-slate-400 py-1">
-            <select
-              onChange={(e) =>
-                dispatch(
-                  setFormData({ ...formData, residencyType: e.target.value })
-                )
-              }
-              {...formik.getFieldProps("residencyType")}
-            >
-              {residencyType.map((ele, i) => {
-                return <option key={i}>{ele}</option>;
-              })}
-            </select>
-          </div>
-          {formik.touched.residencyType && formik.errors.residencyType && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.residencyType}
-            </span>
-          )}
-        </div>
-        <div className="col-span-1 sm:col-span-2">
-          <span className="font-semibold text-gray-500">PAN Card Number</span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder="Enter Permanent Account Number"
-              type="text"
-              {...formik.getFieldProps("panCardNum")}
-              onChange={(e) =>
-                formik.setFieldValue("panCardNum", e.target.value.toUpperCase())
-              }
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-            />
-          </div>
-          {formik.touched.panCardNum && formik.errors.panCardNum && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.panCardNum}
-            </span>
-          )}
-        </div>
-        <div>
-          <span className="font-semibold text-gray-500">Loan Amount</span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder=""
@@ -559,7 +407,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
         </div>
         <div>
           <span className="font-semibold text-gray-500">
-            Loan Tenure (in years)
+            Required Loan Tenure (in years)
           </span>
           <div className="border-b border-slate-400 py-1">
             <input
@@ -580,6 +428,226 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           ) : null}
         </div>
         <div>
+          <span className="font-semibold text-gray-500">
+            Existing Total Loan Amount
+          </span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder=""
+              type="number"
+              {...formik.getFieldProps("existingLoanAmount")}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
+          {formik.touched.existingLoanAmount &&
+            formik.errors.existingLoanAmount && (
+              <span className="text-red-500 text-xs font-bold">
+                {formik.errors.existingLoanAmount}
+              </span>
+            )}
+        </div>
+        <div>
+          <span className="font-semibold text-gray-500">
+            Existing Loan Tenure (in years)
+          </span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder=""
+              type="number"
+              {...formik.getFieldProps("existingLoanTenure")}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
+          {formik.touched.existingLoanTenure &&
+          formik.errors.existingLoanTenure ? (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.existingLoanTenure}
+            </span>
+          ) : null}
+        </div>
+        <div>
+          <span className="font-semibold text-gray-500">
+            Existing Total EMI
+          </span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder="Enter your existing EMI amount, If any"
+              type="number"
+              {...formik.getFieldProps("existingEmi")}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
+          {formik.touched.existingEmi && formik.errors.existingEmi ? (
+            <span className="text-red-500 text-xs font-bold duration-200">
+              {formik.errors.existingEmi}
+            </span>
+          ) : emiErrStatus ? (
+            <span className="text-red-500 text-xs font-bold duration-200">
+              {emiErr}
+            </span>
+          ) : null}
+        </div>
+        <div>
+          <span className="font-semibold text-gray-500">
+            Wish To Take Loan Against
+          </span>
+          <div className="border-b border-slate-400 py-1 w-full">
+            <select
+              className="w-full"
+              {...formik.getFieldProps("collateralOption")}
+            >
+              <option>Select</option>
+              {collateralOption.map((ele, i) => {
+                return (
+                  <option key={i} value={ele}>
+                    {ele}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          {formik.touched.collateralOption &&
+            formik.errors.collateralOption && (
+              <span className="text-red-500 text-xs font-bold">
+                {formik.errors.collateralOption}
+              </span>
+            )}
+        </div>
+        <div className="col-span-1 sm:col-span-2">
+          <span className="font-semibold text-gray-500">
+            Where are you planning to buy property
+          </span>
+        </div>
+        <div>
+          <span className="font-semibold text-gray-500">
+            New Property State
+          </span>
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full py-2.5"
+              {...formik.getFieldProps("newPropertyState")}
+              value={selectedNewpropertyState}
+              onChange={(e) => {
+                formik.handleChange(e);
+                setSelectedNewpropertyState(e.target.value);
+              }}
+            >
+              <option value={""}>Select</option>
+              {newpropertyStates
+                .sort((a, b) => (a.name > b.name ? 1 : -1))
+                .map((obj) => {
+                  return (
+                    <option key={obj.id} value={obj.iso2}>
+                      {obj.name}
+                    </option>
+                  );
+                })}
+            </select>
+          </div>
+          {formik.touched.newPropertyState &&
+            formik.errors.newPropertyState && (
+              <span className="text-red-500 text-xs font-bold">
+                {formik.errors.newPropertyState}
+              </span>
+            )}
+        </div>
+        <div>
+          <span className="font-semibold text-gray-500">New Property City</span>
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
+              disabled={!selectedNewpropertyState}
+              {...formik.getFieldProps("newPropertyCity")}
+            >
+              <option value={""}>Select</option>
+              {newpropertyCities.map((obj) => {
+                return (
+                  <option key={obj.id} value={obj.name}>
+                    {obj.name}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          {formik.touched.newPropertyCity && formik.errors.newPropertyCity && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.newPropertyCity}
+            </span>
+          )}
+        </div>
+        <div>
+          <span className=" font-semibold text-gray-500">
+            New Property Pincode
+          </span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder="Enter pincode"
+              type="text"
+              {...formik.getFieldProps("newPropertyPincode")}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
+          {formik.touched.newPropertyPincode &&
+            formik.errors.newPropertyPincode && (
+              <span className="text-red-500 text-xs font-bold">
+                {formik.errors.newPropertyPincode}
+              </span>
+            )}
+        </div>
+
+        {/* loan requirements end */}
+
+        {/* loan exposures */}
+        <div className="col-span-1 sm:col-span-2 py-8">
+          <h1 className="font-bold text-blue-600 underline undVAerline-offset-4">
+            Loan Exposures
+          </h1>
+          <div className=" py-1 w-full">
+            <section className="">
+              {existingWokringCapitalLoanTypes.map((ele) => {
+                return (
+                  <div key={ele} className="flex gap-2 text-black text-lg">
+                    <span>
+                      <input
+                        type="checkbox"
+                        checked={!!loanTypesArr.find((item) => item === ele)}
+                        onChange={() => handleCheckboxChange(ele)}
+                      />
+                    </span>
+                    <span>{ele}</span>
+                  </div>
+                );
+              })}
+            </section>
+          </div>
+        </div>
+        {loanTypesArr.includes("Other") ? (
+          <div>
+            {console.log("hi")}
+            <div>
+              <span className=" font-semibold text-gray-500">
+                Other Existing Loan Type
+              </span>
+              <div className="border-b border-slate-400 py-1">
+                <input
+                  placeholder="wish to take loan against"
+                  type="text"
+                  {...formik.getFieldProps("otherExistingLoanExposure")}
+                  className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+                />
+              </div>
+            </div>
+          </div>
+        ) : null}
+        {/* loan exposure end */}
+
+        {/* employment and income details */}
+        <div className="col-span-1 sm:col-span-2 py-8">
+          <h1 className="font-bold text-blue-600 underline undVAerline-offset-4">
+            INCOME DETAILS
+          </h1>
+        </div>
+        <div className="">
           <span className="font-semibold text-gray-500">Employment Type</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
@@ -639,7 +707,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 }}
               >
                 <option value={""}>Select</option>
-                {salaryBankAccount.map((ele) => {
+                {primaryBankAccount.map((ele) => {
                   return (
                     <option key={ele} value={ele}>
                       {ele}
@@ -703,7 +771,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               )}
           </div>
         )}
-
         {formik.values.primaryBankAccountOption === "Other" && (
           <div>
             <span className=" font-semibold text-gray-500">
@@ -725,7 +792,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               )}
           </div>
         )}
-
         {formik.values.primaryBankAccountOption ===
           "Multiple transaction banks" && (
           <div>
@@ -746,14 +812,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               />
               <button
                 type="button"
-                // onClick={() => {
-                //   if (bankName) {
-                //     formData.multipleBankAccounts.push(bankName);
-                //     setBankName("");
-                //   } else {
-                //     setBankNameErr("Bank name cannot be empty");
-                //   }
-                // }}
                 onClick={() => {
                   if (bankName) {
                     setBankNameArr([...bankNameArr, bankName]);
@@ -790,7 +848,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </span>
           </div>
         )}
-
         {/* salary */}
         {formData.employmentType === "Salaried" ? (
           <>
@@ -953,23 +1010,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               </div>
             </div>
             <div>
-              <span className="font-semibold text-gray-500">Company Name</span>
-              <div className="border-b border-slate-400 py-1">
-                <input
-                  placeholder="Enter your company name"
-                  type="text"
-                  value={formData.companyName}
-                  {...formik.getFieldProps("companyName")}
-                  className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-                />
-              </div>
-              {formik.touched.companyName && formik.errors.companyName && (
-                <span className="text-red-500 text-xs font-bold">
-                  {formik.errors.companyName}
-                </span>
-              )}
-            </div>
-            <div>
               <span className="font-semibold text-gray-500">
                 Years In Current Business
               </span>
@@ -992,27 +1032,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 </select>
               </div>
             </div>
-            {/* {formData.yearsInCurrentBusiness === "over 5 years" && (
-              <div>
-                <span className=" font-semibold text-gray-500">
-                  Please mention years in current business
-                </span>
-                <div className="border-b border-slate-400 py-1">
-                  <input
-                    placeholder="over 5 years"
-                    type="text"
-                    {...formik.getFieldProps("YearsInBusinessOver5")}
-                    className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-                  />
-                </div>
-                {formik.touched.YearsInBusinessOver5 &&
-                  formik.errors.YearsInBusinessOver5 && (
-                    <span className="text-red-500 text-xs font-bold">
-                      {formik.errors.YearsInBusinessOver5}
-                    </span>
-                  )}
-              </div>
-            )} */}
             <div>
               <span className="font-semibold text-gray-500">
                 Current Business State
@@ -1310,11 +1329,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                   className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
                 />
               </div>
-              {/* {formik.touched.name && formik.errors.name && (
-                <span className="text-red-500 text-xs font-bold">
-                  {formik.errors.name}
-                </span>
-              )} */}
             </div>
             <div>
               <span className="font-semibold text-gray-500">
@@ -1560,166 +1574,27 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             )}
           </>
         )}
+        {/* profession and income details end*/}
 
+        {/* personal details */}
+        <div className="col-span-1 sm:col-span-2 py-8">
+          <h1 className="font-bold text-blue-600 underline underline-offset-4">
+            PERSONAL DETAILS
+          </h1>
+        </div>
         <div>
-          <span className="font-semibold text-gray-500">
-            Existing Total EMI
-          </span>
+          <span className="font-semibold text-gray-500">Full name</span>
           <div className="border-b border-slate-400 py-1">
             <input
-              placeholder="Enter your existing EMI amount, If any"
-              type="number"
-              {...formik.getFieldProps("existingEmi")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-            />
-          </div>
-          {formik.touched.existingEmi && formik.errors.existingEmi ? (
-            <span className="text-red-500 text-xs font-bold duration-200">
-              {formik.errors.existingEmi}
-            </span>
-          ) : emiErrStatus ? (
-            <span className="text-red-500 text-xs font-bold duration-200">
-              {emiErr}
-            </span>
-          ) : null}
-        </div>
-
-        <div className="">
-          <span className="font-semibold text-gray-500">
-            New Property Type (Buying property)
-          </span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
-              {...formik.getFieldProps("newPropertyType")}
-              value={formData.newPropertyType}
-              onChange={(e) =>
-                dispatch(
-                  setFormData({
-                    ...formData,
-                    newPropertyType: e.target.value,
-                  })
-                )
-              }
-            >
-              <option value="">Select</option>
-              {newPropertyType.map((ele, i) => {
-                return (
-                  <option key={ele} value={ele}>
-                    {ele}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          {formik.touched.newPropertyType && formik.errors.newPropertyType && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.newPropertyType}
-            </span>
-          )}
-        </div>
-        {formData.newPropertyType === "Old construction" && (
-          <div>
-            <span className=" font-semibold text-gray-500">
-              Mention old construction property age
-            </span>
-            <div className="border-b border-slate-400 py-1">
-              <input
-                placeholder=""
-                type="text"
-                {...formik.getFieldProps("propertyAge")}
-                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-              />
-            </div>
-            {/* {formik.touched.propertyAge && formik.errors.propertyAge && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.propertyAge}
-              </span>
-            )} */}
-          </div>
-        )}
-        <div className="col-span-1 sm:col-span-2">
-          <span className="font-semibold text-gray-500">
-            Where are you planning to buy property
-          </span>
-        </div>
-        <div>
-          <span className="font-semibold text-gray-500">
-            New Property State
-          </span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full py-2.5"
-              {...formik.getFieldProps("newPropertyState")}
-              value={selectedNewpropertyState}
-              onChange={(e) => {
-                formik.handleChange(e);
-                setSelectedNewpropertyState(e.target.value);
-              }}
-            >
-              <option value={""}>Select</option>
-              {newpropertyStates
-                .sort((a, b) => (a.name > b.name ? 1 : -1))
-                .map((obj) => {
-                  return (
-                    <option key={obj.id} value={obj.iso2}>
-                      {obj.name}
-                    </option>
-                  );
-                })}
-            </select>
-          </div>
-          {formik.touched.newPropertyState &&
-            formik.errors.newPropertyState && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.newPropertyState}
-              </span>
-            )}
-        </div>
-        <div>
-          <span className="font-semibold text-gray-500">New Property City</span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
-              disabled={!selectedNewpropertyState}
-              {...formik.getFieldProps("newPropertyCity")}
-            >
-              <option value={""}>Select</option>
-              {newpropertyCities.map((obj) => {
-                return (
-                  <option key={obj.id} value={obj.name}>
-                    {obj.name}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          {formik.touched.newPropertyCity && formik.errors.newPropertyCity && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.newPropertyCity}
-            </span>
-          )}
-        </div>
-        <div>
-          <span className=" font-semibold text-gray-500">
-            New Property Pincode
-          </span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder="Enter pincode"
+              placeholder=""
               type="text"
-              {...formik.getFieldProps("newPropertyPincode")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              value={user?.name}
+              name="name"
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+              readOnly
             />
           </div>
-          {formik.touched.newPropertyPincode &&
-            formik.errors.newPropertyPincode && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.newPropertyPincode}
-              </span>
-            )}
         </div>
-
         <div>
           <span className="font-semibold text-gray-500">Email Address</span>
           <div className="border-b border-slate-400 py-1">
@@ -1732,11 +1607,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               readOnly
             />
           </div>
-          {/* {formik.touched.email && formik.errors.email && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.email}
-            </span>
-          )} */}
         </div>
         <div>
           <span className="font-semibold text-gray-500">Mobile Number</span>
@@ -1752,12 +1622,182 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               readOnly
             />
           </div>
-          {/* {formik.touched.contact && formik.errors.contact && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.contact}
-            </span>
-          )} */}
         </div>
+        <div>
+          <span className="font-semibold text-gray-500">
+            Date of Birth (as per pan card)
+          </span>
+          <div className="border-b border-slate-400 py-1 flex relative">
+            <input
+              placeholder="DD-MM-YYYY"
+              type="text"
+              onBlur={() => formik.setFieldTouched("dateOfBirth", true)}
+              value={formik.values.dateOfBirth}
+              onChange={(e) => {
+                const formattedDate = formatBirthdate(e.target.value);
+
+                formik.setFieldValue("dateOfBirth", formattedDate);
+              }}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+            <div
+              id="e;ljfeijfie"
+              className="w-8 h-[inherit]  bg-gray-200 flex items-center justify-center rounded cursor-pointer"
+              onClick={(e) => {
+                if (e.target.id === "e;ljfeijfie") {
+                  setActiveCl((prev) => !prev);
+                  formik.setFieldTouched("dateOfBirth", true);
+                }
+              }}
+            >
+              <FaRegCalendarAlt
+                onClick={(e) => {
+                  setActiveCl((prev) => !prev);
+                  formik.setFieldTouched("dateOfBirth", true);
+                }}
+              />
+              <div className={activeCl ? "hidden" : "block "}>
+                <DatePicker
+                  setActive={() => {
+                    setActiveCl(true);
+                  }}
+                  handaleDate={(date) => {
+                    formik.setFieldValue("dateOfBirth", date);
+                  }}
+                  clearFun={() => {
+                    formik.setFieldValue("dateOfBirth", "");
+                  }}
+                  date={formik.dateOfBirth}
+                />
+              </div>
+            </div>
+          </div>
+          {formik.touched.dateOfBirth && formik.errors.dateOfBirth && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.dateOfBirth}
+            </span>
+          )}
+        </div>
+        <div>
+          <span className="font-semibold text-gray-500">
+            Current Residence State
+          </span>
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full py-2.5"
+              {...formik.getFieldProps("state")}
+              value={selectedState}
+              onChange={(e) => {
+                formik.handleChange(e);
+                setSelectedState(e.target.value);
+              }}
+            >
+              <option>Select</option>
+              {states
+                .sort((a, b) => (a.name > b.name ? 1 : -1))
+                .map((obj) => {
+                  return (
+                    <option key={obj.id} value={obj.iso2}>
+                      {obj.name}
+                    </option>
+                  );
+                })}
+            </select>
+          </div>
+          {formik.touched.state && formik.errors.state && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.state}
+            </span>
+          )}
+        </div>
+        <div>
+          <span className="font-semibold text-gray-500">
+            Current Residence City
+          </span>
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
+              disabled={!selectedState}
+              {...formik.getFieldProps("city")}
+            >
+              <option>Select</option>
+              {cities.map((obj) => {
+                return (
+                  <option key={obj.id} value={obj.name}>
+                    {obj.name}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          {formik.touched.city && formik.errors.city && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.city}
+            </span>
+          )}
+        </div>
+        <div>
+          <span className="font-semibold text-gray-500">
+            Current Residence Pincode
+          </span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder="Enter Pincode"
+              type="number"
+              {...formik.getFieldProps("pincode")}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
+          {formik.touched.pincode && formik.errors.pincode && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.pincode}
+            </span>
+          )}
+        </div>
+        <div>
+          <span className="font-semibold text-gray-500">
+            Status of Current Residence
+          </span>
+          <div className="border-b border-slate-400 py-1">
+            <select
+              onChange={(e) =>
+                dispatch(
+                  setFormData({ ...formData, residencyType: e.target.value })
+                )
+              }
+              {...formik.getFieldProps("residencyType")}
+            >
+              {residencyType.map((ele, i) => {
+                return <option key={i}>{ele}</option>;
+              })}
+            </select>
+          </div>
+          {formik.touched.residencyType && formik.errors.residencyType && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.residencyType}
+            </span>
+          )}
+        </div>
+        <div className="col-span-1 sm:col-span-2">
+          <span className="font-semibold text-gray-500">PAN Card Number</span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder="Enter Permanent Account Number"
+              type="text"
+              {...formik.getFieldProps("panCardNum")}
+              onChange={(e) =>
+                formik.setFieldValue("panCardNum", e.target.value.toUpperCase())
+              }
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
+          {formik.touched.panCardNum && formik.errors.panCardNum && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.panCardNum}
+            </span>
+          )}
+        </div>
+        {/* personal details ends */}
 
         <div className="col-span-2  sm:col-span-2">
           <div>

@@ -369,198 +369,11 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           formik.handleSubmit();
         }}
       >
-        <div>
-          <span className="font-semibold text-gray-500">Full name</span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder=""
-              type="text"
-              value={user?.name}
-              name="name"
-              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
-              readOnly
-            />
-          </div>
-          {/* {formik.touched.name && formik.errors.name && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.name}
-            </span>
-          )} */}
-        </div>
-        <div>
-          <span className="font-semibold text-gray-500">
-            Date of Birth (as per pan card)
-          </span>
-          <div className="border-b border-slate-400 py-1 flex relative">
-            <input
-              placeholder="DD-MM-YYYY"
-              type="text"
-              onBlur={() => formik.setFieldTouched("dateOfBirth", true)}
-              value={formik.values.dateOfBirth}
-              onChange={(e) => {
-                const formattedDate = formatBirthdate(e.target.value);
-
-                formik.setFieldValue("dateOfBirth", formattedDate);
-              }}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-            />
-            <div
-              id="e;ljfeijfie"
-              className="w-8 h-[inherit]  bg-gray-200 flex items-center justify-center rounded cursor-pointer"
-              onClick={(e) => {
-                if (e.target.id === "e;ljfeijfie") {
-                  setActiveCl((prev) => !prev);
-                  formik.setFieldTouched("dateOfBirth", true);
-                }
-              }}
-            >
-              <FaRegCalendarAlt
-                onClick={(e) => {
-                  setActiveCl((prev) => !prev);
-                  formik.setFieldTouched("dateOfBirth", true);
-                }}
-              />
-              <div className={activeCl ? "hidden" : "block "}>
-                <DatePicker
-                  setActive={() => {
-                    setActiveCl(true);
-                  }}
-                  handaleDate={(date) => {
-                    formik.setFieldValue("dateOfBirth", date);
-                  }}
-                  clearFun={() => {
-                    formik.setFieldValue("dateOfBirth", "");
-                  }}
-                  date={formik.dateOfBirth}
-                />
-              </div>
-            </div>
-          </div>
-          {formik.touched.dateOfBirth && formik.errors.dateOfBirth && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.dateOfBirth}
-            </span>
-          )}
-        </div>
-        <div>
-          <span className="font-semibold text-gray-500">
-            Current Residence State
-          </span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full py-2.5"
-              {...formik.getFieldProps("state")}
-              value={selectedState}
-              onChange={(e) => {
-                formik.handleChange(e);
-                setSelectedState(e.target.value);
-              }}
-            >
-              <option>Select</option>
-              {states
-                .sort((a, b) => (a.name > b.name ? 1 : -1))
-                .map((obj) => {
-                  return (
-                    <option key={obj.id} value={obj.iso2}>
-                      {obj.name}
-                    </option>
-                  );
-                })}
-            </select>
-          </div>
-          {formik.touched.state && formik.errors.state && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.state}
-            </span>
-          )}
-        </div>
-        <div>
-          <span className="font-semibold text-gray-500">
-            Current Residence City
-          </span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
-              disabled={!selectedState}
-              {...formik.getFieldProps("city")}
-            >
-              <option>Select</option>
-              {cities.map((obj) => {
-                return (
-                  <option key={obj.id} value={obj.name}>
-                    {obj.name}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          {formik.touched.city && formik.errors.city && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.city}
-            </span>
-          )}
-        </div>
-        <div>
-          <span className="font-semibold text-gray-500">
-            Current Residence Pincode
-          </span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder="Enter Pincode"
-              type="number"
-              {...formik.getFieldProps("pincode")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-            />
-          </div>
-          {formik.touched.pincode && formik.errors.pincode && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.pincode}
-            </span>
-          )}
-        </div>
-        <div>
-          <span className="font-semibold text-gray-500">
-            {" "}
-            Status of Current Residence
-          </span>
-          <div className="border-b border-slate-400 py-1">
-            <select
-              onChange={(e) =>
-                dispatch(
-                  setFormData({ ...formData, residencyType: e.target.value })
-                )
-              }
-              {...formik.getFieldProps("residencyType")}
-            >
-              {residencyType.map((ele, i) => {
-                return <option key={i}>{ele}</option>;
-              })}
-            </select>
-          </div>
-          {formik.touched.residencyType && formik.errors.residencyType && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.residencyType}
-            </span>
-          )}
-        </div>
+        {/* loan requirement */}
         <div className="col-span-1 sm:col-span-2">
-          <span className="font-semibold text-gray-500">PAN Card Number</span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder="Enter Permanent Account Number"
-              type="text"
-              {...formik.getFieldProps("panCardNum")}
-              onChange={(e) =>
-                formik.setFieldValue("panCardNum", e.target.value.toUpperCase())
-              }
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-            />
-          </div>
-          {formik.touched.panCardNum && formik.errors.panCardNum && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.panCardNum}
-            </span>
-          )}
+          <h1 className="font-bold text-blue-600 underline underline-offset-4 ">
+            LOAN REQUIREMENTS
+          </h1>
         </div>
         <div>
           <span className="font-semibold text-gray-500">Loan Amount</span>
@@ -599,6 +412,186 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               {loanTenureErr.msg}
             </span>
           ) : null}
+        </div>
+        <div>
+          <span className="font-semibold text-gray-500">
+            Wish To Take Loan Against
+          </span>
+          <div className="border-b border-slate-400 py-1 w-full">
+            <select
+              className="w-full"
+              {...formik.getFieldProps("collateralOption")}
+            >
+              <option>Select</option>
+              {collateralOption.map((ele, i) => {
+                return (
+                  <option key={i} value={ele}>
+                    {ele}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          {formik.touched.collateralOption &&
+            formik.errors.collateralOption && (
+              <span className="text-red-500 text-xs font-bold">
+                {formik.errors.collateralOption}
+              </span>
+            )}
+        </div>
+        {formik.values.collateralOption === "Other" && (
+          <div>
+            <div>
+              <span className=" font-semibold text-gray-500">
+                Collateral Option Type
+              </span>
+              <div className="border-b border-slate-400 py-1">
+                <input
+                  placeholder="wish to take loan against"
+                  type="text"
+                  {...formik.getFieldProps("otherCollateralOptionType")}
+                  className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+                />
+              </div>
+              {formik.touched.otherCollateralOptionType &&
+                formik.errors.otherCollateralOptionType && (
+                  <span className="text-red-500 text-xs font-bold">
+                    {formik.errors.otherCollateralOptionType}
+                  </span>
+                )}
+            </div>
+          </div>
+        )}
+        <div>
+          <span className="font-semibold text-gray-500">
+            Collateral Property approximate value
+          </span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder="value of your collateral property"
+              type="Number"
+              name="collateralPropertyValue"
+              value={formData.collateralPropertyValue}
+              onChange={(e) =>
+                dispatch(
+                  setFormData({
+                    ...formData,
+                    collateralPropertyValue: e.target.value,
+                  })
+                )
+              }
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+            />
+          </div>
+        </div>
+        <div>
+          <span className="font-semibold text-gray-500">
+            Existing Total EMI
+          </span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder="Enter your existing EMI amount, If any"
+              type="number"
+              {...formik.getFieldProps("existingEmi")}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
+          {formik.touched.existingEmi && formik.errors.existingEmi ? (
+            <span className="text-red-500 text-xs font-bold duration-200">
+              {formik.errors.existingEmi}
+            </span>
+          ) : emiErrStatus ? (
+            <span className="text-red-500 text-xs font-bold duration-200">
+              {emiErr}
+            </span>
+          ) : null}
+        </div>
+        <div>
+          <span className="font-semibold text-gray-500">
+            Collateral Property State
+          </span>
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full py-2.5"
+              {...formik.getFieldProps("newPropertyState")}
+              value={selectedNewpropertyState}
+              onChange={(e) => {
+                formik.handleChange(e);
+                setSelectedNewpropertyState(e.target.value);
+              }}
+            >
+              <option value={""}>Select</option>
+              {newpropertyStates
+                .sort((a, b) => (a.name > b.name ? 1 : -1))
+                .map((obj) => {
+                  return (
+                    <option key={obj.id} value={obj.iso2}>
+                      {obj.name}
+                    </option>
+                  );
+                })}
+            </select>
+          </div>
+          {formik.touched.newPropertyState &&
+            formik.errors.newPropertyState && (
+              <span className="text-red-500 text-xs font-bold">
+                {formik.errors.newPropertyState}
+              </span>
+            )}
+        </div>
+        <div>
+          <span className="font-semibold text-gray-500">
+            Collateral Property City
+          </span>
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
+              disabled={!selectedNewpropertyState}
+              {...formik.getFieldProps("newPropertyCity")}
+            >
+              <option value={""}>Select</option>
+              {newpropertyCities.map((obj) => {
+                return (
+                  <option key={obj.id} value={obj.name}>
+                    {obj.name}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          {formik.touched.newPropertyCity && formik.errors.newPropertyCity && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.newPropertyCity}
+            </span>
+          )}
+        </div>
+        <div>
+          <span className=" font-semibold text-gray-500">
+            Collateral Property Pincode
+          </span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder="Enter pincode"
+              type="text"
+              {...formik.getFieldProps("newPropertyPincode")}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
+          {formik.touched.newPropertyPincode &&
+            formik.errors.newPropertyPincode && (
+              <span className="text-red-500 text-xs font-bold">
+                {formik.errors.newPropertyPincode}
+              </span>
+            )}
+        </div>
+
+        {/* loan requirements end */}
+
+        {/* income details */}
+        <div className="col-span-1 sm:col-span-2">
+          <h1 className="font-bold text-blue-600 underline underline-offset-4 ">
+            INCOME DETAILS
+          </h1>
         </div>
         <div>
           <span className="font-semibold text-gray-500">Employment Type</span>
@@ -1553,219 +1546,27 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             )}
           </>
         )}
-        <div>
-          <span className="font-semibold text-gray-500">
-            Wish To Take Loan Against
-          </span>
-          <div className="border-b border-slate-400 py-1 w-full">
-            <select
-              className="w-full"
-              {...formik.getFieldProps("collateralOption")}
-            >
-              <option>Select</option>
-              {collateralOption.map((ele, i) => {
-                return (
-                  <option key={i} value={ele}>
-                    {ele}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          {formik.touched.collateralOption &&
-            formik.errors.collateralOption && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.collateralOption}
-              </span>
-            )}
-        </div>
-        {formik.values.collateralOption === "Other" && (
-          <div>
-            <div>
-              <span className=" font-semibold text-gray-500">
-                Collateral Option Type
-              </span>
-              <div className="border-b border-slate-400 py-1">
-                <input
-                  placeholder="wish to take loan against"
-                  type="text"
-                  {...formik.getFieldProps("otherCollateralOptionType")}
-                  className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-                />
-              </div>
-              {formik.touched.otherCollateralOptionType &&
-                formik.errors.otherCollateralOptionType && (
-                  <span className="text-red-500 text-xs font-bold">
-                    {formik.errors.otherCollateralOptionType}
-                  </span>
-                )}
-            </div>
-          </div>
-        )}
-        <div>
-          <span className="font-semibold text-gray-500">
-            Collateral Property approximate value
-          </span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder="value of your collateral property"
-              type="Number"
-              name="collateralPropertyValue"
-              value={formData.collateralPropertyValue}
-              onChange={(e) =>
-                dispatch(
-                  setFormData({
-                    ...formData,
-                    collateralPropertyValue: e.target.value,
-                  })
-                )
-              }
-              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
-            />
-          </div>
-          {/* {formik.touched.name && formik.errors.name && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.name}
-            </span>
-          )} */}
-        </div>
-        <div>
-          <span className="font-semibold text-gray-500">
-            Existing Total EMI
-          </span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder="Enter your existing EMI amount, If any"
-              type="number"
-              {...formik.getFieldProps("existingEmi")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-            />
-          </div>
-          {formik.touched.existingEmi && formik.errors.existingEmi ? (
-            <span className="text-red-500 text-xs font-bold duration-200">
-              {formik.errors.existingEmi}
-            </span>
-          ) : emiErrStatus ? (
-            <span className="text-red-500 text-xs font-bold duration-200">
-              {emiErr}
-            </span>
-          ) : null}
-        </div>
+        {/* income details end */}
 
-        {/* <div className="">
-          <span className="font-semibold text-gray-500">
-            Existing Property Type
-          </span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
-              {...formik.getFieldProps("newPropertyType")}
-              value={formData.newPropertyType}
-              onChange={(e) =>
-                dispatch(
-                  setFormData({
-                    ...formData,
-                    newPropertyType: e.target.value,
-                  })
-                )
-              }
-            >
-              <option value="">Select</option>
-              {newPropertyType.map((ele, i) => {
-                return (
-                  <option key={ele} value={ele}>
-                    {ele}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          {formik.touched.newPropertyType && formik.errors.newPropertyType && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.newPropertyType}
-            </span>
-          )}
-        </div> */}
-
-        <div>
-          <span className="font-semibold text-gray-500">
-            Collateral Property State
-          </span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full py-2.5"
-              {...formik.getFieldProps("newPropertyState")}
-              value={selectedNewpropertyState}
-              onChange={(e) => {
-                formik.handleChange(e);
-                setSelectedNewpropertyState(e.target.value);
-              }}
-            >
-              <option value={""}>Select</option>
-              {newpropertyStates
-                .sort((a, b) => (a.name > b.name ? 1 : -1))
-                .map((obj) => {
-                  return (
-                    <option key={obj.id} value={obj.iso2}>
-                      {obj.name}
-                    </option>
-                  );
-                })}
-            </select>
-          </div>
-          {formik.touched.newPropertyState &&
-            formik.errors.newPropertyState && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.newPropertyState}
-              </span>
-            )}
+        {/* personal details */}
+        <div className="col-span-1 sm:col-span-2">
+          <h1 className="font-bold text-blue-600 underline underline-offset-4 ">
+            PERSONAL DETAILS
+          </h1>
         </div>
         <div>
-          <span className="font-semibold text-gray-500">
-            Collateral Property City
-          </span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
-              disabled={!selectedNewpropertyState}
-              {...formik.getFieldProps("newPropertyCity")}
-            >
-              <option value={""}>Select</option>
-              {newpropertyCities.map((obj) => {
-                return (
-                  <option key={obj.id} value={obj.name}>
-                    {obj.name}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          {formik.touched.newPropertyCity && formik.errors.newPropertyCity && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.newPropertyCity}
-            </span>
-          )}
-        </div>
-        <div>
-          <span className=" font-semibold text-gray-500">
-            Collateral Property Pincode
-          </span>
+          <span className="font-semibold text-gray-500">Full name</span>
           <div className="border-b border-slate-400 py-1">
             <input
-              placeholder="Enter pincode"
+              placeholder=""
               type="text"
-              {...formik.getFieldProps("newPropertyPincode")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              value={user?.name}
+              name="name"
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+              readOnly
             />
           </div>
-          {formik.touched.newPropertyPincode &&
-            formik.errors.newPropertyPincode && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.newPropertyPincode}
-              </span>
-            )}
         </div>
-
         <div>
           <span className="font-semibold text-gray-500">Email Address</span>
           <div className="border-b border-slate-400 py-1">
@@ -1794,6 +1595,184 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             />
           </div>
         </div>
+        <div>
+          <span className="font-semibold text-gray-500">
+            Date of Birth (as per pan card)
+          </span>
+          <div className="border-b border-slate-400 py-1 flex relative">
+            <input
+              placeholder="DD-MM-YYYY"
+              type="text"
+              onBlur={() => formik.setFieldTouched("dateOfBirth", true)}
+              value={formik.values.dateOfBirth}
+              onChange={(e) => {
+                const formattedDate = formatBirthdate(e.target.value);
+
+                formik.setFieldValue("dateOfBirth", formattedDate);
+              }}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+            <div
+              id="e;ljfeijfie"
+              className="w-8 h-[inherit]  bg-gray-200 flex items-center justify-center rounded cursor-pointer"
+              onClick={(e) => {
+                if (e.target.id === "e;ljfeijfie") {
+                  setActiveCl((prev) => !prev);
+                  formik.setFieldTouched("dateOfBirth", true);
+                }
+              }}
+            >
+              <FaRegCalendarAlt
+                onClick={(e) => {
+                  setActiveCl((prev) => !prev);
+                  formik.setFieldTouched("dateOfBirth", true);
+                }}
+              />
+              <div className={activeCl ? "hidden" : "block "}>
+                <DatePicker
+                  setActive={() => {
+                    setActiveCl(true);
+                  }}
+                  handaleDate={(date) => {
+                    formik.setFieldValue("dateOfBirth", date);
+                  }}
+                  clearFun={() => {
+                    formik.setFieldValue("dateOfBirth", "");
+                  }}
+                  date={formik.dateOfBirth}
+                />
+              </div>
+            </div>
+          </div>
+          {formik.touched.dateOfBirth && formik.errors.dateOfBirth && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.dateOfBirth}
+            </span>
+          )}
+        </div>
+        <div>
+          <span className="font-semibold text-gray-500">
+            Current Residence State
+          </span>
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full py-2.5"
+              {...formik.getFieldProps("state")}
+              value={selectedState}
+              onChange={(e) => {
+                formik.handleChange(e);
+                setSelectedState(e.target.value);
+              }}
+            >
+              <option>Select</option>
+              {states
+                .sort((a, b) => (a.name > b.name ? 1 : -1))
+                .map((obj) => {
+                  return (
+                    <option key={obj.id} value={obj.iso2}>
+                      {obj.name}
+                    </option>
+                  );
+                })}
+            </select>
+          </div>
+          {formik.touched.state && formik.errors.state && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.state}
+            </span>
+          )}
+        </div>
+        <div>
+          <span className="font-semibold text-gray-500">
+            Current Residence City
+          </span>
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
+              disabled={!selectedState}
+              {...formik.getFieldProps("city")}
+            >
+              <option>Select</option>
+              {cities.map((obj) => {
+                return (
+                  <option key={obj.id} value={obj.name}>
+                    {obj.name}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          {formik.touched.city && formik.errors.city && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.city}
+            </span>
+          )}
+        </div>
+        <div>
+          <span className="font-semibold text-gray-500">
+            Current Residence Pincode
+          </span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder="Enter Pincode"
+              type="number"
+              {...formik.getFieldProps("pincode")}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
+          {formik.touched.pincode && formik.errors.pincode && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.pincode}
+            </span>
+          )}
+        </div>
+        <div>
+          <span className="font-semibold text-gray-500">
+            {" "}
+            Status of Current Residence
+          </span>
+          <div className="border-b border-slate-400 py-1">
+            <select
+              onChange={(e) =>
+                dispatch(
+                  setFormData({ ...formData, residencyType: e.target.value })
+                )
+              }
+              {...formik.getFieldProps("residencyType")}
+            >
+              {residencyType.map((ele, i) => {
+                return <option key={i}>{ele}</option>;
+              })}
+            </select>
+          </div>
+          {formik.touched.residencyType && formik.errors.residencyType && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.residencyType}
+            </span>
+          )}
+        </div>
+        <div className="col-span-1 sm:col-span-2">
+          <span className="font-semibold text-gray-500">PAN Card Number</span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder="Enter Permanent Account Number"
+              type="text"
+              {...formik.getFieldProps("panCardNum")}
+              onChange={(e) =>
+                formik.setFieldValue("panCardNum", e.target.value.toUpperCase())
+              }
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
+          {formik.touched.panCardNum && formik.errors.panCardNum && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.panCardNum}
+            </span>
+          )}
+        </div>
+        {/* personal details end */}
+
+       
 
         <div className="col-span-2  sm:col-span-2">
           <div>
