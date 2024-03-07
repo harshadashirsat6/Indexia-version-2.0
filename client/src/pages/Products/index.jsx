@@ -31,8 +31,8 @@ const Products = () => {
       )}
 
       {param === "personal-loan" && <PersonalLoan />}
-      {/* {param === "business-loan" && <BusinessLoan />} */}
-      {/* {param === "home-loan" && <HomeLoan />}
+      {param === "business-loan" && <BusinessLoan />}
+      {param === "home-loan" && <HomeLoan />}
       {param === "loan-against-property" && <LoanAgainstProperty />}
       {param === "credit-card" && <CreditCard />}
       {param === "balance-transfer" && <BalanceTransfer />}
@@ -43,7 +43,7 @@ const Products = () => {
       {param === "project-loan" && <ProjectLoan />}
       {param === "education-loan" && <EducationLoan />}
       {param === "loan-against share" && <LoanAgainstShare />}
-      {param === "OD-CC limit" && <ODCC />} */}
+      {param === "OD-CC limit" && <ODCC />}
     </>
   );
 };
