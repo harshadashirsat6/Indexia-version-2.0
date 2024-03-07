@@ -10,12 +10,14 @@ export const personalLoanFormInputs = {
   employmentType: "",
   //general fields
   companyType: "",
+  otherCompanyType:"",
   companyName: "",
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
+  multipleBankAccounts:[],
   //salaried
   monthlyIncome: 0,
   incomeReceivedAs: "",
-  primaryBankAccount: "",
-  otherPrimaryBankAccount: "",
   //business
   yearsInCurrentBusiness: "",
   businessState: "",
@@ -48,6 +50,7 @@ export const personalLoanFormInputs = {
 
 //business loan
 export const businessLoanFormInputs = {
+  //! loan requirements
   requiredLoanAmount: "",
   requiredLoanTenure: "",
   existingLoanAmount: "",
@@ -59,14 +62,14 @@ export const businessLoanFormInputs = {
   employmentType: "",
   //general fields
   companyType: "",
+  otherCompanyType:"",
   companyName: "",
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
+  multipleBankAccounts:[],
   //salaried
   monthlyIncome: 0,
   incomeReceivedAs: "",
-
-  primaryBankAccount: "",
-  otherPrimaryBankAccount: "",
-
   //business
   yearsInCurrentBusiness: "",
   businessState: "",
@@ -99,6 +102,7 @@ export const businessLoanFormInputs = {
 
 //home loan
 export const homeLoanFormInputs = {
+  //! loan requirements
   requiredLoanAmount: "",
   requiredLoanTenure: "",
   existingLoanAmount: "",
@@ -113,14 +117,14 @@ export const homeLoanFormInputs = {
   employmentType: "",
   //general fields
   companyType: "",
+  otherCompanyType:"",
   companyName: "",
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
+  multipleBankAccounts:[],
   //salaried
   monthlyIncome: 0,
   incomeReceivedAs: "",
-
-  primaryBankAccount: "",
-  otherPrimaryBankAccount: "",
-
   //business
   yearsInCurrentBusiness: "",
   businessState: "",
@@ -157,14 +161,14 @@ export const lapFormInputs = {
   employmentType: "",
   //general fields
   companyType: "",
+  otherCompanyType:"",
   companyName: "",
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
+  multipleBankAccounts:[],
   //salaried
   monthlyIncome: 0,
   incomeReceivedAs: "",
-
-  primaryBankAccount: "",
-  otherPrimaryBankAccount: "",
-
   //business
   yearsInCurrentBusiness: "",
   businessState: "",
@@ -201,14 +205,14 @@ export const balanceTransferFormInputs = {
   employmentType: "",
   //general fields
   companyType: "",
+  otherCompanyType:"",
   companyName: "",
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
+  multipleBankAccounts:[],
   //salaried
   monthlyIncome: 0,
   incomeReceivedAs: "",
-
-  primaryBankAccount: "",
-  otherPrimaryBankAccount: "",
-
   //business
   yearsInCurrentBusiness: "",
   businessState: "",
@@ -245,14 +249,14 @@ export const projectLoanFormInputs = {
   employmentType: "",
   //general fields
   companyType: "",
+  otherCompanyType:"",
   companyName: "",
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
+  multipleBankAccounts:[],
   //salaried
   monthlyIncome: 0,
   incomeReceivedAs: "",
-
-  primaryBankAccount: "",
-  otherPrimaryBankAccount: "",
-
   //business
   yearsInCurrentBusiness: "",
   businessState: "",
@@ -289,14 +293,14 @@ export const carLoanFormInputs = {
   employmentType: "",
   //general fields
   companyType: "",
+  otherCompanyType:"",
   companyName: "",
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
+  multipleBankAccounts:[],
   //salaried
   monthlyIncome: 0,
   incomeReceivedAs: "",
-
-  primaryBankAccount: "",
-  otherPrimaryBankAccount: "",
-
   //business
   yearsInCurrentBusiness: "",
   businessState: "",
@@ -333,14 +337,14 @@ export const educationLoanFormInputs = {
   employmentType: "",
   //general fields
   companyType: "",
+  otherCompanyType:"",
   companyName: "",
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
+  multipleBankAccounts:[],
   //salaried
   monthlyIncome: 0,
   incomeReceivedAs: "",
-
-  primaryBankAccount: "",
-  otherPrimaryBankAccount: "",
-
   //business
   yearsInCurrentBusiness: "",
   businessState: "",
@@ -377,14 +381,14 @@ export const creditCardFromInputs = {
   employmentType: "",
   //general fields
   companyType: "",
+  otherCompanyType:"",
   companyName: "",
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
+  multipleBankAccounts:[],
   //salaried
   monthlyIncome: 0,
   incomeReceivedAs: "",
-
-  primaryBankAccount: "",
-  otherPrimaryBankAccount: "",
-
   //business
   yearsInCurrentBusiness: "",
   businessState: "",
@@ -421,14 +425,14 @@ export const commercialPurchaseFormInputs = {
   employmentType: "",
   //general fields
   companyType: "",
+  otherCompanyType:"",
   companyName: "",
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
+  multipleBankAccounts:[],
   //salaried
   monthlyIncome: 0,
   incomeReceivedAs: "",
-
-  primaryBankAccount: "",
-  otherPrimaryBankAccount: "",
-
   //business
   yearsInCurrentBusiness: "",
   businessState: "",
@@ -465,14 +469,14 @@ export const workingCapitalFormInputs = {
   employmentType: "",
   //general fields
   companyType: "",
+  otherCompanyType:"",
   companyName: "",
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
+  multipleBankAccounts:[],
   //salaried
   monthlyIncome: 0,
   incomeReceivedAs: "",
-
-  primaryBankAccount: "",
-  otherPrimaryBankAccount: "",
-
   //business
   yearsInCurrentBusiness: "",
   businessState: "",
@@ -509,14 +513,14 @@ export const lrdFormInputs = {
   employmentType: "",
   //general fields
   companyType: "",
+  otherCompanyType:"",
   companyName: "",
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
+  multipleBankAccounts:[],
   //salaried
   monthlyIncome: 0,
   incomeReceivedAs: "",
-
-  primaryBankAccount: "",
-  otherPrimaryBankAccount: "",
-
   //business
   yearsInCurrentBusiness: "",
   businessState: "",
@@ -553,14 +557,14 @@ export const odccLimitInputs = {
   employmentType: "",
   //general fields
   companyType: "",
+  otherCompanyType:"",
   companyName: "",
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
+  multipleBankAccounts:[],
   //salaried
   monthlyIncome: 0,
   incomeReceivedAs: "",
-
-  primaryBankAccount: "",
-  otherPrimaryBankAccount: "",
-
   //business
   yearsInCurrentBusiness: "",
   businessState: "",
@@ -597,14 +601,14 @@ export const lasFormInputs = {
   employmentType: "",
   //general fields
   companyType: "",
+  otherCompanyType:"",
   companyName: "",
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
+  multipleBankAccounts:[],
   //salaried
   monthlyIncome: 0,
   incomeReceivedAs: "",
-
-  primaryBankAccount: "",
-  otherPrimaryBankAccount: "",
-
   //business
   yearsInCurrentBusiness: "",
   businessState: "",
@@ -657,20 +661,16 @@ export const inputs = {
   pincode: "",
   residencyType: "Owned by self/spouse",
   incomeReceivedAs: "",
-
   primaryBankAccount: "",
   otherPrimaryBankAccount: "",
-
+  multipleBankAccounts:[],
   existingEmi: 0,
   loanStartDate: "",
-  primaryBankAccount: ""
-  ,
   existingLoanTenure: "",
   existingLoanAmount: "",
   // business
   compnayName: "",
   profession: "",
-  otherProfession: "",
   otherProfession: "",
   registrationNumber: "",
   businessPlaceOwnershipType: "",
@@ -683,7 +683,6 @@ export const inputs = {
   businessNature: "",
   subIndustryType: "",
   industryType: "",
-  otherIndustryType: "",
   otherIndustryType: "",
   companyStartDate: "",
   currentYearTurnOver: 0,
@@ -703,14 +702,13 @@ export const inputs = {
   newPropertyPincode: "",
   propertyAge: "",
   propertyValue: "",
-  multipleBankAccounts: [],
   // vehicle
   carManufacturer: "",
   carModel: "",
   manufacturingYear: "",
   vehicleVIN: "",
   transmission: "",
-  buyCarType: "",//old , new
+  buyCarType: "",//o, new
   oldCarRegistartionYear: "",
   oldCarVehicleNumber: "",
   carInsuranceNumber: "",

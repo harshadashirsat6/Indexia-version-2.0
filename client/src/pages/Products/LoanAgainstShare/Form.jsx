@@ -15,7 +15,7 @@ import {
   primaryBankAccount,
   //business
   yearsInCurrentBusiness,
-  BusinessNature,
+  BusinessNatureTypes,
   companyType,
   industryType,
   businessPlaceOwnershipTypeInputs,
@@ -1106,7 +1106,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
                 <select
                   className="bg-transparent w-full py-2.5"
-                  name="BusinessNature"
+                  name="businessNature"
                   value={formData.businessNature}
                   onChange={(e) => {
                     dispatch(
@@ -1118,7 +1118,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                   }}
                 >
                   <option value="">Select</option>
-                  {BusinessNature.map((ele, i) => (
+                  {BusinessNatureTypes.map((ele, i) => (
                     <option key={i} value={ele}>
                       {ele}
                     </option>

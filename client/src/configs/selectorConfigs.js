@@ -94,7 +94,7 @@ export const companyType = [
   "Director Applying As An Individual",
   "Other",
 ];
-export const BusinessNature = [
+export const BusinessNatureTypes = [
   "Manufacture",
   "Trader/Wholesaler",
   "Retailer",
