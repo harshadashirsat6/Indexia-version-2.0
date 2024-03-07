@@ -72,7 +72,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     primaryBankAccount: Yup.string("").required(
       "Income Bank Account Name required"
     ),
-    primaryBankAccountOption: Yup.string("").required(
+    otherPrimaryBankAccount: Yup.string("").required(
       "Income Bank Account required"
     ),
     currentYearTurnOver: Yup.number()
@@ -106,13 +106,13 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
   };
 
   useEffect(() => {
-    if (formik?.values?.primaryBankAccountOption?.trim()) {
-      formik.setFieldTouched("primaryBankAccountOption", false);
+    if (formik?.values?.otherPrimaryBankAccount?.trim()) {
+      formik.setFieldTouched("otherPrimaryBankAccount", false);
     } else {
       formik.setFieldTouched("employerTypeOption", false);
     }
   }, [
-    formik?.values?.primaryBankAccountOption,
+    formik?.values?.otherPrimaryBankAccount,
     formik?.values?.employerTypeOption,
   ]);
 
@@ -425,21 +425,21 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               <select
                 className="bg-transparent w-full py-2.5"
                 name="primaryBankAccount"
-                value={formik.values.primaryBankAccountOption}
+                value={formik.values.otherPrimaryBankAccount}
                 onBlur={() =>
-                  formik.setFieldTouched("primaryBankAccountOption", true)
+                  formik.setFieldTouched("otherPrimaryBankAccount", true)
                 }
                 onChange={(e) => {
                   if (e.target.value === "Other") {
                     formik.setFieldValue(
-                      "primaryBankAccountOption",
+                      "otherPrimaryBankAccount",
                       e.target.value
                     );
                     formik.setFieldValue("primaryBankAccount", "");
                     return;
                   } else {
                     formik.setFieldValue(
-                      "primaryBankAccountOption",
+                      "otherPrimaryBankAccount",
                       e.target.value
                     );
                     formik.setFieldValue("primaryBankAccount", e.target.value);
@@ -456,10 +456,10 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 })}
               </select>
             </div>
-            {formik.touched.primaryBankAccountOption &&
-              formik.errors.primaryBankAccountOption && (
+            {formik.touched.otherPrimaryBankAccount &&
+              formik.errors.otherPrimaryBankAccount && (
                 <span className="text-red-500 text-xs font-bold">
-                  {formik.errors.primaryBankAccountOption}
+                  {formik.errors.otherPrimaryBankAccount}
                 </span>
               )}
           </div>
@@ -472,21 +472,21 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               <select
                 className="bg-transparent w-full py-2.5"
                 name="primaryBankAccount"
-                value={formik.values.primaryBankAccountOption}
+                value={formik.values.otherPrimaryBankAccount}
                 onBlur={() =>
-                  formik.setFieldTouched("primaryBankAccountOption", true)
+                  formik.setFieldTouched("otherPrimaryBankAccount", true)
                 }
                 onChange={(e) => {
                   if (e.target.value === "Other") {
                     formik.setFieldValue(
-                      "primaryBankAccountOption",
+                      "otherPrimaryBankAccount",
                       e.target.value
                     );
                     formik.setFieldValue("primaryBankAccount", "");
                     return;
                   } else {
                     formik.setFieldValue(
-                      "primaryBankAccountOption",
+                      "otherPrimaryBankAccount",
                       e.target.value
                     );
                     formik.setFieldValue("primaryBankAccount", e.target.value);
@@ -503,15 +503,15 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 })}
               </select>
             </div>
-            {formik.touched.primaryBankAccountOption &&
-              formik.errors.primaryBankAccountOption && (
+            {formik.touched.otherPrimaryBankAccount &&
+              formik.errors.otherPrimaryBankAccount && (
                 <span className="text-red-500 text-xs font-bold">
-                  {formik.errors.primaryBankAccountOption}
+                  {formik.errors.otherPrimaryBankAccount}
                 </span>
               )}
           </div>
         )}
-        {formik.values.primaryBankAccountOption === "Other" && (
+        {formik.values.otherPrimaryBankAccount === "Other" && (
           <div>
             <span className=" font-semibold text-gray-500">
               Other transaction Bank Name
@@ -532,7 +532,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               )}
           </div>
         )}
-        {formik.values.primaryBankAccountOption ===
+        {formik.values.otherPrimaryBankAccount ===
           "Multiple transaction banks" && (
           <div>
             <span className=" font-semibold text-gray-500">

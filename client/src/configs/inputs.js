@@ -12,18 +12,20 @@ export const personalLoanFormInputs = {
   companyType: "",
   companyName: "",
   //salaried
-  salaryBankName: "",
   monthlyIncome: 0,
   incomeReceivedAs: "",
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
   //business
-  transactionBankName: "",
   yearsInCurrentBusiness: "",
   businessState: "",
   businessCity: "",
   businessPincode: "",
   businessPlaceStatus: "",
+  otherBusinessPlaceType: "",
   businessNature: "",
   industryType: "",
+  otherIndustryType: "",
   subIndustryType: "",
   currenYearTurnOver: 0,
   previousYearTurnOver: 0,
@@ -31,6 +33,7 @@ export const personalLoanFormInputs = {
   previousYearNetIncome: 0,
   //profession
   profession: "",
+  otherProfession: "",
   //! personal details
   name: "",
   email: "",
@@ -50,24 +53,30 @@ export const businessLoanFormInputs = {
   existingLoanAmount: "",
   exisitngLoanTenure: "",
   existingEmi: "",
+  //! loan exposures
+  existingLoanExposure: [],
   //! inome details
   employmentType: "",
   //general fields
   companyType: "",
   companyName: "",
   //salaried
-  salaryBankName: "",
   monthlyIncome: 0,
   incomeReceivedAs: "",
+
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
+
   //business
-  transactionBankName: "",
   yearsInCurrentBusiness: "",
   businessState: "",
   businessCity: "",
   businessPincode: "",
   businessPlaceStatus: "",
+  otherBusinessPlaceType: "",
   businessNature: "",
   industryType: "",
+  otherIndustryType: "",
   subIndustryType: "",
   currenYearTurnOver: 0,
   previousYearTurnOver: 0,
@@ -75,6 +84,7 @@ export const businessLoanFormInputs = {
   previousYearNetIncome: 0,
   //profession
   profession: "",
+  otherProfession: "",
   //! personal details
   name: "",
   email: "",
@@ -89,24 +99,38 @@ export const businessLoanFormInputs = {
 
 //home loan
 export const homeLoanFormInputs = {
+  requiredLoanAmount: "",
+  requiredLoanTenure: "",
+  existingLoanAmount: "",
+  existingLoanTenure: "",
+  existingEmi: 0,
+  newPropertyState: "",
+  newPropertyCity: "",
+  newPropertyPincode: "",
+  //! loan exposures
+  existingLoanExposure: [],
   //! inome details
   employmentType: "",
   //general fields
   companyType: "",
   companyName: "",
   //salaried
-  salaryBankName: "",
   monthlyIncome: 0,
   incomeReceivedAs: "",
+
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
+
   //business
-  transactionBankName: "",
   yearsInCurrentBusiness: "",
   businessState: "",
   businessCity: "",
   businessPincode: "",
   businessPlaceStatus: "",
+  otherBusinessPlaceType: "",
   businessNature: "",
   industryType: "",
+  otherIndustryType: "",
   subIndustryType: "",
   currenYearTurnOver: 0,
   previousYearTurnOver: 0,
@@ -114,6 +138,7 @@ export const homeLoanFormInputs = {
   previousYearNetIncome: 0,
   //profession
   profession: "",
+  otherProfession: "",
   //! personal details
   name: "",
   email: "",
@@ -134,18 +159,22 @@ export const lapFormInputs = {
   companyType: "",
   companyName: "",
   //salaried
-  salaryBankName: "",
   monthlyIncome: 0,
   incomeReceivedAs: "",
+
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
+
   //business
-  transactionBankName: "",
   yearsInCurrentBusiness: "",
   businessState: "",
   businessCity: "",
   businessPincode: "",
   businessPlaceStatus: "",
+  otherBusinessPlaceType: "",
   businessNature: "",
   industryType: "",
+  otherIndustryType: "",
   subIndustryType: "",
   currenYearTurnOver: 0,
   previousYearTurnOver: 0,
@@ -153,6 +182,7 @@ export const lapFormInputs = {
   previousYearNetIncome: 0,
   //profession
   profession: "",
+  otherProfession: "",
   //! personal details
   name: "",
   email: "",
@@ -173,18 +203,22 @@ export const balanceTransferFormInputs = {
   companyType: "",
   companyName: "",
   //salaried
-  salaryBankName: "",
   monthlyIncome: 0,
   incomeReceivedAs: "",
+
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
+
   //business
-  transactionBankName: "",
   yearsInCurrentBusiness: "",
   businessState: "",
   businessCity: "",
   businessPincode: "",
   businessPlaceStatus: "",
+  otherBusinessPlaceType: "",
   businessNature: "",
   industryType: "",
+  otherIndustryType: "",
   subIndustryType: "",
   currenYearTurnOver: 0,
   previousYearTurnOver: 0,
@@ -192,6 +226,7 @@ export const balanceTransferFormInputs = {
   previousYearNetIncome: 0,
   //profession
   profession: "",
+  otherProfession: "",
   //! personal details
   name: "",
   email: "",
@@ -212,18 +247,22 @@ export const projectLoanFormInputs = {
   companyType: "",
   companyName: "",
   //salaried
-  salaryBankName: "",
   monthlyIncome: 0,
   incomeReceivedAs: "",
+
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
+
   //business
-  transactionBankName: "",
   yearsInCurrentBusiness: "",
   businessState: "",
   businessCity: "",
   businessPincode: "",
   businessPlaceStatus: "",
+  otherBusinessPlaceType: "",
   businessNature: "",
   industryType: "",
+  otherIndustryType: "",
   subIndustryType: "",
   currenYearTurnOver: 0,
   previousYearTurnOver: 0,
@@ -231,6 +270,7 @@ export const projectLoanFormInputs = {
   previousYearNetIncome: 0,
   //profession
   profession: "",
+  otherProfession: "",
   //! personal details
   name: "",
   email: "",
@@ -251,18 +291,22 @@ export const carLoanFormInputs = {
   companyType: "",
   companyName: "",
   //salaried
-  salaryBankName: "",
   monthlyIncome: 0,
   incomeReceivedAs: "",
+
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
+
   //business
-  transactionBankName: "",
   yearsInCurrentBusiness: "",
   businessState: "",
   businessCity: "",
   businessPincode: "",
   businessPlaceStatus: "",
+  otherBusinessPlaceType: "",
   businessNature: "",
   industryType: "",
+  otherIndustryType: "",
   subIndustryType: "",
   currenYearTurnOver: 0,
   previousYearTurnOver: 0,
@@ -270,6 +314,7 @@ export const carLoanFormInputs = {
   previousYearNetIncome: 0,
   //profession
   profession: "",
+  otherProfession: "",
   //! personal details
   name: "",
   email: "",
@@ -290,18 +335,22 @@ export const educationLoanFormInputs = {
   companyType: "",
   companyName: "",
   //salaried
-  salaryBankName: "",
   monthlyIncome: 0,
   incomeReceivedAs: "",
+
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
+
   //business
-  transactionBankName: "",
   yearsInCurrentBusiness: "",
   businessState: "",
   businessCity: "",
   businessPincode: "",
   businessPlaceStatus: "",
+  otherBusinessPlaceType: "",
   businessNature: "",
   industryType: "",
+  otherIndustryType: "",
   subIndustryType: "",
   currenYearTurnOver: 0,
   previousYearTurnOver: 0,
@@ -309,6 +358,7 @@ export const educationLoanFormInputs = {
   previousYearNetIncome: 0,
   //profession
   profession: "",
+  otherProfession: "",
   //! personal details
   name: "",
   email: "",
@@ -329,18 +379,22 @@ export const creditCardFromInputs = {
   companyType: "",
   companyName: "",
   //salaried
-  salaryBankName: "",
   monthlyIncome: 0,
   incomeReceivedAs: "",
+
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
+
   //business
-  transactionBankName: "",
   yearsInCurrentBusiness: "",
   businessState: "",
   businessCity: "",
   businessPincode: "",
   businessPlaceStatus: "",
+  otherBusinessPlaceType: "",
   businessNature: "",
   industryType: "",
+  otherIndustryType: "",
   subIndustryType: "",
   currenYearTurnOver: 0,
   previousYearTurnOver: 0,
@@ -348,6 +402,7 @@ export const creditCardFromInputs = {
   previousYearNetIncome: 0,
   //profession
   profession: "",
+  otherProfession: "",
   //! personal details
   name: "",
   email: "",
@@ -368,18 +423,22 @@ export const commercialPurchaseFormInputs = {
   companyType: "",
   companyName: "",
   //salaried
-  salaryBankName: "",
   monthlyIncome: 0,
   incomeReceivedAs: "",
+
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
+
   //business
-  transactionBankName: "",
   yearsInCurrentBusiness: "",
   businessState: "",
   businessCity: "",
   businessPincode: "",
   businessPlaceStatus: "",
+  otherBusinessPlaceType: "",
   businessNature: "",
   industryType: "",
+  otherIndustryType: "",
   subIndustryType: "",
   currenYearTurnOver: 0,
   previousYearTurnOver: 0,
@@ -387,6 +446,7 @@ export const commercialPurchaseFormInputs = {
   previousYearNetIncome: 0,
   //profession
   profession: "",
+  otherProfession: "",
   //! personal details
   name: "",
   email: "",
@@ -407,18 +467,22 @@ export const workingCapitalFormInputs = {
   companyType: "",
   companyName: "",
   //salaried
-  salaryBankName: "",
   monthlyIncome: 0,
   incomeReceivedAs: "",
+
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
+
   //business
-  transactionBankName: "",
   yearsInCurrentBusiness: "",
   businessState: "",
   businessCity: "",
   businessPincode: "",
   businessPlaceStatus: "",
+  otherBusinessPlaceType: "",
   businessNature: "",
   industryType: "",
+  otherIndustryType: "",
   subIndustryType: "",
   currenYearTurnOver: 0,
   previousYearTurnOver: 0,
@@ -426,6 +490,7 @@ export const workingCapitalFormInputs = {
   previousYearNetIncome: 0,
   //profession
   profession: "",
+  otherProfession: "",
   //! personal details
   name: "",
   email: "",
@@ -446,18 +511,22 @@ export const lrdFormInputs = {
   companyType: "",
   companyName: "",
   //salaried
-  salaryBankName: "",
   monthlyIncome: 0,
   incomeReceivedAs: "",
+
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
+
   //business
-  transactionBankName: "",
   yearsInCurrentBusiness: "",
   businessState: "",
   businessCity: "",
   businessPincode: "",
   businessPlaceStatus: "",
+  otherBusinessPlaceType: "",
   businessNature: "",
   industryType: "",
+  otherIndustryType: "",
   subIndustryType: "",
   currenYearTurnOver: 0,
   previousYearTurnOver: 0,
@@ -465,6 +534,7 @@ export const lrdFormInputs = {
   previousYearNetIncome: 0,
   //profession
   profession: "",
+  otherProfession: "",
   //! personal details
   name: "",
   email: "",
@@ -485,18 +555,22 @@ export const odccLimitInputs = {
   companyType: "",
   companyName: "",
   //salaried
-  salaryBankName: "",
   monthlyIncome: 0,
   incomeReceivedAs: "",
+
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
+
   //business
-  transactionBankName: "",
   yearsInCurrentBusiness: "",
   businessState: "",
   businessCity: "",
   businessPincode: "",
   businessPlaceStatus: "",
+  otherBusinessPlaceType: "",
   businessNature: "",
   industryType: "",
+  otherIndustryType: "",
   subIndustryType: "",
   currenYearTurnOver: 0,
   previousYearTurnOver: 0,
@@ -504,6 +578,7 @@ export const odccLimitInputs = {
   previousYearNetIncome: 0,
   //profession
   profession: "",
+  otherProfession: "",
   //! personal details
   name: "",
   email: "",
@@ -524,18 +599,22 @@ export const lasFormInputs = {
   companyType: "",
   companyName: "",
   //salaried
-  salaryBankName: "",
   monthlyIncome: 0,
   incomeReceivedAs: "",
+
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
+
   //business
-  transactionBankName: "",
   yearsInCurrentBusiness: "",
   businessState: "",
   businessCity: "",
   businessPincode: "",
   businessPlaceStatus: "",
+  otherBusinessPlaceType: "",
   businessNature: "",
   industryType: "",
+  otherIndustryType: "",
   subIndustryType: "",
   currenYearTurnOver: 0,
   previousYearTurnOver: 0,
@@ -543,6 +622,7 @@ export const lasFormInputs = {
   previousYearNetIncome: 0,
   //profession
   profession: "",
+  otherProfession: "",
   //! personal details
   name: "",
   email: "",
@@ -577,14 +657,20 @@ export const inputs = {
   pincode: "",
   residencyType: "Owned by self/spouse",
   incomeReceivedAs: "",
+
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
+
   existingEmi: 0,
   loanStartDate: "",
-  primaryBankAccount: "",
+  primaryBankAccount: ""
+  ,
   existingLoanTenure: "",
   existingLoanAmount: "",
   // business
   compnayName: "",
   profession: "",
+  otherProfession: "",
   otherProfession: "",
   registrationNumber: "",
   businessPlaceOwnershipType: "",
@@ -597,6 +683,7 @@ export const inputs = {
   businessNature: "",
   subIndustryType: "",
   industryType: "",
+  otherIndustryType: "",
   otherIndustryType: "",
   companyStartDate: "",
   currentYearTurnOver: 0,
