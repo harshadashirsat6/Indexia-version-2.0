@@ -1,3 +1,561 @@
+// personal loan
+export const personalLoanFormInputs = {
+  //! loan requirements
+  requiredLoanAmount: "",
+  requiredLoanTenure: "",
+  existingEmi: 0,
+  //! loan exposures
+  existingLoanExposure: [],
+  //! inome details
+  employmentType: "",
+  //general fields
+  companyType: "",
+  companyName: "",
+  //salaried
+  salaryBankName: "",
+  monthlyIncome: 0,
+  incomeReceivedAs: "",
+  //business
+  transactionBankName: "",
+  yearsInCurrentBusiness: "",
+  businessState: "",
+  businessCity: "",
+  businessPincode: "",
+  businessPlaceStatus: "",
+  businessNature: "",
+  industryType: "",
+  subIndustryType: "",
+  currenYearTurnOver: 0,
+  previousYearTurnOver: 0,
+  currenYearNetIncome: 0,
+  previousYearNetIncome: 0,
+  //profession
+  profession: "",
+  //! personal details
+  name: "",
+  email: "",
+  conatct: "",
+  dateOfBirth: "",
+  panCardNum: "",
+  residenceState: "",
+  residenceCity: "",
+  residencePincode: "",
+  residenceType: "",
+}
+
+//business loan
+export const businessLoanFormInputs = {
+  requiredLoanAmount: "",
+  requiredLoanTenure: "",
+  existingLoanAmount: "",
+  exisitngLoanTenure: "",
+  existingEmi: "",
+  //! inome details
+  employmentType: "",
+  //general fields
+  companyType: "",
+  companyName: "",
+  //salaried
+  salaryBankName: "",
+  monthlyIncome: 0,
+  incomeReceivedAs: "",
+  //business
+  transactionBankName: "",
+  yearsInCurrentBusiness: "",
+  businessState: "",
+  businessCity: "",
+  businessPincode: "",
+  businessPlaceStatus: "",
+  businessNature: "",
+  industryType: "",
+  subIndustryType: "",
+  currenYearTurnOver: 0,
+  previousYearTurnOver: 0,
+  currenYearNetIncome: 0,
+  previousYearNetIncome: 0,
+  //profession
+  profession: "",
+  //! personal details
+  name: "",
+  email: "",
+  conatct: "",
+  dateOfBirth: "",
+  panCardNum: "",
+  residenceState: "",
+  residenceCity: "",
+  residencePincode: "",
+  residenceType: "",
+}
+
+//home loan
+export const homeLoanFormInputs = {
+  //! inome details
+  employmentType: "",
+  //general fields
+  companyType: "",
+  companyName: "",
+  //salaried
+  salaryBankName: "",
+  monthlyIncome: 0,
+  incomeReceivedAs: "",
+  //business
+  transactionBankName: "",
+  yearsInCurrentBusiness: "",
+  businessState: "",
+  businessCity: "",
+  businessPincode: "",
+  businessPlaceStatus: "",
+  businessNature: "",
+  industryType: "",
+  subIndustryType: "",
+  currenYearTurnOver: 0,
+  previousYearTurnOver: 0,
+  currenYearNetIncome: 0,
+  previousYearNetIncome: 0,
+  //profession
+  profession: "",
+  //! personal details
+  name: "",
+  email: "",
+  conatct: "",
+  dateOfBirth: "",
+  panCardNum: "",
+  residenceState: "",
+  residenceCity: "",
+  residencePincode: "",
+  residenceType: "",
+}
+
+//loan against property
+export const lapFormInputs = {
+  //! inome details
+  employmentType: "",
+  //general fields
+  companyType: "",
+  companyName: "",
+  //salaried
+  salaryBankName: "",
+  monthlyIncome: 0,
+  incomeReceivedAs: "",
+  //business
+  transactionBankName: "",
+  yearsInCurrentBusiness: "",
+  businessState: "",
+  businessCity: "",
+  businessPincode: "",
+  businessPlaceStatus: "",
+  businessNature: "",
+  industryType: "",
+  subIndustryType: "",
+  currenYearTurnOver: 0,
+  previousYearTurnOver: 0,
+  currenYearNetIncome: 0,
+  previousYearNetIncome: 0,
+  //profession
+  profession: "",
+  //! personal details
+  name: "",
+  email: "",
+  conatct: "",
+  dateOfBirth: "",
+  panCardNum: "",
+  residenceState: "",
+  residenceCity: "",
+  residencePincode: "",
+  residenceType: "",
+}
+
+// balance transfer
+export const balanceTransferFormInputs = {
+  //! inome details
+  employmentType: "",
+  //general fields
+  companyType: "",
+  companyName: "",
+  //salaried
+  salaryBankName: "",
+  monthlyIncome: 0,
+  incomeReceivedAs: "",
+  //business
+  transactionBankName: "",
+  yearsInCurrentBusiness: "",
+  businessState: "",
+  businessCity: "",
+  businessPincode: "",
+  businessPlaceStatus: "",
+  businessNature: "",
+  industryType: "",
+  subIndustryType: "",
+  currenYearTurnOver: 0,
+  previousYearTurnOver: 0,
+  currenYearNetIncome: 0,
+  previousYearNetIncome: 0,
+  //profession
+  profession: "",
+  //! personal details
+  name: "",
+  email: "",
+  conatct: "",
+  dateOfBirth: "",
+  panCardNum: "",
+  residenceState: "",
+  residenceCity: "",
+  residencePincode: "",
+  residenceType: "",
+}
+
+//project loan
+export const projectLoanFormInputs = {
+  //! inome details
+  employmentType: "",
+  //general fields
+  companyType: "",
+  companyName: "",
+  //salaried
+  salaryBankName: "",
+  monthlyIncome: 0,
+  incomeReceivedAs: "",
+  //business
+  transactionBankName: "",
+  yearsInCurrentBusiness: "",
+  businessState: "",
+  businessCity: "",
+  businessPincode: "",
+  businessPlaceStatus: "",
+  businessNature: "",
+  industryType: "",
+  subIndustryType: "",
+  currenYearTurnOver: 0,
+  previousYearTurnOver: 0,
+  currenYearNetIncome: 0,
+  previousYearNetIncome: 0,
+  //profession
+  profession: "",
+  //! personal details
+  name: "",
+  email: "",
+  conatct: "",
+  dateOfBirth: "",
+  panCardNum: "",
+  residenceState: "",
+  residenceCity: "",
+  residencePincode: "",
+  residenceType: "",
+}
+
+//car loan
+export const carLoanFormInputs = {
+  //! inome details
+  employmentType: "",
+  //general fields
+  companyType: "",
+  companyName: "",
+  //salaried
+  salaryBankName: "",
+  monthlyIncome: 0,
+  incomeReceivedAs: "",
+  //business
+  transactionBankName: "",
+  yearsInCurrentBusiness: "",
+  businessState: "",
+  businessCity: "",
+  businessPincode: "",
+  businessPlaceStatus: "",
+  businessNature: "",
+  industryType: "",
+  subIndustryType: "",
+  currenYearTurnOver: 0,
+  previousYearTurnOver: 0,
+  currenYearNetIncome: 0,
+  previousYearNetIncome: 0,
+  //profession
+  profession: "",
+  //! personal details
+  name: "",
+  email: "",
+  conatct: "",
+  dateOfBirth: "",
+  panCardNum: "",
+  residenceState: "",
+  residenceCity: "",
+  residencePincode: "",
+  residenceType: "",
+}
+
+//education loan
+export const educationLoanFormInputs = {
+  //! inome details
+  employmentType: "",
+  //general fields
+  companyType: "",
+  companyName: "",
+  //salaried
+  salaryBankName: "",
+  monthlyIncome: 0,
+  incomeReceivedAs: "",
+  //business
+  transactionBankName: "",
+  yearsInCurrentBusiness: "",
+  businessState: "",
+  businessCity: "",
+  businessPincode: "",
+  businessPlaceStatus: "",
+  businessNature: "",
+  industryType: "",
+  subIndustryType: "",
+  currenYearTurnOver: 0,
+  previousYearTurnOver: 0,
+  currenYearNetIncome: 0,
+  previousYearNetIncome: 0,
+  //profession
+  profession: "",
+  //! personal details
+  name: "",
+  email: "",
+  conatct: "",
+  dateOfBirth: "",
+  panCardNum: "",
+  residenceState: "",
+  residenceCity: "",
+  residencePincode: "",
+  residenceType: "",
+}
+
+//credt card
+export const creditCardFromInputs = {
+  //! inome details
+  employmentType: "",
+  //general fields
+  companyType: "",
+  companyName: "",
+  //salaried
+  salaryBankName: "",
+  monthlyIncome: 0,
+  incomeReceivedAs: "",
+  //business
+  transactionBankName: "",
+  yearsInCurrentBusiness: "",
+  businessState: "",
+  businessCity: "",
+  businessPincode: "",
+  businessPlaceStatus: "",
+  businessNature: "",
+  industryType: "",
+  subIndustryType: "",
+  currenYearTurnOver: 0,
+  previousYearTurnOver: 0,
+  currenYearNetIncome: 0,
+  previousYearNetIncome: 0,
+  //profession
+  profession: "",
+  //! personal details
+  name: "",
+  email: "",
+  conatct: "",
+  dateOfBirth: "",
+  panCardNum: "",
+  residenceState: "",
+  residenceCity: "",
+  residencePincode: "",
+  residenceType: "",
+}
+
+//commercial purchase
+export const commercialPurchaseFormInputs = {
+  //! inome details
+  employmentType: "",
+  //general fields
+  companyType: "",
+  companyName: "",
+  //salaried
+  salaryBankName: "",
+  monthlyIncome: 0,
+  incomeReceivedAs: "",
+  //business
+  transactionBankName: "",
+  yearsInCurrentBusiness: "",
+  businessState: "",
+  businessCity: "",
+  businessPincode: "",
+  businessPlaceStatus: "",
+  businessNature: "",
+  industryType: "",
+  subIndustryType: "",
+  currenYearTurnOver: 0,
+  previousYearTurnOver: 0,
+  currenYearNetIncome: 0,
+  previousYearNetIncome: 0,
+  //profession
+  profession: "",
+  //! personal details
+  name: "",
+  email: "",
+  conatct: "",
+  dateOfBirth: "",
+  panCardNum: "",
+  residenceState: "",
+  residenceCity: "",
+  residencePincode: "",
+  residenceType: "",
+}
+
+//working capital
+export const workingCapitalFormInputs = {
+  //! inome details
+  employmentType: "",
+  //general fields
+  companyType: "",
+  companyName: "",
+  //salaried
+  salaryBankName: "",
+  monthlyIncome: 0,
+  incomeReceivedAs: "",
+  //business
+  transactionBankName: "",
+  yearsInCurrentBusiness: "",
+  businessState: "",
+  businessCity: "",
+  businessPincode: "",
+  businessPlaceStatus: "",
+  businessNature: "",
+  industryType: "",
+  subIndustryType: "",
+  currenYearTurnOver: 0,
+  previousYearTurnOver: 0,
+  currenYearNetIncome: 0,
+  previousYearNetIncome: 0,
+  //profession
+  profession: "",
+  //! personal details
+  name: "",
+  email: "",
+  conatct: "",
+  dateOfBirth: "",
+  panCardNum: "",
+  residenceState: "",
+  residenceCity: "",
+  residencePincode: "",
+  residenceType: "",
+}
+
+//lease rent discounting
+export const lrdFormInputs = {
+  //! inome details
+  employmentType: "",
+  //general fields
+  companyType: "",
+  companyName: "",
+  //salaried
+  salaryBankName: "",
+  monthlyIncome: 0,
+  incomeReceivedAs: "",
+  //business
+  transactionBankName: "",
+  yearsInCurrentBusiness: "",
+  businessState: "",
+  businessCity: "",
+  businessPincode: "",
+  businessPlaceStatus: "",
+  businessNature: "",
+  industryType: "",
+  subIndustryType: "",
+  currenYearTurnOver: 0,
+  previousYearTurnOver: 0,
+  currenYearNetIncome: 0,
+  previousYearNetIncome: 0,
+  //profession
+  profession: "",
+  //! personal details
+  name: "",
+  email: "",
+  conatct: "",
+  dateOfBirth: "",
+  panCardNum: "",
+  residenceState: "",
+  residenceCity: "",
+  residencePincode: "",
+  residenceType: "",
+}
+
+//od-cc
+export const odccLimitInputs = {
+  //! inome details
+  employmentType: "",
+  //general fields
+  companyType: "",
+  companyName: "",
+  //salaried
+  salaryBankName: "",
+  monthlyIncome: 0,
+  incomeReceivedAs: "",
+  //business
+  transactionBankName: "",
+  yearsInCurrentBusiness: "",
+  businessState: "",
+  businessCity: "",
+  businessPincode: "",
+  businessPlaceStatus: "",
+  businessNature: "",
+  industryType: "",
+  subIndustryType: "",
+  currenYearTurnOver: 0,
+  previousYearTurnOver: 0,
+  currenYearNetIncome: 0,
+  previousYearNetIncome: 0,
+  //profession
+  profession: "",
+  //! personal details
+  name: "",
+  email: "",
+  conatct: "",
+  dateOfBirth: "",
+  panCardNum: "",
+  residenceState: "",
+  residenceCity: "",
+  residencePincode: "",
+  residenceType: "",
+}
+
+//loan against share 
+export const lasFormInputs = {
+  //! inome details
+  employmentType: "",
+  //general fields
+  companyType: "",
+  companyName: "",
+  //salaried
+  salaryBankName: "",
+  monthlyIncome: 0,
+  incomeReceivedAs: "",
+  //business
+  transactionBankName: "",
+  yearsInCurrentBusiness: "",
+  businessState: "",
+  businessCity: "",
+  businessPincode: "",
+  businessPlaceStatus: "",
+  businessNature: "",
+  industryType: "",
+  subIndustryType: "",
+  currenYearTurnOver: 0,
+  previousYearTurnOver: 0,
+  currenYearNetIncome: 0,
+  previousYearNetIncome: 0,
+  //profession
+  profession: "",
+  //! personal details
+  name: "",
+  email: "",
+  conatct: "",
+  dateOfBirth: "",
+  panCardNum: "",
+  residenceState: "",
+  residenceCity: "",
+  residencePincode: "",
+  residenceType: "",
+}
+
+
 export const inputs = {
   category: "",
   contact: "",

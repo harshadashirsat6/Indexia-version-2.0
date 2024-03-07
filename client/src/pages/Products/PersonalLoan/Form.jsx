@@ -1,12 +1,13 @@
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import ReCAPTCHA from "react-google-recaptcha";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  setFormData,
-  setShowSubmitLoanFormPaymentModal,
-} from "../../../store/appSlice";
+// formik and yup
+import { useFormik } from "formik";
+import * as Yup from "yup";
+//captcha
+import ReCAPTCHA from "react-google-recaptcha";
+import { setShowSubmitLoanFormPaymentModal } from "../../../store/appSlice";
+import { setPlForm } from "../../../store/loanForm";
 import {
   employerType,
   residencyType,
@@ -19,17 +20,17 @@ import {
   companyType,
   industryType,
   businessPlaceOwnershipTypeInputs,
-  collateralOption,
   existingWokringCapitalLoanTypes,
 } from "../../../configs/selectorConfigs";
-import { useState, useEffect } from "react";
 import DatePicker from "../../../components/DatePicker/DatePicker";
+//icons and images
 import { FaRegCalendarAlt } from "react-icons/fa";
 
 const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
   // const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { formData } = useSelector((store) => store.app);
+  const { plForm } = useSelector((store) => store.loanForm);
+
   // checkbox
   const [checkBox1, setCheckBox1] = useState(true);
   const [checkBox2, setCheckBox2] = useState(false);
@@ -37,75 +38,52 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
 
   // Yup validation
   const validationSchema = Yup.object({
-    name: Yup.string("").min(5).required("Full name required"),
     dateOfBirth: Yup.string("")
       .required("Date of birth required")
       .test("age-check", "age must be between 23 and 60", function (value) {
         const currentDate = new Date();
         const selectedDate = new Date(value.split("-").reverse().join("-"));
         const age = currentDate.getFullYear() - selectedDate.getFullYear();
-
         // Adjust the age check as per your specific requirements
-        return age >= 18;
+        return age >= 21;
       }),
-    state: Yup.string("").required("State required"),
-    city: Yup.string("").required("City required"),
     pincode: Yup.number()
       .integer("Invalid pincode")
       .required("Pincode required")
       .test("length-check", "Invalid pincode", function (value) {
         return value.toString().length === 6;
       }),
-    residencyType: Yup.string("").required("Residency type required"),
     panCardNum: Yup.string()
       .required("Pancard number required")
       .length(10, "Pan card number should be 10 characters")
       .matches(/^[a-zA-Z]{5}\d{4}[a-zA-Z]$/, "Invalid pancard number")
       .matches(/^[A-Z0-9]+$/, "Only alphanumeric characters are allowed"),
-
-    existingLoanAmount: Yup.number()
-      .integer("Loan amount must be a number")
-      .required("* required"),
-    collateralOption: Yup.string("").required("* mandatory"),
-    otherCollateralOptionType: Yup.string("").required("* required"),
-    loanTenure: Yup.number()
+    requiredLoanTenure: Yup.number()
       .integer("Loan amount must be a number")
       .required("Loan tenure required")
       .min(3, "min 3")
       .max(40, "max 40"),
-    existingLoanTenure: Yup.number()
-      .integer("Loan amount must be a number")
-      .required("* required"),
     employerType: Yup.string("").required("Employer type required"),
     employerTypeOption: Yup.string("").required("Employer type required"),
-    employmentType: Yup.string("").required("Employment type required"),
-    employerName: Yup.string("").required("Employer name required"),
     existingEmi: Yup.number()
       .integer("EMI must be a number")
       .required("EMI required")
       .min(0, "min 0"),
-    email: Yup.string("").email().required("Email required"),
-    contact: Yup.number()
-      .integer("Invalid contact number")
-      .required("Contact number required")
-      .test(
-        "length-check",
-        "contact number must be of 10 digits",
-        function (value) {
-          return value.toString().length === 10;
-        }
-      ),
     primaryBankAccount: Yup.string("").required(
       "Income Bank Account Name required"
     ),
     primaryBankAccountOption: Yup.string("").required(
       "Income Bank Account required"
     ),
+    currentYearTurnOver: Yup.number()
+      .integer("Must be a number")
+      .required("* required")
+      .min(0, "min 0"),
   });
 
   // Formik
   const formik = useFormik({
-    initialValues: formData,
+    initialValues: plForm,
     validationSchema: validationSchema,
     onSubmit: (values) => {
       handleProceed(values);
@@ -113,20 +91,18 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
   });
 
   const handleProceed = (values) => {
-    if (emiErrStatus) {
-      return;
-    }
-    if (loanTenureErr.status) {
-      return;
-    }
-    dispatch(setShowSubmitLoanFormPaymentModal(true));
-    dispatch(
-      setFormData({
-        ...formData,
-        ...values,
-        monthlyIncome: formData.monthlyIncome,
-      })
-    );
+    // if (emiErrStatus) {
+    //   return;
+    // }
+
+    // dispatch(setShowSubmitLoanFormPaymentModal(true));
+    // dispatch(
+    //   setPlForm({
+    //     ...plForm,
+    //     ...values,
+    //   })
+    // );
+    console.log(values, "hey");
   };
 
   useEffect(() => {
@@ -147,29 +123,29 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
 
   //emi , salary and current turn over
   useEffect(() => {
-    if (formData.employmentType === "Salaried") {
-      if (!formData.monthlyIncome) {
+    if (plForm.employmentType === "Salaried") {
+      if (!plForm.monthlyIncome) {
         return setIncomeError({ status: true, msg: "please enter salary" });
       }
-      if (formData.monthlyIncome === 0 && formik.values.existingEmi > 0) {
+      if (plForm.monthlyIncome === 0 && formik.values.existingEmi > 0) {
         setEmiErrStatus(true);
         return setEmiErr("salary invalid. please mention your salary");
-      } else if (formData.monthlyIncome > 0) {
-        if (formData.monthlyIncome < 12000) {
+      } else if (plForm.monthlyIncome > 0) {
+        if (plForm.monthlyIncome < 12000) {
           setEmiErrStatus(false);
           return setIncomeError({
             status: true,
             msg: "salary should be greater 12000",
           });
         } else if (
-          formData.monthlyIncome >= 12000 &&
+          plForm.monthlyIncome >= 12000 &&
           formik.values.existingEmi > 0
         ) {
-          console.log("err3");
-          const salaryVal = formData.monthlyIncome;
-          console.log("salary val", salaryVal);
+          console.log("cal emi err started");
+          const salaryVal = plForm.monthlyIncome;
+          // console.log("salary val", salaryVal);
           const percentageVal = (salaryVal * 80) / 100;
-          console.log(percentageVal);
+          // console.log(percentageVal);
           if (formik.values.existingEmi > percentageVal) {
             setEmiErrStatus(true);
             return setEmiErr(`Existing EMI should less than ${percentageVal}`);
@@ -202,54 +178,11 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
       }
     }
   }, [
-    formik.values.existingEmi,
+    formik.values?.existingEmi,
     formik.values.currentYearTurnOver,
-    formData.monthlyIncome,
-    formData.employmentType,
+    plForm.monthlyIncome,
+    plForm.employmentType,
   ]);
-
-  //New property state and city
-  const [newpropertyStates, setNewpropertyState] = useState([]);
-  const [selectedNewpropertyState, setSelectedNewpropertyState] = useState("");
-  var newPropertyStateConfig = {
-    url: "https://api.countrystatecity.in/v1/countries/In/states",
-    key: "N00wMDJleEpjQ09wTjBhN0VSdUZxUGxWMlJKTGY1a0tRN0lpakh5Vw==",
-  };
-  const getNewPropertyStates = async () => {
-    await fetch(newPropertyStateConfig.url, {
-      headers: { "X-CSCAPI-KEY": newPropertyStateConfig.key },
-    })
-      .then((resp) => resp.json())
-      .then((resp) => {
-        setNewpropertyState(resp);
-        console.log(resp);
-      })
-      .catch((err) => console.log(err));
-  };
-  useEffect(() => {
-    getNewPropertyStates();
-  }, []);
-  // get cities after selecting state
-  const [newpropertyCities, setNewpropertyCities] = useState([]);
-  var newPropertyCityConfig = {
-    url: `https://api.countrystatecity.in/v1/countries/IN/states/${selectedNewpropertyState}/cities`,
-    key: "N00wMDJleEpjQ09wTjBhN0VSdUZxUGxWMlJKTGY1a0tRN0lpakh5Vw==",
-  };
-  const getNewPropertyCities = async () => {
-    await fetch(newPropertyCityConfig.url, {
-      headers: { "X-CSCAPI-KEY": newPropertyCityConfig.key },
-    })
-      .then((resp) => resp.json())
-      .then((resp) => {
-        setNewpropertyCities(resp);
-      })
-      .catch((err) => console.log(err));
-  };
-  useEffect(() => {
-    if (selectedNewpropertyState) {
-      getNewPropertyCities();
-    }
-  }, [selectedNewpropertyState]);
 
   //current business state and current business city
   // state city api
@@ -266,7 +199,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
       .then((resp) => resp.json())
       .then((resp) => {
         setBusinessStates(resp);
-        console.log(resp);
       })
       .catch((err) => console.log(err));
   };
@@ -294,10 +226,12 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
       getBusinessCities();
     }
   }, [selectedBusinessState]);
+
   //multiple transaction bank name
   const [bankName, setBankName] = useState("");
   const [bankNameErr, setBankNameErr] = useState("");
   const [bankNameArr = [], setBankNameArr] = useState([]);
+
   //auto dash in birthdate
   const formatBirthdate = (inputDate) => {
     const cleanedInput = inputDate.replace(/[^\d]/g, ""); // Remove non-numeric characters
@@ -315,10 +249,8 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
     }
   };
 
-  //add exsting loan types
-  const [loanTypesArr, setLoanTypesArr] = useState(
-    formData.existingLoanExposure
-  );
+  //add existing loan types
+  const [loanTypesArr, setLoanTypesArr] = useState(plForm.existingLoanExposure);
   const handleCheckboxChange = (product) => {
     const isExist = loanTypesArr.find((ele) => ele === product);
     if (isExist) {
@@ -331,9 +263,9 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
       setLoanTypesArr([product]);
     }
   };
-  useEffect(() => {
-    console.log(loanTypesArr);
-  }, [handleCheckboxChange]);
+  // useEffect(() => {
+  //   console.log(loanTypesArr);
+  // }, [handleCheckboxChange]);
 
   return (
     <div className="py-10">
@@ -345,13 +277,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
         </span>
         <span className="w-20 h-0.5 rounded-full bg-cyan-400"></span>
       </h1>
-      <form
-        className="block lg:grid lg:grid-cols-2  gap-8"
-        onSubmit={(e) => {
-          e.preventDefault();
-          formik.handleSubmit();
-        }}
-      >
+      <form className="block lg:grid lg:grid-cols-2  gap-8">
         {/* loan requirements */}
         <div className="col-span-1 sm:col-span-2 py-8">
           <h1 className="font-bold text-blue-600 underline underline-offset-4">
@@ -366,15 +292,16 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             <input
               placeholder=""
               type="number"
-              {...formik.getFieldProps("loanAmount")}
+              {...formik.getFieldProps("requiredLoanAmount")}
               className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
             />
           </div>
-          {formik.touched.loanAmount && formik.errors.loanAmount && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.loanAmount}
-            </span>
-          )}
+          {formik.touched.requiredLoanAmount &&
+            formik.errors.requiredLoanAmount && (
+              <span className="text-red-500 text-xs font-bold">
+                {formik.errors.requiredLoanAmount}
+              </span>
+            )}
         </div>
         <div>
           <span className="font-semibold text-gray-500">
@@ -384,54 +311,17 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             <input
               placeholder=""
               type="number"
-              {...formik.getFieldProps("loanTenure")}
+              {...formik.getFieldProps("requiredLoanTenure")}
               className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
             />
           </div>
-          {formik.touched.loanTenure && formik.errors.loanTenure ? (
+          {formik.touched.requiredLoanTenure &&
+          formik.errors.requiredLoanTenure ? (
             <span className="text-red-500 text-xs font-bold">
-              {formik.errors.loanTenure}
+              {formik.errors.requiredLoanTenure}
             </span>
           ) : null}
         </div>
-        {/* <div>
-          <span className="font-semibold text-gray-500">
-            Existing Total Loan Amount
-          </span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder=""
-              type="number"
-              {...formik.getFieldProps("existingLoanAmount")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-            />
-          </div>
-          {formik.touched.existingLoanAmount &&
-            formik.errors.existingLoanAmount && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.existingLoanAmount}
-              </span>
-            )}
-        </div>
-        <div>
-          <span className="font-semibold text-gray-500">
-            Existing Loan Tenure (in years)
-          </span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder=""
-              type="number"
-              {...formik.getFieldProps("existingLoanTenure")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-            />
-          </div>
-          {formik.touched.existingLoanTenure &&
-          formik.errors.existingLoanTenure ? (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.existingLoanTenure}
-            </span>
-          ) : null}
-        </div> */}
         <div>
           <span className="font-semibold text-gray-500">
             Existing Total EMI
@@ -481,7 +371,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
         </div>
         {loanTypesArr.includes("Other") ? (
           <div>
-            {console.log("hi")}
             <div>
               <span className=" font-semibold text-gray-500">
                 Other Existing Loan Type
@@ -509,11 +398,10 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
             <select
               className="bg-transparent w-full py-2.5"
-              {...formik.getFieldProps("employmentType")}
-              value={formData.employmentType}
+              value={plForm.employmentType}
               onChange={(e) =>
                 dispatch(
-                  setFormData({ ...formData, employmentType: e.target.value })
+                  setPlForm({ ...plForm, employmentType: e.target.value })
                 )
               }
             >
@@ -527,13 +415,8 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               })}
             </select>
           </div>
-          {formik.touched.employmentType && formik.errors.employmentType && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.employmentType}
-            </span>
-          )}
         </div>
-        {formData.employmentType === "Salaried" ? (
+        {plForm.employmentType === "Salaried" ? (
           <div>
             <span className="font-semibold text-gray-500">
               Salary Bank Name
@@ -668,7 +551,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
               />
               <button
-                type="button"
                 onClick={() => {
                   if (bankName) {
                     setBankNameArr([...bankNameArr, bankName]);
@@ -706,7 +588,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           </div>
         )}
         {/* salary */}
-        {formData.employmentType === "Salaried" ? (
+        {plForm.employmentType === "Salaried" ? (
           <>
             <div>
               <span className="font-semibold text-gray-500">Company Type</span>
@@ -777,16 +659,16 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 <input
                   placeholder="Enter your company name"
                   type="text"
-                  value={formData.employerName}
-                  {...formik.getFieldProps("employerName")}
+                  name="employerName"
+                  value={plForm.employerName}
+                  onChange={(e) =>
+                    dispatch(
+                      setPlForm({ ...plForm, employerName: e.target.value })
+                    )
+                  }
                   className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
                 />
               </div>
-              {formik.touched.employerName && formik.errors.employerName && (
-                <span className="text-red-500 text-xs font-bold">
-                  {formik.errors.employerName}
-                </span>
-              )}
             </div>
             <div>
               <span className="font-semibold text-gray-500">
@@ -797,11 +679,11 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                   placeholder="Take home salary"
                   type="number"
                   name="monthlyIncomeno"
-                  value={formData.monthlyIncome}
+                  value={plForm.monthlyIncome}
                   onChange={(e) => {
                     dispatch(
-                      setFormData({
-                        ...formData,
+                      setPlForm({
+                        ...plForm,
                         monthlyIncome: e.target.value,
                       })
                     );
@@ -828,8 +710,8 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                     {...formik.getFieldProps("incomeRecievedAs")}
                     onChange={(e) =>
                       dispatch(
-                        setFormData({
-                          ...formData,
+                        setPlForm({
+                          ...plForm,
                           incomeRecievedAs: e.target.value,
                         })
                       )
@@ -848,7 +730,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               </div>
             </div>
           </>
-        ) : formData.employmentType === "Self-employed business" ? (
+        ) : plForm.employmentType === "Self-employed business" ? (
           <>
             <div className="col-span-1 sm:col-span-2">
               <h1 className="font-bold"> Business Details</h1>
@@ -859,7 +741,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 <input
                   placeholder=""
                   type="text"
-                  value={formData.companyName}
+                  value={plForm.companyName}
                   name="companyName"
                   className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
                   readOnly
@@ -873,11 +755,11 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               <div className="border-b border-slate-400 py-1">
                 <select
                   className="w-full"
-                  value={formData.yearsInCurrentBusiness}
+                  value={plForm.yearsInCurrentBusiness}
                   onChange={(e) =>
                     dispatch(
-                      setFormData({
-                        ...formData,
+                      setPlForm({
+                        ...plForm,
                         yearsInCurrentBusiness: e.target.value,
                       })
                     )
@@ -976,8 +858,8 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 <select
                   onChange={(e) =>
                     dispatch(
-                      setFormData({
-                        ...formData,
+                      setPlForm({
+                        ...plForm,
                         businessPlaceOwnershipType: e.target.value,
                       })
                     )
@@ -1007,11 +889,11 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                       placeholder=""
                       type="text"
                       name="otherBusinessPlaceType"
-                      value={formData.otherBusinessPlaceType}
+                      value={plForm.otherBusinessPlaceType}
                       onChange={(e) =>
                         dispatch(
-                          setFormData({
-                            ...formData,
+                          setPlForm({
+                            ...plForm,
                             otherBusinessPlaceType: e.target.value,
                           })
                         )
@@ -1028,11 +910,11 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 <select
                   className="bg-transparent w-full py-2.5"
                   name="companyType"
-                  value={formData.companyType}
+                  value={plForm.companyType}
                   onChange={(e) =>
                     dispatch(
-                      setFormData({
-                        ...formData,
+                      setPlForm({
+                        ...plForm,
                         companyType: e.target.value,
                       })
                     )
@@ -1052,7 +934,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 </span>
               )}
             </div>
-            {formData.companyType === "Other" && (
+            {plForm.companyType === "Other" && (
               <div>
                 <div>
                   <span className=" font-semibold text-gray-500">
@@ -1076,11 +958,11 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 <select
                   className="bg-transparent w-full py-2.5"
                   name="BusinessNature"
-                  value={formData.businessNature}
+                  value={plForm.businessNature}
                   onChange={(e) => {
                     dispatch(
-                      setFormData({
-                        ...formData,
+                      setPlForm({
+                        ...plForm,
                         businessNature: e.target.value,
                       })
                     );
@@ -1095,7 +977,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 </select>
               </div>
             </div>
-            {formData.businessNature === "Other" && (
+            {plForm.businessNature === "Other" && (
               <div>
                 <div>
                   <span className=" font-semibold text-gray-500">
@@ -1117,11 +999,11 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 <select
                   className="bg-transparent w-full py-2.5"
                   name="industryType"
-                  value={formData.industryType}
+                  value={plForm.industryType}
                   onChange={(e) => {
                     dispatch(
-                      setFormData({
-                        ...formData,
+                      setPlForm({
+                        ...plForm,
                         industryType: e.target.value,
                       })
                     );
@@ -1141,7 +1023,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 </span>
               )}
             </div>
-            {formData.industryType === "Other" && (
+            {plForm.industryType === "Other" && (
               <div>
                 <div>
                   <span className=" font-semibold text-gray-500">
@@ -1152,11 +1034,11 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                       placeholder=""
                       type="text"
                       name="otherIndustryType"
-                      value={formData.otherIndustryType}
+                      value={plForm.otherIndustryType}
                       onChange={(e) =>
                         dispatch(
-                          setFormData({
-                            ...formData,
+                          setPlForm({
+                            ...plForm,
                             otherIndustryType: e.target.value,
                           })
                         )
@@ -1174,11 +1056,11 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 <input
                   placeholder=""
                   type="text"
-                  value={formData.subIndustryType}
+                  value={plForm.subIndustryType}
                   onChange={(e) => {
                     dispatch(
-                      setFormData({
-                        ...formData,
+                      setPlForm({
+                        ...plForm,
                         subIndustryType: e.target.value,
                       })
                     );
@@ -1356,8 +1238,8 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 <select
                   onChange={(e) =>
                     dispatch(
-                      setFormData({
-                        ...formData,
+                      setPlForm({
+                        ...plForm,
                         businessPlaceOwnershipType: e.target.value,
                       })
                     )
@@ -1382,10 +1264,10 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 <select
                   className="bg-transparent w-full py-2.5"
                   name="profession"
-                  value={formData.profession}
+                  value={plForm.profession}
                   onChange={(e) =>
                     dispatch(
-                      setFormData({ ...formData, profession: e.target.value })
+                      setPlForm({ ...plForm, profession: e.target.value })
                     )
                   }
                 >
@@ -1402,7 +1284,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                 </span>
               )}
             </div>
-            {formData.profession === "Other" && (
+            {plForm.profession === "Other" && (
               <div>
                 <div>
                   <span className=" font-semibold text-gray-500">
@@ -1413,11 +1295,11 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
                       placeholder=""
                       type="text"
                       name="otherProfession"
-                      value={formData.otherProfession}
+                      value={plForm.otherProfession}
                       onChange={(e) =>
                         dispatch(
-                          setFormData({
-                            ...formData,
+                          setPlForm({
+                            ...plForm,
                             otherProfession: e.target.value,
                           })
                         )
@@ -1446,6 +1328,9 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               type="text"
               value={user?.name}
               name="name"
+              onChange={(e) =>
+                dispatch(setPlForm({ ...plForm, name: e.target.value }))
+              }
               className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
               readOnly
             />
@@ -1459,6 +1344,9 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               type="email"
               value={user?.email}
               name="email"
+              onChange={(e) =>
+                dispatch(setPlForm({ ...plForm, email: e.target.value }))
+              }
               className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
               readOnly
             />
@@ -1474,6 +1362,9 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
               type="number"
               value={user?.contact}
               name="contact"
+              onChange={(e) =>
+                dispatch(setPlForm({ ...plForm, contact: e.target.value }))
+              }
               className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
               readOnly
             />
@@ -1618,7 +1509,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             <select
               onChange={(e) =>
                 dispatch(
-                  setFormData({ ...formData, residencyType: e.target.value })
+                  setPlForm({ ...plForm, residencyType: e.target.value })
                 )
               }
               {...formik.getFieldProps("residencyType")}
@@ -1680,8 +1571,11 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
         <div className="w-1/2 mx-auto pt-2.5">
           <button
             className="bg-cyan-400 py-2.5 w-full rounded-lg text-lg text-white font-normal duration-200 disabled:cursor-not-allowed disabled:bg-gray-200"
-            type="submit"
             disabled={!checkBox1 || !checkBox2} // disabled={!checkBox1 }
+            onSubmit={(e) => {
+              e.preventDefault();
+              formik.handleSubmit();
+            }}
           >
             Submit
           </button>

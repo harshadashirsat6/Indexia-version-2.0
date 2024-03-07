@@ -19,7 +19,6 @@ import {
   companyType,
   industryType,
   businessPlaceOwnershipTypeInputs,
-  collateralOption,
   existingWokringCapitalLoanTypes,
 } from "../../../configs/selectorConfigs";
 import { useState, useEffect } from "react";
@@ -30,6 +29,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
   // const navigate = useNavigate();
   const dispatch = useDispatch();
   const { formData } = useSelector((store) => store.app);
+
   // checkbox
   const [checkBox1, setCheckBox1] = useState(true);
   const [checkBox2, setCheckBox2] = useState(false);
@@ -340,8 +340,8 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
       <div className="-mb-2.5 -ml-2.5 flex items-center space-x-2.5"></div>
       <h1 className="text-xl flex mb-8 flex-col space-y-2 font-semibold text-gray-500">
         <span>
-          Unlock the best <span>Business Loan</span> offers suitable for
-          your needs from <span>43+ lenders</span>
+          Unlock the best <span>Business Loan</span> offers suitable for your
+          needs from <span>43+ lenders</span>
         </span>
         <span className="w-20 h-0.5 rounded-full bg-cyan-400"></span>
       </h1>
@@ -454,8 +454,6 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
             </span>
           ) : null}
         </div>
-        
-        
 
         {/* loan requirements end */}
 
@@ -506,7 +504,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
         {/* employment and income details */}
         <div className="col-span-1 sm:col-span-2 py-8">
           <h1 className="font-bold text-blue-600 underline undVAerline-offset-4">
-           INCOME DETAILS
+            INCOME DETAILS
           </h1>
         </div>
         <div className="">
@@ -1437,7 +1435,7 @@ const Form = ({ states, cities, selectedState, setSelectedState, user }) => {
           </>
         )}
         {/* profession and income details end*/}
-      
+
         {/* personal details */}
         <div className="col-span-1 sm:col-span-2 py-8">
           <h1 className="font-bold text-blue-600 underline underline-offset-4">
