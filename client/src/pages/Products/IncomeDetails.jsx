@@ -1,0 +1,743 @@
+import { useState, useEffect } from "react";
+//selector
+import {
+  businessNatureTypes,
+  businessCompanyTypes,
+  businessPlaceOwnershipTypeInputs,
+  employerTypes,
+  incomeRecievedAs,
+  primaryBankAccountOptions,
+  yearsInCurrentBusiness,
+  industryTypes,
+} from "../../configs/selectorConfigs";
+//validation functions
+// import { monthlyIncomeError } from "./Validation/IncomeDetails";
+
+const IncomeDetails = ({
+  formik,
+  bankNameArr,
+  setBankNameArr,
+  setMonthlyIncomeErr,
+  setPrevYearNetProfitErr,
+  setBusinessPincodeErr,
+}) => {
+  //multiple transaction bank names
+  const [bankName, setBankName] = useState("");
+  const [bankNameErr, setBankNameErr] = useState("");
+
+  //current business state and city
+  const [businessStates, setBusinessStates] = useState([]);
+  const [selectedBusinessState, setSelectedBusinessState] = useState("");
+  var businessStateConfig = {
+    url: "https://api.countrystatecity.in/v1/countries/In/states",
+    key: "N00wMDJleEpjQ09wTjBhN0VSdUZxUGxWMlJKTGY1a0tRN0lpakh5Vw==",
+  };
+  const getBusinessStates = async () => {
+    await fetch(businessStateConfig.url, {
+      headers: { "X-CSCAPI-KEY": businessStateConfig.key },
+    })
+      .then((resp) => resp.json())
+      .then((resp) => {
+        setBusinessStates(resp);
+      })
+      .catch((err) => console.log(err));
+  };
+  useEffect(() => {
+    getBusinessStates();
+  }, []);
+  // get cities after selecting state
+  const [businessCities, setBusinessCities] = useState([]);
+  var businessCityConfig = {
+    url: `https://api.countrystatecity.in/v1/countries/IN/states/${selectedBusinessState}/cities`,
+    key: "N00wMDJleEpjQ09wTjBhN0VSdUZxUGxWMlJKTGY1a0tRN0lpakh5Vw==",
+  };
+  const getBusinessCities = async () => {
+    await fetch(businessCityConfig.url, {
+      headers: { "X-CSCAPI-KEY": businessCityConfig.key },
+    })
+      .then((resp) => resp.json())
+      .then((resp) => {
+        setBusinessCities(resp);
+      })
+      .catch((err) => console.log(err));
+  };
+  useEffect(() => {
+    if (selectedBusinessState) {
+      getBusinessCities();
+    }
+  }, [selectedBusinessState]);
+
+  //monthly Income error
+  const monthlyIncomeValidation = (val) => {
+    if (val < 12000) {
+      setMonthlyIncomeErr(true);
+      return (
+        <span className="text-red-500 text-xs font-bold">
+          Salary should be greater than 12000
+        </span>
+      );
+    }
+    setMonthlyIncomeErr(false);
+    return "";
+  };
+
+  //previous year net proft validation
+  const prevYearNetProfitValidation = (val) => {
+    if (val < 0 || val === null) {
+      setPrevYearNetProfitErr(true);
+      return (
+        <span className="text-red-500 text-xs font-bold">Invalid input</span>
+      );
+    } else if (val === 0) {
+      setPrevYearNetProfitErr(true);
+      return (
+        <span className="text-red-500 text-xs font-bold">
+          Previous year net profit cannot be 0
+        </span>
+      );
+    }
+    if (val > 0) {
+      setPrevYearNetProfitErr(false);
+      return "";
+    }
+    setPrevYearNetProfitErr(false);
+    return "";
+  };
+
+  //business city pincode error
+  const businessCityPincodeValidation = (val) => {
+    if (!val || val === "") {
+      setBusinessPincodeErr(true);
+      return "";
+    } else if (val && val.length === 6) {
+      setBusinessPincodeErr(false);
+      return "";
+    } else {
+      setBusinessPincodeErr(true);
+      return (
+        <span className="text-red-500 text-xs font-bold">Invalid Pincode</span>
+      );
+    }
+  };
+
+  return (
+    <>
+      {/* primary bank account */}
+      {formik.values.employmentType ? (
+        <div>
+          <span className="font-semibold text-gray-500">
+            {formik.values.employmentType === "Salaried"
+              ? "Salary Bank Name *"
+              : "Transaction Bank Account *"}
+          </span>
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full py-2.5"
+              name="primaryBankAccount"
+              {...formik.getFieldProps("primaryBankAccount")}
+              required
+            >
+              <option value={""}>Select</option>
+              {primaryBankAccountOptions.map((ele) => {
+                return (
+                  <option key={ele} value={ele}>
+                    {ele}
+                  </option>
+                );
+              })}
+              {formik.values.employmentType === "Self-employed business" ||
+              formik.values.employmentType === "Self-employed professional" ? (
+                <option value={"Multiple transaction banks"}>
+                  Multiple transaction banks
+                </option>
+              ) : null}
+            </select>
+          </div>
+          {formik.touched.primaryBankAccount &&
+            formik.errors.primaryBankAccount && (
+              <span className="text-red-500 text-xs font-bold">
+                {formik.errors.primaryBankAccount}
+              </span>
+            )}
+        </div>
+      ) : null}
+      {/* other priamry bank account */}
+      {formik.values.primaryBankAccount === "Other" ? (
+        <div>
+          <span className="font-semibold text-gray-500">
+            Mention bank account name *
+          </span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder=""
+              type="text"
+              {...formik.getFieldProps("otherPrimaryBankAccount")}
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+              required
+            />
+          </div>
+          {formik.touched.otherPrimaryBankAccount &&
+            formik.errors.otherPrimaryBankAccount && (
+              <span className="text-red-500 text-xs font-bold">
+                {formik.errors.otherPrimaryBankAccount}
+              </span>
+            )}
+        </div>
+      ) : formik.values.primaryBankAccount === "Multiple transaction banks" ? (
+        <div>
+          <span className=" font-semibold text-gray-500">
+            Mention multiple transaction bank names *
+          </span>
+          <div className="border-b border-slate-400 py-1 flex ">
+            <input
+              placeholder=""
+              type="text"
+              name="bankName"
+              value={bankName}
+              onChange={(e) => {
+                setBankNameErr();
+                setBankName(e.target.value);
+              }}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+            <button
+              type="button"
+              onClick={() => {
+                if (bankName) {
+                  setBankNameArr([...bankNameArr, bankName]);
+                } else {
+                  setBankNameErr("Bank name cannot be empty");
+                }
+              }}
+              className="bg-blue-300 hover:bg-blue-200 text-black  font-bold rounded-lg px-5 py-0.5 "
+            >
+              Add
+            </button>
+          </div>
+          {bankNameArr.length ? (
+            <div>
+              {bankNameArr.slice(0, 3).map((bankname, i) => (
+                <p key={i} className="flex gap-2">
+                  <span>{i + 1}.</span>
+                  <span>{bankname}</span>
+                </p>
+              ))}
+            </div>
+          ) : null}
+          {bankNameArr.length > 3 && (
+            <span className="text-red-500 text-xs font-bold">
+              You can add upto 3 banks only
+            </span>
+          )}
+          <span>
+            {bankNameErr ? (
+              <span className="text-red-500 text-xs font-bold">
+                {bankNameErr}
+              </span>
+            ) : null}
+          </span>
+        </div>
+      ) : null}
+
+      {/* company type */}
+      {/*other employment fields  */}
+      {formik.values.employmentType === "Salaried" ? (
+        <>
+          <div>
+            <span className="font-semibold text-gray-500">Company Type *</span>
+            <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+              <select
+                className="bg-transparent w-full py-2.5"
+                {...formik.getFieldProps("companyType")}
+                required
+              >
+                <option value="">Select</option>
+                {employerTypes.map((ele, i) => (
+                  <option key={i} value={ele}>
+                    {ele}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <div>
+            <span className="font-semibold text-gray-500">Company Name *</span>
+            <div className="border-b border-slate-400 py-1">
+              <input
+                placeholder=""
+                type="text"
+                {...formik.getFieldProps("companyName")}
+                required
+                className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+              />
+            </div>
+          </div>
+          <div>
+            <span className="font-semibold text-gray-500">
+              Monthly Net Income *
+            </span>
+            <div className="border-b border-slate-400 py-1">
+              <input
+                placeholder="Take home salary"
+                type="number"
+                {...formik.getFieldProps("monthlyIncome")}
+                required
+                className="bg-transparent w-full outline-none  placeholder:text-slate-500 "
+              />
+            </div>
+            {monthlyIncomeValidation(Number(formik.values.monthlyIncome))}
+          </div>
+          <div>
+            <span className="font-semibold text-gray-500">
+              Income recieved as *
+            </span>
+            <div>
+              <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+                <select
+                  className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
+                  {...formik.values.incomeRecievedAs}
+                  required
+                >
+                  <option value="">Select</option>
+                  {incomeRecievedAs.map((ele, i) => {
+                    return (
+                      <option key={ele} value={ele}>
+                        {ele}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+            </div>
+          </div>
+          {formik.values.companyType === "Other" && (
+            <div>
+              <span className=" font-semibold text-gray-500">
+                Mention company Type *
+              </span>
+              <div className="border-b border-slate-400 py-1">
+                <input
+                  type="text"
+                  {...formik.getFieldProps("otherCompanyType")}
+                  required
+                  placeholder="Enter Employer type"
+                  className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+                />
+              </div>
+            </div>
+          )}
+        </>
+      ) : formik.values.employmentType === "Self-employed business" ? (
+        <>
+          <div className="col-span-1 sm:col-span-2">
+            <h1 className="font-bold">Business Details</h1>
+          </div>
+          <div>
+            <span className="font-semibold text-gray-500">
+              Years In Current Business *
+            </span>
+            <div className="border-b border-slate-400 py-1">
+              <select
+                className="w-full"
+                {...formik.getFieldProps("yearsInCurrentBusiness")}
+                required
+              >
+                <option value={""}>Select</option>
+                {yearsInCurrentBusiness.map((ele, i) => {
+                  return <option key={i}>{ele}</option>;
+                })}
+              </select>
+            </div>
+          </div>
+          <div>
+            <span className="font-semibold text-gray-500">Company Type *</span>
+            <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+              <select
+                className="bg-transparent w-full py-2.5"
+                name="companyType"
+                {...formik.getFieldProps("companyType")}
+                required
+              >
+                <option value="">Select</option>
+                {businessCompanyTypes.map((ele, i) => (
+                  <option key={i} value={ele}>
+                    {ele}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          {formik.values.companyType === "Other" && (
+            <div>
+              <div>
+                <span className=" font-semibold text-gray-500">
+                  Mention Company Type *
+                </span>
+                <div className="border-b border-slate-400 py-1">
+                  <input
+                    placeholder=""
+                    type="text"
+                    {...formik.values.otherCompanyType}
+                    required
+                    className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+          <div>
+            <span className="font-semibold text-gray-500">Company Name *</span>
+            <div className="border-b border-slate-400 py-1">
+              <input
+                placeholder=""
+                type="text"
+                {...formik.getFieldProps("companyName")}
+                required
+                className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+              />
+            </div>
+          </div>
+          <div>
+            <span className="font-semibold text-gray-500">
+              Current Business State *
+            </span>
+            <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+              <select
+                className="bg-transparent w-full py-2.5"
+                value={selectedBusinessState}
+                {...formik.getFieldProps("businessState")}
+                onChange={(e) => {
+                  formik.handleChange(e);
+                  setSelectedBusinessState(e.target.value);
+                }}
+                required
+              >
+                <option value={""}>Select</option>
+                {businessStates
+                  .sort((a, b) => (a.name > b.name ? 1 : -1))
+                  .map((obj) => {
+                    return (
+                      <option key={obj.id} value={obj.iso2}>
+                        {obj.name}
+                      </option>
+                    );
+                  })}
+              </select>
+            </div>
+          </div>
+          <div>
+            <span className="font-semibold text-gray-500">
+              Current Business City *
+            </span>
+            <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+              <select
+                className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
+                disabled={!selectedBusinessState}
+                {...formik.getFieldProps("businessCity")}
+                required
+              >
+                <option value={""}>Select</option>
+                {businessCities.map((obj) => {
+                  return (
+                    <option key={obj.id} value={obj.name}>
+                      {obj.name}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+          </div>
+          <div>
+            <span className=" font-semibold text-gray-500">
+              Current Business Pincode *
+            </span>
+            <div className="border-b border-slate-400 py-1">
+              <input
+                placeholder="Enter Pincode"
+                type="text"
+                {...formik.getFieldProps("businessPincode")}
+                required
+                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              />
+            </div>
+            {businessCityPincodeValidation(formik.values.businessPincode)}
+          </div>
+          <div>
+            <span className="font-semibold text-gray-500">
+              Status of Business Place *
+            </span>
+            <div className="border-b border-slate-400 py-1">
+              <select
+                className="w-full"
+                {...formik.getFieldProps("businessPlaceType")}
+                required
+              >
+                <option value={""}>Select</option>
+                {businessPlaceOwnershipTypeInputs.map((ele, i) => {
+                  return <option key={i}>{ele}</option>;
+                })}
+              </select>
+            </div>
+          </div>
+          {formik.values.businessPlaceType === "Other" && (
+            <div>
+              <div>
+                <span className=" font-semibold text-gray-500">
+                  Mention status business place *
+                </span>
+                <div className="border-b border-slate-400 py-1">
+                  <input
+                    placeholder=""
+                    type="text"
+                    {...formik.getFieldProps("otherBusinessPlaceType")}
+                    className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+          <div>
+            <span className="font-semibold text-gray-500">
+              Nature Of Business *
+            </span>
+            <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+              <select
+                className="bg-transparent w-full py-2.5"
+                {...formik.getFieldProps("businessNature")}
+                required
+              >
+                <option value="">Select</option>
+                {businessNatureTypes.map((ele, i) => (
+                  <option key={i} value={ele}>
+                    {ele}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          {formik.values.businessNature === "Other" && (
+            <div>
+              <span className=" font-semibold text-gray-500">
+                Mention Nature of business *
+              </span>
+              <div className="border-b border-slate-400 py-1">
+                <input
+                  placeholder=""
+                  type="text"
+                  {...formik.getFieldProps("otherBusinessNature")}
+                  required
+                  className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+                />
+              </div>
+            </div>
+          )}
+          <div>
+            <span className="font-semibold text-gray-500">Industry Type *</span>
+            <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+              <select
+                className="bg-transparent w-full py-2.5"
+                {...formik.getFieldProps("industryType")}
+                required
+              >
+                <option value="">Select</option>
+                {industryTypes.map((ele, i) => (
+                  <option key={i} value={ele}>
+                    {ele}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          {formik.values.industryType === "Other" && (
+            <div>
+              <span className=" font-semibold text-gray-500">
+                Other Industry Type *
+              </span>
+              <div className="border-b border-slate-400 py-1">
+                <input
+                  placeholder=""
+                  type="text"
+                  {...formik.getFieldProps("otherIndustryType")}
+                  className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+                  required
+                />
+              </div>
+            </div>
+          )}
+          <div>
+            <span className="font-semibold text-gray-500">Sub Industry *</span>
+            <div className="border-b border-slate-400 py-1">
+              <input
+                placeholder=""
+                type="text"
+                {...formik.getFieldProps("subIndustryType")}
+                required
+                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              />
+            </div>
+          </div>
+          <div>
+            <span className="font-semibold text-gray-500">
+              Current Year Turn Over *
+            </span>
+            <div className="border-b border-slate-400 py-1">
+              <input
+                placeholder="Current Turn Over"
+                type="number"
+                {...formik.getFieldProps("currentYearTurnOver")}
+                required
+                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              />
+            </div>
+          </div>
+          <div>
+            <span className="font-semibold text-gray-500">
+              Previous Year Turn over *
+            </span>
+            <div className="border-b border-slate-400 py-1">
+              <input
+                placeholder="Previous TurnOver"
+                type="text"
+                {...formik.getFieldProps("previousYearTurnOver")}
+                required
+                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              />
+            </div>
+          </div>
+          <div>
+            <span className="font-semibold text-gray-500">
+              Current Year Net Income *
+            </span>
+            <div className="border-b border-slate-400 py-1">
+              <input
+                placeholder="Current Year Net Profit"
+                type="text"
+                {...formik.getFieldProps("currentYearNetProfit")}
+                required
+                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              />
+            </div>
+            {formik.touched.currentYearNetProfit &&
+              formik.errors.currentYearNetProfit && (
+                <span className="text-red-500 text-xs font-bold">
+                  {formik.errors.currentYearNetProfit}
+                </span>
+              )}
+          </div>
+          <div>
+            <span className="font-semibold text-gray-500">
+              Previous Year Net Income *
+            </span>
+            <div className="border-b border-slate-400 py-1">
+              <input
+                placeholder="Previous Year Net Profit"
+                type="text"
+                {...formik.getFieldProps("previousYearNetProfit")}
+                required
+                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              />
+            </div>
+            {prevYearNetProfitValidation(formik.values.previousYearNetProfit)}
+          </div>
+        </>
+      ) : formik.values.employmentType === "Self-employed professional" ? (
+        <>
+          <div>
+            <span>Profession *</span>
+            <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+              <select
+                className="bg-transparent w-full py-2.5"
+                name="profession"
+                {...formik.getFieldProps("profession")}
+                required
+              >
+                <option value="">Select</option>
+                <option value="Doctor">Doctor</option>
+                <option value="CA">CA</option>
+                <option value="Lawyer">Lawyer</option>
+                <option value="Other">other</option>
+              </select>
+            </div>
+          </div>
+          {formik.values.profession === "Other" && (
+            <div>
+              <div>
+                <span className=" font-semibold text-gray-500">
+                  Mention your profession *
+                </span>
+                <div className="border-b border-slate-400 py-1">
+                  <input
+                    placeholder=""
+                    type="text"
+                    className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+                    {...formik.getFieldProps("otherProfession")}
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+          <div>
+            <span className="font-semibold text-gray-500">
+              Current Year Turn Over *
+            </span>
+            <div className="border-b border-slate-400 py-1">
+              <input
+                placeholder="Current Turn Over"
+                type="number"
+                {...formik.getFieldProps("currentYearTurnOver")}
+                required
+                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              />
+            </div>
+          </div>
+          <div>
+            <span className="font-semibold text-gray-500">
+              Previous Year Turn over *
+            </span>
+            <div className="border-b border-slate-400 py-1">
+              <input
+                placeholder="Previous TurnOver"
+                type="text"
+                {...formik.getFieldProps("previousYearTurnOver")}
+                required
+                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              />
+            </div>
+          </div>
+          <div>
+            <span className="font-semibold text-gray-500">
+              Current Year Net Income *
+            </span>
+            <div className="border-b border-slate-400 py-1">
+              <input
+                placeholder="Current Year Net Profit"
+                type="text"
+                {...formik.getFieldProps("currentYearNetProfit")}
+                required
+                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              />
+            </div>
+          </div>
+          <div>
+            <span className="font-semibold text-gray-500">
+              Previous Year Net Income *
+            </span>
+            <div className="border-b border-slate-400 py-1">
+              <input
+                placeholder="Previous Year Net Profit"
+                type="text"
+                {...formik.getFieldProps("previousYearNetProfit")}
+                required
+                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              />
+            </div>
+          </div>
+        </>
+      ) : null}
+    </>
+  );
+};
+
+export default IncomeDetails;

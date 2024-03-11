@@ -1,19 +1,22 @@
 import { useParams } from "react-router-dom";
-import PersonalLoan from "./PersonalLoan";
-import BusinessLoan from "./BusinessLoan";
-import HomeLoan from "./HomeLoan";
-import LoanAgainstProperty from "./LoanAgainstProperty";
-import CreditCard from "./CreditCard";
-import BalanceTransfer from "./BalanceTransfer";
-import CommercialPurchase from "./CommercialPurchase";
-import LeaseRentDiscounting from "./LeaseRentDiscounting";
-import WorkingCapital from "./WorkingCapital";
-import CarLoan from "./CarLoan";
-import ProjectLoan from "./ProjectLoan";
-import EducationLoan from "./EducationLoan";
-import LoanAgainstShare from "./LoanAgainstShare";
-import ODCC from "./ODCC";
 import { useSelector } from "react-redux";
+// FORM COMPONENTS
+import PersonalLoan from "./Forms/PersonalLoan";
+import BusinessLoan from "./Forms/BusinessLoan";
+import HomeLoan from "./Forms/HomeLoan";
+import LoanAgainstProperty from "./Forms/LoanAgainstProperty";
+import BalanceTransfer from "./Forms/BalanceTransfer";
+import ProjectLoan from "./Forms/ProjectLoan";
+import CarLoan from "./Forms/CarLoan";
+import EducationLoan from "./Forms/EducationLoan";
+import CreditCard from "./Forms/CreditCard";
+import CommercialPurchase from "./Forms/CommercialPurchase";
+import WorkingCapital from "./Forms/WorkingCapital";
+import LeaseRentDiscounting from "./Forms/LeaseRentDiscounting";
+import ODCC from "./Forms/ODCC";
+import LoanAgainstShare from "./Forms/LoanAgainstShare";
+
+// MODAL
 import HomeModal from "../../components/Modals/HomeModal";
 
 const Products = () => {
@@ -29,21 +32,20 @@ const Products = () => {
           <HomeModal />
         </main>
       )}
-
       {param === "personal-loan" && <PersonalLoan />}
       {param === "business-loan" && <BusinessLoan />}
       {param === "home-loan" && <HomeLoan />}
       {param === "loan-against-property" && <LoanAgainstProperty />}
-      {param === "credit-card" && <CreditCard />}
       {param === "balance-transfer" && <BalanceTransfer />}
-      {param === "commercial-purchase" && <CommercialPurchase />}
-      {param === "lease-rent-discounting" && <LeaseRentDiscounting />}
-      {param === "working-capital" && <WorkingCapital />}
-      {param === "car-loan" && <CarLoan />}
       {param === "project-loan" && <ProjectLoan />}
+      {param === "car-loan" && <CarLoan />}
       {param === "education-loan" && <EducationLoan />}
-      {param === "loan-against share" && <LoanAgainstShare />}
+      {param === "credit-card" && <CreditCard />}
+      {param === "commercial-purchase" && <CommercialPurchase />}
+      {param === "working-capital" && <WorkingCapital />}
+      {param === "lease-rent-discounting" && <LeaseRentDiscounting />}
       {param === "OD-CC limit" && <ODCC />}
+      {param === "loan-against share" && <LoanAgainstShare />}
     </>
   );
 };

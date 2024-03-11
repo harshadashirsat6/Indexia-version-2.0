@@ -1,638 +1,299 @@
-// personal loan
-export const personalLoanFormInputs = {
-  //! loan requirements
-  requiredLoanAmount: "",
-  requiredLoanTenure: "",
-  existingEmi: 0,
-  //! loan exposures
-  existingLoanExposure: [],
-  //! inome details
-  employmentType: "",
-  //general fields
-  companyType: "",
-  companyName: "",
-  //salaried
-  monthlyIncome: 0,
-  incomeReceivedAs: "",
-  primaryBankAccount: "",
-  otherPrimaryBankAccount: "",
-  //business
-  yearsInCurrentBusiness: "",
-  businessState: "",
-  businessCity: "",
-  businessPincode: "",
-  businessPlaceStatus: "",
-  otherBusinessPlaceType: "",
-  businessNature: "",
-  industryType: "",
-  otherIndustryType: "",
-  subIndustryType: "",
-  currenYearTurnOver: 0,
-  previousYearTurnOver: 0,
-  currenYearNetIncome: 0,
-  previousYearNetIncome: 0,
-  //profession
-  profession: "",
-  otherProfession: "",
-  //! personal details
-  name: "",
-  email: "",
-  conatct: "",
+const personalDetails = {
   dateOfBirth: "",
   panCardNum: "",
   residenceState: "",
   residenceCity: "",
   residencePincode: "",
-  residenceType: "",
+  residenceType: ""
+}
+const incomeDetails = {
+  employmentType: "",
+  //general fields
+  companyType: "",
+  otherCompanyType: "",
+  companyName: "",
+  primaryBankAccount: "",
+  otherPrimaryBankAccount: "",
+  multipleBankAccounts: [],
+  //salaried
+  monthlyIncome: 0,
+  incomeReceivedAs: "",
+  //business
+  yearsInCurrentBusiness: "",
+  businessState: "",
+  businessCity: "",
+  businessPincode: "",
+  businessPlaceType: "",
+  otherBusinessPlaceType: "",
+  businessNature: "",
+  otherBusinessNature: "",
+  industryType: "",
+  otherIndustryType: "",
+  subIndustryType: "",
+  currentYearTurnOver: "",
+  previousYearTurnOver: "",
+  currentYearNetProfit: "",
+  previousYearNetProfit: 0,
+  //profession
+  profession: "",
+  otherProfession: "",
+}
+const loanRequirements = {
+  requiredLoanAmount: "",
+  requiredLoanTenure: "",
+}
+const exisitingLoanRequirements = {
+  existingEMI: 0,
+  existingLoanAmount: "",
+  existingLoanTenure: "",
+  existingLoanExposure: []
+}
+
+
+// personal loan
+export const personalLoanFormInputs = {
+  ...loanRequirements,
+  ...exisitingLoanRequirements,
+  // income details
+  ...incomeDetails,
+  // personal details
+  ...personalDetails
 }
 
 //business loan
 export const businessLoanFormInputs = {
-  requiredLoanAmount: "",
-  requiredLoanTenure: "",
-  existingLoanAmount: "",
-  exisitngLoanTenure: "",
-  existingEmi: "",
-  //! loan exposures
-  existingLoanExposure: [],
-  //! inome details
-  employmentType: "",
-  //general fields
-  companyType: "",
-  companyName: "",
-  //salaried
-  monthlyIncome: 0,
-  incomeReceivedAs: "",
+  ...loanRequirements,
+  ...exisitingLoanRequirements,
+  // income details
+  ...incomeDetails,
+  // personal details
+  ...personalDetails
 
-  primaryBankAccount: "",
-  otherPrimaryBankAccount: "",
-
-  //business
-  yearsInCurrentBusiness: "",
-  businessState: "",
-  businessCity: "",
-  businessPincode: "",
-  businessPlaceStatus: "",
-  otherBusinessPlaceType: "",
-  businessNature: "",
-  industryType: "",
-  otherIndustryType: "",
-  subIndustryType: "",
-  currenYearTurnOver: 0,
-  previousYearTurnOver: 0,
-  currenYearNetIncome: 0,
-  previousYearNetIncome: 0,
-  //profession
-  profession: "",
-  otherProfession: "",
-  //! personal details
-  name: "",
-  email: "",
-  conatct: "",
-  dateOfBirth: "",
-  panCardNum: "",
-  residenceState: "",
-  residenceCity: "",
-  residencePincode: "",
-  residenceType: "",
 }
 
 //home loan
 export const homeLoanFormInputs = {
-  requiredLoanAmount: "",
-  requiredLoanTenure: "",
-  existingLoanAmount: "",
-  existingLoanTenure: "",
-  existingEmi: 0,
   newPropertyState: "",
   newPropertyCity: "",
   newPropertyPincode: "",
-  //! loan exposures
-  existingLoanExposure: [],
-  //! inome details
-  employmentType: "",
-  //general fields
-  companyType: "",
-  companyName: "",
-  //salaried
-  monthlyIncome: 0,
-  incomeReceivedAs: "",
+  ...loanRequirements,
+  ...exisitingLoanRequirements,
+  // income details
+  ...incomeDetails,
+  // personal details
+  ...personalDetails,
 
-  primaryBankAccount: "",
-  otherPrimaryBankAccount: "",
-
-  //business
-  yearsInCurrentBusiness: "",
-  businessState: "",
-  businessCity: "",
-  businessPincode: "",
-  businessPlaceStatus: "",
-  otherBusinessPlaceType: "",
-  businessNature: "",
-  industryType: "",
-  otherIndustryType: "",
-  subIndustryType: "",
-  currenYearTurnOver: 0,
-  previousYearTurnOver: 0,
-  currenYearNetIncome: 0,
-  previousYearNetIncome: 0,
-  //profession
-  profession: "",
-  otherProfession: "",
-  //! personal details
-  name: "",
-  email: "",
-  conatct: "",
-  dateOfBirth: "",
-  panCardNum: "",
-  residenceState: "",
-  residenceCity: "",
-  residencePincode: "",
-  residenceType: "",
 }
 
 //loan against property
 export const lapFormInputs = {
-  //! inome details
-  employmentType: "",
-  //general fields
-  companyType: "",
-  companyName: "",
-  //salaried
-  monthlyIncome: 0,
-  incomeReceivedAs: "",
+  collateralOption: "",
+  otherCollateralOptionType: "",
+  collatoralPropertyState: "",
+  collatoralPropertyCity: "",
+  collatoralPropertyPincode: "",
+  collatoralPropertyValue: 0,
+  ...loanRequirements,
+  ...exisitingLoanRequirements,
+  // income details
+  ...incomeDetails,
+  // personal details
+  ...personalDetails
 
-  primaryBankAccount: "",
-  otherPrimaryBankAccount: "",
-
-  //business
-  yearsInCurrentBusiness: "",
-  businessState: "",
-  businessCity: "",
-  businessPincode: "",
-  businessPlaceStatus: "",
-  otherBusinessPlaceType: "",
-  businessNature: "",
-  industryType: "",
-  otherIndustryType: "",
-  subIndustryType: "",
-  currenYearTurnOver: 0,
-  previousYearTurnOver: 0,
-  currenYearNetIncome: 0,
-  previousYearNetIncome: 0,
-  //profession
-  profession: "",
-  otherProfession: "",
-  //! personal details
-  name: "",
-  email: "",
-  conatct: "",
-  dateOfBirth: "",
-  panCardNum: "",
-  residenceState: "",
-  residenceCity: "",
-  residencePincode: "",
-  residenceType: "",
 }
 
 // balance transfer
 export const balanceTransferFormInputs = {
-  //! inome details
-  employmentType: "",
-  //general fields
-  companyType: "",
-  companyName: "",
-  //salaried
-  monthlyIncome: 0,
-  incomeReceivedAs: "",
+  typeOfBalanceTransfer: "",
+  homeLoanTenure: "",
+  homeLoanROI: "",
+  lapTenure: "",
+  lapROI: "",
+  hlapTenure: "",
+  hlapROI: "",
+  topupAmount: "",
+  transferPropertyValue: "",
+  ...exisitingLoanRequirements,
+  // income details
+  ...incomeDetails,
+  // personal details
+  ...personalDetails
 
-  primaryBankAccount: "",
-  otherPrimaryBankAccount: "",
-
-  //business
-  yearsInCurrentBusiness: "",
-  businessState: "",
-  businessCity: "",
-  businessPincode: "",
-  businessPlaceStatus: "",
-  otherBusinessPlaceType: "",
-  businessNature: "",
-  industryType: "",
-  otherIndustryType: "",
-  subIndustryType: "",
-  currenYearTurnOver: 0,
-  previousYearTurnOver: 0,
-  currenYearNetIncome: 0,
-  previousYearNetIncome: 0,
-  //profession
-  profession: "",
-  otherProfession: "",
-  //! personal details
-  name: "",
-  email: "",
-  conatct: "",
-  dateOfBirth: "",
-  panCardNum: "",
-  residenceState: "",
-  residenceCity: "",
-  residencePincode: "",
-  residenceType: "",
 }
 
 //project loan
 export const projectLoanFormInputs = {
-  //! inome details
-  employmentType: "",
-  //general fields
-  companyType: "",
-  companyName: "",
-  //salaried
-  monthlyIncome: 0,
-  incomeReceivedAs: "",
-
-  primaryBankAccount: "",
-  otherPrimaryBankAccount: "",
-
-  //business
-  yearsInCurrentBusiness: "",
-  businessState: "",
-  businessCity: "",
-  businessPincode: "",
-  businessPlaceStatus: "",
-  otherBusinessPlaceType: "",
-  businessNature: "",
-  industryType: "",
-  otherIndustryType: "",
-  subIndustryType: "",
-  currenYearTurnOver: 0,
-  previousYearTurnOver: 0,
-  currenYearNetIncome: 0,
-  previousYearNetIncome: 0,
-  //profession
-  profession: "",
-  otherProfession: "",
-  //! personal details
-  name: "",
-  email: "",
-  conatct: "",
-  dateOfBirth: "",
-  panCardNum: "",
-  residenceState: "",
-  residenceCity: "",
-  residencePincode: "",
-  residenceType: "",
+  //project details
+  projectObjective: "",
+  projectDescription: "",
+  scopeOfWorkandDeliverables: "",
+  projectCost: "",
+  projectType: "",
+  otherProjectType: "",
+  projectStartDate: "",
+  expectedDateOfComletion: "",
+  projectCompletionTime: "",
+  ownInvestmentOnProject: "",
+  projectState: "",
+  projectCity: "",
+  projectPincode: "",
+  ...loanRequirements,
+  ...exisitingLoanRequirements,
+  // income details
+  ...incomeDetails,
+  // personal details
+  ...personalDetails
 }
 
 //car loan
 export const carLoanFormInputs = {
-  //! inome details
-  employmentType: "",
-  //general fields
-  companyType: "",
-  companyName: "",
-  //salaried
-  monthlyIncome: 0,
-  incomeReceivedAs: "",
+  //vehicle details
+  transmission: "",
+  carManufacturer: "",
+  carModel: "",
+  buyCarType: "",
+  //old car
+  oldVehicleRegistrationYear: "",
+  oldVehicleNumber: "",
+  valueOfOldCar: "",
+  carInsuranceNumber: "",
+  //new car
+  carOnroadPrice: "",
+  carShowroomPrice: "",
+  carInsuranceType: "",
+  ...loanRequirements,
+  ...exisitingLoanRequirements,
+  // income details
+  ...incomeDetails,
+  // personal details
+  ...personalDetails
 
-  primaryBankAccount: "",
-  otherPrimaryBankAccount: "",
-
-  //business
-  yearsInCurrentBusiness: "",
-  businessState: "",
-  businessCity: "",
-  businessPincode: "",
-  businessPlaceStatus: "",
-  otherBusinessPlaceType: "",
-  businessNature: "",
-  industryType: "",
-  otherIndustryType: "",
-  subIndustryType: "",
-  currenYearTurnOver: 0,
-  previousYearTurnOver: 0,
-  currenYearNetIncome: 0,
-  previousYearNetIncome: 0,
-  //profession
-  profession: "",
-  otherProfession: "",
-  //! personal details
-  name: "",
-  email: "",
-  conatct: "",
-  dateOfBirth: "",
-  panCardNum: "",
-  residenceState: "",
-  residenceCity: "",
-  residencePincode: "",
-  residenceType: "",
 }
 
 //education loan
 export const educationLoanFormInputs = {
-  //! inome details
-  employmentType: "",
-  //general fields
-  companyType: "",
-  companyName: "",
-  //salaried
-  monthlyIncome: 0,
-  incomeReceivedAs: "",
-
-  primaryBankAccount: "",
-  otherPrimaryBankAccount: "",
-
-  //business
-  yearsInCurrentBusiness: "",
-  businessState: "",
-  businessCity: "",
-  businessPincode: "",
-  businessPlaceStatus: "",
-  otherBusinessPlaceType: "",
-  businessNature: "",
-  industryType: "",
-  otherIndustryType: "",
-  subIndustryType: "",
-  currenYearTurnOver: 0,
-  previousYearTurnOver: 0,
-  currenYearNetIncome: 0,
-  previousYearNetIncome: 0,
-  //profession
-  profession: "",
-  otherProfession: "",
-  //! personal details
-  name: "",
-  email: "",
-  conatct: "",
-  dateOfBirth: "",
-  panCardNum: "",
-  residenceState: "",
-  residenceCity: "",
-  residencePincode: "",
-  residenceType: "",
+  //education details
+  country: "",
+  fieldOfStudy: "",
+  universityName: "",
+  instituteName: "",
+  courseDuration: "",//in years
+  educationCost: "",
+  ...loanRequirements,
+  ...exisitingLoanRequirements,
+  // income details
+  ...incomeDetails,
+  //parent details
+  parentRelation: "",
+  parentName: "",
+  parentEmail: "",
+  parentConact: "",
+  parentDob: "",
+  parentPanCardNum: "",
+  parentResidenceState: personalDetails.residenceState,
+  parentResidenceCity: personalDetails.residenceCity,
+  parentResidencePincode: personalDetails.residencePincode,
+  parentResidenceStatus: personalDetails.residenceType,
+  // personal details
+  ...personalDetails
 }
 
-//credt card
+//credit card
 export const creditCardFromInputs = {
-  //! inome details
-  employmentType: "",
-  //general fields
-  companyType: "",
-  companyName: "",
-  //salaried
-  monthlyIncome: 0,
-  incomeReceivedAs: "",
-
-  primaryBankAccount: "",
-  otherPrimaryBankAccount: "",
-
-  //business
-  yearsInCurrentBusiness: "",
-  businessState: "",
-  businessCity: "",
-  businessPincode: "",
-  businessPlaceStatus: "",
-  otherBusinessPlaceType: "",
-  businessNature: "",
-  industryType: "",
-  otherIndustryType: "",
-  subIndustryType: "",
-  currenYearTurnOver: 0,
-  previousYearTurnOver: 0,
-  currenYearNetIncome: 0,
-  previousYearNetIncome: 0,
-  //profession
-  profession: "",
-  otherProfession: "",
-  //! personal details
-  name: "",
-  email: "",
-  conatct: "",
-  dateOfBirth: "",
-  panCardNum: "",
-  residenceState: "",
-  residenceCity: "",
-  residencePincode: "",
-  residenceType: "",
+  anyActiveCreditCardStatus: "",
+  existingCreditCardBankName: "",
+  otherExistingCreditCardBankName: "",
+  exisitingCreditCardLimit: "",
+  newCreditCardBankName: "",
+  otherNewCreditCardBankName: "",
+  // income details
+  ...incomeDetails,
+  // personal details
+  ...personalDetails
 }
 
 //commercial purchase
 export const commercialPurchaseFormInputs = {
-  //! inome details
-  employmentType: "",
-  //general fields
-  companyType: "",
-  companyName: "",
-  //salaried
-  monthlyIncome: 0,
-  incomeReceivedAs: "",
+  newPropertyState: "",
+  newPropertyCity: "",
+  newPropertyPincode: "",
+  propertyType: "",
+  otherPropertyType: "",
+  propertyValue: "",
+  propertyAge: "",
+  ...loanRequirements,
+  ...exisitingLoanRequirements,
+  // income details
+  ...incomeDetails,
+  // personal details
+  ...personalDetails
 
-  primaryBankAccount: "",
-  otherPrimaryBankAccount: "",
-
-  //business
-  yearsInCurrentBusiness: "",
-  businessState: "",
-  businessCity: "",
-  businessPincode: "",
-  businessPlaceStatus: "",
-  otherBusinessPlaceType: "",
-  businessNature: "",
-  industryType: "",
-  otherIndustryType: "",
-  subIndustryType: "",
-  currenYearTurnOver: 0,
-  previousYearTurnOver: 0,
-  currenYearNetIncome: 0,
-  previousYearNetIncome: 0,
-  //profession
-  profession: "",
-  otherProfession: "",
-  //! personal details
-  name: "",
-  email: "",
-  conatct: "",
-  dateOfBirth: "",
-  panCardNum: "",
-  residenceState: "",
-  residenceCity: "",
-  residencePincode: "",
-  residenceType: "",
 }
 
 //working capital
 export const workingCapitalFormInputs = {
-  //! inome details
-  employmentType: "",
-  //general fields
-  companyType: "",
-  companyName: "",
-  //salaried
-  monthlyIncome: 0,
-  incomeReceivedAs: "",
+  collateralOption: "",
+  otherCollateralOptionType: "",
+  collatoralPropertyState: "",
+  collatoralPropertyCity: "",
+  collatoralPropertyPincode: "",
+  collatoralPropertyValue: 0,
+  ...loanRequirements,
+  ...exisitingLoanRequirements,
+  // income details
+  ...incomeDetails,
+  // personal details
+  ...personalDetails
 
-  primaryBankAccount: "",
-  otherPrimaryBankAccount: "",
-
-  //business
-  yearsInCurrentBusiness: "",
-  businessState: "",
-  businessCity: "",
-  businessPincode: "",
-  businessPlaceStatus: "",
-  otherBusinessPlaceType: "",
-  businessNature: "",
-  industryType: "",
-  otherIndustryType: "",
-  subIndustryType: "",
-  currenYearTurnOver: 0,
-  previousYearTurnOver: 0,
-  currenYearNetIncome: 0,
-  previousYearNetIncome: 0,
-  //profession
-  profession: "",
-  otherProfession: "",
-  //! personal details
-  name: "",
-  email: "",
-  conatct: "",
-  dateOfBirth: "",
-  panCardNum: "",
-  residenceState: "",
-  residenceCity: "",
-  residencePincode: "",
-  residenceType: "",
 }
 
 //lease rent discounting
 export const lrdFormInputs = {
-  //! inome details
-  employmentType: "",
-  //general fields
-  companyType: "",
-  companyName: "",
-  //salaried
-  monthlyIncome: 0,
-  incomeReceivedAs: "",
+  leasePropertyValue: 0,
+  leasePropertyDuration: "",
+  monthlyIncomeThroughLease: "",
+  totalAmountToBeReceivedFromLease: "",
+  totalAnnualIncome: 0,
+  ...loanRequirements,
+  ...exisitingLoanRequirements,
+  // income details
+  ...incomeDetails,
+  // personal details
+  ...personalDetails
 
-  primaryBankAccount: "",
-  otherPrimaryBankAccount: "",
-
-  //business
-  yearsInCurrentBusiness: "",
-  businessState: "",
-  businessCity: "",
-  businessPincode: "",
-  businessPlaceStatus: "",
-  otherBusinessPlaceType: "",
-  businessNature: "",
-  industryType: "",
-  otherIndustryType: "",
-  subIndustryType: "",
-  currenYearTurnOver: 0,
-  previousYearTurnOver: 0,
-  currenYearNetIncome: 0,
-  previousYearNetIncome: 0,
-  //profession
-  profession: "",
-  otherProfession: "",
-  //! personal details
-  name: "",
-  email: "",
-  conatct: "",
-  dateOfBirth: "",
-  panCardNum: "",
-  residenceState: "",
-  residenceCity: "",
-  residencePincode: "",
-  residenceType: "",
 }
 
 //od-cc
 export const odccLimitInputs = {
-  //! inome details
-  employmentType: "",
-  //general fields
-  companyType: "",
-  companyName: "",
-  //salaried
-  monthlyIncome: 0,
-  incomeReceivedAs: "",
+  collateralOption: "",
+  otherCollateralOptionType: "",
+  collatoralPropertyState: "",
+  collatoralPropertyCity: "",
+  collatoralPropertyPincode: "",
+  collatoralPropertyValue: 0,
+  ...loanRequirements,
+  ...exisitingLoanRequirements,
+  // income details
+  ...incomeDetails,
+  // personal details
+  ...personalDetails
 
-  primaryBankAccount: "",
-  otherPrimaryBankAccount: "",
-
-  //business
-  yearsInCurrentBusiness: "",
-  businessState: "",
-  businessCity: "",
-  businessPincode: "",
-  businessPlaceStatus: "",
-  otherBusinessPlaceType: "",
-  businessNature: "",
-  industryType: "",
-  otherIndustryType: "",
-  subIndustryType: "",
-  currenYearTurnOver: 0,
-  previousYearTurnOver: 0,
-  currenYearNetIncome: 0,
-  previousYearNetIncome: 0,
-  //profession
-  profession: "",
-  otherProfession: "",
-  //! personal details
-  name: "",
-  email: "",
-  conatct: "",
-  dateOfBirth: "",
-  panCardNum: "",
-  residenceState: "",
-  residenceCity: "",
-  residencePincode: "",
-  residenceType: "",
 }
 
 //loan against share 
 export const lasFormInputs = {
-  //! inome details
-  employmentType: "",
-  //general fields
-  companyType: "",
-  companyName: "",
-  //salaried
-  monthlyIncome: 0,
-  incomeReceivedAs: "",
+  companyShareName: "",
+  valueOfOneShare: 1,
+  shareQuantity: 1,
+  totalSharePrice: 1,
+  marektValue: "",
+  ...loanRequirements,
+  ...exisitingLoanRequirements,
+  // income details
+  ...incomeDetails,
+  // personal details
+  ...personalDetails
 
-  primaryBankAccount: "",
-  otherPrimaryBankAccount: "",
-
-  //business
-  yearsInCurrentBusiness: "",
-  businessState: "",
-  businessCity: "",
-  businessPincode: "",
-  businessPlaceStatus: "",
-  otherBusinessPlaceType: "",
-  businessNature: "",
-  industryType: "",
-  otherIndustryType: "",
-  subIndustryType: "",
-  currenYearTurnOver: 0,
-  previousYearTurnOver: 0,
-  currenYearNetIncome: 0,
-  previousYearNetIncome: 0,
-  //profession
-  profession: "",
-  otherProfession: "",
-  //! personal details
-  name: "",
-  email: "",
-  conatct: "",
-  dateOfBirth: "",
-  panCardNum: "",
-  residenceState: "",
-  residenceCity: "",
-  residencePincode: "",
-  residenceType: "",
 }
 
 
@@ -657,20 +318,17 @@ export const inputs = {
   pincode: "",
   residencyType: "Owned by self/spouse",
   incomeReceivedAs: "",
-
   primaryBankAccount: "",
   otherPrimaryBankAccount: "",
-
+  multipleBankAccounts: [],
   existingEmi: 0,
+
   loanStartDate: "",
-  primaryBankAccount: ""
-  ,
   existingLoanTenure: "",
   existingLoanAmount: "",
   // business
   compnayName: "",
   profession: "",
-  otherProfession: "",
   otherProfession: "",
   registrationNumber: "",
   businessPlaceOwnershipType: "",
@@ -683,7 +341,6 @@ export const inputs = {
   businessNature: "",
   subIndustryType: "",
   industryType: "",
-  otherIndustryType: "",
   otherIndustryType: "",
   companyStartDate: "",
   currentYearTurnOver: 0,
@@ -703,14 +360,13 @@ export const inputs = {
   newPropertyPincode: "",
   propertyAge: "",
   propertyValue: "",
-  multipleBankAccounts: [],
   // vehicle
   carManufacturer: "",
   carModel: "",
   manufacturingYear: "",
   vehicleVIN: "",
   transmission: "",
-  buyCarType: "",//old , new
+  buyCarType: "",//o, new
   oldCarRegistartionYear: "",
   oldCarVehicleNumber: "",
   carInsuranceNumber: "",
@@ -762,8 +418,6 @@ export const inputs = {
   topupAmount: "",
   transferPropertyValue: "",
   //working capital
-  existingLoanExposure: [],
-  otherExistingLoanExposure: "",
   //LRD
   leasePropertyValue: "",
   leasePropertyDuration: "",

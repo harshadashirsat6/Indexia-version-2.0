@@ -7,30 +7,22 @@ export const residencyType = [
   "Company Provided",
 ];
 
-export const employmentType = [
+export const existingWokringCapitalLoanTypes = [
+  "Personal loan", "Business loan", "Home loan", "Car loan", "Working Capital", "Project Loan", "OD/CC", "Loan against share", "Gold loan", "Other",
+]
+
+export const employmentTypes = [
   "Salaried",
   "Self-employed business",
   "Self-employed professional",
 ];
 
-export const yearlyIncome = [
-  "Upto ₹3 Lacs",
-  "₹3 - ₹4 Lacs",
-  "₹4 - ₹5 Lacs",
-  "₹5 - ₹10 Lacs",
-  "₹10 Lacs +",
+export const businessLoanEmploymentTypes = [
+  "Self-employed business",
+  "Self-employed professional",
 ];
 
-export const loanTenure = ["1-3 Years", "3-5 Years", "5-7 Years", "Other"];
-
-export const loanStartDate = [
-  "Within 30 days",
-  "31-90 days",
-  "91-180 days",
-  "180+ days",
-];
-
-export const salaryBankAccount = [
+export const primaryBankAccountOptions = [
   "HDFC",
   "SBI",
   "Bank Of India",
@@ -39,6 +31,39 @@ export const salaryBankAccount = [
   "Kotak Mahindra Bank",
   "AXIS",
   "Citibank",
+  "Other",
+];
+
+
+export const incomeRecievedAs = [
+  "Cash",
+  "Cheque",
+  "Electronically deposited-IMPS",
+  "Electronically deposited-NFT/RTGS",
+];
+
+export const yearsInCurrentBusiness = [
+  "Under 1 years",
+  "1-2 years",
+  "2-3 years",
+  "3-5 years",
+  "over 5 years",
+];
+
+export const businessPlaceOwnershipTypeInputs = [
+  "Owned",
+  "Rented",
+  "Lease",
+  "Other",
+];
+
+export const businessCompanyTypes = [
+  "Proprietorship",
+  "Partnership Firm",
+  "Privated Limited Company",
+  "Public Limited Company",
+  "Limited Liability Company",
+  "Director Applying As An Individual",
   "Other",
 ];
 
@@ -55,46 +80,17 @@ export const primaryBankAccount = [
   "Other",
 ];
 
-// business loan inputs
-
-export const businessPlaceOwnershipTypeInputs = [
-  "Owned",
-  "Rented",
-  "Lease",
-  "Other",
-];
-export const yearsInCurrentBusiness = [
-  "Under 1 years",
-  "1-2 years",
-  "2-3 years",
-  "3-5 years",
-  "over 5 years",
-];
-
-export const businessLoanEmploymentType = [
-  "Self-employed business",
-  "Self-employed professional",
-];
-
-export const collateralOption = [
-  "Residential Property",
-  "Commercial Property",
-  "Industrial Property",
-  "Other",
-];
-
-export const businessLoanTenure = [1, 2, 3, 4, 5, 6, 7];
-
-export const companyType = [
+//salaried
+export const employerTypes = [
+  "Privated limited",
+  "Limited",
+  "Partnership",
   "Proprietorship",
-  "Partnership Firm",
-  "Privated Limited Company",
-  "Public Limited Company",
-  "Limited Liability Company",
-  "Director Applying As An Individual",
+  "Government",
   "Other",
 ];
-export const BusinessNature = [
+
+export const businessNatureTypes = [
   "Manufacture",
   "Trader/Wholesaler",
   "Retailer",
@@ -102,7 +98,8 @@ export const BusinessNature = [
   "Other",
 ];
 
-export const industryType = [
+
+export const industryTypes = [
   "Agriculture",
   "Automobiles",
   "Cement",
@@ -127,38 +124,29 @@ export const industryType = [
   "Other",
 ];
 
-export const loanAmount = [
-  "Upto ₹2 Lacs",
-  "₹2 - ₹4 Lacs",
-  "₹4 - ₹6 Lacs",
-  "₹6 - ₹8 Lacs",
-  "₹8 - ₹10 Lacs",
-  "₹10 Lacs +",
-];
 
-export const incomeRecievedAs = [
-  "Cash",
-  "Cheque",
-  "Electronically deposited-IMPS",
-  "Electronically deposited-NFT/RTGS",
-];
-
-export const employerType = [
-  "Privated limited",
-  "Limited",
-  "Partnership",
-  "Proprietorship",
-  "Government",
+export const collateralOptionTypes = [
+  "Residential Property",
+  "Commercial Property",
+  "Industrial Property",
   "Other",
 ];
 
-export const educationEnrollmentStatus = ["Full-time", "Part-time"];
 
-export const newPropertyType = [
-  "Under construction",
-  "Ready new construction",
-  "Old construction",
+export const projectTypes = [
+  "Residential Property",
+  "Commercial Property",
+  "Industrial Property",
+  "Other",
 ];
+
+
+
+
+
+export const transmissionTypes = [
+  "Diesel", "Petrol", "CNG", "Electric"
+]
 
 export const BanksForCreditCards = [
   "State Bank of India (SBI)",
@@ -177,10 +165,6 @@ export const BanksForCreditCards = [
   "Punjab National Bank (PNB)",
   "Other",
 ];
-
-export const transmissionTypes = [
-  "Diesel", "Petrol", "CNG", "Electric"
-]
 
 export const countries = [
   "Afghanistan",
@@ -380,29 +364,26 @@ export const countries = [
   "Zambia",
   "Zimbabwe"
 ]
-export const homeLoanAmount = [""]
-export const homeLoanTenure = [""]
-//comercial purchase loan
 
-export const commercialLoanAmount = [
-  "Upto ₹20 Lacs",
-  "₹20 - ₹30 Lacs",
-  "₹30- ₹40 Lacs",
-  "₹40 - ₹50 Lacs",
-  "₹50- ₹60 Lacs",
-  "₹60- ₹70 Lacs",
-  "₹70- ₹80 Lacs",
-  "₹80- ₹90 Lacs",
-  "₹90 Lacs- ₹ 1 Cr",
-  "₹1 Cr above",
-];
-
-export const commercialPropertyType = [
+export const commercialPropertyTypes = [
   "Commercial", "Industrial", "Other"
 ]
 
+//////////////////////
+/////////////////////////////////
+// /////////////////
 
-export const existingWokringCapitalLoanTypes = [
-  "Personal loan", "Business loan", "Home loan", "Car loan", "Working Capital", "Project Loan", "OD/CC", "Loan against share", "Gold loan", "Other",
-]
+
+
+
+
+
+
+
+
+export const educationEnrollmentStatus = ["Full-time", "Part-time"];
+
+
+
+
 

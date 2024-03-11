@@ -20,7 +20,7 @@ const initialState = {
     blForm: businessLoanFormInputs,
     hlForm: homeLoanFormInputs,
     lapForm: lapFormInputs,
-    btfForm: balanceTransferFormInputs,
+    balanceTransfForm: balanceTransferFormInputs,
     projectlForm: projectLoanFormInputs,
     carlForm: carLoanFormInputs,
     edulForm: educationLoanFormInputs,
@@ -48,7 +48,7 @@ const loanFormSlice = createSlice({
         setLapForm: (state, { payload }) => {
             state.plForm = payload
         },
-        setBtfForm: (state, { payload }) => {
+        setbalanceTransfForm: (state, { payload }) => {
             state.plForm = payload
         },
         setProjectlForm: (state, { payload }) => {
@@ -86,7 +86,7 @@ export const { setPlForm,
     setBlForm,
     setHlForm,
     setLapForm,
-    setBtfForm,
+    setbalanceTransfForm,
     setProjectlForm,
     setCarlForm,
     setEdulForm,

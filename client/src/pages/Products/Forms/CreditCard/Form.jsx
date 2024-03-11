@@ -1,0 +1,195 @@
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import ReCAPTCHA from "react-google-recaptcha";
+import { Link } from "react-router-dom";
+// selectors
+import { employmentTypes } from "../../../../configs/selectorConfigs";
+// components
+import PersonalDetails from "../../PersonalDetails";
+import IncomeDetails from "../../IncomeDetails";
+import LoanExposure from "../../ExistingLoanExposure";
+import LoanRequirements from "../../LoanRequirements";
+import CreditCardDetails from "./CreditCardDetails";
+
+const Form = () => {
+  const { ccardForm } = useSelector((store) => store.loanForm);
+  const { userBasicDetails } = useSelector((store) => store.user);
+
+  // checkbox
+  const [checkBox1, setCheckBox1] = useState(true);
+  const [checkBox2, setCheckBox2] = useState(false);
+
+  //support fields
+  const [bankNameArr = [], setBankNameArr] = useState([]);
+  //add existing loan types
+  const [loanTypesArr, setLoanTypesArr] = useState(
+    ccardForm.existingLoanExposure
+  );
+
+  //ERR fields
+  const [monthlyIncomeErr, setMonthlyIncomeErr] = useState(false);
+  const [prevYearNetProfitErr, setPrevYearNetProfitErr] = useState(false);
+  const [businessPincodeErr, setBusinessPincodeErr] = useState(false);
+
+  //VALIDATION
+  const validationSchema = Yup.object({
+    //income details validation
+    employmentType: Yup.string().required("* required"),
+    //personal details validation
+    dateOfBirth: Yup.string("")
+      .required("* required")
+      .test("age-check", "Age must be greater than 21", function (value) {
+        const currentDate = new Date();
+        const selectedDate = new Date(value.split("-").reverse().join("-"));
+        const age = currentDate.getFullYear() - selectedDate.getFullYear();
+        // Adjust the age check as per your specific requirements
+        return age >= 21;
+      }),
+    panCardNum: Yup.string()
+      .required("* required")
+      .length(10, "Pan card number should be 10 characters")
+      .matches(/^[a-zA-Z]{5}\d{4}[a-zA-Z]$/, "Invalid pancard number")
+      .matches(/^[A-Z0-9]+$/, "Only alphanumeric characters are allowed"),
+    residenceState: Yup.string("").required("* required"),
+    residenceCity: Yup.string("").required("* required"),
+    residenceType: Yup.string("").required("* required"),
+    residencePincode: Yup.number()
+      .integer("Invalid pincode")
+      .required("* required")
+      .test("length-check", "Invalid pincode", function (value) {
+        return value.toString().length === 6;
+      }),
+    //custom inputs
+    anyActiveCreditCardStatus: Yup.string("").required("* required"),
+    newCreditCardBankName: Yup.string("").required("* required"),
+  });
+
+  const formik = useFormik({
+    initialValues: ccardForm,
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      handleProceed(values);
+    },
+  });
+
+  const handleProceed = (values) => {
+    alert("Form subittiming");
+
+    if (formik.values.employmentType === "Salaried" && monthlyIncomeErr) {
+      return;
+    }
+    if (
+      formik.values.employmentType === "Self-employed business" ||
+      formik.values.employmentType === "Self-employed professional"
+    ) {
+      if (prevYearNetProfitErr) return;
+    }
+    if (businessPincodeErr) {
+      return;
+    }
+
+    console.log("data=>", {
+      ...values,
+      ...userBasicDetails,
+      existingLoanExposure: loanTypesArr,
+    });
+  };
+
+  return (
+    <form onSubmit={formik.handleSubmit} className="py-10">
+      <div className="block lg:grid lg:grid-cols-2 gap-10 ">
+        {/* CREDIT CARD DETAILS */}
+        <div className="col-span-1 sm:col-span-2 ">
+          <h1 className="font-bold text-blue-600 underline undVAerline-offset-4">
+            CREDIT CARD DETAILS
+          </h1>
+        </div>
+        <CreditCardDetails formik={formik} />
+        {/* INCOME DETAILS */}
+        <div className="col-span-1 sm:col-span-2 ">
+          <h1 className="font-bold text-blue-600 underline undVAerline-offset-4">
+            INCOME DETAILS
+          </h1>
+        </div>
+        {/* employment type */}
+        <div className="">
+          <span className="font-semibold text-gray-500">Employment Type *</span>
+          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+            <select
+              className="bg-transparent w-full py-2.5"
+              {...formik.getFieldProps("employmentType")}
+            >
+              <option value={""}>Select</option>
+              {employmentTypes.map((ele) => {
+                return (
+                  <option key={ele} value={ele}>
+                    {ele}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          {formik.touched.employmentType && formik.errors.employmentType && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.employmentType}
+            </span>
+          )}
+        </div>
+        <IncomeDetails
+          formik={formik}
+          bankNameArr={bankNameArr}
+          setBankNameArr={setBankNameArr}
+          setMonthlyIncomeErr={setMonthlyIncomeErr}
+          setPrevYearNetProfitErr={setPrevYearNetProfitErr}
+          setBusinessPincodeErr={setBusinessPincodeErr}
+        />
+        {/* PERSONAL DETAILS */}
+        <div className="col-span-1 sm:col-span-2 ">
+          <h1 className="font-bold text-blue-600 underline underline-offset-4">
+            PERSONAL DETAILS
+          </h1>
+        </div>
+        <PersonalDetails formik={formik} />
+      </div>
+
+      {/* CHECKBOXES */}
+      <div className="col-span-2  sm:col-span-2 my-6">
+        <div>
+          <ReCAPTCHA
+            sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+            onChange={() => {
+              setCheckBox2(true);
+            }}
+          />
+        </div>
+        <div className="py-2">
+          <input
+            type="checkbox"
+            checked={checkBox1}
+            onChange={() => setCheckBox1((prev) => !prev)}
+          />
+          <label className="pl-2 font-semibold">
+            By continuing, you agree to Indexia Finance.
+            <Link className="text-blue-800"> Terms of Use </Link>
+            and <Link className="text-blue-800"> Privacy Policy</Link>.
+          </label>
+        </div>
+      </div>
+
+      {/* SUBMIT BUTTON */}
+      <div className="py-4 flex justify-center">
+        <button
+          className="bg-cyan-400 py-2.5 w-[30%] rounded-lg text-lg text-white font-normal duration-200 disabled:cursor-not-allowed disabled:bg-gray-200"
+          type="submit"
+          disabled={!checkBox1 || !checkBox2}
+        >
+          Submit
+        </button>
+      </div>
+    </form>
+  );
+};
+
+export default Form;
