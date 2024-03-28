@@ -217,7 +217,7 @@ const CustomInputs = ({ formik }) => {
             </span>
           )}
       </div>
-      <div>
+      {/* <div>
         <span className="font-semibold text-gray-500 ">
           Total Annual Income
         </span>
@@ -237,7 +237,7 @@ const CustomInputs = ({ formik }) => {
             readOnly
           />
         </div>
-      </div>
+      </div> */}
     </>
   );
 };
