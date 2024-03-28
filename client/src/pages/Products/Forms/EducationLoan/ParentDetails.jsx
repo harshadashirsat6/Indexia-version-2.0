@@ -7,7 +7,6 @@ import { FaRegCalendarAlt } from "react-icons/fa";
 import DatePicker from "../../../../components/DatePicker/DatePicker";
 
 const ParentDetails = ({ formik }) => {
-  const { userBasicDetails } = useSelector((store) => store.user);
 
   const [activeCl, setActiveCl] = useState(true);
 
@@ -108,22 +107,6 @@ const ParentDetails = ({ formik }) => {
         )}
       </div>
       <div>
-        <span className="font-semibold text-gray-500">Email Address *</span>
-        <div className="border-b border-slate-400 py-1">
-          <input
-            placeholder=""
-            type="email"
-            {...formik.getFieldProps("parentEmail")}
-            className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
-          />
-        </div>
-        {formik.touched.parentEmail && formik.errors.parentEmail && (
-          <span className="text-red-500 text-xs font-bold">
-            {formik.errors.parentEmail}
-          </span>
-        )}
-      </div>
-      <div>
         <span className="font-semibold text-gray-500">Mobile Number *</span>
         <div className="flex items-center space-x-2.5 border-b border-slate-400 py-1">
           <img src="/india.png" alt="india" className="w-7 h-4" />
@@ -139,6 +122,22 @@ const ParentDetails = ({ formik }) => {
         {formik.touched.parentContact && formik.errors.parentContact && (
           <span className="text-red-500 text-xs font-bold">
             {formik.errors.parentContact}
+          </span>
+        )}
+      </div>
+      <div>
+        <span className="font-semibold text-gray-500">Email Address *</span>
+        <div className="border-b border-slate-400 py-1">
+          <input
+            placeholder=""
+            type="email"
+            {...formik.getFieldProps("parentEmail")}
+            className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+          />
+        </div>
+        {formik.touched.parentEmail && formik.errors.parentEmail && (
+          <span className="text-red-500 text-xs font-bold">
+            {formik.errors.parentEmail}
           </span>
         )}
       </div>
