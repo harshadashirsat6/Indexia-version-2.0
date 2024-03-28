@@ -558,15 +558,15 @@ const IncomeDetails = ({
             </span>
             <div className="border-b border-slate-400 py-1">
               <input
-                placeholder="Previous TurnOver"
-                type="text"
+                placeholder=""
+                type="number"
                 {...formik.getFieldProps("previousYearTurnOver")}
                 required
                 className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
               />
             </div>
           </div>
-          <div>
+          {/* <div>
             <span className="font-semibold text-gray-500">
               Current Year Turn Over *
             </span>
@@ -579,23 +579,22 @@ const IncomeDetails = ({
                 className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
               />
             </div>
-          </div>
-          
+          </div> */}
           <div>
             <span className="font-semibold text-gray-500">
               Last ( 2 Years old) Turnover
             </span>
             <div className="border-b border-slate-400 py-1">
               <input
-                placeholder="Previous TurnOver"
-                type="text"
+                placeholder=""
+                type="number"
                 {...formik.getFieldProps("previous2yearTurnover")}
                 required
                 className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
               />
             </div>
           </div>
-          <div>
+          {/* <div>
             <span className="font-semibold text-gray-500">
               Current Year Net Income *
             </span>
@@ -614,7 +613,7 @@ const IncomeDetails = ({
                   {formik.errors.currentYearNetProfit}
                 </span>
               )}
-          </div>
+          </div> */}
           <div>
             <span className="font-semibold text-gray-500">
               Last Year Net Income *
@@ -636,8 +635,8 @@ const IncomeDetails = ({
             </span>
             <div className="border-b border-slate-400 py-1">
               <input
-                placeholder="Previous TurnOver"
-                type="text"
+                placeholder=""
+                type="number"
                 {...formik.getFieldProps("previous2yearNetIncome")}
                 required
                 className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
@@ -780,7 +779,7 @@ const IncomeDetails = ({
           </div>
           <div>
             <span className="font-semibold text-gray-500">
-            Last ( 2 Years old) Turnover *
+              Last ( 2 Years old) Turnover *
             </span>
             <div className="border-b border-slate-400 py-1">
               <input

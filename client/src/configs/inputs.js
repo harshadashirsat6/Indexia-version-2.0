@@ -31,10 +31,10 @@ const incomeDetails = {
   industryType: "",
   otherIndustryType: "",
   subIndustryType: "",
-  currentYearTurnOver: "",
-  previousYearTurnOver: "",
-  currentYearNetProfit: "",
+  previousYearTurnOver: 0,
+  previous2yearTurnover:0,
   previousYearNetProfit: 0,
+  previous2yearNetIncome:0,
   //profession
   profession: "",
   otherProfession: "",
