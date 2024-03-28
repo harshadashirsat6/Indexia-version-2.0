@@ -33,10 +33,8 @@ const incomeDetails = {
   subIndustryType: "",
   currentYearTurnOver: "",
   previousYearTurnOver: "",
-  previous2yearTurnover: "",
   currentYearNetProfit: "",
   previousYearNetProfit: 0,
-  previous2yearNetIncome: "",
   //profession
   profession: "",
   otherProfession: "",
@@ -120,6 +118,7 @@ export const balanceTransferFormInputs = {
   hlapROI: "",
   topupAmount: "",
   transferPropertyValue: "",
+  balanceTransferLoanAmount:"",
   ...exisitingLoanRequirements,
   // income details
   ...incomeDetails,

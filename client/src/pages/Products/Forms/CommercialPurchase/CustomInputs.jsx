@@ -48,7 +48,7 @@ const CustomInputs = ({ formik }) => {
     <>
       <div className="">
         <span className="font-semibold text-gray-500">
-          New Property Type (Buying property) *
+          Buying Property Type *
         </span>
         <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
           <select
@@ -88,7 +88,9 @@ const CustomInputs = ({ formik }) => {
         </div>
       )}
       <div>
-        <span className="font-semibold text-gray-500">Property Value *</span>
+        <span className="font-semibold text-gray-500">
+          Buying Property Value *
+        </span>
         <div className="border-b border-slate-400 py-1">
           <input
             placeholder="In Lacs"
@@ -104,7 +106,9 @@ const CustomInputs = ({ formik }) => {
         )}
       </div>
       <div>
-        <span className="font-semibold text-gray-500">Property Age *</span>
+        <span className="font-semibold text-gray-500">
+          Buying Property Age *
+        </span>
         <div className="border-b border-slate-400 py-1">
           <input
             placeholder="In Years"
@@ -121,7 +125,7 @@ const CustomInputs = ({ formik }) => {
       </div>
       <div>
         <span className="font-semibold text-gray-500">
-          New Property State *
+          Buying Property State *
         </span>
         <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
           <select
@@ -152,7 +156,9 @@ const CustomInputs = ({ formik }) => {
         )}
       </div>
       <div>
-        <span className="font-semibold text-gray-500">New Property City *</span>
+        <span className="font-semibold text-gray-500">
+          Buying Property City *
+        </span>
         <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
           <select
             className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
@@ -177,7 +183,7 @@ const CustomInputs = ({ formik }) => {
       </div>
       <div>
         <span className=" font-semibold text-gray-500">
-          New Property Pincode *
+          Buying Property Pincode *
         </span>
         <div className="border-b border-slate-400 py-1">
           <input

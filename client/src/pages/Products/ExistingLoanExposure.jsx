@@ -62,6 +62,25 @@ const LoanExposure = ({
           emiCalculation(formik.values.existingEMI)
         )}
       </div>
+      <div>
+        <span className="font-semibold text-gray-500">
+          Existing Total Loan Amount *
+        </span>
+        <div className="border-b border-slate-400 py-1">
+          <input
+            placeholder=""
+            type="number"
+            {...formik.getFieldProps("existingLoanAmount")}
+            className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+          />
+        </div>
+        {formik.touched.existingLoanAmount &&
+          formik.errors.existingLoanAmount && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.existingLoanAmount}
+            </span>
+          )}
+      </div>
       {category && category === "balance-transfer" ? null : (
         <div>
           <span className="font-semibold text-gray-500">
@@ -83,25 +102,7 @@ const LoanExposure = ({
             )}
         </div>
       )}
-      <div>
-        <span className="font-semibold text-gray-500">
-          Existing Total Loan Amount *
-        </span>
-        <div className="border-b border-slate-400 py-1">
-          <input
-            placeholder=""
-            type="number"
-            {...formik.getFieldProps("existingLoanAmount")}
-            className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-          />
-        </div>
-        {formik.touched.existingLoanAmount &&
-          formik.errors.existingLoanAmount && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.existingLoanAmount}
-            </span>
-          )}
-      </div>
+
       {/* existing loan bank names */}
       <div className="col-span-1 sm:col-span-2 py ">
         <span className="font-semibold text-gray-500">

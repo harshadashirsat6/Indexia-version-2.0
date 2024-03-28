@@ -139,6 +139,9 @@ const Form = () => {
         return value.toString().length === 6;
       }),
     //custom inputs
+    balanceTransferLoanAmount:Yup.number()
+    .integer("Invalid")
+    .required("* required"),
     typeOfBalanceTransfer: Yup.string("").required("* required"),
     transferPropertyValue: Yup.number()
       .integer("Invalid")
@@ -182,6 +185,7 @@ const Form = () => {
   return (
     <form onSubmit={formik.handleSubmit} className="py-10">
       <div className="block lg:grid lg:grid-cols-2 gap-10 ">
+        <CustomInputs formik={formik} />
         {/* INCOME DETAILS */}
         <div className="col-span-1 sm:col-span-2 ">
           <h1 className="font-bold text-blue-600 underline undVAerline-offset-4">
@@ -235,7 +239,93 @@ const Form = () => {
           setBanksLoanArr={setBanksLoanArr}
           category={param}
         />
-        <CustomInputs formik={formik} />
+         {formik.values.typeOfBalanceTransfer ? (
+        <div>
+          <span className="font-semibold text-gray-500">
+            Existing Loan Tenure (in years) and ROI
+          </span>
+          <div>
+            {formik.values.typeOfBalanceTransfer === "HL" ? (
+              <div className=" py-1 flex gap-2">
+                <label className="py-1.5 pr-2">HOME LOAN</label>
+                <input
+                  placeholder="Tenure"
+                  type="number"
+                  {...formik.getFieldProps("homeLoanTenure")}
+                  required
+                  className="w-[7rem] rounded-lg border border-slate-400 bg-transparent  outline-none  placeholder:text-slate-500 py-2 px-1"
+                />
+                <input
+                  placeholder="ROI"
+                  type="number"
+                  {...formik.getFieldProps("homeLoanROI")}
+                  required
+                  className="rounded-lg border border-slate-400 bg-transparent w-[7rem] outline-none  placeholder:text-slate-500 py-2 px-1"
+                />
+              </div>
+            ) : formik.values.typeOfBalanceTransfer === "LAP" ? (
+              <div className=" py-1 flex gap-2">
+                <label className="py-1.5 pr-[4.5rem]">LAP</label>
+                <input
+                  placeholder="Tenure"
+                  type="number"
+                  {...formik.getFieldProps("lapTenure")}
+                  required
+                  className="rounded-lg border border-slate-400 bg-transparent w-[7rem] outline-none  placeholder:text-slate-500 py-2 px-1"
+                />
+                <input
+                  placeholder="ROI"
+                  type="number"
+                  {...formik.getFieldProps("lapROI")}
+                  required
+                  className="rounded-lg border border-slate-400 bg-transparent w-[7rem] outline-none  placeholder:text-slate-500 py-2 px-1"
+                />
+              </div>
+            ) : formik.values.typeOfBalanceTransfer === "HL-LAP" ? (
+              <div className="flex flex-column flex-wrap gap-2 w-full">
+                {/* HL */}
+                <div className=" py-1 flex gap-2">
+                  <label className="py-1.5 pr-2">HOME LOAN</label>
+                  <input
+                    placeholder="Tenure"
+                    type="number"
+                    {...formik.getFieldProps("homeLoanTenure")}
+                    required
+                    className="w-[7rem] rounded-lg border border-slate-400 bg-transparent  outline-none  placeholder:text-slate-500 py-2 px-1"
+                  />
+                  <input
+                    placeholder="ROI"
+                    type="number"
+                    {...formik.getFieldProps("homeLoanROI")}
+                    required
+                    className="rounded-lg border border-slate-400 bg-transparent w-[7rem] outline-none  placeholder:text-slate-500 py-2 px-1"
+                  />
+                </div>
+                {/* LAP */}
+                <div className=" py-1 flex gap-2">
+                  <label className="py-1.5 pr-[4.5rem]">LAP</label>
+                  <input
+                    placeholder="Tenure"
+                    type="number"
+                    name="lapTenure"
+                    {...formik.getFieldProps("lapTenure")}
+                    required
+                    className="rounded-lg border border-slate-400 bg-transparent w-[7rem] outline-none  placeholder:text-slate-500 py-2 px-1"
+                  />
+                  <input
+                    placeholder="ROI"
+                    type="number"
+                    name="lapROI"
+                    {...formik.getFieldProps("lapROI")}
+                    required
+                    className="rounded-lg border border-slate-400 bg-transparent w-[7rem] outline-none  placeholder:text-slate-500 py-2 px-1"
+                  />
+                </div>
+              </div>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
         {/* PERSONAL DETAILS */}
         <div className="col-span-1 sm:col-span-2 ">
           <h1 className="font-bold text-blue-600 underline underline-offset-4">

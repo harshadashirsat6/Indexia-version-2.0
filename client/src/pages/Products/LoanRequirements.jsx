@@ -63,7 +63,9 @@ const LoanRequirements = ({
     <>
       <div>
         <span className="font-semibold text-gray-500">
-          Required Loan Amount *
+          {category === "odcc"
+            ? "Required OD/CC Limit *"
+            : "Required Loan Amount *"}
         </span>
         <div className="border-b border-slate-400 py-1">
           <input
@@ -89,7 +91,9 @@ const LoanRequirements = ({
       </div>
       <div>
         <span className="font-semibold text-gray-500">
-          Required Loan Tenure (in years) *
+          {category === "odcc"
+            ? "Required OD/CC Tenure *"
+            : " Required Loan Tenure (in years) *"}
         </span>
         <div className="border-b border-slate-400 py-1">
           <input

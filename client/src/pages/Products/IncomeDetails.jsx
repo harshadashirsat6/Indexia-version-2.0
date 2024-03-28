@@ -123,120 +123,53 @@ const IncomeDetails = ({
   return (
     <>
       {/* primary bank account */}
-      {formik.values.employmentType ? (
-        <div>
-          <span className="font-semibold text-gray-500">
-            {formik.values.employmentType === "Salaried"
-              ? "Salary Bank Name *"
-              : "Transaction Bank Account *"}
-          </span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full py-2.5"
-              name="primaryBankAccount"
-              {...formik.getFieldProps("primaryBankAccount")}
-              required
-            >
-              <option value={""}>Select</option>
-              {primaryBankAccountOptions.map((ele) => {
-                return (
-                  <option key={ele} value={ele}>
-                    {ele}
-                  </option>
-                );
-              })}
-              {formik.values.employmentType === "Self-employed business" ||
-              formik.values.employmentType === "Self-employed professional" ? (
-                <option value={"Multiple transaction banks"}>
-                  Multiple transaction banks
-                </option>
-              ) : null}
-            </select>
-          </div>
-          {formik.touched.primaryBankAccount &&
-            formik.errors.primaryBankAccount && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.primaryBankAccount}
-              </span>
-            )}
-        </div>
-      ) : null}
-      {/* other priamry bank account */}
-      {formik.values.primaryBankAccount === "Other" ? (
-        <div>
-          <span className="font-semibold text-gray-500">
-            Mention bank account name *
-          </span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder=""
-              type="text"
-              {...formik.getFieldProps("otherPrimaryBankAccount")}
-              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
-              required
-            />
-          </div>
-          {formik.touched.otherPrimaryBankAccount &&
-            formik.errors.otherPrimaryBankAccount && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.otherPrimaryBankAccount}
-              </span>
-            )}
-        </div>
-      ) : formik.values.primaryBankAccount === "Multiple transaction banks" ? (
-        <div>
-          <span className=" font-semibold text-gray-500">
-            Mention multiple transaction bank names *
-          </span>
-          <div className="border-b border-slate-400 py-1 flex ">
-            <input
-              placeholder=""
-              type="text"
-              name="bankName"
-              value={bankName}
-              onChange={(e) => {
-                setBankNameErr();
-                setBankName(e.target.value);
-              }}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-            />
-            <button
-              type="button"
-              onClick={() => {
-                if (bankName) {
-                  setBankNameArr([...bankNameArr, bankName]);
-                } else {
-                  setBankNameErr("Bank name cannot be empty");
-                }
-              }}
-              className="bg-blue-300 hover:bg-blue-200 text-black  font-bold rounded-lg px-5 py-0.5 "
-            >
-              Add
-            </button>
-          </div>
-          {bankNameArr.length ? (
-            <div>
-              {bankNameArr.slice(0, 3).map((bankname, i) => (
-                <p key={i} className="flex gap-2">
-                  <span>{i + 1}.</span>
-                  <span>{bankname}</span>
-                </p>
-              ))}
-            </div>
-          ) : null}
-          {bankNameArr.length > 3 && (
-            <span className="text-red-500 text-xs font-bold">
-              You can add upto 3 banks only
+      {formik.values.employmentType === "Salaried" ? (
+        <>
+          <div>
+            <span className="font-semibold text-gray-500">
+              Salary Bank Name
             </span>
-          )}
-          <span>
-            {bankNameErr ? (
-              <span className="text-red-500 text-xs font-bold">
-                {bankNameErr}
+            <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+              <select
+                className="bg-transparent w-full py-2.5"
+                name="primaryBankAccount"
+                {...formik.getFieldProps("primaryBankAccount")}
+                required
+              >
+                <option value={""}>Select</option>
+                {primaryBankAccountOptions.map((ele) => {
+                  return (
+                    <option key={ele} value={ele}>
+                      {ele}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+            {formik.touched.primaryBankAccount &&
+              formik.errors.primaryBankAccount && (
+                <span className="text-red-500 text-xs font-bold">
+                  {formik.errors.primaryBankAccount}
+                </span>
+              )}
+          </div>
+          {formik.values.primaryBankAccount === "Other" && (
+            <div>
+              <span className="font-semibold text-gray-500">
+                Mention bank account name *
               </span>
-            ) : null}
-          </span>
-        </div>
+              <div className="border-b border-slate-400 py-1">
+                <input
+                  placeholder=""
+                  type="text"
+                  {...formik.getFieldProps("otherPrimaryBankAccount")}
+                  className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+                  required
+                />
+              </div>
+            </div>
+          )}
+        </>
       ) : null}
 
       {/* company type */}
@@ -509,20 +442,116 @@ const IncomeDetails = ({
               </select>
             </div>
           </div>
+          {/* bank account details */}
           <div>
             <span className="font-semibold text-gray-500">
-              Current Year Turn Over *
+              Transaction Bank Name
             </span>
-            <div className="border-b border-slate-400 py-1">
-              <input
-                placeholder="Current Turn Over"
-                type="number"
-                {...formik.getFieldProps("currentYearTurnOver")}
+            <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+              <select
+                className="bg-transparent w-full py-2.5"
+                name="primaryBankAccount"
+                {...formik.getFieldProps("primaryBankAccount")}
                 required
-                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-              />
+              >
+                <option value={""}>Select</option>
+                {primaryBankAccountOptions.map((ele) => {
+                  return (
+                    <option key={ele} value={ele}>
+                      {ele}
+                    </option>
+                  );
+                })}
+                <option value="Multiple transaction banks">
+                  Multiple transaction banks
+                </option>
+              </select>
             </div>
+            {formik.touched.primaryBankAccount &&
+              formik.errors.primaryBankAccount && (
+                <span className="text-red-500 text-xs font-bold">
+                  {formik.errors.primaryBankAccount}
+                </span>
+              )}
           </div>
+          {formik.values.primaryBankAccount === "Other" ? (
+            <div>
+              <span className="font-semibold text-gray-500">
+                Mention bank account name *
+              </span>
+              <div className="border-b border-slate-400 py-1">
+                <input
+                  placeholder=""
+                  type="text"
+                  {...formik.getFieldProps("otherPrimaryBankAccount")}
+                  className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+                  required
+                />
+              </div>
+              {formik.touched.otherPrimaryBankAccount &&
+                formik.errors.otherPrimaryBankAccount && (
+                  <span className="text-red-500 text-xs font-bold">
+                    {formik.errors.otherPrimaryBankAccount}
+                  </span>
+                )}
+            </div>
+          ) : formik.values.primaryBankAccount ===
+            "Multiple transaction banks" ? (
+            <div>
+              <span className=" font-semibold text-gray-500">
+                Mention multiple transaction bank names *
+              </span>
+              <div className="border-b border-slate-400 py-1 flex ">
+                <input
+                  placeholder=""
+                  type="text"
+                  name="bankName"
+                  value={bankName}
+                  onChange={(e) => {
+                    setBankNameErr();
+                    setBankName(e.target.value);
+                  }}
+                  className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (bankName) {
+                      setBankNameArr([...bankNameArr, bankName]);
+                    } else {
+                      setBankNameErr("Bank name cannot be empty");
+                    }
+                  }}
+                  className="bg-blue-300 hover:bg-blue-200 text-black  font-bold rounded-lg px-5 py-0.5 "
+                >
+                  Add
+                </button>
+              </div>
+              {bankNameArr.length ? (
+                <div>
+                  {bankNameArr.slice(0, 3).map((bankname, i) => (
+                    <p key={i} className="flex gap-2">
+                      <span>{i + 1}.</span>
+                      <span>{bankname}</span>
+                    </p>
+                  ))}
+                </div>
+              ) : null}
+              {bankNameArr.length > 3 && (
+                <span className="text-red-500 text-xs font-bold">
+                  You can add upto 3 banks only
+                </span>
+              )}
+              <span>
+                {bankNameErr ? (
+                  <span className="text-red-500 text-xs font-bold">
+                    {bankNameErr}
+                  </span>
+                ) : null}
+              </span>
+            </div>
+          ) : null}
+          {/* ends */}
           <div>
             <span className="font-semibold text-gray-500">
               Last Year Turn over *
@@ -537,6 +566,21 @@ const IncomeDetails = ({
               />
             </div>
           </div>
+          <div>
+            <span className="font-semibold text-gray-500">
+              Current Year Turn Over *
+            </span>
+            <div className="border-b border-slate-400 py-1">
+              <input
+                placeholder="Current Turn Over"
+                type="number"
+                {...formik.getFieldProps("currentYearTurnOver")}
+                required
+                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              />
+            </div>
+          </div>
+          
           <div>
             <span className="font-semibold text-gray-500">
               Last ( 2 Years old) Turnover
@@ -736,7 +780,7 @@ const IncomeDetails = ({
           </div>
           <div>
             <span className="font-semibold text-gray-500">
-              Previous Year Turn over *
+            Last ( 2 Years old) Turnover *
             </span>
             <div className="border-b border-slate-400 py-1">
               <input

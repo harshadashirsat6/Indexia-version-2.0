@@ -208,8 +208,8 @@ const Form = () => {
             LOAN REQUIREMENTS
           </h1>
         </div>
-        <LoanRequirements formik={formik} setEmiErr={setEmiErr} />
-        <CollatoralProperty formik={formik} />
+        <LoanRequirements formik={formik} setEmiErr={setEmiErr} category='odcc' />
+        <CollatoralProperty formik={formik} category='odcc' />
         {/* INCOME DETAILS */}
         <div className="col-span-1 sm:col-span-2 ">
           <h1 className="font-bold text-blue-600 underline undVAerline-offset-4">

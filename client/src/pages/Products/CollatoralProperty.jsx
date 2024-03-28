@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { collateralOptionTypes } from "../../configs/selectorConfigs";
 
-const CollatoralProperty = ({ formik }) => {
+const CollatoralProperty = ({ formik, category }) => {
   //collatoral state and city
   const [states, setPropertyStates] = useState([]);
   const [selectedCollatoralState, setSelectedCollatoralState] = useState("");
@@ -48,7 +48,9 @@ const CollatoralProperty = ({ formik }) => {
     <>
       <div>
         <span className="font-semibold text-gray-500">
-          Wish To Take Loan Against (Collatoral property)*
+          {category && category === "odcc"
+            ? "Wish to take OD/CC limit Against"
+            : "Wish To Take Loan Against (Collatoral property)*"}
         </span>
         <div className="border-b border-slate-400 py-1 w-full">
           <select
