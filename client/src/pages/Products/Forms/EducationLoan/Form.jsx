@@ -256,18 +256,6 @@ const Form = () => {
           setRequiredLoanAmountErr={setRequiredLoanAmountErr}
         />
         <EducationDetails formik={formik} />
-        {/* LOAN EXPOSURE */}
-        <div className="col-span-1 sm:col-span-2 ">
-          <h1 className="font-bold text-blue-600 underline underline-offset-4">
-            EXISTING LOAN EXPOSURE
-          </h1>
-        </div>
-        <LoanExposure
-          formik={formik}
-          emiCalculation={emiCalculation}
-          loanTypesArr={loanTypesArr}
-          setLoanTypesArr={setLoanTypesArr}
-        />
         {/* INCOME DETAILS */}
         <div className="col-span-1 sm:col-span-2 ">
           <h1 className="font-bold text-blue-600 underline undVAerline-offset-4">
@@ -306,6 +294,19 @@ const Form = () => {
           setPrevYearNetProfitErr={setPrevYearNetProfitErr}
           setBusinessPincodeErr={setBusinessPincodeErr}
         />
+        {/* LOAN EXPOSURE */}
+        <div className="col-span-1 sm:col-span-2 ">
+          <h1 className="font-bold text-blue-600 underline underline-offset-4">
+            EXISTING LOAN EXPOSURE
+          </h1>
+        </div>
+        <LoanExposure
+          formik={formik}
+          emiCalculation={emiCalculation}
+          loanTypesArr={loanTypesArr}
+          setLoanTypesArr={setLoanTypesArr}
+        />
+        ss
         {/* PERSONPARENT PERSONAL DETAILS */}
         <div className="col-span-1 sm:col-span-2 ">
           <h1 className="font-bold text-blue-600 underline underline-offset-4">

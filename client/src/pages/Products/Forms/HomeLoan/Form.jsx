@@ -209,18 +209,6 @@ const Form = () => {
           setHlLoanTenureErr={setHlLoanTenureErr}
         />
         <NewProperty formik={formik} />
-        {/* LOAN EXPOSURE */}
-        <div className="col-span-1 sm:col-span-2 ">
-          <h1 className="font-bold text-blue-600 underline underline-offset-4">
-            EXISTING LOAN EXPOSURE
-          </h1>
-        </div>
-        <LoanExposure
-          formik={formik}
-          emiCalculation={emiCalculation}
-          loanTypesArr={loanTypesArr}
-          setLoanTypesArr={setLoanTypesArr}
-        />
         {/* INCOME DETAILS */}
         <div className="col-span-1 sm:col-span-2 ">
           <h1 className="font-bold text-blue-600 underline undVAerline-offset-4">
@@ -251,6 +239,18 @@ const Form = () => {
             </span>
           )}
         </div>
+        {/* LOAN EXPOSURE */}
+        <div className="col-span-1 sm:col-span-2 ">
+          <h1 className="font-bold text-blue-600 underline underline-offset-4">
+            EXISTING LOAN EXPOSURE
+          </h1>
+        </div>
+        <LoanExposure
+          formik={formik}
+          emiCalculation={emiCalculation}
+          loanTypesArr={loanTypesArr}
+          setLoanTypesArr={setLoanTypesArr}
+        />
         <IncomeDetails
           formik={formik}
           bankNameArr={bankNameArr}

@@ -226,18 +226,6 @@ const Form = () => {
         <LoanRequirements formik={formik} setEmiErr={setEmiErr} />
         <CustomInputs formik={formik} />
         <CollatoralProperty formik={formik} />
-        {/* LOAN EXPOSURE */}
-        <div className="col-span-1 sm:col-span-2 ">
-          <h1 className="font-bold text-blue-600 underline underline-offset-4">
-            EXISTING LOAN EXPOSURE
-          </h1>
-        </div>
-        <LoanExposure
-          formik={formik}
-          emiCalculation={emiCalculation}
-          loanTypesArr={loanTypesArr}
-          setLoanTypesArr={setLoanTypesArr}
-        />
         {/* INCOME DETAILS */}
         <div className="col-span-1 sm:col-span-2 ">
           <h1 className="font-bold text-blue-600 underline undVAerline-offset-4">
@@ -275,6 +263,18 @@ const Form = () => {
           setMonthlyIncomeErr={setMonthlyIncomeErr}
           setPrevYearNetProfitErr={setPrevYearNetProfitErr}
           setBusinessPincodeErr={setBusinessPincodeErr}
+        />
+        {/* LOAN EXPOSURE */}
+        <div className="col-span-1 sm:col-span-2 ">
+          <h1 className="font-bold text-blue-600 underline underline-offset-4">
+            EXISTING LOAN EXPOSURE
+          </h1>
+        </div>
+        <LoanExposure
+          formik={formik}
+          emiCalculation={emiCalculation}
+          loanTypesArr={loanTypesArr}
+          setLoanTypesArr={setLoanTypesArr}
         />
         {/* PERSONAL DETAILS */}
         <div className="col-span-1 sm:col-span-2 ">
