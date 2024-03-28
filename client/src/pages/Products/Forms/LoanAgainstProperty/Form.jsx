@@ -11,7 +11,7 @@ import PersonalDetails from "../../PersonalDetails";
 import IncomeDetails from "../../IncomeDetails";
 import LoanExposure from "../../ExistingLoanExposure";
 import LoanRequirements from "../../LoanRequirements";
-import CollatoralProperty from "./CollatoralProperty";
+import CollatoralProperty from "../../CollatoralProperty"
 
 const Form = () => {
   const { lapForm } = useSelector((store) => store.loanForm);
@@ -27,6 +27,8 @@ const Form = () => {
   const [loanTypesArr, setLoanTypesArr] = useState(
     lapForm.existingLoanExposure
   );
+  //add existing loan types
+  const [banksLoanArr, setBanksLoanArr] = useState([]);
 
   //ERR fields
   const [monthlyIncomeErr, setMonthlyIncomeErr] = useState(false);
@@ -166,6 +168,9 @@ const Form = () => {
       .test("length-check", "Invalid pincode", function (value) {
         return value.toString().length === 6;
       }),
+    collatoralPropertyAge: Yup.number()
+      .integer("Invalid input.Must be a number")
+      .required("* required"),
     collatoralPropertyValue: Yup.number()
       .integer("Invalid input.Must be a number")
       .required("* required"),
@@ -224,18 +229,6 @@ const Form = () => {
           category="loanAgainstProperty"
         />
         <CollatoralProperty formik={formik} />
-        {/* LOAN EXPOSURE */}
-        <div className="col-span-1 sm:col-span-2 ">
-          <h1 className="font-bold text-blue-600 underline underline-offset-4">
-            EXISTING LOAN EXPOSURE
-          </h1>
-        </div>
-        <LoanExposure
-          formik={formik}
-          emiCalculation={emiCalculation}
-          loanTypesArr={loanTypesArr}
-          setLoanTypesArr={setLoanTypesArr}
-        />
         {/* INCOME DETAILS */}
         <div className="col-span-1 sm:col-span-2 ">
           <h1 className="font-bold text-blue-600 underline undVAerline-offset-4">
@@ -274,6 +267,20 @@ const Form = () => {
           setPrevYearNetProfitErr={setPrevYearNetProfitErr}
           setBusinessPincodeErr={setBusinessPincodeErr}
         />
+        {/* LOAN EXPOSURE */}
+        <div className="col-span-1 sm:col-span-2 ">
+          <h1 className="font-bold text-blue-600 underline underline-offset-4">
+            EXISTING LOAN EXPOSURE
+          </h1>
+        </div>
+        <LoanExposure
+          formik={formik}
+          emiCalculation={emiCalculation}
+          loanTypesArr={loanTypesArr}
+          setLoanTypesArr={setLoanTypesArr}
+          banksLoanArr={banksLoanArr}
+          setBanksLoanArr={setBanksLoanArr}
+        />
         {/* PERSONAL DETAILS */}
         <div className="col-span-1 sm:col-span-2 ">
           <h1 className="font-bold text-blue-600 underline underline-offset-4">
@@ -282,7 +289,6 @@ const Form = () => {
         </div>
         <PersonalDetails formik={formik} />
       </div>
-
       {/* CHECKBOXES */}
       <div className="col-span-2  sm:col-span-2 my-6">
         <div>

@@ -14,6 +14,7 @@ import LoanRequirements from "../../LoanRequirements";
 import ParentDetails from "./ParentDetails";
 import StudentDetails from "./StudentDetails";
 import EducationDetails from "./EducationDetails";
+import CollatoralProperty from "./CollatoralPropertyConditional";
 
 const Form = () => {
   const { edulForm } = useSelector((store) => store.loanForm);
@@ -29,6 +30,8 @@ const Form = () => {
   const [loanTypesArr, setLoanTypesArr] = useState(
     edulForm.existingLoanExposure
   );
+  //add existing loan types
+  const [banksLoanArr, setBanksLoanArr] = useState([]);
 
   //ERR fields
   const [monthlyIncomeErr, setMonthlyIncomeErr] = useState(false);
@@ -255,6 +258,10 @@ const Form = () => {
           category="education-loan"
           setRequiredLoanAmountErr={setRequiredLoanAmountErr}
         />
+        {/* if loan amount more than 750000 ask for collatoral property details*/}
+        {formik.values.requiredLoanAmount > 750000 && (
+          <CollatoralProperty formik={formik} />
+        )}
         <EducationDetails formik={formik} />
         {/* INCOME DETAILS */}
         <div className="col-span-1 sm:col-span-2 ">
@@ -305,8 +312,9 @@ const Form = () => {
           emiCalculation={emiCalculation}
           loanTypesArr={loanTypesArr}
           setLoanTypesArr={setLoanTypesArr}
+          banksLoanArr={banksLoanArr}
+          setBanksLoanArr={setBanksLoanArr}
         />
-        ss
         {/* PERSONPARENT PERSONAL DETAILS */}
         <div className="col-span-1 sm:col-span-2 ">
           <h1 className="font-bold text-blue-600 underline underline-offset-4">

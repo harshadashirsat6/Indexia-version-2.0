@@ -3,6 +3,19 @@ const CustomInputs = ({ formik }) => {
     <>
       <div>
         <span className="font-semibold text-gray-500">
+          Balance Transfer Loan Amount *
+        </span>
+        <div className="border-b border-slate-400 py-1">
+          <input
+            placeholder=""
+            type="number"
+            {...formik.getFieldProps("topupAmount")}
+            className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+          />
+        </div>
+      </div>
+      <div>
+        <span className="font-semibold text-gray-500">
           Type of Balance Transfer
         </span>
         <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
@@ -126,7 +139,7 @@ const CustomInputs = ({ formik }) => {
       </div>
       <div>
         <span className="font-semibold text-gray-500">
-          Approximate Value of property
+          Approximate value of property *
         </span>
         <div className="border-b border-slate-400 py-1">
           <input

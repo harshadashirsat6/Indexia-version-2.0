@@ -4,8 +4,8 @@ const personalDetails = {
   residenceState: "",
   residenceCity: "",
   residencePincode: "",
-  residenceType: ""
-}
+  residenceType: "",
+};
 const incomeDetails = {
   employmentType: "",
   //general fields
@@ -19,6 +19,7 @@ const incomeDetails = {
   monthlyIncome: 0,
   incomeReceivedAs: "",
   //business
+  gstNo: "",
   yearsInCurrentBusiness: "",
   businessState: "",
   businessCity: "",
@@ -32,23 +33,34 @@ const incomeDetails = {
   subIndustryType: "",
   currentYearTurnOver: "",
   previousYearTurnOver: "",
+  previous2yearTurnover: "",
   currentYearNetProfit: "",
   previousYearNetProfit: 0,
+  previous2yearNetIncome: "",
   //profession
   profession: "",
   otherProfession: "",
-}
+};
 const loanRequirements = {
   requiredLoanAmount: "",
   requiredLoanTenure: "",
-}
+};
 const exisitingLoanRequirements = {
   existingEMI: 0,
   existingLoanAmount: "",
   existingLoanTenure: "",
-  existingLoanExposure: []
-}
-
+  existingLoanExposure: [],
+  existingLoanBankNames: [],
+};
+const collatoralPropertyInputs = {
+  collateralOption: "",
+  otherCollateralOptionType: "",
+  collatoralPropertyState: "",
+  collatoralPropertyCity: "",
+  collatoralPropertyPincode: "",
+  collatoralPropertyAge: 0,
+  collatoralPropertyValue: 0,
+};
 
 // personal loan
 export const personalLoanFormInputs = {
@@ -57,8 +69,8 @@ export const personalLoanFormInputs = {
   // income details
   ...incomeDetails,
   // personal details
-  ...personalDetails
-}
+  ...personalDetails,
+};
 
 //business loan
 export const businessLoanFormInputs = {
@@ -67,12 +79,14 @@ export const businessLoanFormInputs = {
   // income details
   ...incomeDetails,
   // personal details
-  ...personalDetails
-
-}
+  ...personalDetails,
+};
 
 //home loan
 export const homeLoanFormInputs = {
+  newPropertyType: "",
+  otherNewPropertyType: "",
+  newPropertyAge: "",
   newPropertyState: "",
   newPropertyCity: "",
   newPropertyPincode: "",
@@ -82,25 +96,18 @@ export const homeLoanFormInputs = {
   ...incomeDetails,
   // personal details
   ...personalDetails,
-
-}
+};
 
 //loan against property
 export const lapFormInputs = {
-  collateralOption: "",
-  otherCollateralOptionType: "",
-  collatoralPropertyState: "",
-  collatoralPropertyCity: "",
-  collatoralPropertyPincode: "",
-  collatoralPropertyValue: 0,
+  ...collatoralPropertyInputs,
   ...loanRequirements,
   ...exisitingLoanRequirements,
   // income details
   ...incomeDetails,
   // personal details
-  ...personalDetails
-
-}
+  ...personalDetails,
+};
 
 // balance transfer
 export const balanceTransferFormInputs = {
@@ -117,9 +124,8 @@ export const balanceTransferFormInputs = {
   // income details
   ...incomeDetails,
   // personal details
-  ...personalDetails
-
-}
+  ...personalDetails,
+};
 
 //project loan
 export const projectLoanFormInputs = {
@@ -142,8 +148,8 @@ export const projectLoanFormInputs = {
   // income details
   ...incomeDetails,
   // personal details
-  ...personalDetails
-}
+  ...personalDetails,
+};
 
 //car loan
 export const carLoanFormInputs = {
@@ -166,9 +172,8 @@ export const carLoanFormInputs = {
   // income details
   ...incomeDetails,
   // personal details
-  ...personalDetails
-
-}
+  ...personalDetails,
+};
 
 //education loan
 export const educationLoanFormInputs = {
@@ -177,9 +182,10 @@ export const educationLoanFormInputs = {
   fieldOfStudy: "",
   universityName: "",
   instituteName: "",
-  courseDuration: "",//in years
+  courseDuration: "", //in years
   educationCost: "",
   ...loanRequirements,
+  ...collatoralPropertyInputs,
   ...exisitingLoanRequirements,
   // income details
   ...incomeDetails,
@@ -194,9 +200,9 @@ export const educationLoanFormInputs = {
   parentResidenceCity: personalDetails.residenceCity,
   parentResidencePincode: personalDetails.residencePincode,
   parentResidenceStatus: personalDetails.residenceType,
-  // personal details
-  ...personalDetails
-}
+  // personal details-student
+  ...personalDetails,
+};
 
 //credit card
 export const creditCardFromInputs = {
@@ -209,8 +215,8 @@ export const creditCardFromInputs = {
   // income details
   ...incomeDetails,
   // personal details
-  ...personalDetails
-}
+  ...personalDetails,
+};
 
 //commercial purchase
 export const commercialPurchaseFormInputs = {
@@ -226,26 +232,19 @@ export const commercialPurchaseFormInputs = {
   // income details
   ...incomeDetails,
   // personal details
-  ...personalDetails
-
-}
+  ...personalDetails,
+};
 
 //working capital
 export const workingCapitalFormInputs = {
-  collateralOption: "",
-  otherCollateralOptionType: "",
-  collatoralPropertyState: "",
-  collatoralPropertyCity: "",
-  collatoralPropertyPincode: "",
-  collatoralPropertyValue: 0,
+  ...collatoralPropertyInputs,
   ...loanRequirements,
   ...exisitingLoanRequirements,
   // income details
   ...incomeDetails,
   // personal details
-  ...personalDetails
-
-}
+  ...personalDetails,
+};
 
 //lease rent discounting
 export const lrdFormInputs = {
@@ -259,28 +258,21 @@ export const lrdFormInputs = {
   // income details
   ...incomeDetails,
   // personal details
-  ...personalDetails
-
-}
+  ...personalDetails,
+};
 
 //od-cc
 export const odccLimitInputs = {
-  collateralOption: "",
-  otherCollateralOptionType: "",
-  collatoralPropertyState: "",
-  collatoralPropertyCity: "",
-  collatoralPropertyPincode: "",
-  collatoralPropertyValue: 0,
+  ...collatoralPropertyInputs,
   ...loanRequirements,
   ...exisitingLoanRequirements,
   // income details
   ...incomeDetails,
   // personal details
-  ...personalDetails
+  ...personalDetails,
+};
 
-}
-
-//loan against share 
+//loan against share
 export const lasFormInputs = {
   companyShareName: "",
   valueOfOneShare: 1,
@@ -292,9 +284,8 @@ export const lasFormInputs = {
   // income details
   ...incomeDetails,
   // personal details
-  ...personalDetails
-
-}
+  ...personalDetails,
+};
 
 
 export const inputs = {
@@ -366,7 +357,7 @@ export const inputs = {
   manufacturingYear: "",
   vehicleVIN: "",
   transmission: "",
-  buyCarType: "",//o, new
+  buyCarType: "", //o, new
   oldCarRegistartionYear: "",
   oldCarVehicleNumber: "",
   carInsuranceNumber: "",
@@ -409,7 +400,7 @@ export const inputs = {
   exisitingCreditCardLimit: "",
   newCreditCardBankName: "",
   otherNewCreditCardBankName: "",
-  //BALANCE TRANSFER 
+  //BALANCE TRANSFER
   typeOfBalanceTransfer: "HL",
   homeLoanTenure: "",
   homeLoanROI: "",
@@ -433,5 +424,5 @@ export const inputs = {
   //od-cc
   collatoralPropertyState: "",
   collatoralPropertyCity: "",
-  collatoralPropertyPincode: ""
+  collatoralPropertyPincode: "",
 };

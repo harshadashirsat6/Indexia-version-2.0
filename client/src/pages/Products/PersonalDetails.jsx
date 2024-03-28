@@ -87,19 +87,6 @@ const PersonalDetails = ({ formik }) => {
         </div>
       </div>
       <div>
-        <span className="font-semibold text-gray-500">Email Address *</span>
-        <div className="border-b border-slate-400 py-1">
-          <input
-            placeholder=""
-            type="email"
-            value={userBasicDetails?.email}
-            name="email"
-            className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
-            readOnly
-          />
-        </div>
-      </div>
-      <div>
         <span className="font-semibold text-gray-500">Mobile Number *</span>
         <div className="flex items-center space-x-2.5 border-b border-slate-400 py-1">
           <img src="/india.png" alt="india" className="w-7 h-4" />
@@ -109,6 +96,19 @@ const PersonalDetails = ({ formik }) => {
             type="number"
             value={userBasicDetails?.contact}
             name="contact"
+            className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+            readOnly
+          />
+        </div>
+      </div>
+      <div>
+        <span className="font-semibold text-gray-500">Email Address *</span>
+        <div className="border-b border-slate-400 py-1">
+          <input
+            placeholder=""
+            type="email"
+            value={userBasicDetails?.email}
+            name="email"
             className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
             readOnly
           />

@@ -8,8 +8,17 @@ export const residencyType = [
 ];
 
 export const existingWokringCapitalLoanTypes = [
-  "Personal loan", "Business loan", "Home loan", "Car loan", "Working Capital", "Project Loan", "OD/CC", "Loan against share", "Gold loan", "Other",
-]
+  "Personal loan",
+  "Business loan",
+  "Home loan",
+  "Car loan",
+  "Working Capital",
+  "Project Loan",
+  "OD/CC",
+  "Loan against share",
+  "Gold loan",
+  "Other",
+];
 
 export const employmentTypes = [
   "Salaried",
@@ -33,7 +42,6 @@ export const primaryBankAccountOptions = [
   "Citibank",
   "Other",
 ];
-
 
 export const incomeRecievedAs = [
   "Cash",
@@ -98,6 +106,7 @@ export const businessNatureTypes = [
   "Other",
 ];
 
+export const homeLoanPropertyTypes = ["New", "Under-construction", "Old-construction","Other"];
 
 export const industryTypes = [
   "Agriculture",
@@ -124,14 +133,12 @@ export const industryTypes = [
   "Other",
 ];
 
-
 export const collateralOptionTypes = [
   "Residential Property",
   "Commercial Property",
   "Industrial Property",
   "Other",
 ];
-
 
 export const projectTypes = [
   "Residential Property",
@@ -140,13 +147,7 @@ export const projectTypes = [
   "Other",
 ];
 
-
-
-
-
-export const transmissionTypes = [
-  "Diesel", "Petrol", "CNG", "Electric"
-]
+export const transmissionTypes = ["Diesel", "Petrol", "CNG", "Electric"];
 
 export const BanksForCreditCards = [
   "State Bank of India (SBI)",
@@ -362,28 +363,13 @@ export const countries = [
   "Vietnam",
   "Yemen",
   "Zambia",
-  "Zimbabwe"
-]
+  "Zimbabwe",
+];
 
-export const commercialPropertyTypes = [
-  "Commercial", "Industrial", "Other"
-]
+export const commercialPropertyTypes = ["Commercial", "Industrial", "Other"];
 
 //////////////////////
 /////////////////////////////////
 // /////////////////
 
-
-
-
-
-
-
-
-
 export const educationEnrollmentStatus = ["Full-time", "Part-time"];
-
-
-
-
-

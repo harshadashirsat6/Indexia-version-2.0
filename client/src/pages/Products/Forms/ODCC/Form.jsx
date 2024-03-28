@@ -11,7 +11,7 @@ import PersonalDetails from "../../PersonalDetails";
 import IncomeDetails from "../../IncomeDetails";
 import LoanExposure from "../../ExistingLoanExposure";
 import LoanRequirements from "../../LoanRequirements";
-import CollatoralProperty from "./CollatoralProperty";
+import CollatoralProperty from "../../CollatoralProperty";
 
 const Form = () => {
   const { odccForm } = useSelector((store) => store.loanForm);
@@ -27,6 +27,8 @@ const Form = () => {
   const [loanTypesArr, setLoanTypesArr] = useState(
     odccForm.existingLoanExposure
   );
+  //add existing loan types
+  const [banksLoanArr, setBanksLoanArr] = useState([]);
 
   //ERR fields
   const [monthlyIncomeErr, setMonthlyIncomeErr] = useState(false);
@@ -257,6 +259,8 @@ const Form = () => {
           emiCalculation={emiCalculation}
           loanTypesArr={loanTypesArr}
           setLoanTypesArr={setLoanTypesArr}
+          banksLoanArr={banksLoanArr}
+          setBanksLoanArr={setBanksLoanArr}
         />
         {/* PERSONAL DETAILS */}
         <div className="col-span-1 sm:col-span-2 ">

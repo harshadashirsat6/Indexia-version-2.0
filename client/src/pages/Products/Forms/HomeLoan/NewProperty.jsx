@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
+import { homeLoanPropertyTypes } from "../../../../configs/selectorConfigs";
 
-const NewProperty = ({ formik, setNewPropertyPincodeErr }) => {
+const NewProperty = ({ formik }) => {
   //New property state and city
   const [newpropertyStates, setNewpropertyState] = useState([]);
   const [selectedNewpropertyState, setSelectedNewpropertyState] = useState("");
@@ -49,6 +50,63 @@ const NewProperty = ({ formik, setNewPropertyPincodeErr }) => {
         <span className="font-semibold text-gray-500 underline underline-offset-4">
           Where are you planning to buy property
         </span>
+      </div>
+      <div className="">
+        <span className="font-semibold text-gray-500">
+          New Property Type (Buying property) *
+        </span>
+        <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+          <select
+            className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
+            {...formik.getFieldProps("newPropertyType")}
+          >
+            <option value="">Select</option>
+            {homeLoanPropertyTypes.map((ele, i) => {
+              return (
+                <option key={ele} value={ele}>
+                  {ele}
+                </option>
+              );
+            })}
+          </select>
+        </div>
+        {formik.touched.newPropertyType && formik.errors.newPropertyType && (
+          <span className="text-red-500 text-xs font-bold">
+            {formik.errors.newPropertyType}
+          </span>
+        )}
+      </div>
+      {formik.values.newPropertyType === "Other" && (
+        <div>
+          <span className=" font-semibold text-gray-500">
+            Buying Property Type *
+          </span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder=""
+              type="text"
+              {...formik.getFieldProps("otherNewPropertyType")}
+              required
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
+        </div>
+      )}
+      <div>
+        <span className="font-semibold text-gray-500">Property Age *</span>
+        <div className="border-b border-slate-400 py-1">
+          <input
+            placeholder="In Years (0 if property is new/under construction)"
+            type="number"
+            {...formik.getFieldProps("newPropertyAge")}
+            className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+          />
+        </div>
+        {/* {formik.touched.propertyAge && formik.errors.propertyAge && (
+          <span className="text-red-500 text-xs font-bold">
+            {formik.errors.propertyAge}
+          </span>
+        )} */}
       </div>
       <div>
         <span className="font-semibold text-gray-500">

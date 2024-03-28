@@ -25,6 +25,9 @@ const Form = () => {
   const [bankNameArr = [], setBankNameArr] = useState([]);
   //add existing loan types
   const [loanTypesArr, setLoanTypesArr] = useState(hlForm.existingLoanExposure);
+  //add existing loan types
+  const [banksLoanArr, setBanksLoanArr] = useState([]);
+
   //ERR fields
   const [monthlyIncomeErr, setMonthlyIncomeErr] = useState(false);
   const [prevYearNetProfitErr, setPrevYearNetProfitErr] = useState(false);
@@ -147,6 +150,7 @@ const Form = () => {
         return value.toString().length === 6;
       }),
     //custom inputs
+    newPropertyType: Yup.string().required("* required"),
     newPropertyState: Yup.string().required("* required"),
     newPropertyCity: Yup.string().required("* required"),
     newPropertyPincode: Yup.number()
@@ -250,6 +254,8 @@ const Form = () => {
           emiCalculation={emiCalculation}
           loanTypesArr={loanTypesArr}
           setLoanTypesArr={setLoanTypesArr}
+          banksLoanArr={banksLoanArr}
+          setBanksLoanArr={setBanksLoanArr}
         />
         <IncomeDetails
           formik={formik}
