@@ -87,10 +87,37 @@ const CustomInputs = ({ formik }) => {
           </div>
         </div>
       )}
-      <div className="col-span-1 sm:col-span-2">
-        <span className="font-semibold text-gray-500 underline underline-offset-4">
-          Where are you planning to buy property
-        </span>
+      <div>
+        <span className="font-semibold text-gray-500">Property Value *</span>
+        <div className="border-b border-slate-400 py-1">
+          <input
+            placeholder="In Lacs"
+            type="number"
+            {...formik.getFieldProps("propertyValue")}
+            className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+          />
+        </div>
+        {formik.touched.propertyValue && formik.errors.propertyValue && (
+          <span className="text-red-500 text-xs font-bold">
+            {formik.errors.propertyValue}
+          </span>
+        )}
+      </div>
+      <div>
+        <span className="font-semibold text-gray-500">Property Age *</span>
+        <div className="border-b border-slate-400 py-1">
+          <input
+            placeholder="In Years"
+            type="number"
+            {...formik.getFieldProps("propertyAge")}
+            className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+          />
+        </div>
+        {formik.touched.propertyAge && formik.errors.propertyAge && (
+          <span className="text-red-500 text-xs font-bold">
+            {formik.errors.propertyAge}
+          </span>
+        )}
       </div>
       <div>
         <span className="font-semibold text-gray-500">
@@ -166,38 +193,6 @@ const CustomInputs = ({ formik }) => {
               {formik.errors.newPropertyPincode}
             </span>
           )}
-      </div>
-      <div>
-        <span className="font-semibold text-gray-500">Property Value *</span>
-        <div className="border-b border-slate-400 py-1">
-          <input
-            placeholder="In Lacs"
-            type="number"
-            {...formik.getFieldProps("propertyValue")}
-            className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-          />
-        </div>
-        {formik.touched.propertyValue && formik.errors.propertyValue && (
-          <span className="text-red-500 text-xs font-bold">
-            {formik.errors.propertyValue}
-          </span>
-        )}
-      </div>
-      <div>
-        <span className="font-semibold text-gray-500">Property Age *</span>
-        <div className="border-b border-slate-400 py-1">
-          <input
-            placeholder="In Years"
-            type="number"
-            {...formik.getFieldProps("propertyAge")}
-            className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-          />
-        </div>
-        {formik.touched.propertyAge && formik.errors.propertyAge && (
-          <span className="text-red-500 text-xs font-bold">
-            {formik.errors.propertyAge}
-          </span>
-        )}
       </div>
     </>
   );

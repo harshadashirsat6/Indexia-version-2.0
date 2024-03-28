@@ -12,7 +12,7 @@ import IncomeDetails from "../../IncomeDetails";
 import LoanExposure from "../../ExistingLoanExposure";
 import LoanRequirements from "../../LoanRequirements";
 import CustomInputs from "./CustomInputs";
-import CollatoralProperty from "../../CollatoralProperty"
+import CollatoralProperty from "../../CollatoralProperty";
 
 const Form = () => {
   const { lrdForm } = useSelector((store) => store.loanForm);
@@ -161,13 +161,24 @@ const Form = () => {
       .test("length-check", "Invalid pincode", function (value) {
         return value.toString().length === 6;
       }),
-    collateralPropoertyAge: Yup.number()
+    collatoralPropertyAge: Yup.number()
       .integer("Invalid input.Must be a number")
       .required("* required"),
     collatoralPropertyValue: Yup.number()
       .integer("Invalid input.Must be a number")
       .required("* required"),
     //custom inputs
+    leasePropertyState: Yup.string().required("* required"),
+    leasePropertyCity: Yup.string().required("* required"),
+    leasePropertyPincode: Yup.number()
+      .integer("Invalid pincode")
+      .required("* required")
+      .test("length-check", "Invalid pincode", function (value) {
+        return value.toString().length === 6;
+      }),
+    leasePropertyAge: Yup.number()
+      .integer("Invalid input")
+      .required("* required"),
     leasePropertyValue: Yup.number()
       .integer("Invalid input")
       .required("* required"),

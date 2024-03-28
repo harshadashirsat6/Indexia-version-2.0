@@ -167,6 +167,7 @@ export const carLoanFormInputs = {
   carOnroadPrice: "",
   carShowroomPrice: "",
   carInsuranceType: "",
+  newCarRegistrationState:"",
   ...loanRequirements,
   ...exisitingLoanRequirements,
   // income details
@@ -253,6 +254,10 @@ export const lrdFormInputs = {
   monthlyIncomeThroughLease: "",
   totalAmountToBeReceivedFromLease: "",
   totalAnnualIncome: 0,
+  leasePropertyAge:"",
+  leasePropertyState:"",
+  leasePropertyCity:"",
+  leasePropertyPincode:"",
   ...loanRequirements,
   ...exisitingLoanRequirements,
   // income details

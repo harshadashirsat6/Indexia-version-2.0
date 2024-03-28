@@ -9,7 +9,9 @@ const EducationDetails = ({ formik }) => {
         </span>
       </div>
       <div>
-        <span className="font-semibold text-gray-500">Country *</span>
+        <span className="font-semibold text-gray-500">
+          Country for Education *
+        </span>
         <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
           <select className="bg-transparent w-full py-2.5">
             <option value={""}>Select</option>
@@ -68,6 +70,22 @@ const EducationDetails = ({ formik }) => {
         {formik.touched.instituteName && formik.errors.instituteName && (
           <span className="text-red-500 text-xs font-bold">
             {formik.errors.instituteName}
+          </span>
+        )}
+      </div>
+      <div>
+        <span>Enrollment Status *</span>
+        <div className="border-b border-slate-400 py-1">
+          <input
+            placeholder="Fees/Cost of entire Course in Lakhs"
+            type="number"
+            {...formik.getFieldProps("enrollmentStatus")}
+            className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+          />
+        </div>
+        {formik.touched.enrollmentStatus && formik.errors.enrollmentStatus && (
+          <span className="text-red-500 text-xs font-bold">
+            {formik.errors.enrollmentStatus}
           </span>
         )}
       </div>

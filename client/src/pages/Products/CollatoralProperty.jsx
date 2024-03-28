@@ -89,25 +89,6 @@ const CollatoralProperty = ({ formik }) => {
           </div>
         </div>
       )}
-         <div>
-        <span className="font-semibold text-gray-500">
-          Collateral Property Age *
-        </span>
-        <div className="border-b border-slate-400 py-1">
-          <input
-            placeholder="value of your collateral property"
-            type="Number"
-            {...formik.getFieldProps("collateralPropertyAge")}
-            className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
-          />
-        </div>
-        {formik.touched.collateralPropertyAge &&
-          formik.errors.collateralPropertyAge && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.collateralPropertyAge}
-            </span>
-          )}
-      </div>
       <div>
         <span className="font-semibold text-gray-500">
           Collateral Property approximate value *
@@ -124,6 +105,25 @@ const CollatoralProperty = ({ formik }) => {
           formik.errors.collatoralPropertyValue && (
             <span className="text-red-500 text-xs font-bold">
               {formik.errors.collatoralPropertyValue}
+            </span>
+          )}
+      </div>
+      <div>
+        <span className="font-semibold text-gray-500">
+          Collateral Property Age *
+        </span>
+        <div className="border-b border-slate-400 py-1">
+          <input
+            placeholder="value of your collateral property"
+            type="Number"
+            {...formik.getFieldProps("collateralPropertyAge")}
+            className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+          />
+        </div>
+        {formik.touched.collateralPropertyAge &&
+          formik.errors.collateralPropertyAge && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.collateralPropertyAge}
             </span>
           )}
       </div>

@@ -50,7 +50,7 @@ const ProjectDetails = ({ formik }) => {
       <div className="col-span-1 sm:col-span-2">
         <h1 className="font-bold underline underline-offset-4">Project Details</h1>
       </div>
-      <div className="">
+      {/* <div className="">
         <span className="font-semibold text-gray-500">Project Objective *</span>
         <div className="border-b border-slate-400 py-1">
           <input
@@ -103,7 +103,7 @@ const ProjectDetails = ({ formik }) => {
               {formik.errors.scopeOfWorkandDeliverables}
             </span>
           )}
-      </div>
+      </div> */}
       <div>
         <span className="font-semibold text-gray-500">Project Type *</span>
         <div className="border-b border-slate-400 py-1 w-full">
@@ -147,6 +147,24 @@ const ProjectDetails = ({ formik }) => {
           </div>
         </div>
       )}
+         <div className="">
+        <span className="font-semibold text-gray-500">
+          Total Project Cost *
+        </span>
+        <div className="border-b border-slate-400 py-1">
+          <input
+            placeholder=""
+            type="number"
+            {...formik.getFieldProps("projectCost")}
+            className="bg-transparent w-full outline-none border-none placeholder:text-slate-500 placeholder:text-xs"
+          />
+        </div>
+        {formik.touched.projectCost && formik.errors.projectCost && (
+          <span className="text-red-500 text-xs font-bold">
+            {formik.errors.projectCost}
+          </span>
+        )}
+      </div>
       <div>
         <span className="font-semibold text-gray-500">
           Project start Date *
@@ -167,7 +185,7 @@ const ProjectDetails = ({ formik }) => {
       </div>
       <div>
         <span className="font-semibold text-gray-500">
-          Expected Date of Completion *
+        Project Date of Completion *
         </span>
         <div className="border-b border-slate-400 py-1">
           <input
@@ -184,7 +202,7 @@ const ProjectDetails = ({ formik }) => {
             </span>
           )}
       </div>
-      <div>
+      {/* <div>
         <span className=" font-semibold text-gray-500">
           Project Completion Time *
         </span>
@@ -202,25 +220,7 @@ const ProjectDetails = ({ formik }) => {
               {formik.errors.projectCompletionTime}
             </span>
           )}
-      </div>
-      <div className="">
-        <span className="font-semibold text-gray-500">
-          Total Project Cost *
-        </span>
-        <div className="border-b border-slate-400 py-1">
-          <input
-            placeholder=""
-            type="number"
-            {...formik.getFieldProps("projectCost")}
-            className="bg-transparent w-full outline-none border-none placeholder:text-slate-500 placeholder:text-xs"
-          />
-        </div>
-        {formik.touched.projectCost && formik.errors.projectCost && (
-          <span className="text-red-500 text-xs font-bold">
-            {formik.errors.projectCost}
-          </span>
-        )}
-      </div>
+      </div> */}
       <div>
         <span className=" font-semibold text-gray-500">
           Own investment on project *
@@ -240,7 +240,7 @@ const ProjectDetails = ({ formik }) => {
             </span>
           )}
       </div>
-      <div>
+      {/* <div>
         <span className="font-semibold text-gray-500">Project State *</span>
         <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
           <select
@@ -309,7 +309,7 @@ const ProjectDetails = ({ formik }) => {
             {formik.errors.projectPincode}
           </span>
         )}
-      </div>
+      </div> */}
     </>
   );
 };

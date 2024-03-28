@@ -333,23 +333,6 @@ const IncomeDetails = ({
             <h1 className="font-bold">Business Details</h1>
           </div>
           <div>
-            <span className="font-semibold text-gray-500">
-              Years In Current Business *
-            </span>
-            <div className="border-b border-slate-400 py-1">
-              <select
-                className="w-full"
-                {...formik.getFieldProps("yearsInCurrentBusiness")}
-                required
-              >
-                <option value={""}>Select</option>
-                {yearsInCurrentBusiness.map((ele, i) => {
-                  return <option key={i}>{ele}</option>;
-                })}
-              </select>
-            </div>
-          </div>
-          <div>
             <span className="font-semibold text-gray-500">Company Type *</span>
             <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
               <select
@@ -409,88 +392,6 @@ const IncomeDetails = ({
                 required
                 className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
               />
-            </div>
-          </div>
-          <div>
-            <span className="font-semibold text-gray-500">
-              Current Business State *
-            </span>
-            <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-              <select
-                className="bg-transparent w-full py-2.5"
-                value={selectedBusinessState}
-                {...formik.getFieldProps("businessState")}
-                onChange={(e) => {
-                  formik.handleChange(e);
-                  setSelectedBusinessState(e.target.value);
-                }}
-                required
-              >
-                <option value={""}>Select</option>
-                {businessStates
-                  .sort((a, b) => (a.name > b.name ? 1 : -1))
-                  .map((obj) => {
-                    return (
-                      <option key={obj.id} value={obj.iso2}>
-                        {obj.name}
-                      </option>
-                    );
-                  })}
-              </select>
-            </div>
-          </div>
-          <div>
-            <span className="font-semibold text-gray-500">
-              Current Business City *
-            </span>
-            <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-              <select
-                className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
-                disabled={!selectedBusinessState}
-                {...formik.getFieldProps("businessCity")}
-                required
-              >
-                <option value={""}>Select</option>
-                {businessCities.map((obj) => {
-                  return (
-                    <option key={obj.id} value={obj.name}>
-                      {obj.name}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-          </div>
-          <div>
-            <span className=" font-semibold text-gray-500">
-              Current Business Pincode *
-            </span>
-            <div className="border-b border-slate-400 py-1">
-              <input
-                placeholder="Enter Pincode"
-                type="text"
-                {...formik.getFieldProps("businessPincode")}
-                required
-                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-              />
-            </div>
-            {businessCityPincodeValidation(formik.values.businessPincode)}
-          </div>
-          <div>
-            <span className="font-semibold text-gray-500">
-              Status of Business Place *
-            </span>
-            <div className="border-b border-slate-400 py-1">
-              <select
-                className="w-full"
-                {...formik.getFieldProps("businessPlaceType")}
-                required
-              >
-                <option value={""}>Select</option>
-                {businessPlaceOwnershipTypeInputs.map((ele, i) => {
-                  return <option key={i}>{ele}</option>;
-                })}
-              </select>
             </div>
           </div>
           {formik.values.businessPlaceType === "Other" && (
@@ -593,6 +494,23 @@ const IncomeDetails = ({
           </div>
           <div>
             <span className="font-semibold text-gray-500">
+              Years In Current Business *
+            </span>
+            <div className="border-b border-slate-400 py-1">
+              <select
+                className="w-full"
+                {...formik.getFieldProps("yearsInCurrentBusiness")}
+                required
+              >
+                <option value={""}>Select</option>
+                {yearsInCurrentBusiness.map((ele, i) => {
+                  return <option key={i}>{ele}</option>;
+                })}
+              </select>
+            </div>
+          </div>
+          <div>
+            <span className="font-semibold text-gray-500">
               Current Year Turn Over *
             </span>
             <div className="border-b border-slate-400 py-1">
@@ -680,6 +598,88 @@ const IncomeDetails = ({
                 required
                 className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
               />
+            </div>
+          </div>{" "}
+          <div>
+            <span className="font-semibold text-gray-500">
+              Current Business State *
+            </span>
+            <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+              <select
+                className="bg-transparent w-full py-2.5"
+                value={selectedBusinessState}
+                {...formik.getFieldProps("businessState")}
+                onChange={(e) => {
+                  formik.handleChange(e);
+                  setSelectedBusinessState(e.target.value);
+                }}
+                required
+              >
+                <option value={""}>Select</option>
+                {businessStates
+                  .sort((a, b) => (a.name > b.name ? 1 : -1))
+                  .map((obj) => {
+                    return (
+                      <option key={obj.id} value={obj.iso2}>
+                        {obj.name}
+                      </option>
+                    );
+                  })}
+              </select>
+            </div>
+          </div>
+          <div>
+            <span className="font-semibold text-gray-500">
+              Current Business City *
+            </span>
+            <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+              <select
+                className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
+                disabled={!selectedBusinessState}
+                {...formik.getFieldProps("businessCity")}
+                required
+              >
+                <option value={""}>Select</option>
+                {businessCities.map((obj) => {
+                  return (
+                    <option key={obj.id} value={obj.name}>
+                      {obj.name}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+          </div>
+          <div>
+            <span className=" font-semibold text-gray-500">
+              Current Business Pincode *
+            </span>
+            <div className="border-b border-slate-400 py-1">
+              <input
+                placeholder="Enter Pincode"
+                type="text"
+                {...formik.getFieldProps("businessPincode")}
+                required
+                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              />
+            </div>
+            {businessCityPincodeValidation(formik.values.businessPincode)}
+          </div>
+          <div>
+            <span className="font-semibold text-gray-500">
+              Status of Business Place *
+            </span>
+            <div className="border-b border-slate-400 py-1">
+              <select
+                className="w-full"
+                {...formik.getFieldProps("businessPlaceType")}
+                required
+              >
+                <option value={""}>Select</option>
+                {businessPlaceOwnershipTypeInputs.map((ele, i) => {
+                  return <option key={i}>{ele}</option>;
+                })}
+              </select>
             </div>
           </div>
         </>

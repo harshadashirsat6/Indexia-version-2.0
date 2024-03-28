@@ -63,6 +63,32 @@ const LoanRequirements = ({
     <>
       <div>
         <span className="font-semibold text-gray-500">
+          Required Loan Amount *
+        </span>
+        <div className="border-b border-slate-400 py-1">
+          <input
+            placeholder=""
+            type="number"
+            {...formik.getFieldProps("requiredLoanAmount")}
+            className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+          />
+        </div>
+        {formik.touched.requiredLoanAmount &&
+        formik.errors.requiredLoanAmount ? (
+          <span className="text-red-500 text-xs font-bold">
+            {formik.errors.requiredLoanAmount}
+          </span>
+        ) : (
+          category &&
+          category === "education-loan" &&
+          requiredLoanAmountValidation(
+            formik.values.requiredLoanAmount,
+            formik.values.educationCost
+          )
+        )}
+      </div>
+      <div>
+        <span className="font-semibold text-gray-500">
           Required Loan Tenure (in years) *
         </span>
         <div className="border-b border-slate-400 py-1">
@@ -91,32 +117,6 @@ const LoanRequirements = ({
             )
           ) : null
         ) : null}
-      </div>
-      <div>
-        <span className="font-semibold text-gray-500">
-          Required Loan Amount *
-        </span>
-        <div className="border-b border-slate-400 py-1">
-          <input
-            placeholder=""
-            type="number"
-            {...formik.getFieldProps("requiredLoanAmount")}
-            className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-          />
-        </div>
-        {formik.touched.requiredLoanAmount &&
-        formik.errors.requiredLoanAmount ? (
-          <span className="text-red-500 text-xs font-bold">
-            {formik.errors.requiredLoanAmount}
-          </span>
-        ) : (
-          category &&
-          category === "education-loan" &&
-          requiredLoanAmountValidation(
-            formik.values.requiredLoanAmount,
-            formik.values.educationCost
-          )
-        )}
       </div>
     </>
   );

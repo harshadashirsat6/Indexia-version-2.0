@@ -151,28 +151,22 @@ const Form = () => {
         return value.toString().length === 6;
       }),
     //custom inputs
-    projectObjective: Yup.string("").required("* required"),
-    projectDescription: Yup.string("").required("* required"),
-    scopeOfWorkandDeliverables: Yup.string("").required("* required"),
     projectCost: Yup.number().integer("Invalid input").required("* required"),
     projectType: Yup.string("").required("* required"),
     otherProjectType: Yup.string("").required("* required"),
     projectStartDate: Yup.string("").required("* required"),
     expectedDateOfComletion: Yup.string("").required("* required"),
-    projectCompletionTime: Yup.number()
-      .integer("Invlaid input")
-      .required("* required"),
     ownInvestmentOnProject: Yup.number()
       .integer("Invalid input")
       .required("* required"),
-    projectState: Yup.string("").required("* required"),
-    projectCity: Yup.string("").required("* required"),
-    projectPincode: Yup.number()
-      .integer("Invalid pincode")
-      .required("* required")
-      .test("length-check", "Invalid pincode", function (value) {
-        return value.toString().length === 6;
-      }),
+    // projectState: Yup.string("").required("* required"),
+    // projectCity: Yup.string("").required("* required"),
+    // projectPincode: Yup.number()
+    //   .integer("Invalid pincode")
+    //   .required("* required")
+    //   .test("length-check", "Invalid pincode", function (value) {
+    //     return value.toString().length === 6;
+    //   }),
   });
 
   const formik = useFormik({
