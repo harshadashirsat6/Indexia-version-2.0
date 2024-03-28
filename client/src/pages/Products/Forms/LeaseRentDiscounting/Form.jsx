@@ -12,7 +12,7 @@ import IncomeDetails from "../../IncomeDetails";
 import LoanExposure from "../../ExistingLoanExposure";
 import LoanRequirements from "../../LoanRequirements";
 import CustomInputs from "./CustomInputs";
-import CollatoralProperty from "../../CollatoralProperty";
+// import CollatoralProperty from "../../CollatoralProperty";
 
 const Form = () => {
   const { lrdForm } = useSelector((store) => store.loanForm);
@@ -151,22 +151,6 @@ const Form = () => {
       .test("length-check", "Invalid pincode", function (value) {
         return value.toString().length === 6;
       }),
-    //collatoral property
-    collateralOption: Yup.string().required("* required"),
-    collatoralPropertyState: Yup.string().required("* required"),
-    collatoralPropertyCity: Yup.string().required("* required"),
-    collatoralPropertyPincode: Yup.number()
-      .integer("Invalid pincode")
-      .required("* required")
-      .test("length-check", "Invalid pincode", function (value) {
-        return value.toString().length === 6;
-      }),
-    collatoralPropertyAge: Yup.number()
-      .integer("Invalid input.Must be a number")
-      .required("* required"),
-    collatoralPropertyValue: Yup.number()
-      .integer("Invalid input.Must be a number")
-      .required("* required"),
     //custom inputs
     leasePropertyState: Yup.string().required("* required"),
     leasePropertyCity: Yup.string().required("* required"),
@@ -241,7 +225,6 @@ const Form = () => {
         </div>
         <LoanRequirements formik={formik} setEmiErr={setEmiErr} />
         <CustomInputs formik={formik} />
-        <CollatoralProperty formik={formik} />
         {/* INCOME DETAILS */}
         <div className="col-span-1 sm:col-span-2 ">
           <h1 className="font-bold text-blue-600 underline undVAerline-offset-4">
