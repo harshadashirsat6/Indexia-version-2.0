@@ -81,7 +81,7 @@ const LoanExposure = ({
             </span>
           )}
       </div>
-      {category && category === "balance-transfer" ? null : (
+      {/* {category && category === "balance-transfer" ? null : (
         <div>
           <span className="font-semibold text-gray-500">
             Existing Loan Tenure (in years) *
@@ -101,7 +101,7 @@ const LoanExposure = ({
               </span>
             )}
         </div>
-      )}
+      )} */}
 
       {/* existing loan bank names */}
       <div className="col-span-1 sm:col-span-2 py ">
