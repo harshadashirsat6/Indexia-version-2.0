@@ -6,7 +6,17 @@ export const residencyType = [
   "Paying Guest/Hostel",
   "Company Provided",
 ];
-
+export const existingLoanTypes = [
+  "Personal loan",
+  "Business loan",
+  "Home loan",
+  "Car loan",
+  "Working Capital",
+  "Project Loan",
+  "OD/CC",
+  "Loan against share",
+  "Gold loan",
+];
 export const existingWokringCapitalLoanTypes = [
   "Personal loan",
   "Business loan",

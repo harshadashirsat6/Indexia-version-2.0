@@ -11,8 +11,7 @@ import PersonalDetails from "../../PersonalDetails";
 import IncomeDetails from "../../IncomeDetails";
 import LoanExposure from "../../ExistingLoanExposure";
 import CustomInputs from "./CustomInputs";
-import BalaceTransferTypes from "./BalaceTransferTypes";
-import Table from "./Table";
+import LoanDetails from "./LoanDetails";
 
 const Form = () => {
   const { param } = useParams();
@@ -26,13 +25,8 @@ const Form = () => {
   //support fields
   const [bankNameArr = [], setBankNameArr] = useState([]);
   //add existing loan types
-  const [loanTypesArr, setLoanTypesArr] = useState(
-    balanceTransfForm.existingLoanExposure
-  );
-  //add existing loan types
-  const [banksLoanArr, setBanksLoanArr] = useState([]);
-  //existing loan yes or no
-  const [existingLoanStatus, setExistingLoanStatus] = useState('true');
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [tableData, setTableData] = useState([]);
 
   //ERR fields
   const [monthlyIncomeErr, setMonthlyIncomeErr] = useState(false);
@@ -241,36 +235,14 @@ const Form = () => {
         <LoanExposure
           formik={formik}
           emiCalculation={emiCalculation}
-          loanTypesArr={loanTypesArr}
-          setLoanTypesArr={setLoanTypesArr}
-          banksLoanArr={banksLoanArr}
-          setBanksLoanArr={setBanksLoanArr}
           category={param}
         />
-        {/* <BalaceTransferTypes formik={formik}/> */}
-        <div>
-          <span className="font-semibold text-gray-500">
-            Do you have any exisitng loans?
-          </span>
-          <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-            <select
-              className="bg-transparent w-full py-2.5"
-              name="existingLoanStatus"
-              value={existingLoanStatus}
-              onChange={(e) => setExistingLoanStatus(e.target.value)}
-              required
-            >
-              <option value={""}>Select</option>
-              <option value="false">No</option>
-              <option value="true">Yes</option>
-            </select>
-          </div>
-        </div>
-        {existingLoanStatus === "true" ? (
-          <div className="col-span-1 sm:col-span-2">
-            <Table formik={formik} />
-          </div>
-        ) : null}
+        <LoanDetails
+          selectedItems={selectedItems}
+          setSelectedItems={setSelectedItems}
+          tableData={tableData}
+          setTableData={setTableData}
+        />
         {/* PERSONAL DETAILS */}
         <div className="col-span-1 sm:col-span-2 ">
           <h1 className="font-bold text-blue-600 underline underline-offset-4">
