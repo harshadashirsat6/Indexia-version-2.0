@@ -62,7 +62,7 @@ const LoanExposure = ({
           emiCalculation(formik.values.existingEMI)
         )}
       </div>
-      <div>
+      {/* <div>
         <span className="font-semibold text-gray-500">
           Existing Total Loan Amount *
         </span>
@@ -80,107 +80,89 @@ const LoanExposure = ({
               {formik.errors.existingLoanAmount}
             </span>
           )}
-      </div>
-      {/* {category && category === "balance-transfer" ? null : (
-        <div>
-          <span className="font-semibold text-gray-500">
-            Existing Loan Tenure (in years) *
-          </span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder=""
-              type="number"
-              {...formik.getFieldProps("existingLoanTenure")}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-            />
-          </div>
-          {formik.touched.existingLoanTenure &&
-            formik.errors.existingLoanTenure && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.existingLoanTenure}
-              </span>
-            )}
-        </div>
-      )} */}
-
+      </div> */}
       {/* existing loan bank names */}
-      <div className="col-span-1 sm:col-span-2 py ">
-        <span className="font-semibold text-gray-500">
-          Existing Loan Bank`s Name
-        </span>
-        <section className="">
-          {primaryBankAccountOptions.map((ele) => {
-            return (
-              <div key={ele} className="flex gap-2 text-black text-lg">
-                <span>
-                  <input
-                    type="checkbox"
-                    checked={!!banksLoanArr.find((item) => item === ele)}
-                    onChange={() => handleAddBankName(ele)}
-                  />
-                </span>
-                <span>{ele}</span>
-              </div>
-            );
-          })}
-        </section>
-      </div>
-      {banksLoanArr.includes("Other") ? (
-        <div>
-          <div>
-            <span className=" font-semibold text-gray-500">
-              Other Existing Bank Loan Name
+      {category === "balance-transfer" ? null : (
+        <>
+          <div className="col-span-1 sm:col-span-2 py ">
+            <span className="font-semibold text-gray-500">
+              Existing Loan Bank`s Name
             </span>
-            <div className="border-b border-slate-400 py-1">
-              <input
-                placeholder=""
-                type="text"
-                {...formik.getFieldProps("otherExistingBankLoanName")}
-                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-              />
-            </div>
+            <section className="">
+              {primaryBankAccountOptions.map((ele) => {
+                return (
+                  <div key={ele} className="flex gap-2 text-black text-lg">
+                    <span>
+                      <input
+                        type="checkbox"
+                        checked={!!banksLoanArr.find((item) => item === ele)}
+                        onChange={() => handleAddBankName(ele)}
+                      />
+                    </span>
+                    <span>{ele}</span>
+                  </div>
+                );
+              })}
+            </section>
           </div>
-        </div>
-      ) : null}
-      {/* existing loan types */}
-      <div className="col-span-1 sm:col-span-2 ">
-        <span className="font-semibold text-gray-500 ">
-          Existing Loan Types
-        </span>
-        <section className="">
-          {existingWokringCapitalLoanTypes.map((ele) => {
-            return (
-              <div key={ele} className="flex gap-2 text-black text-lg">
-                <span>
-                  <input
-                    type="checkbox"
-                    checked={!!loanTypesArr.find((item) => item === ele)}
-                    onChange={() => handleAddLoanType(ele)}
-                  />
+          {banksLoanArr.includes("Other") ? (
+            <div>
+              <div>
+                <span className=" font-semibold text-gray-500">
+                  Other Existing Bank Loan Name
                 </span>
-                <span>{ele}</span>
+                <div className="border-b border-slate-400 py-1">
+                  <input
+                    placeholder=""
+                    type="text"
+                    {...formik.getFieldProps("otherExistingBankLoanName")}
+                    className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+                  />
+                </div>
               </div>
-            );
-          })}
-        </section>
-      </div>
-      {loanTypesArr.includes("Other") ? (
-        <div>
-          <div>
-            <span className=" font-semibold text-gray-500">
-              Other Existing Loan Type
-            </span>
-            <div className="border-b border-slate-400 py-1">
-              <input
-                placeholder=""
-                type="text"
-                {...formik.getFieldProps("otherExistingLoanExposure")}
-                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-              />
             </div>
+          ) : null}
+          {/* existing loan types */}
+          <div className="col-span-1 sm:col-span-2 ">
+            <span className="font-semibold text-gray-500 ">
+              Existing Loan Types
+            </span>
+            <section className="">
+              {existingWokringCapitalLoanTypes.map((ele) => {
+                return (
+                  <div key={ele} className="flex gap-2 text-black text-lg">
+                    <span>
+                      <input
+                        type="checkbox"
+                        checked={!!loanTypesArr.find((item) => item === ele)}
+                        onChange={() => handleAddLoanType(ele)}
+                      />
+                    </span>
+                    <span>{ele}</span>
+                  </div>
+                );
+              })}
+            </section>
           </div>
-        </div>
-      ) : null}
+          {loanTypesArr.includes("Other") ? (
+            <div>
+              <div>
+                <span className=" font-semibold text-gray-500">
+                  Other Existing Loan Type
+                </span>
+                <div className="border-b border-slate-400 py-1">
+                  <input
+                    placeholder=""
+                    type="text"
+                    {...formik.getFieldProps("otherExistingLoanExposure")}
+                    className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+                  />
+                </div>
+              </div>
+            </div>
+          ) : null}
+        </>
+      )}
     </>
   );
 };

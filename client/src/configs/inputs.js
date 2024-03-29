@@ -32,9 +32,9 @@ const incomeDetails = {
   otherIndustryType: "",
   subIndustryType: "",
   previousYearTurnOver: 0,
-  previous2yearTurnover:0,
+  previous2yearTurnover: 0,
   previousYearNetProfit: 0,
-  previous2yearNetIncome:0,
+  previous2yearNetIncome: 0,
   //profession
   profession: "",
   otherProfession: "",
@@ -109,7 +109,6 @@ export const lapFormInputs = {
 
 // balance transfer
 export const balanceTransferFormInputs = {
-  typeOfBalanceTransfer: "",
   homeLoanTenure: "",
   homeLoanROI: "",
   lapTenure: "",
@@ -117,8 +116,11 @@ export const balanceTransferFormInputs = {
   hlapTenure: "",
   hlapROI: "",
   topupAmount: "",
+  //////
+  typeOfBalanceTransfer: "",
+  balanceTransferLoanTenure: "",
   transferPropertyValue: "",
-  balanceTransferLoanAmount:"",
+  balanceTransferLoanAmount: "",
   ...exisitingLoanRequirements,
   // income details
   ...incomeDetails,
@@ -166,7 +168,7 @@ export const carLoanFormInputs = {
   carOnroadPrice: "",
   carShowroomPrice: "",
   carInsuranceType: "",
-  newCarRegistrationState:"",
+  newCarRegistrationState: "",
   ...loanRequirements,
   ...exisitingLoanRequirements,
   // income details
@@ -253,10 +255,10 @@ export const lrdFormInputs = {
   monthlyIncomeThroughLease: "",
   totalAmountToBeReceivedFromLease: "",
   totalAnnualIncome: 0,
-  leasePropertyAge:"",
-  leasePropertyState:"",
-  leasePropertyCity:"",
-  leasePropertyPincode:"",
+  leasePropertyAge: "",
+  leasePropertyState: "",
+  leasePropertyCity: "",
+  leasePropertyPincode: "",
   ...loanRequirements,
   ...exisitingLoanRequirements,
   // income details
@@ -290,7 +292,6 @@ export const lasFormInputs = {
   // personal details
   ...personalDetails,
 };
-
 
 export const inputs = {
   category: "",

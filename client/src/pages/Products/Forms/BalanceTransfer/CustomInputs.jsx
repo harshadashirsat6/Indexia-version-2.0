@@ -62,8 +62,25 @@ const CustomInputs = ({ formik }) => {
             </span>
           )}
       </div>
-
-     
+      <div>
+        <span className="font-semibold text-gray-500">
+          Balance Transfer Loan Tenure *
+        </span>
+        <div className="border-b border-slate-400 py-1">
+          <input
+            placeholder=""
+            type="number"
+            {...formik.getFieldProps("balanceTransferLoanTenure")}
+            className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+          />
+        </div>
+        {formik.touched.balanceTransferLoanTenure &&
+          formik.errors.balanceTransferLoanTenure && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.balanceTransferLoanTenure}
+            </span>
+          )}
+      </div>
       <div>
         <span className="font-semibold text-gray-500">
           Top-up amount (if any)
