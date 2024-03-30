@@ -25,7 +25,7 @@ const CreditCard = () => {
         >
           <h1 className="text-2xl flex mb-8 flex-col space-y-2 font-semibold text-gray-500 mt-7">
             <span>
-              Unlock the best <span>Personal Loan</span> offers suitable for
+              Unlock the best <span>Credit Card</span> offers suitable for
               your needs from <span>43+ lenders</span>
             </span>
           </h1>
