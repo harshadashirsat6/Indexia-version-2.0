@@ -65,7 +65,7 @@ const LoanExposure = ({
 
       {/* <div>
         <span className="font-semibold text-gray-500">
-          Existing Total Loan Amount *
+          Existing  Loan Amount (Total) *
         </span>
         <div className="border-b border-slate-400 py-1">
           <input
