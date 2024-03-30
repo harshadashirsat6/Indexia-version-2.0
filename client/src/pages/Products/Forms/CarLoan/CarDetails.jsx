@@ -29,7 +29,7 @@ const CarDetails = ({ formik }) => {
         <h1 className="font-bold">Vehicle Details</h1>
       </div>
       <div>
-        <span className="font-semibold text-gray-500">Transmission</span>
+        <span className="font-semibold text-gray-500">Buying Car Transmission Type</span>
         <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
           <select
             className="bg-transparent w-full py-2.5"
