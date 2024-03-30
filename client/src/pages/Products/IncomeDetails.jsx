@@ -21,6 +21,7 @@ const IncomeDetails = ({
   setPrevYearNetProfitErr,
   setBusinessPincodeErr,
 }) => {
+  console.log("==>",formik.values.employmentType)
   //multiple transaction bank names
   const [bankName, setBankName] = useState("");
   const [bankNameErr, setBankNameErr] = useState("");
@@ -261,6 +262,7 @@ const IncomeDetails = ({
           )}
         </>
       ) : formik.values.employmentType === "Self-employed business" ? (
+        
         <>
           <div className="col-span-1 sm:col-span-2">
             <h1 className="font-bold">Business Details</h1>

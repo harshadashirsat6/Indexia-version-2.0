@@ -6,15 +6,15 @@ import { setInitialPopup } from "../../../../store/appSlice";
 const BusinessLoan = () => {
   const dispatch = useDispatch();
   //get basic user details
-  const { userBasicDetails } = useSelector((state) => state.user);
-  if (
-    !userBasicDetails?.name ||
-    !userBasicDetails?.email ||
-    !userBasicDetails?.contact
-  ) {
-    dispatch(setInitialPopup(true));
-    localStorage.removeItem("homePageDetails");
-  }
+  // const { userBasicDetails } = useSelector((state) => state.user);
+  // if (
+  //   !userBasicDetails?.name ||
+  //   !userBasicDetails?.email ||
+  //   !userBasicDetails?.contact
+  // ) {
+  //   dispatch(setInitialPopup(true));
+  //   localStorage.removeItem("homePageDetails");
+  // }
 
   return (
     <main className="h-auto mt-[calc(56px)] md:mt-0 mb-10 md:mb-0 mx-5 sm:mx-10 md:mx-0  md:space-y-0">

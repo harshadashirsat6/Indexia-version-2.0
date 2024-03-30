@@ -213,13 +213,12 @@ const Form = () => {
           setHlLoanTenureErr={setHlLoanTenureErr}
         />
         <NewProperty formik={formik} />
-        {/* INCOME DETAILS */}
+        {/* employment type */}
         <div className="col-span-1 sm:col-span-2 ">
           <h1 className="font-bold text-blue-600 underline undVAerline-offset-4">
             INCOME DETAILS
           </h1>
         </div>
-        {/* employment type */}
         <div className="">
           <span className="font-semibold text-gray-500">Employment Type *</span>
           <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
@@ -243,6 +242,15 @@ const Form = () => {
             </span>
           )}
         </div>
+        <IncomeDetails
+          formik={formik}
+          bankNameArr={bankNameArr}
+          setBankNameArr={setBankNameArr}
+          setMonthlyIncomeErr={setMonthlyIncomeErr}
+          setPrevYearNetProfitErr={setPrevYearNetProfitErr}
+          setBusinessPincodeErr={setBusinessPincodeErr}
+        />
+
         {/* LOAN EXPOSURE */}
         <div className="col-span-1 sm:col-span-2 ">
           <h1 className="font-bold text-blue-600 underline underline-offset-4">
@@ -256,14 +264,6 @@ const Form = () => {
           setLoanTypesArr={setLoanTypesArr}
           banksLoanArr={banksLoanArr}
           setBanksLoanArr={setBanksLoanArr}
-        />
-        <IncomeDetails
-          formik={formik}
-          bankNameArr={bankNameArr}
-          setBankNameArr={setBankNameArr}
-          setMonthlyIncomeErr={setMonthlyIncomeErr}
-          setPrevYearNetProfitErr={setPrevYearNetProfitErr}
-          setBusinessPincodeErr={setBusinessPincodeErr}
         />
         {/* PERSONAL DETAILS */}
         <div className="col-span-1 sm:col-span-2 ">
