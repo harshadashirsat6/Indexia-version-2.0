@@ -61,7 +61,7 @@ function LoanDetails({
               EXISTING LOAN EXPOSURE
             </h1>
           </div>
-          <div className="col-span-1 sm:col-span-2">
+          <div className="">
             <table className="w-full mt-3">
               <thead>
                 <tr>
