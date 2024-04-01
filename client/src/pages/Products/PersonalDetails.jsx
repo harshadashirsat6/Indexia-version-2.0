@@ -190,7 +190,7 @@ const PersonalDetails = ({ formik }) => {
       </div>
       <div>
         <span className="font-semibold text-gray-500">
-          Current Residence State *
+          Current Resident State *
         </span>
         <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
           <select
@@ -222,7 +222,7 @@ const PersonalDetails = ({ formik }) => {
       </div>
       <div>
         <span className="font-semibold text-gray-500">
-          Current Residence City *
+          Current Resident City *
         </span>
         <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
           <select
@@ -248,7 +248,7 @@ const PersonalDetails = ({ formik }) => {
       </div>
       <div>
         <span className="font-semibold text-gray-500">
-          Current Residence Pincode *
+          Current Resident Pincode *
         </span>
         <div className="border-b border-slate-400 py-1">
           <input
