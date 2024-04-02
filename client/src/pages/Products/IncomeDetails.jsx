@@ -475,7 +475,7 @@ const IncomeDetails = ({
             </div>
           ) : formik.values.primaryBankAccount ===
             "Multiple transaction banks" ? (
-            <div>
+            <div className="col-span-1 sm:col-span-2">
               <span className=" font-semibold text-gray-500">
                 Mention multiple transaction bank names *
               </span>
