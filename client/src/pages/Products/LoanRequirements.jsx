@@ -76,18 +76,18 @@ const LoanRequirements = ({
           />
         </div>
         {formik.touched.requiredLoanAmount &&
-        formik.errors.requiredLoanAmount ? (
-          <span className="text-red-500 text-xs font-bold">
-            {formik.errors.requiredLoanAmount}
-          </span>
-        ) : (
+          formik.errors.requiredLoanAmount && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.requiredLoanAmount}
+            </span>
+          )}
+        {!formik.errors.requiredLoanAmountcategory &&
           category &&
           category === "education-loan" &&
           requiredLoanAmountValidation(
             formik.values.requiredLoanAmount,
             formik.values.educationCost
-          )
-        )}
+          )}
       </div>
       <div>
         <span className="font-semibold text-gray-500">

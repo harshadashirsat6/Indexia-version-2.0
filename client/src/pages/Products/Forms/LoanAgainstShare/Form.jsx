@@ -120,9 +120,6 @@ const Form = () => {
     existingLoanAmount: Yup.number()
       .integer("Invalid input.Must be a number")
       .required("* required"),
-    existingLoanTenure: Yup.number()
-      .integer("Invalid input.Must be a number")
-      .required("* required"),
     existingEMI: Yup.number().required("* required").min(0, "Minimum 0"),
     //income details validation
     employmentType: Yup.string().required("* required"),

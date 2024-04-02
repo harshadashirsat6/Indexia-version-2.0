@@ -112,12 +112,8 @@ const Form = () => {
     requiredLoanTenure: Yup.number()
       .integer("Invalid input.Must be a number")
       .required("* required")
-      .min(3, "min 3")
-      .max(40, "max 40"),
+      .max(7, "Up to 7 years maximum"),
     existingLoanAmount: Yup.number()
-      .integer("Invalid input.Must be a number")
-      .required("* required"),
-    existingLoanTenure: Yup.number()
       .integer("Invalid input.Must be a number")
       .required("* required"),
     existingEMI: Yup.number().required("* required").min(0, "Minimum 0"),

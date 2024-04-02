@@ -11,7 +11,7 @@ import PersonalDetails from "../../PersonalDetails";
 import IncomeDetails from "../../IncomeDetails";
 import LoanExposure from "../../ExistingLoanExposure";
 import LoanRequirements from "../../LoanRequirements";
-import CollatoralProperty from "../../CollatoralProperty"
+import CollatoralProperty from "../../CollatoralProperty";
 
 const Form = () => {
   const { wcapForm } = useSelector((store) => store.loanForm);
@@ -120,9 +120,6 @@ const Form = () => {
     existingLoanAmount: Yup.number()
       .integer("Invalid input.Must be a number")
       .required("* required"),
-    existingLoanTenure: Yup.number()
-      .integer("Invalid input.Must be a number")
-      .required("* required"),
     existingEMI: Yup.number().required("* required").min(0, "Minimum 0"),
     //income details validation
     employmentType: Yup.string().required("* required"),
@@ -160,7 +157,7 @@ const Form = () => {
       .test("length-check", "Invalid pincode", function (value) {
         return value.toString().length === 6;
       }),
-      collateralPropoertyAge:Yup.number()
+    collateralPropoertyAge: Yup.number()
       .integer("Invalid input.Must be a number")
       .required("* required"),
     collatoralPropertyValue: Yup.number()

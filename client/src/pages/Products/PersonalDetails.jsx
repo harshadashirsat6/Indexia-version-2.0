@@ -79,7 +79,7 @@ const PersonalDetails = ({ formik }) => {
           <input
             placeholder=""
             type="text"
-            value={userBasicDetails?.name}
+            value={userBasicDetails?.name || "ABC"}
             name="name"
             className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
             readOnly
@@ -94,7 +94,7 @@ const PersonalDetails = ({ formik }) => {
           <input
             placeholder=""
             type="number"
-            value={userBasicDetails?.contact}
+            value={userBasicDetails?.contact || "1234567890"}
             name="contact"
             className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
             readOnly
@@ -107,7 +107,7 @@ const PersonalDetails = ({ formik }) => {
           <input
             placeholder=""
             type="email"
-            value={userBasicDetails?.email}
+            value={userBasicDetails?.email || "test@gmail.com"}
             name="email"
             className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
             readOnly
