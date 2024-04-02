@@ -453,7 +453,7 @@ const IncomeDetails = ({
               )}
           </div>
           {formik.values.primaryBankAccount === "Other" ? (
-            <div>
+            <div className="col-span-1 sm:col-span-2">
               <span className="font-semibold text-gray-500">
                 Mention bank name *
               </span>
