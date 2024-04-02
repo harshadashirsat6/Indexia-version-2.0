@@ -421,7 +421,7 @@ const IncomeDetails = ({
             </div>
           </div>
           {/* bank account details */}
-          <div>
+          <div className="col-span-1 sm:col-span-2">
             <span className="font-semibold text-gray-500">
               Transaction Bank Name
             </span>
