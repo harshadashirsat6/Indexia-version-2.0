@@ -5,7 +5,7 @@ import { setInitialPopup } from "../../../../store/appSlice";
 
 const BalanceTransfer = () => {
   const dispatch = useDispatch();
-  
+
   //get basic user details
   // const { userBasicDetails } = useSelector((state) => state.user);
   // if (
@@ -33,7 +33,7 @@ const BalanceTransfer = () => {
           <p className="font-bold text-sm text-gray-400">
             Fields with asterik mark (*) are mandatory
           </p>
-          <Form  />
+          <Form />
         </motion.div>
       </div>
     </main>
