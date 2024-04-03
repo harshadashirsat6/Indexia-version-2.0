@@ -124,7 +124,7 @@ const LoanExposure = ({
             <div>
               <div>
                 <span className=" font-semibold text-gray-500">
-                  Other Existing Bank Loan Name
+                  Other Existing loan bank Name
                 </span>
                 <div className="border-b border-slate-400 py-1">
                   <input
