@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 const LoanRequirements = ({
   formik,
   category,
@@ -58,6 +60,8 @@ const LoanRequirements = ({
     setRequiredLoanAmountErr(false);
     return "";
   };
+
+  useEffect(() => {}, [formik.values.requiredLoanAmount]);
 
   return (
     <>
