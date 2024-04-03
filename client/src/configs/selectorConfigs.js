@@ -36,6 +36,8 @@ export const employmentTypes = [
   "Self-employed professional",
 ];
 
+export const personalLoanTenures = [1, 2, 3, 4, 5, 6,7];
+
 export const businessLoanEmploymentTypes = [
   "Self-employed business",
   "Self-employed professional",
@@ -116,7 +118,12 @@ export const businessNatureTypes = [
   "Other",
 ];
 
-export const homeLoanPropertyTypes = ["New", "Under-construction", "Old-construction","Other"];
+export const homeLoanPropertyTypes = [
+  "New",
+  "Under-construction",
+  "Old-construction",
+  "Other",
+];
 
 export const industryTypes = [
   "Agriculture",
@@ -377,9 +384,3 @@ export const countries = [
 ];
 
 export const commercialPropertyTypes = ["Commercial", "Industrial", "Other"];
-
-//////////////////////
-/////////////////////////////////
-// /////////////////
-
-export const educationEnrollmentStatus = ["Full-time", "Part-time"];
