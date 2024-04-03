@@ -61,7 +61,9 @@ const LoanRequirements = ({
     return "";
   };
 
-  useEffect(() => {}, [formik.values.requiredLoanAmount]);
+  useEffect(() => {
+    console.log(formik.values.requiredLoanAmount);
+  }, [formik.values.requiredLoanAmount]);
 
   return (
     <>
