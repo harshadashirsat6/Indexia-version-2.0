@@ -120,6 +120,14 @@ const IncomeDetails = ({
     }
   };
 
+  //ADD COMMA IN AMOUNT INPUTS
+  const [monthlyInc, setMonthlyInc] = useState("");
+  const addCommas = (number) => {
+    const cleanedInput = number.replace(/[^\d]/g, ""); // Remove non-numeric characters
+    const formatter = new Intl.NumberFormat("en-IN");
+    setMonthlyInc(formatter.format(cleanedInput));
+  };
+
   return (
     <>
       {/* primary bank account */}
@@ -181,8 +189,14 @@ const IncomeDetails = ({
             <div className="border-b border-slate-400 py-1">
               <input
                 placeholder="Take home salary"
-                type="number"
-                {...formik.getFieldProps("monthlyIncome")}
+                type="text"
+                name="monthlyInc"
+                value={monthlyInc}
+                onChange={(e) => {
+                  addCommas(e.target.value);
+                  const formatedVal = e.target.value.split(",").join("");
+                  formik.setFieldValue("monthlyIncome", formatedVal);
+                }}
                 required
                 className="bg-transparent w-full outline-none  placeholder:text-slate-500 "
               />

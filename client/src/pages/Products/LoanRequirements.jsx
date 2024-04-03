@@ -63,35 +63,16 @@ const LoanRequirements = ({
     return "";
   };
 
-  const addCommas = (e) => {
-    const value = e.target.value;
-    const len = value.length;
-    console.log(len);
-    if (len === 3) {
-      return value;
-    } else if (len >= 3 && length <= 4) {
-      return `${value.slice(-4, -3)},${value.slice(-3)}`;
-    } else if (len >= 5 && len >= 6) {
-      return `${value.slice(-5, -3)},${value.slice(-3)}`;
-    } else if (len === 6) {
-      return `${value.slice(-6, -5)},${value.slice(-5, -3)},${value.slice(-3)}`;
-    } else if (len > 7) {
-      return value;
-    }
-    // return value.replace(/\B(?=(\d{3})+(?!\d{2})+(?!\d))/g, ",");
-  };
+  //ADD COMMA IN AMOUNT INPUTS
+  const [newVal, setNewVal] = useState("");
+  const addCommas = (number) => {
+    console.log("1", typeof number);
+    const val = String(number);
 
-  // const addCommas = (e) => {
-  //   const x = e.target.value;
-  //   if (x.length <= 3) return x;
-  //   const lastThreeDigits = x.slice(-3);
-  //   const remainingDigits = x.slice(0, -3);
-  //   return (
-  //     remainingDigits.replace(/\B(?=(\d{2})+(?!\d))/g, ",") +
-  //     "," +
-  //     lastThreeDigits
-  //   );
-  // };
+    const cleanedInput = val.replace(/[^\d]/g, ""); // Remove non-numeric characters
+    const formatter = new Intl.NumberFormat("en-IN");
+    setNewVal(formatter.format(cleanedInput));
+  };
 
   return (
     <>
@@ -105,10 +86,11 @@ const LoanRequirements = ({
           <input
             placeholder=""
             type="text"
-            value={formik.values.requiredLoanAmount}
-            // {...formik.getFieldProps("requiredLoanAmount")}
+            name="newVal"
+            value={newVal}
             onChange={(e) => {
-              const formatedVal = addCommas(e);
+              addCommas(e.target.value);
+              const formatedVal = e.target.value.split(",").join("");
               formik.setFieldValue("requiredLoanAmount", formatedVal);
             }}
             className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
