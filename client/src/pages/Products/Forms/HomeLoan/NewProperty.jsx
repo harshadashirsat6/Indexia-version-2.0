@@ -46,11 +46,11 @@ const NewProperty = ({ formik }) => {
 
   return (
     <>
-      <div className="col-span-1 sm:col-span-2">
+      {/* <div className="col-span-1 sm:col-span-2">
         <span className="font-semibold text-gray-500 underline underline-offset-4">
           Where are you planning to buy property
         </span>
-      </div>
+      </div> */}
       <div className="">
         <span className="font-semibold text-gray-500">
           Buying Property Type (Buying property) *
@@ -93,7 +93,9 @@ const NewProperty = ({ formik }) => {
         </div>
       )}
       <div>
-        <span className="font-semibold text-gray-500">Buying Property Age *</span>
+        <span className="font-semibold text-gray-500">
+          Buying Property Age *
+        </span>
         <div className="border-b border-slate-400 py-1">
           <input
             placeholder="In Years (0 if property is new/under construction)"
@@ -140,7 +142,9 @@ const NewProperty = ({ formik }) => {
         )}
       </div>
       <div>
-        <span className="font-semibold text-gray-500">Buying Property City *</span>
+        <span className="font-semibold text-gray-500">
+          Buying Property City *
+        </span>
         <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
           <select
             className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
