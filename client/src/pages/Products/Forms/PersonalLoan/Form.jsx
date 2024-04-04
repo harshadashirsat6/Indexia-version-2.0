@@ -156,21 +156,21 @@ const Form = () => {
   const handleProceed = (values) => {
     alert("Form subittiming");
 
-    // if (formik.values.employmentType === "Salaried" && monthlyIncomeErr) {
-    //   return;
-    // }
-    // if (
-    //   formik.values.employmentType === "Self-employed business" ||
-    //   formik.values.employmentType === "Self-employed professional"
-    // ) {
-    //   if (prevYearNetProfitErr) return;
-    // }
-    // if (businessPincodeErr) {
-    //   return;
-    // }
-    // if (emiErr) {
-    //   return;
-    // }
+    if (formik.values.employmentType === "Salaried" && monthlyIncomeErr) {
+      return;
+    }
+    if (
+      formik.values.employmentType === "Self-employed business" ||
+      formik.values.employmentType === "Self-employed professional"
+    ) {
+      if (prevYearNetProfitErr) return;
+    }
+    if (businessPincodeErr) {
+      return;
+    }
+    if (emiErr) {
+      return;
+    }
     alert("successful submission");
     console.log("data=>", {
       ...values,

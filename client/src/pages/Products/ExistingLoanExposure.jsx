@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   existingWokringCapitalLoanTypes,
+  primaryBankAccount,
   primaryBankAccountOptions,
 } from "../../configs/selectorConfigs";
+import { toast } from "react-hot-toast";
 
 const LoanExposure = ({
   formik,
@@ -28,7 +30,10 @@ const LoanExposure = ({
   };
 
   // add bank name
+  const [bankName, setBankName] = useState("");
+  const [otherBanks, setOtherBanks] = useState([]);
   const handleAddBankName = (product) => {
+    console.log(product);
     const isExist = banksLoanArr.find((ele) => ele === product);
     if (isExist) {
       const arr = banksLoanArr.filter((ele) => ele !== product);
@@ -40,6 +45,10 @@ const LoanExposure = ({
       setBanksLoanArr([product]);
     }
   };
+
+  useEffect(() => {
+    setBanksLoanArr([...banksLoanArr, ...otherBanks]);
+  }, [bankName]);
 
   //ADD COMMA IN AMOUNT INPUTS
   const [existingEMI, setExistingEMI] = useState("");
@@ -85,7 +94,6 @@ const LoanExposure = ({
           emiCalculation(formik.values.existingEMI)
         )}
       </div>
-
       {/* <div>
         <span className="font-semibold text-gray-500">
           Existing  Loan Amount (Total) *
@@ -152,21 +160,50 @@ const LoanExposure = ({
             </section>
           </div>
           {banksLoanArr.includes("Other") ? (
-            <div>
+            <>
               <div>
                 <span className=" font-semibold text-gray-500">
                   Other Existing loan bank Name
                 </span>
-                <div className="border-b border-slate-400 py-1">
+                <div className="border-b border-slate-400 py-1 flex">
                   <input
                     placeholder=""
                     type="text"
-                    {...formik.getFieldProps("otherExistingBankLoanName")}
+                    name="bankName"
+                    value={bankName}
+                    onChange={(e) => setBankName(e.target.value)}
                     className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
                   />
+                  <button
+                    className="rounded-lg bg-blue-300 px-3 py-2 font-bold"
+                    onClick={() => {
+                      if (bankName) {
+                        otherBanks.push(bankName);
+                        setBankName("");
+                      } else {
+                        toast.error("bank name cannot be empty");
+                      }
+                    }}
+                  >
+                    Add
+                  </button>
                 </div>
               </div>
-            </div>
+              {otherBanks.length > 0 ? (
+                <div className="flex gap-3  py-3">
+                  {otherBanks.map((ele, i) => {
+                    return (
+                      <p
+                        key={i}
+                        className="border-[1px] border-gray-400 text-black rounded-md px-4 py-0.5 capitalize"
+                      >
+                        {ele}
+                      </p>
+                    );
+                  })}
+                </div>
+              ) : null}
+            </>
           ) : null}
           {/* existing loan types */}
           <div className="col-span-1 sm:col-span-2 ">
