@@ -1,4 +1,21 @@
+import { useState } from "react";
+
 const CustomInputs = ({ formik }) => {
+  
+  //ADD COMMA IN AMOUNT INPUTS
+  const [valueOfOneShare, setValueOfOneShare] = useState("");
+  const [marektValue, setMarektValue] = useState("");
+
+  const addCommas = (field, number) => {
+    const cleanedInput = number.replace(/[^\d]/g, ""); // Remove non-numeric characters
+    const formatter = new Intl.NumberFormat("en-IN");
+    if (field === "valueofoneshare") {
+      setValueOfOneShare(formatter.format(cleanedInput));
+    } else if (field === "marketvalue") {
+      setMarektValue(formatter.format(cleanedInput));
+    }
+  };
+
   return (
     <>
       <div>
@@ -10,7 +27,7 @@ const CustomInputs = ({ formik }) => {
             placeholder=""
             type="text"
             name="companyShareName"
-            {...formik.getFieldProps("companyShareName")}
+            // {...formik.getFieldProps("companyShareName")}
             className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
           />
         </div>
@@ -27,8 +44,16 @@ const CustomInputs = ({ formik }) => {
         <div className="border-b border-slate-400 py-1">
           <input
             placeholder=""
-            type="number"
-            {...formik.getFieldProps("valueOfOneShare")}
+            // type="number"
+            // {...formik.getFieldProps("valueOfOneShare")}
+            type="text"
+            name="valueOfOneShare"
+            value={valueOfOneShare}
+            onChange={(e) => {
+              addCommas("valueofoneshare", e.target.value);
+              const formatedVal = e.target.value.split(",").join("");
+              formik.setFieldValue("valueOfOneShare", formatedVal);
+            }}
             className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
           />
         </div>
@@ -81,8 +106,16 @@ const CustomInputs = ({ formik }) => {
         <div className="border-b border-slate-400 py-1">
           <input
             placeholder=""
-            type="number"
-            {...formik.getFieldProps("marektValue")}
+            // type="number"
+            // {...formik.getFieldProps("marektValue")}
+            type="text"
+            name="marektValue"
+            value={marektValue}
+            onChange={(e) => {
+              addCommas("marektvalue", e.target.value);
+              const formatedVal = e.target.value.split(",").join("");
+              formik.setFieldValue("marektValue", formatedVal);
+            }}
             className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
           />
         </div>

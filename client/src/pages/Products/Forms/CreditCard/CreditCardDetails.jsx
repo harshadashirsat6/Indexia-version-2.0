@@ -1,6 +1,18 @@
+import { useState } from "react";
 import { BanksForCreditCards } from "../../../../configs/selectorConfigs";
 
 const CreditCardDetails = ({ formik }) => {
+  //ADD COMMA IN AMOUNT INPUTS
+  const [exisitingCreditCardLimit, setExisitingCreditCardLimit] = useState("");
+
+  const addCommas = (field, number) => {
+    const cleanedInput = number.replace(/[^\d]/g, ""); // Remove non-numeric characters
+    const formatter = new Intl.NumberFormat("en-IN");
+    if (field === "exisitingcreditcardlimit") {
+      setExisitingCreditCardLimit(formatter.format(cleanedInput));
+    }
+  };
+
   return (
     <>
       <div>
@@ -73,7 +85,14 @@ const CreditCardDetails = ({ formik }) => {
               <input
                 placeholder=""
                 type="text"
-                {...formik.getFieldProps("exisitingCreditCardLimit")}
+                // {...formik.getFieldProps("exisitingCreditCardLimit")}
+                name="exisitingCreditCardLimit"
+                value={exisitingCreditCardLimit}
+                onChange={(e) => {
+                  addCommas("exisitingcreditcardlimit", e.target.value);
+                  const formatedVal = e.target.value.split(",").join("");
+                  formik.setFieldValue("exisitingCreditCardLimit", formatedVal);
+                }}
                 required
                 className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
               />

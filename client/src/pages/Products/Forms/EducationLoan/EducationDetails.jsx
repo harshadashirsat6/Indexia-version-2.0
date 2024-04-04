@@ -1,6 +1,18 @@
+import { useState } from "react";
 import { countries } from "../../../../configs/selectorConfigs";
 
 const EducationDetails = ({ formik }) => {
+  //ADD COMMA IN AMOUNT INPUTS
+  const [educationCost, setEducationCost] = useState("");
+
+  const addCommas = (field, number) => {
+    const cleanedInput = number.replace(/[^\d]/g, ""); // Remove non-numeric characters
+    const formatter = new Intl.NumberFormat("en-IN");
+    if (field === "educationcost") {
+      setEducationCost(formatter.format(cleanedInput));
+    }
+  };
+
   return (
     <>
       <div className="col-span-1 sm:col-span-2">
@@ -110,8 +122,15 @@ const EducationDetails = ({ formik }) => {
         <div className="border-b border-slate-400 py-1">
           <input
             placeholder="Fees/Cost of entire Course in Lakhs"
-            type="number"
-            {...formik.getFieldProps("educationCost")}
+            // {...formik.getFieldProps("educationCost")}
+            type="text"
+            name="educationCost"
+            value={educationCost}
+            onChange={(e) => {
+              addCommas("educationcost", e.target.value);
+              const formatedVal = e.target.value.split(",").join("");
+              formik.setFieldValue("educationCost", formatedVal);
+            }}
             className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
           />
         </div>

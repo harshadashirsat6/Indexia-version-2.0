@@ -43,6 +43,17 @@ const CollatoralProperty = ({ formik }) => {
       getCities();
     }
   }, [selectedCollatoralState]);
+  
+  //ADD COMMA IN AMOUNT INPUTS
+  const [collatoralPropertyValue, setCollatoralPropertyValue] = useState("");
+
+  const addCommas = (field, number) => {
+    const cleanedInput = number.replace(/[^\d]/g, ""); // Remove non-numeric characters
+    const formatter = new Intl.NumberFormat("en-IN");
+    if (field === "collatoralpropertyvalue") {
+      setCollatoralPropertyValue(formatter.format(cleanedInput));
+    }
+  };
 
   return (
     <>
@@ -91,7 +102,6 @@ const CollatoralProperty = ({ formik }) => {
         </span>
         <div className="border-b border-slate-400 py-1">
           <input
-            placeholder="value of your collateral property"
             type="Number"
             required
             {...formik.getFieldProps("collateralPropertyAge")}
@@ -105,9 +115,15 @@ const CollatoralProperty = ({ formik }) => {
         </span>
         <div className="border-b border-slate-400 py-1">
           <input
-            placeholder="value of your collateral property"
-            type="Number"
-            {...formik.getFieldProps("collatoralPropertyValue")}
+            type="text"
+            // {...formik.getFieldProps("collatoralPropertyValue")}
+            name="collatoralPropertyValue"
+            value={collatoralPropertyValue}
+            onChange={(e) => {
+              addCommas("collatoralpropertyvalue", e.target.value);
+              const formatedVal = e.target.value.split(",").join("");
+              formik.setFieldValue("collatoralPropertyValue", formatedVal);
+            }}
             required
             className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
           />

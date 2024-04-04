@@ -64,14 +64,13 @@ const LoanRequirements = ({
   };
 
   //ADD COMMA IN AMOUNT INPUTS
-  const [newVal, setNewVal] = useState("");
-  const addCommas = (number) => {
-    console.log("1", typeof number);
-    const val = String(number);
-
-    const cleanedInput = val.replace(/[^\d]/g, ""); // Remove non-numeric characters
+  const [requiredLoanAmount, setRequiredLoanAmount] = useState("");
+  const addCommas = (field, number) => {
+    const cleanedInput = number.replace(/[^\d]/g, ""); // Remove non-numeric characters
     const formatter = new Intl.NumberFormat("en-IN");
-    setNewVal(formatter.format(cleanedInput));
+    if (field === "requiredloanamount") {
+      setRequiredLoanAmount(formatter.format(cleanedInput));
+    }
   };
 
   return (
@@ -86,10 +85,10 @@ const LoanRequirements = ({
           <input
             placeholder=""
             type="text"
-            name="newVal"
-            value={newVal}
+            name="requiredLoanAmount"
+            value={requiredLoanAmount}
             onChange={(e) => {
-              addCommas(e.target.value);
+              addCommas("requiredloanamount", e.target.value);
               const formatedVal = e.target.value.split(",").join("");
               formik.setFieldValue("requiredLoanAmount", formatedVal);
             }}

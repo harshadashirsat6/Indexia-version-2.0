@@ -44,6 +44,17 @@ const CustomInputs = ({ formik }) => {
     }
   }, [selectedNewpropertyState]);
 
+  //ADD COMMA IN AMOUNT INPUTS
+  const [propertyValue, setPropertyValue] = useState("");
+
+  const addCommas = (field, number) => {
+    const cleanedInput = number.replace(/[^\d]/g, ""); // Remove non-numeric characters
+    const formatter = new Intl.NumberFormat("en-IN");
+    if (field === "propertyvalue") {
+      setPropertyValue(formatter.format(cleanedInput));
+    }
+  };
+
   return (
     <>
       <div className="">
@@ -94,8 +105,15 @@ const CustomInputs = ({ formik }) => {
         <div className="border-b border-slate-400 py-1">
           <input
             placeholder="In Lacs"
-            type="number"
-            {...formik.getFieldProps("propertyValue")}
+            // {...formik.getFieldProps("propertyValue")}
+            type="text"
+            name="propertyValue"
+            value={propertyValue}
+            onChange={(e) => {
+              addCommas("propertyvalue", e.target.value);
+              const formatedVal = e.target.value.split(",").join("");
+              formik.setFieldValue("propertyValue", formatedVal);
+            }}
             className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
           />
         </div>

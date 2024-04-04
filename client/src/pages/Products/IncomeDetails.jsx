@@ -122,10 +122,26 @@ const IncomeDetails = ({
 
   //ADD COMMA IN AMOUNT INPUTS
   const [monthlyInc, setMonthlyInc] = useState("");
-  const addCommas = (number) => {
+  const [previousYearTurnOver, setPreviousYearTurnOver] = useState("");
+  const [previous2yearTurnover, setPrevious2yearTurnover] = useState("");
+  const [previousYearNetProfit, setPreviousYearNetProfit] = useState("");
+  const [previous2yearNetIncome, setPrevious2yearNetIncome] = useState("");
+
+  const addCommas = (field, number) => {
     const cleanedInput = number.replace(/[^\d]/g, ""); // Remove non-numeric characters
     const formatter = new Intl.NumberFormat("en-IN");
-    setMonthlyInc(formatter.format(cleanedInput));
+    console.log(field);
+    if (field === "monthlyincome") {
+      setMonthlyInc(formatter.format(cleanedInput));
+    } else if (field === "previousyearturnover") {
+      setPreviousYearTurnOver(formatter.format(cleanedInput));
+    } else if (field === "previous2yearturnover") {
+      setPrevious2yearTurnover(formatter.format(cleanedInput));
+    } else if (field === "previousyearnetprofit") {
+      setPreviousYearNetProfit(formatter.format(cleanedInput));
+    } else if (field === "previous2yearnetprofit") {
+      setPrevious2yearNetIncome(formatter.format(cleanedInput));
+    }
   };
 
   return (
@@ -193,7 +209,7 @@ const IncomeDetails = ({
                 name="monthlyInc"
                 value={monthlyInc}
                 onChange={(e) => {
-                  addCommas(e.target.value);
+                  addCommas("monthlyincome", e.target.value);
                   const formatedVal = e.target.value.split(",").join("");
                   formik.setFieldValue("monthlyIncome", formatedVal);
                 }}
@@ -333,7 +349,6 @@ const IncomeDetails = ({
                 placeholder=""
                 type="text"
                 {...formik.getFieldProps("gstNo")}
-                required
                 className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
               />
             </div>
@@ -552,8 +567,16 @@ const IncomeDetails = ({
             <div className="border-b border-slate-400 py-1">
               <input
                 placeholder=""
-                type="number"
-                {...formik.getFieldProps("previousYearTurnOver")}
+                // type="number"
+                // {...formik.getFieldProps("previousYearTurnOver")}
+                type="text"
+                name="previousYearTurnOver"
+                value={previousYearTurnOver}
+                onChange={(e) => {
+                  addCommas("previousyearturnover", e.target.value);
+                  const formatedVal = e.target.value.split(",").join("");
+                  formik.setFieldValue("previousYearTurnOver", formatedVal);
+                }}
                 required
                 className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
               />
@@ -580,8 +603,16 @@ const IncomeDetails = ({
             <div className="border-b border-slate-400 py-1">
               <input
                 placeholder=""
-                type="number"
-                {...formik.getFieldProps("previous2yearTurnover")}
+                // type="number"
+                // {...formik.getFieldProps("previous2yearTurnover")}
+                type="text"
+                name="previous2yearTurnover"
+                value={previous2yearTurnover}
+                onChange={(e) => {
+                  addCommas("previous2yearturnover", e.target.value);
+                  const formatedVal = e.target.value.split(",").join("");
+                  formik.setFieldValue("previous2yearTurnover", formatedVal);
+                }}
                 required
                 className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
               />
@@ -614,8 +645,16 @@ const IncomeDetails = ({
             <div className="border-b border-slate-400 py-1">
               <input
                 placeholder="Previous Year Net Profit"
+                // type="text"
+                // {...formik.getFieldProps("previousYearNetProfit")}
                 type="text"
-                {...formik.getFieldProps("previousYearNetProfit")}
+                name="previousYearNetProfit"
+                value={previousYearNetProfit}
+                onChange={(e) => {
+                  addCommas("previousyearnetprofit", e.target.value);
+                  const formatedVal = e.target.value.split(",").join("");
+                  formik.setFieldValue("previousYearNetProfit", formatedVal);
+                }}
                 required
                 className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
               />
@@ -629,8 +668,16 @@ const IncomeDetails = ({
             <div className="border-b border-slate-400 py-1">
               <input
                 placeholder=""
-                type="number"
-                {...formik.getFieldProps("previous2yearNetIncome")}
+                // type="number"
+                // {...formik.getFieldProps("previous2yearNetIncome")}
+                type="text"
+                name="previous2yearNetIncome"
+                value={previous2yearNetIncome}
+                onChange={(e) => {
+                  addCommas("previous2yearnetprofit", e.target.value);
+                  const formatedVal = e.target.value.split(",").join("");
+                  formik.setFieldValue("previous2yearNetIncome", formatedVal);
+                }}
                 required
                 className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
               />

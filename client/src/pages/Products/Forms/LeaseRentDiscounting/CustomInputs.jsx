@@ -44,6 +44,27 @@ const CustomInputs = ({ formik }) => {
     }
   }, [selectedState]);
 
+  //ADD COMMA IN AMOUNT INPUTS
+  const [monthlyIncomeThroughLease, setMonthlyIncomeThroughLease] =
+    useState("");
+  const [
+    totalAmountToBeReceivedFromLease,
+    setTotalAmountToBeReceivedFromLease,
+  ] = useState("");
+  const [leasePropertyValue, setLeasePropertyValue] = useState("");
+
+  const addCommas = (field, number) => {
+    const cleanedInput = number.replace(/[^\d]/g, ""); // Remove non-numeric characters
+    const formatter = new Intl.NumberFormat("en-IN");
+    if (field === "monthlyincomethroughlease") {
+      setMonthlyIncomeThroughLease(formatter.format(cleanedInput));
+    } else if (field === "totalamounttobereceivedfromlease") {
+      setTotalAmountToBeReceivedFromLease(formatter.format(cleanedInput));
+    } else if (field === "leasepropertyvalue") {
+      setLeasePropertyValue(formatter.format(cleanedInput));
+    }
+  };
+
   return (
     <>
       <div>
@@ -53,8 +74,15 @@ const CustomInputs = ({ formik }) => {
         <div className="border-b border-slate-400 py-1">
           <input
             placeholder=""
-            type="number"
-            {...formik.getFieldProps("monthlyIncomeThroughLease")}
+            type="text"
+            // {...formik.getFieldProps("monthlyIncomeThroughLease")}
+            name="monthlyIncomeThroughLease"
+            value={monthlyIncomeThroughLease}
+            onChange={(e) => {
+              addCommas("monthlyincomethroughlease", e.target.value);
+              const formatedVal = e.target.value.split(",").join("");
+              formik.setFieldValue("monthlyIncomeThroughLease", formatedVal);
+            }}
             className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
           />
         </div>
@@ -72,8 +100,19 @@ const CustomInputs = ({ formik }) => {
         <div className="border-b border-slate-400 py-1">
           <input
             placeholder=""
-            type="number"
-            {...formik.getFieldProps("totalAmountToBeReceivedFromLease")}
+            // type="number"
+            // {...formik.getFieldProps("totalAmountToBeReceivedFromLease")}
+            type="text"
+            name="totalAmountToBeReceivedFromLease"
+            value={totalAmountToBeReceivedFromLease}
+            onChange={(e) => {
+              addCommas("totalamounttobereceivedfromlease", e.target.value);
+              const formatedVal = e.target.value.split(",").join("");
+              formik.setFieldValue(
+                "totalAmountToBeReceivedFromLease",
+                formatedVal
+              );
+            }}
             className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
           />
         </div>
@@ -110,8 +149,16 @@ const CustomInputs = ({ formik }) => {
         <div className="border-b border-slate-400 py-1">
           <input
             placeholder=""
-            type="number"
-            {...formik.getFieldProps("leasePropertyValue")}
+            // type="number"
+            // {...formik.getFieldProps("leasePropertyValue")}
+            type="text"
+            name="leasePropertyValue"
+            value={leasePropertyValue}
+            onChange={(e) => {
+              addCommas("leasepropertyvalue", e.target.value);
+              const formatedVal = e.target.value.split(",").join("");
+              formik.setFieldValue("leasePropertyValue", formatedVal);
+            }}
             className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
           />
         </div>

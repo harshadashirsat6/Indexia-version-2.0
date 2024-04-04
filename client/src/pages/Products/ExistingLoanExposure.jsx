@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   existingWokringCapitalLoanTypes,
   primaryBankAccountOptions,
@@ -40,6 +41,20 @@ const LoanExposure = ({
     }
   };
 
+  //ADD COMMA IN AMOUNT INPUTS
+  const [existingEMI, setExistingEMI] = useState("");
+  const [existingLoanAmount, setExistingLoanAmount] = useState("");
+
+  const addCommas = (field, number) => {
+    const cleanedInput = number.replace(/[^\d]/g, ""); // Remove non-numeric characters
+    const formatter = new Intl.NumberFormat("en-IN");
+    if (field === "emi") {
+      setExistingEMI(formatter.format(cleanedInput));
+    } else if (field === "existingloanamount") {
+      setExistingLoanAmount(formatter.format(cleanedInput));
+    }
+  };
+
   return (
     <>
       <div>
@@ -48,9 +63,17 @@ const LoanExposure = ({
         </span>
         <div className="border-b border-slate-400 py-1">
           <input
-            placeholder="Enter your existing EMI amount, If any"
-            type="number"
-            {...formik.getFieldProps("existingEMI")}
+            // placeholder="Enter your existing EMI amount, If any"
+            // type="number"
+            // {...formik.getFieldProps("existingEMI")}
+            type="text"
+            name="existingEMI"
+            value={existingEMI}
+            onChange={(e) => {
+              addCommas("emi", e.target.value);
+              const formatedVal = e.target.value.split(",").join("");
+              formik.setFieldValue("existingEMI", formatedVal);
+            }}
             className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
           />
         </div>
@@ -92,8 +115,16 @@ const LoanExposure = ({
             <div className="border-b border-slate-400 py-1">
               <input
                 placeholder=""
-                type="number"
-                {...formik.getFieldProps("existingLoanAmount")}
+                // type="number"
+                // {...formik.getFieldProps("existingLoanAmount")}
+                type="text"
+                name="existingLoanAmount"
+                value={existingLoanAmount}
+                onChange={(e) => {
+                  addCommas("existingloanamount", e.target.value);
+                  const formatedVal = e.target.value.split(",").join("");
+                  formik.setFieldValue("existingLoanAmount", formatedVal);
+                }}
                 className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
                 required
               />

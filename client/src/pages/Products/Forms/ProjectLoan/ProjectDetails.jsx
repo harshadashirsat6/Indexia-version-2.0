@@ -45,10 +45,27 @@ const ProjectDetails = ({ formik }) => {
       getCities();
     }
   }, [selectedState]);
+
+  //ADD COMMA IN AMOUNT INPUTS
+  const [projectCost, setProjectCost] = useState("");
+  const [ownInvestmentOnProject, setOwnInvestmentOnProject] = useState("");
+
+  const addCommas = (field, number) => {
+    const cleanedInput = number.replace(/[^\d]/g, ""); // Remove non-numeric characters
+    const formatter = new Intl.NumberFormat("en-IN");
+    if (field === "projectcost") {
+      setProjectCost(formatter.format(cleanedInput));
+    } else if ((field = "owninvestmentonproject")) {
+      setOwnInvestmentOnProject(formatter.format(cleanedInput));
+    }
+  };
+
   return (
     <>
       <div className="col-span-1 sm:col-span-2">
-        <h1 className="font-bold underline underline-offset-4">Project Details</h1>
+        <h1 className="font-bold underline underline-offset-4">
+          Project Details
+        </h1>
       </div>
       {/* <div className="">
         <span className="font-semibold text-gray-500">Project Objective *</span>
@@ -147,15 +164,23 @@ const ProjectDetails = ({ formik }) => {
           </div>
         </div>
       )}
-         <div className="">
+      <div className="">
         <span className="font-semibold text-gray-500">
           Total Project Cost *
         </span>
         <div className="border-b border-slate-400 py-1">
           <input
             placeholder=""
-            type="number"
-            {...formik.getFieldProps("projectCost")}
+            // type="number"
+            // {...formik.getFieldProps("projectCost")}
+            type="text"
+            name="projectCost"
+            value={projectCost}
+            onChange={(e) => {
+              addCommas("projectcost", e.target.value);
+              const formatedVal = e.target.value.split(",").join("");
+              formik.setFieldValue("projectCost", formatedVal);
+            }}
             className="bg-transparent w-full outline-none border-none placeholder:text-slate-500 placeholder:text-xs"
           />
         </div>
@@ -185,7 +210,7 @@ const ProjectDetails = ({ formik }) => {
       </div>
       <div>
         <span className="font-semibold text-gray-500">
-        Project Date of Completion *
+          Project Date of Completion *
         </span>
         <div className="border-b border-slate-400 py-1">
           <input
@@ -228,8 +253,16 @@ const ProjectDetails = ({ formik }) => {
         <div className="border-b border-slate-400 py-1">
           <input
             placeholder="In Lacs"
-            type="number"
-            {...formik.getFieldProps("ownInvestmentOnProject")}
+            // type="number"
+            // {...formik.getFieldProps("ownInvestmentOnProject")}
+            type="text"
+            name="ownInvestmentOnProject"
+            value={ownInvestmentOnProject}
+            onChange={(e) => {
+              addCommas("owninvestmentonproject", e.target.value);
+              const formatedVal = e.target.value.split(",").join("");
+              formik.setFieldValue("ownInvestmentOnProject", formatedVal);
+            }}
             className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
           />
         </div>

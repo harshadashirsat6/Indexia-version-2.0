@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { transmissionTypes } from "../../../../configs/selectorConfigs";
 
 const CarDetails = ({ formik }) => {
@@ -23,13 +23,31 @@ const CarDetails = ({ formik }) => {
     getStates();
   }, []);
 
+  //ADD COMMA IN AMOUNT INPUTS
+  const [valueOfOldCar, setValueOfOldCar] = useState("");
+  const [carOnroadPrice, setCarOnroadPrice] = useState("");
+  const [carShowroomPrice, setCarShowroomPrice] = useState("");
+  const addCommas = (field, number) => {
+    const cleanedInput = number.replace(/[^\d]/g, ""); // Remove non-numeric characters
+    const formatter = new Intl.NumberFormat("en-IN");
+    if (field === "valueofoldcar") {
+      setValueOfOldCar(formatter.format(cleanedInput));
+    } else if (field === "caronroadprice") {
+      setCarOnroadPrice(formatter.format(cleanedInput));
+    } else if (field === "carshowroomprice") {
+      setCarShowroomPrice(formatter.format(cleanedInput));
+    }
+  };
+
   return (
     <>
       <div className="col-span-2 sm:col-span-2">
         <h1 className="font-bold">Vehicle Details</h1>
       </div>
       <div>
-        <span className="font-semibold text-gray-500">Buying Car Transmission Type</span>
+        <span className="font-semibold text-gray-500">
+          Buying Car Transmission Type
+        </span>
         <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
           <select
             className="bg-transparent w-full py-2.5"
@@ -134,7 +152,14 @@ const CarDetails = ({ formik }) => {
               <input
                 placeholder=""
                 type="text"
-                {...formik.getFieldProps("valueOfOldCar")}
+                // {...formik.getFieldProps("valueOfOldCar")}
+                name="valueOfOldCar"
+                value={valueOfOldCar}
+                onChange={(e) => {
+                  addCommas("valueofoldcar", e.target.value);
+                  const formatedVal = e.target.value.split(",").join("");
+                  formik.setFieldValue("valueOfOldCar", formatedVal);
+                }}
                 required
                 className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
               />
@@ -160,7 +185,14 @@ const CarDetails = ({ formik }) => {
               <input
                 placeholder=""
                 type="text"
-                {...formik.getFieldProps("carOnroadPrice")}
+                // {...formik.getFieldProps("carOnroadPrice")}
+                name="carOnroadPrice"
+                value={carOnroadPrice}
+                onChange={(e) => {
+                  addCommas("caronroadprice", e.target.value);
+                  const formatedVal = e.target.value.split(",").join("");
+                  formik.setFieldValue("carOnroadPrice", formatedVal);
+                }}
                 required
                 className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
               />
@@ -173,7 +205,13 @@ const CarDetails = ({ formik }) => {
                 placeholder=""
                 type="text"
                 name="carShowroomPrice"
-                {...formik.getFieldProps("carShowroomPrice")}
+                value={carShowroomPrice}
+                // {...formik.getFieldProps("carShowroomPrice")}
+                onChange={(e) => {
+                  addCommas("carshowroomprice", e.target.value);
+                  const formatedVal = e.target.value.split(",").join("");
+                  formik.setFieldValue("carShowroomPrice", formatedVal);
+                }}
                 required
                 className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
               />
