@@ -17,7 +17,7 @@ const incomeDetails = {
   multipleBankAccounts: [],
   //salaried
   monthlyIncome: 0,
-  incomeReceivedAs: "",
+  salaryRecievedAs: "",
   //business
   gstNo: "",
   yearsInCurrentBusiness: "",

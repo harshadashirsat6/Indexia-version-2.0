@@ -229,7 +229,7 @@ const IncomeDetails = ({
               <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
                 <select
                   className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
-                  {...formik.values.incomeRecievedAs}
+                  {...formik.getFieldProps("salaryRecievedAs")}
                   required
                 >
                   <option value="">Select</option>
@@ -244,49 +244,54 @@ const IncomeDetails = ({
               </div>
             </div>
           </div>
-          <div>
-            <span className="font-semibold text-gray-500">
-              Salary Bank Name
-            </span>
-            <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-              <select
-                className="bg-transparent w-full py-2.5"
-                name="primaryBankAccount"
-                {...formik.getFieldProps("primaryBankAccount")}
-                required
-              >
-                <option value={""}>Select</option>
-                {primaryBankAccountOptions.map((ele) => {
-                  return (
-                    <option key={ele} value={ele}>
-                      {ele}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-            {formik.touched.primaryBankAccount &&
-              formik.errors.primaryBankAccount && (
-                <span className="text-red-500 text-xs font-bold">
-                  {formik.errors.primaryBankAccount}
+          {formik.values.salaryRecievedAs === "Cash" ||formik.values.salaryRecievedAs === "" ? null : (
+            <>
+              {" "}
+              <div>
+                <span className="font-semibold text-gray-500">
+                  Salary Bank Name
                 </span>
-              )}
-          </div>
-          {formik.values.primaryBankAccount === "Other" && (
-            <div>
-              <span className="font-semibold text-gray-500">
-                Mention salary bank name *
-              </span>
-              <div className="border-b border-slate-400 py-1">
-                <input
-                  placeholder=""
-                  type="text"
-                  {...formik.getFieldProps("otherPrimaryBankAccount")}
-                  className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
-                  required
-                />
+                <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+                  <select
+                    className="bg-transparent w-full py-2.5"
+                    name="primaryBankAccount"
+                    {...formik.getFieldProps("primaryBankAccount")}
+                    required
+                  >
+                    <option value={""}>Select</option>
+                    {primaryBankAccountOptions.map((ele) => {
+                      return (
+                        <option key={ele} value={ele}>
+                          {ele}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+                {formik.touched.primaryBankAccount &&
+                  formik.errors.primaryBankAccount && (
+                    <span className="text-red-500 text-xs font-bold">
+                      {formik.errors.primaryBankAccount}
+                    </span>
+                  )}
               </div>
-            </div>
+              {formik.values.primaryBankAccount === "Other" && (
+                <div>
+                  <span className="font-semibold text-gray-500">
+                    Mention salary bank name *
+                  </span>
+                  <div className="border-b border-slate-400 py-1">
+                    <input
+                      placeholder=""
+                      type="text"
+                      {...formik.getFieldProps("otherPrimaryBankAccount")}
+                      className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+                      required
+                    />
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </>
       ) : formik.values.employmentType === "Self-employed business" ? (
