@@ -154,10 +154,12 @@ const IncomeDetails = ({
       {formik.values.employmentType === "Salaried" ? (
         <>
           <div>
-            <span className="font-semibold text-gray-500">Company Name *</span>
+            <span className="font-semibold text-gray-500">
+              Company Full Name *
+            </span>
             <div className="border-b border-slate-400 py-1">
               <input
-                placeholder=""
+                placeholder="full name required"
                 type="text"
                 {...formik.getFieldProps("companyName")}
                 required
@@ -329,10 +331,12 @@ const IncomeDetails = ({
             </div>
           )}
           <div>
-            <span className="font-semibold text-gray-500">Company Name *</span>
+            <span className="font-semibold text-gray-500">
+              Company Full Name *
+            </span>
             <div className="border-b border-slate-400 py-1">
               <input
-                placeholder=""
+                placeholder="full name required"
                 type="text"
                 {...formik.getFieldProps("companyName")}
                 required
@@ -434,19 +438,16 @@ const IncomeDetails = ({
           </div>
           <div>
             <span className="font-semibold text-gray-500">
-              Years In Current Business *
+              Date of business establishment *
             </span>
             <div className="border-b border-slate-400 py-1">
-              <select
-                className="w-full"
-                {...formik.getFieldProps("yearsInCurrentBusiness")}
+              <input
+                placeholder="DD-MM-YYYY"
+                type="date"
+                {...formik.getFieldProps("businessEstablishmentDate")}
+                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
                 required
-              >
-                <option value={""}>Select</option>
-                {yearsInCurrentBusiness.map((ele, i) => {
-                  return <option key={i}>{ele}</option>;
-                })}
-              </select>
+              />
             </div>
           </div>
           {/* bank account details */}

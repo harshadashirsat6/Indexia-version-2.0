@@ -104,7 +104,6 @@ const CustomInputs = ({ formik }) => {
         </span>
         <div className="border-b border-slate-400 py-1">
           <input
-            placeholder="In Lacs"
             // {...formik.getFieldProps("propertyValue")}
             type="text"
             name="propertyValue"

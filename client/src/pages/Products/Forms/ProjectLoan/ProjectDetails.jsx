@@ -192,7 +192,7 @@ const ProjectDetails = ({ formik }) => {
       </div>
       <div>
         <span className="font-semibold text-gray-500">
-          Project start Date *
+          Project Start Date *
         </span>
         <div className="border-b border-slate-400 py-1">
           <input
