@@ -1,4 +1,25 @@
+import { useState } from "react";
+
 const CustomInputs = ({ formik }) => {
+  //ADD COMMA IN AMOUNT INPUTS
+  const [transferPropertyValue, setTransferPropertyValue] = useState("");
+  const [balanceTransferLoanAmount, setBalancetransferloanamount] =
+    useState("");
+  const [topupAmount, setTopupAmount] = useState("");
+
+  const addCommas = (field, number) => {
+    const cleanedInput = number.replace(/[^\d]/g, ""); // Remove non-numeric characters
+    const formatter = new Intl.NumberFormat("en-IN");
+    console.log(field);
+    if (field === "transferpropertyvalue") {
+      setTransferPropertyValue(formatter.format(cleanedInput));
+    } else if (field === "balancetransferloanamount") {
+      setBalancetransferloanamount(formatter.format(cleanedInput));
+    } else if (field === "topupamount") {
+      setTopupAmount(formatter.format(cleanedInput));
+    }
+  };
+
   return (
     <>
       <div>
@@ -31,8 +52,16 @@ const CustomInputs = ({ formik }) => {
         <div className="border-b border-slate-400 py-1">
           <input
             placeholder=""
-            type="number"
-            {...formik.getFieldProps("transferPropertyValue")}
+            // type="number"
+            // {...formik.getFieldProps("transferPropertyValue")}
+            type="text"
+            name="transferPropertyValue"
+            value={transferPropertyValue}
+            onChange={(e) => {
+              addCommas("transferpropertyvalue", e.target.value);
+              const formatedVal = e.target.value.split(",").join("");
+              formik.setFieldValue("transferPropertyValue", formatedVal);
+            }}
             className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
           />
         </div>
@@ -50,8 +79,16 @@ const CustomInputs = ({ formik }) => {
         <div className="border-b border-slate-400 py-1">
           <input
             placeholder=""
-            type="number"
-            {...formik.getFieldProps("balanceTransferLoanAmount")}
+            // type="number"
+            // {...formik.getFieldProps("balanceTransferLoanAmount")}
+            type="text"
+            name="balanceTransferLoanAmount"
+            value={balanceTransferLoanAmount}
+            onChange={(e) => {
+              addCommas("balancetransferloanamount", e.target.value);
+              const formatedVal = e.target.value.split(",").join("");
+              formik.setFieldValue("balanceTransferLoanAmount", formatedVal);
+            }}
             className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
           />
         </div>
@@ -88,8 +125,16 @@ const CustomInputs = ({ formik }) => {
         <div className="border-b border-slate-400 py-1">
           <input
             placeholder="optional"
-            type="number"
-            {...formik.getFieldProps("topupAmount")}
+            // type="number"
+            // {...formik.getFieldProps("topupAmount")}
+            type="text"
+            name="topupAmount"
+            value={topupAmount}
+            onChange={(e) => {
+              addCommas("topupamount", e.target.value);
+              const formatedVal = e.target.value.split(",").join("");
+              formik.setFieldValue("topupAmount", formatedVal);
+            }}
             className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
           />
         </div>
