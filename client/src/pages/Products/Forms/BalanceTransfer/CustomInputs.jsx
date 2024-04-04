@@ -33,9 +33,15 @@ const CustomInputs = ({ formik }) => {
             {...formik.getFieldProps("typeOfBalanceTransfer")}
           >
             <option value={""}>Select</option>
-            <option value="HL">Home loan(HL) with ROI</option>
-            <option value="LAP">Loan against property(LAP) with ROI</option>
-            <option value="HL-LAP">HL-LAP with ROI</option>
+            <option value="personal-loan">Personal loan</option>
+            <option value="business-loan">Business loan</option>
+            <option value="home-loan">Home loan</option>
+            <option value="HL-LAP">Loan Against Property</option>
+            <option value="HL-LAP">Commercial purchase</option>
+            <option value="HL-LAP">Working capital</option>
+            <option value="HL-LAP">Lease rent discount</option>
+            <option value="HL-LAP">Od cc</option>
+
           </select>
         </div>
         {formik.touched.typeOfBalanceTransfer &&
