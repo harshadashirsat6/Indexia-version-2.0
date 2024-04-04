@@ -237,12 +237,12 @@ const Form = () => {
           emiCalculation={emiCalculation}
           category={param}
         />
-        <LoanDetails
-          selectedItems={selectedItems}
-          setSelectedItems={setSelectedItems}
-          tableData={tableData}
-          setTableData={setTableData}
-        />
+          <LoanDetails
+            selectedItems={selectedItems}
+            setSelectedItems={setSelectedItems}
+            tableData={tableData}
+            setTableData={setTableData}
+          />
         {/* PERSONAL DETAILS */}
         <div className="col-span-1 sm:col-span-2 ">
           <h1 className="font-bold text-blue-600 underline underline-offset-4">
