@@ -138,7 +138,7 @@ const LoanRequirements = ({
             {category === "odcc"
               ? "Required OD/CC Tenure *"
               : category === "loanAgainstProperty"
-              ? "Required Loan Tenure (not less than 3 years) *"
+              ? "Required Loan Tenure (no less than 3 year) *"
               : " Required Loan Tenure (in years) *"}
           </span>
           <div className="border-b border-slate-400 py-1">

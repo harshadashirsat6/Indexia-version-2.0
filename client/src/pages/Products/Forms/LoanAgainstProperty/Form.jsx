@@ -11,7 +11,7 @@ import PersonalDetails from "../../PersonalDetails";
 import IncomeDetails from "../../IncomeDetails";
 import LoanExposure from "../../ExistingLoanExposure";
 import LoanRequirements from "../../LoanRequirements";
-import CollatoralProperty from "../../CollatoralProperty"
+import CollatoralProperty from "../../CollatoralProperty";
 
 const Form = () => {
   const { lapForm } = useSelector((store) => store.loanForm);
