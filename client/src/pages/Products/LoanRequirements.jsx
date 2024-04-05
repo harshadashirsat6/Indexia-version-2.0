@@ -29,7 +29,6 @@ const LoanRequirements = ({
     setPlRequiredLoanTenureErr(false);
     return;
   };
-  console.log(formik.values.dateOfBirth, formik.values.requiredLoanTenure);
 
   //required loan tenure validation form home loan
   const hlRequiredLoanTenureValidation = (dob, loanTenure) => {
