@@ -43,7 +43,7 @@ const CollatoralProperty = ({ formik }) => {
       getCities();
     }
   }, [selectedCollatoralState]);
-  
+
   //ADD COMMA IN AMOUNT INPUTS
   const [collatoralPropertyValue, setCollatoralPropertyValue] = useState("");
 
@@ -98,7 +98,7 @@ const CollatoralProperty = ({ formik }) => {
       )}
       <div>
         <span className="font-semibold text-gray-500">
-          Collateral Property Age *
+          Collateral Property Age (in years) *
         </span>
         <div className="border-b border-slate-400 py-1">
           <input
@@ -111,7 +111,7 @@ const CollatoralProperty = ({ formik }) => {
       </div>
       <div>
         <span className="font-semibold text-gray-500">
-          Collateral Property approximate value *
+          Collateral Property approximate market value *
         </span>
         <div className="border-b border-slate-400 py-1">
           <input

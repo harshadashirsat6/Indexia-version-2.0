@@ -112,7 +112,7 @@ const LoanRequirements = ({
       {category && category === "personal-loan" ? (
         <div>
           <span className="font-semibold text-gray-500">
-            Required Loan Tenure (in years) *
+            Required Loan Tenure * (in years)
           </span>
           <div className="border-b border-slate-400 py-1">
             <select
@@ -137,6 +137,8 @@ const LoanRequirements = ({
           <span className="font-semibold text-gray-500">
             {category === "odcc"
               ? "Required OD/CC Tenure *"
+              : category === "loanAgainstProperty"
+              ? "Required Loan Tenure (not less than 3 years) *"
               : " Required Loan Tenure (in years) *"}
           </span>
           <div className="border-b border-slate-400 py-1">
