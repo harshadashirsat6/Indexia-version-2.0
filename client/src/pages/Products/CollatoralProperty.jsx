@@ -107,7 +107,7 @@ const CollatoralProperty = ({ formik, category }) => {
       )}
       <div>
         <span className="font-semibold text-gray-500">
-          Collateral Property approximate value *
+          Collateral Property approximate market value *
         </span>
         <div className="border-b border-slate-400 py-1">
           <input
