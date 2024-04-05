@@ -52,7 +52,7 @@ const CustomInputs = ({ formik }) => {
       </div>
       <div>
         <span className="font-semibold text-gray-500">
-          Approximate value of property *
+          Current value of Property,approx-if secured
         </span>
         <div className="border-b border-slate-400 py-1">
           <input
