@@ -36,11 +36,6 @@ function LoanDetails({
   return (
     <div className="col-span-1 sm:col-span-2">
       <div>
-        <div className="col-span-1 sm:col-span-2 ">
-          <h1 className="font-bold text-blue-600 underline underline-offset-4">
-            EXISTING LOAN EXPOSURE
-          </h1>
-        </div>
         <ul>
           {existingLoanTypes.map((loanType) => (
             <li key={loanType}>
