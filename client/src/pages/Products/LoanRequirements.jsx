@@ -11,17 +11,35 @@ const LoanRequirements = ({
 }) => {
   //required loan tenure validation form home loan
   const hlRequiredLoanTenureValidation = (dob, tenure) => {
-    console.log(dob, tenure);
-    const currentDate = new Date();
-    const selectedDate = new Date(dob.split("-").reverse().join("-"));
-    const age = currentDate.getFullYear() - selectedDate.getFullYear();
-    console.log("age", age);
-    if (age === 67 && tenure !== 3) {
-      setHlLoanTenureErr(true);
-      return `for age 67, max loan tenure is 3 years`;
+    // const currentDate = new Date();
+    // const selectedDate = new Date(dob.split("-").reverse().join("-"));
+    // const age = currentDate.getFullYear() - selectedDate.getFullYear();
+    // console.log("age", age);
+    // if (age === 67 && tenure !== 3) {
+    //   setHlLoanTenureErr(true);
+    //   return `for age 67, max loan tenure is 3 years`;
+    // }
+    // setHlLoanTenureErr(false);
+    // return "";
+
+    if (dob && tenure) {
+      const currentDate = new Date();
+      const selectedDate = new Date(dob.split("-").reverse().join("-"));
+      const age = currentDate.getFullYear() - selectedDate.getFullYear();
+      if (age >= 23 && age <= 63) {
+        const calculatedLoanTenure = 63 - age;
+        if (calculatedLoanTenure !== tenure) {
+          setHlLoanTenureErr(true);
+          return (
+            <span className="text-red-500 text-xs font-bold">
+              {` For age ${age} years, max loan tenure is ${calculatedLoanTenure} years`}
+            </span>
+          );
+        }
+      }
     }
     setHlLoanTenureErr(false);
-    return "";
+    return;
   };
 
   //required loan tenure validation for loan against porperty
