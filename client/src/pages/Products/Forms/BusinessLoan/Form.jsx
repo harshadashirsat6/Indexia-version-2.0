@@ -128,7 +128,7 @@ const Form = () => {
         const selectedDate = new Date(value.split("-").reverse().join("-"));
         const age = currentDate.getFullYear() - selectedDate.getFullYear();
         // Adjust the age check as per your specific requirements
-        return age >= 21;
+        return age >= 23 && age <= 60;
       }),
     panCardNum: Yup.string()
       .required("* required")

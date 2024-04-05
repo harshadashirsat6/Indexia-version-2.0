@@ -32,6 +32,7 @@ const Form = () => {
   const [prevYearNetProfitErr, setPrevYearNetProfitErr] = useState(false);
   const [businessPincodeErr, setBusinessPincodeErr] = useState(false);
   const [emiErr, setEmiErr] = useState(false);
+  const [plRequiredLoanTenureErr, setPlRequiredLoanTenureErr] = useState(false);
 
   //emi err
   const emiCalculation = (val) => {
@@ -122,12 +123,13 @@ const Form = () => {
     //personal details validation
     dateOfBirth: Yup.string("")
       .required("* required")
-      .test("age-check", "Age must be greater than 21", function (value) {
+      .test("age-check", "Age must be between 23 and 60", function (value) {
         const currentDate = new Date();
         const selectedDate = new Date(value.split("-").reverse().join("-"));
         const age = currentDate.getFullYear() - selectedDate.getFullYear();
         // Adjust the age check as per your specific requirements
-        return age >= 21;
+        console.log(age);
+        return age >= 23 && age <= 60;
       }),
     panCardNum: Yup.string()
       .required("* required")
@@ -155,7 +157,9 @@ const Form = () => {
 
   const handleProceed = (values) => {
     alert("Form subittiming");
-
+    if (plRequiredLoanTenureErr) {
+      return;
+    }
     if (formik.values.employmentType === "Salaried" && monthlyIncomeErr) {
       return;
     }
@@ -192,6 +196,7 @@ const Form = () => {
         <LoanRequirements
           formik={formik}
           setEmiErr={setEmiErr}
+          setPlRequiredLoanTenureErr={setPlRequiredLoanTenureErr}
           category={"personal-loan"}
         />
         {/* INCOME DETAILS */}

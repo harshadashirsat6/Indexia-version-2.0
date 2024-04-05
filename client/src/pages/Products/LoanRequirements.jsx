@@ -1,16 +1,38 @@
 import { useState } from "react";
-import { FaChampagneGlasses } from "react-icons/fa6";
 import { personalLoanTenures } from "../../configs/selectorConfigs";
 
 const LoanRequirements = ({
   formik,
   category,
+  setPlRequiredLoanTenureErr, //personal loan
   setHlLoanTenureErr, //home loan
   setLapRequiredLoanTenureErr, //loan against porperty
   setRequiredLoanAmountErr, //education loan
 }) => {
+  //required loan tenure validation for personal loan. if (age===60) loan tenure must be less than 7
+  const plRequiredLoanTenureValidation = (dob, loanTenure) => {
+    if (dob && loanTenure) {
+      const currentDate = new Date();
+      const selectedDate = new Date(dob.split("-").reverse().join("-"));
+      const age = currentDate.getFullYear() - selectedDate.getFullYear();
+      if (age === 60) {
+        if (loanTenure > 6) {
+          setPlRequiredLoanTenureErr(true);
+          return (
+            <span className="text-red-500 text-xs font-bold">
+              {` For age ${age} years, loan tenure is less than 7 years`}
+            </span>
+          );
+        }
+      }
+    }
+    setPlRequiredLoanTenureErr(false);
+    return;
+  };
+  console.log(formik.values.dateOfBirth, formik.values.requiredLoanTenure);
+
   //required loan tenure validation form home loan
-  const hlRequiredLoanTenureValidation = (dob, tenure) => {
+  const hlRequiredLoanTenureValidation = (dob, loanTenure) => {
     // const currentDate = new Date();
     // const selectedDate = new Date(dob.split("-").reverse().join("-"));
     // const age = currentDate.getFullYear() - selectedDate.getFullYear();
@@ -21,14 +43,13 @@ const LoanRequirements = ({
     // }
     // setHlLoanTenureErr(false);
     // return "";
-
-    if (dob && tenure) {
+    if (dob && loanTenure) {
       const currentDate = new Date();
       const selectedDate = new Date(dob.split("-").reverse().join("-"));
       const age = currentDate.getFullYear() - selectedDate.getFullYear();
       if (age >= 23 && age <= 63) {
         const calculatedLoanTenure = 63 - age;
-        if (tenure > calculatedLoanTenure) {
+        if (loanTenure > calculatedLoanTenure) {
           setHlLoanTenureErr(true);
           return (
             <span className="text-red-500 text-xs font-bold">
@@ -144,11 +165,16 @@ const LoanRequirements = ({
             </select>
           </div>
           {formik.touched.requiredLoanTenure &&
-            formik.errors.requiredLoanTenure && (
-              <span className="text-red-500 text-xs font-bold">
-                {formik.errors.requiredLoanTenure}
-              </span>
-            )}
+          formik.errors.requiredLoanTenure ? (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.requiredLoanTenure}
+            </span>
+          ) : category === "personal-loan" ? (
+            plRequiredLoanTenureValidation(
+              formik.values.dateOfBirth,
+              formik.values.requiredLoanTenure
+            )
+          ) : null}
         </div>
       ) : (
         <div>

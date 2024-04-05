@@ -131,7 +131,7 @@ const Form = () => {
         const selectedDate = new Date(value.split("-").reverse().join("-"));
         const age = currentDate.getFullYear() - selectedDate.getFullYear();
         // Adjust the age check as per your specific requirements
-        return age >= 21;
+        return age >= 23 && age <= 60;
       }),
     panCardNum: Yup.string()
       .required("* required")
@@ -205,8 +205,12 @@ const Form = () => {
             LOAN REQUIREMENTS
           </h1>
         </div>
-        <LoanRequirements formik={formik} setEmiErr={setEmiErr} category='odcc' />
-        <CollatoralProperty formik={formik} category='odcc' />
+        <LoanRequirements
+          formik={formik}
+          setEmiErr={setEmiErr}
+          category="odcc"
+        />
+        <CollatoralProperty formik={formik} category="odcc" />
         {/* INCOME DETAILS */}
         <div className="col-span-1 sm:col-span-2 ">
           <h1 className="font-bold text-blue-600 underline undVAerline-offset-4">
