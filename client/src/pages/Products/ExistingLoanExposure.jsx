@@ -46,11 +46,13 @@ const LoanExposure = ({
     }
   };
 
-  useEffect(() => {
-    if (category !== "balance-transfer") {
-      setBanksLoanArr([...banksLoanArr, ...otherBanks]);
-    }
-  }, [bankName]);
+  // useEffect(() => {
+  //   if (category !== "balance-transfer") {
+  //     if (bankName) {
+  //       setBanksLoanArr([...banksLoanArr, ...otherBanks]);
+  //     }
+  //   }
+  // }, [bankName, handleAddBankName]);
 
   //ADD COMMA IN AMOUNT INPUTS
   const [existingEMI, setExistingEMI] = useState("");
