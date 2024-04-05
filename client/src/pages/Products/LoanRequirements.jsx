@@ -28,7 +28,7 @@ const LoanRequirements = ({
       const age = currentDate.getFullYear() - selectedDate.getFullYear();
       if (age >= 23 && age <= 63) {
         const calculatedLoanTenure = 63 - age;
-        if (calculatedLoanTenure !== tenure) {
+        if (tenure > calculatedLoanTenure) {
           setHlLoanTenureErr(true);
           return (
             <span className="text-red-500 text-xs font-bold">
@@ -50,7 +50,7 @@ const LoanRequirements = ({
       const age = currentDate.getFullYear() - selectedDate.getFullYear();
       if (age >= 23 && age <= 63) {
         const calculatedLoanTenure = 63 - age;
-        if (calculatedLoanTenure !== loanTenure) {
+        if (tenure > calculatedLoanTenure) {
           setLapRequiredLoanTenureErr(true);
           return (
             <span className="text-red-500 text-xs font-bold">
