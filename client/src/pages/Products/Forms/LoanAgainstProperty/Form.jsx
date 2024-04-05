@@ -114,7 +114,7 @@ const Form = () => {
       .integer("Invalid input.Must be a number")
       .required("* required"),
     requiredLoanTenure: Yup.number()
-      .integer("Invalid input.Must be a number")
+      .integer("Invalid input. Must be a number")
       .required("* required")
       .min(3, "min 3")
       .max(40, "max 40"),

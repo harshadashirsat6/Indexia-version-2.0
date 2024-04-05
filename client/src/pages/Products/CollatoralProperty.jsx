@@ -133,7 +133,7 @@ const CollatoralProperty = ({ formik, category }) => {
       </div>
       <div>
         <span className="font-semibold text-gray-500">
-          Collateral Property Age *
+        Collateral Property Age (in years) *
         </span>
         <div className="border-b border-slate-400 py-1">
           <input

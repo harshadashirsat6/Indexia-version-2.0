@@ -102,6 +102,7 @@ const CollatoralProperty = ({ formik }) => {
         </span>
         <div className="border-b border-slate-400 py-1">
           <input
+        
             type="Number"
             required
             {...formik.getFieldProps("collateralPropertyAge")}
