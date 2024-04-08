@@ -35,6 +35,9 @@ function LoanDetails({
 
   return (
     <div className="col-span-1 sm:col-span-2">
+      <span className="font-semibold text-gray-500 mt-3">
+        Existing Loan Types
+      </span>
       <div>
         <ul>
           {existingLoanTypes.map((loanType) => (
@@ -51,11 +54,9 @@ function LoanDetails({
       </div>
       {selectedItems.length ? (
         <>
-          <div className="col-span-1 sm:col-span-2 ">
-            <h1 className="font-bold text-blue-600 underline underline-offset-4">
-              EXISTING LOAN EXPOSURE
-            </h1>
-          </div>
+          <span className="font-semibold text-gray-500 mt-3">
+            ENTER LOAN DETAILS
+          </span>
           <div className="">
             <table className="w-full mt-3">
               <thead>
