@@ -208,8 +208,12 @@ const LoanRequirements = ({
                 formik.values.dateOfBirth,
                 formik.values.requiredLoanTenure
               )
-            ) : null
-          ) : null}
+            ) : lapRequiredLoanTenureValidation(
+                formik.values.dateOfBirth,
+                formik.values.requiredLoanTenure
+          ) :lapRequiredLoanTenureValidation(
+                formik.values.dateOfBirth,
+                formik.values.requiredLoanTenure }
         </div>
       )}
     </>
