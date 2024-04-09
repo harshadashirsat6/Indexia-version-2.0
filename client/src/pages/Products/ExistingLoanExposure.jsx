@@ -217,14 +217,15 @@ const LoanExposure = ({
                 </div>
               </div>
               {otherBanks.length > 0 ? (
-                <div className="flex gap-3  py-3">
+                <div className="flex flex-col gap-3  py-3 ">
                   {otherBanks.map((ele, i) => {
                     return (
                       <p
                         key={i}
-                        className="border-[1px] border-gray-400 text-black rounded-md px-4 py-0.5 capitalize"
+                        className=" border-gray-400 text-black rounded-md px-4 py-0.5 capitalize flex gap-2"
                       >
-                        {ele}
+                        <span>{i + 1}.</span>
+                        <span>{ele}</span>
                       </p>
                     );
                   })}
