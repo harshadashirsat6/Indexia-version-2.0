@@ -139,7 +139,7 @@ const Form = () => {
         const selectedDate = new Date(value.split("-").reverse().join("-"));
         const age = currentDate.getFullYear() - selectedDate.getFullYear();
         // Adjust the age check as per your specific requirements
-        return age >=23;
+        return age >= 23;
       }),
     panCardNum: Yup.string()
       .required("* required")
@@ -149,21 +149,19 @@ const Form = () => {
     residenceState: Yup.string("").required("* required"),
     residenceCity: Yup.string("").required("* required"),
     residenceType: Yup.string("").required("* required"),
-    residencePincode: Yup.number()
-      .integer("Invalid pincode")
+    residencePincode: Yup.string()
       .required("* required")
       .test("length-check", "Invalid pincode", function (value) {
-        return value.toString().length === 6;
+        return value.length === 6;
       }),
     //custom inputs
     collateralOption: Yup.string().required("* required"),
     collatoralPropertyState: Yup.string().required("* required"),
     collatoralPropertyCity: Yup.string().required("* required"),
-    collatoralPropertyPincode: Yup.number()
-      .integer("Invalid pincode")
+    collatoralPropertyPincode: Yup.string()
       .required("* required")
       .test("length-check", "Invalid pincode", function (value) {
-        return value.toString().length === 6;
+        return value.length === 6;
       }),
     collatoralPropertyAge: Yup.number()
       .integer("Invalid input.Must be a number")

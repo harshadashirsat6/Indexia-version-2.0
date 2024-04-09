@@ -56,12 +56,11 @@ const Form = () => {
     residenceState: Yup.string("").required("* required"),
     residenceCity: Yup.string("").required("* required"),
     residenceType: Yup.string("").required("* required"),
-    residencePincode: Yup.number()
-      .integer("Invalid pincode")
-      .required("* required")
-      .test("length-check", "Invalid pincode", function (value) {
-        return value.toString().length === 6;
-      }),
+    residencePincode: Yup.string()
+    .required("* required")
+    .test("length-check", "Invalid pincode", function (value) {
+      return value.length === 6;
+    }),
     //custom inputs
     anyActiveCreditCardStatus: Yup.string("").required("* required"),
     newCreditCardBankName: Yup.string("").required("* required"),

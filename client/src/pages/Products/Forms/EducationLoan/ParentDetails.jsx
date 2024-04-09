@@ -285,6 +285,7 @@ const ParentDetails = ({ formik }) => {
             placeholder="Enter Pincode"
             type="number"
             {...formik.getFieldProps("parentResidencePincode")}
+            maxLength={6}
             className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
           />
         </div>

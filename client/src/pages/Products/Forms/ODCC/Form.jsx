@@ -141,22 +141,20 @@ const Form = () => {
     residenceState: Yup.string("").required("* required"),
     residenceCity: Yup.string("").required("* required"),
     residenceType: Yup.string("").required("* required"),
-    residencePincode: Yup.number()
-      .integer("Invalid pincode")
-      .required("* required")
-      .test("length-check", "Invalid pincode", function (value) {
-        return value.toString().length === 6;
-      }),
+    residencePincode: Yup.string()
+    .required("* required")
+    .test("length-check", "Invalid pincode", function (value) {
+      return value.length === 6;
+    }),
     //custom inputs
     collateralOption: Yup.string().required("* required"),
     collatoralPropertyState: Yup.string().required("* required"),
     collatoralPropertyCity: Yup.string().required("* required"),
-    collatoralPropertyPincode: Yup.number()
-      .integer("Invalid pincode")
-      .required("* required")
-      .test("length-check", "Invalid pincode", function (value) {
-        return value.toString().length === 6;
-      }),
+    collatoralPropertyPincode: Yup.string()
+    .required("* required")
+    .test("length-check", "Invalid pincode", function (value) {
+      return value.length === 6;
+    }),
     collatoralPropertyValue: Yup.number()
       .integer("Invalid input.Must be a number")
       .required("* required"),

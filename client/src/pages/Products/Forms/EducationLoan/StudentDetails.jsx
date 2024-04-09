@@ -279,6 +279,7 @@ const StudentDetails = ({ formik }) => {
             placeholder="Enter Pincode"
             type="number"
             {...formik.getFieldProps("residencePincode")}
+            maxLength={6}
             className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
           />
         </div>

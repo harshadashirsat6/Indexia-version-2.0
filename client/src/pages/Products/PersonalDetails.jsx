@@ -254,8 +254,9 @@ const PersonalDetails = ({ formik }) => {
         <div className="border-b border-slate-400 py-1">
           <input
             placeholder="Enter Pincode"
-            type="number"
+            type="text"
             {...formik.getFieldProps("residencePincode")}
+            maxLength={6}
             className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
           />
         </div>

@@ -107,7 +107,7 @@ const CollatoralProperty = ({ formik, category }) => {
       )}
       <div>
         <span className="font-semibold text-gray-500">
-          Collateral Property approximate market value *
+          Collateral Property Market Value (Approx) *
         </span>
         <div className="border-b border-slate-400 py-1">
           <input
@@ -133,7 +133,7 @@ const CollatoralProperty = ({ formik, category }) => {
       </div>
       <div>
         <span className="font-semibold text-gray-500">
-        Collateral Property Age (in years) *
+          Collateral Property Age (in years) *
         </span>
         <div className="border-b border-slate-400 py-1">
           <input
@@ -218,8 +218,9 @@ const CollatoralProperty = ({ formik, category }) => {
         <div className="border-b border-slate-400 py-1">
           <input
             placeholder="Enter pincode"
-            type="number"
+            type="text"
             {...formik.getFieldProps("collatoralPropertyPincode")}
+            maxLength={6}
             className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
           />
         </div>

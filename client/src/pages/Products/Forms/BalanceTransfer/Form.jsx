@@ -120,7 +120,7 @@ const Form = () => {
         const selectedDate = new Date(value.split("-").reverse().join("-"));
         const age = currentDate.getFullYear() - selectedDate.getFullYear();
         // Adjust the age check as per your specific requirements
-       return  age >= 23 && age <= 60
+        return age >= 23 && age <= 60;
       }),
     panCardNum: Yup.string()
       .required("* required")
@@ -130,11 +130,10 @@ const Form = () => {
     residenceState: Yup.string("").required("* required"),
     residenceCity: Yup.string("").required("* required"),
     residenceType: Yup.string("").required("* required"),
-    residencePincode: Yup.number()
-      .integer("Invalid pincode")
+    residencePincode: Yup.string()
       .required("* required")
       .test("length-check", "Invalid pincode", function (value) {
-        return value.toString().length === 6;
+        return value.length === 6;
       }),
     //custom inputs
     balanceTransferLoanTenure: Yup.number()
@@ -237,12 +236,12 @@ const Form = () => {
           emiCalculation={emiCalculation}
           category={param}
         />
-          <LoanDetails
-            selectedItems={selectedItems}
-            setSelectedItems={setSelectedItems}
-            tableData={tableData}
-            setTableData={setTableData}
-          />
+        <LoanDetails
+          selectedItems={selectedItems}
+          setSelectedItems={setSelectedItems}
+          tableData={tableData}
+          setTableData={setTableData}
+        />
         {/* PERSONAL DETAILS */}
         <div className="col-span-1 sm:col-span-2 ">
           <h1 className="font-bold text-blue-600 underline underline-offset-4">

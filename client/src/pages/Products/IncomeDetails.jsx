@@ -154,12 +154,10 @@ const IncomeDetails = ({
       {formik.values.employmentType === "Salaried" ? (
         <>
           <div>
-            <span className="font-semibold text-gray-500">
-              Company Full Name *
-            </span>
+            <span className="font-semibold text-gray-500">Company Name *</span>
             <div className="border-b border-slate-400 py-1">
               <input
-                placeholder="full name required"
+                placeholder="Company full name"
                 type="text"
                 {...formik.getFieldProps("companyName")}
                 required
@@ -244,7 +242,8 @@ const IncomeDetails = ({
               </div>
             </div>
           </div>
-          {formik.values.salaryRecievedAs === "Cash" ||formik.values.salaryRecievedAs === "" ? null : (
+          {formik.values.salaryRecievedAs === "Cash" ||
+          formik.values.salaryRecievedAs === "" ? null : (
             <>
               {" "}
               <div>
@@ -749,6 +748,7 @@ const IncomeDetails = ({
                 type="text"
                 {...formik.getFieldProps("businessPincode")}
                 required
+                maxLength={6}
                 className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
               />
             </div>

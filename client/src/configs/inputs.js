@@ -109,15 +109,10 @@ export const lapFormInputs = {
 
 // balance transfer
 export const balanceTransferFormInputs = {
-  homeLoanTenure: "",
-  homeLoanROI: "",
-  lapTenure: "",
-  lapROI: "",
-  hlapTenure: "",
-  hlapROI: "",
   topupAmount: "",
   //////
   typeOfBalanceTransfer: "",
+  otherBalanceTransferType: "",
   balanceTransferLoanTenure: "",
   transferPropertyValue: "",
   balanceTransferLoanAmount: "",

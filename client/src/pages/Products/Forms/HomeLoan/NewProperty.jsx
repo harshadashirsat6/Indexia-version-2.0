@@ -176,6 +176,7 @@ const NewProperty = ({ formik }) => {
             placeholder="Enter pincode"
             type="text"
             {...formik.getFieldProps("newPropertyPincode")}
+            maxLength={6}
             className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
           />
         </div>

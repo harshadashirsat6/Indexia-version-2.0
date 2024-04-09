@@ -102,7 +102,6 @@ const CollatoralProperty = ({ formik }) => {
         </span>
         <div className="border-b border-slate-400 py-1">
           <input
-        
             type="Number"
             required
             {...formik.getFieldProps("collateralPropertyAge")}
@@ -112,7 +111,7 @@ const CollatoralProperty = ({ formik }) => {
       </div>
       <div>
         <span className="font-semibold text-gray-500">
-          Collateral Property approximate market value *
+          Collateral Property Market Value (Approx)
         </span>
         <div className="border-b border-slate-400 py-1">
           <input

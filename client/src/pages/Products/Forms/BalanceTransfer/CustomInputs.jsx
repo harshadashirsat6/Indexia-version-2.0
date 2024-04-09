@@ -41,6 +41,7 @@ const CustomInputs = ({ formik }) => {
             <option value="working-capital">Working capital</option>
             <option value="lease-rent-discount">Lease rent discount</option>
             <option value="odcc">Od cc</option>
+            <option value="Other">Other</option>
           </select>
         </div>
         {formik.touched.typeOfBalanceTransfer &&
@@ -50,9 +51,30 @@ const CustomInputs = ({ formik }) => {
             </span>
           )}
       </div>
+      {formik.values.typeOfBalanceTransfer ? (
+        <div>
+          <span className="font-semibold text-gray-500">
+            Other Type of Balance Transfer *
+          </span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder=""
+              type="number"
+              {...formik.getFieldProps("balanceTransferLoanTenure")}
+              className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+            />
+          </div>
+          {formik.touched.balanceTransferLoanTenure &&
+            formik.errors.balanceTransferLoanTenure && (
+              <span className="text-red-500 text-xs font-bold">
+                {formik.errors.balanceTransferLoanTenure}
+              </span>
+            )}
+        </div>
+      ) : null}
       <div>
         <span className="font-semibold text-gray-500">
-          Current value of Property,approx-if secured
+          Current value of Property,approx-if secured{" "}
         </span>
         <div className="border-b border-slate-400 py-1">
           <input
