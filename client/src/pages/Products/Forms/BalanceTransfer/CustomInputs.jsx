@@ -51,7 +51,7 @@ const CustomInputs = ({ formik }) => {
             </span>
           )}
       </div>
-      {formik.values.typeOfBalanceTransfer ? (
+      {formik.values.typeOfBalanceTransfer==='Other' ? (
         <div>
           <span className="font-semibold text-gray-500">
             Other Type of Balance Transfer *
