@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { existingLoanTypes } from "../../../../configs/selectorConfigs";
-// const existingLoanTypes = [
-//   "Personal Loan",
-//   "Home Loan",
-//   "Car Loan",
-//   "Gold Loan",
-//   "Other",
-// ];
 
-function App({}) {
+function LoanDetails({}) {
   const [selectedItems, setSelectedItems] = useState([]);
   const [tableData, setTableData] = useState([]);
 
@@ -43,6 +36,30 @@ function App({}) {
       }
       return item;
     });
+
+    // If the selected loan type is "Other", handle the input differently
+    if (loanType === "Other") {
+      const otherIndex = updatedData.findIndex(
+        (item) => item.loanType === loanType
+      );
+      if (field === "loanType") {
+        // When changing the loan type for "Other", also clear the other fields
+        updatedData[otherIndex] = {
+          loanType: value,
+          amount: "",
+          bankName: "",
+          roi: "",
+          newLoanType: "",
+        };
+      } else {
+        // For other fields, update normally
+        updatedData[otherIndex] = {
+          ...updatedData[otherIndex],
+          [field]: value,
+        };
+      }
+    }
+
     setTableData(updatedData);
   };
 
@@ -121,7 +138,6 @@ function App({}) {
                               e.target.value
                             )
                           }
-                          className="border-[1px] border-black"
                         />
                       ) : (
                         loan.loanType
@@ -138,7 +154,6 @@ function App({}) {
                             e.target.value
                           )
                         }
-                        className="border-[1px] border-black"
                       />
                     </td>
                     <td>
@@ -152,7 +167,6 @@ function App({}) {
                             e.target.value
                           )
                         }
-                        className="border-[1px] border-black"
                       />
                     </td>
                     <td>
@@ -166,7 +180,6 @@ function App({}) {
                             e.target.value
                           )
                         }
-                        className="border-[1px] border-black"
                       />
                     </td>
                     {selectedItems.includes("Other") && (
@@ -181,7 +194,6 @@ function App({}) {
                               e.target.value
                             )
                           }
-                          className="border-[1px] border-black"
                         />
                       </td>
                     )}
@@ -189,12 +201,7 @@ function App({}) {
                 ))}
               </tbody>
             </table>
-            <button
-              onClick={handleAddRow}
-              className="bg-blue-200 font-black px-4 rounded-md"
-            >
-              Add Other Loan Type
-            </button>
+            <button onClick={handleAddRow}>Add Row</button>
           </div>
         </>
       ) : null}
@@ -202,4 +209,4 @@ function App({}) {
   );
 }
 
-export default App;
+export default LoanDetails;
