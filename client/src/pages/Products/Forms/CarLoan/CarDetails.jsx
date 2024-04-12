@@ -82,7 +82,7 @@ const CarDetails = ({ formik }) => {
       ) : null}
       <div>
         <span className="font-bold text-gray-500">
-          Buying vehicle Transmission Type
+          Buying Vehicle Transmission Type
         </span>
         <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
           <select
@@ -120,7 +120,7 @@ const CarDetails = ({ formik }) => {
         </div>
       ) : null}
       <div>
-        <span className="font-bold">Vehicle Manufacture</span>
+        <span className="font-bold">Vehicle Manufracturer</span>
         <div className="border-b border-slate-400 py-1">
           <input
             placeholder="ex: TATA,Volkswagen, Hyundai"
@@ -269,23 +269,7 @@ const CarDetails = ({ formik }) => {
               />
             </div>
           </div>
-          <div>
-            <span className="font-semibold text-gray-500">
-              Car Insurance Type
-            </span>
-            <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-              <select
-                className="bg-transparent w-full py-2.5"
-                name="carInsuranceType"
-                {...formik.getFieldProps("carInsuranceType")}
-                required
-              >
-                <option value={""}>Select</option>
-                <option value="self">Self</option>
-                <option value="indexia-finance">Indexia Policy</option>
-              </select>
-            </div>
-          </div>
+
           <div>
             <span className="font-semibold text-gray-500">
               Registartion state for new car *
@@ -311,6 +295,23 @@ const CarDetails = ({ formik }) => {
                       </option>
                     );
                   })}
+              </select>
+            </div>
+          </div>
+          <div>
+            <span className="font-semibold text-gray-500">
+              Car Insurance
+            </span>
+            <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+              <select
+                className="bg-transparent w-full py-2.5"
+                name="carInsuranceType"
+                {...formik.getFieldProps("carInsuranceType")}
+                required
+              >
+                <option value={""}>Select</option>
+                <option value="self">Self</option>
+                <option value="indexia-finance">Indexia Policy</option>
               </select>
             </div>
           </div>
