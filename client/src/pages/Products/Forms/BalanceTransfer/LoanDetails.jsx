@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { existingLoanTypes } from "../../../../configs/selectorConfigs";
 
-function LoanDetails({}) {
+const existingLoanTypes = [
+  "Personal Loan",
+  "Home Loan",
+  "Car Loan",
+  "Gold Loan",
+  "Other",
+];
+
+function App({}) {
   const [selectedItems, setSelectedItems] = useState([]);
   const [tableData, setTableData] = useState([]);
 
@@ -138,6 +145,7 @@ function LoanDetails({}) {
                               e.target.value
                             )
                           }
+                          className="border-[1px] border-gray-600 pl-[3px]"
                         />
                       ) : (
                         loan.loanType
@@ -154,6 +162,7 @@ function LoanDetails({}) {
                             e.target.value
                           )
                         }
+                        className="border-[1px] border-gray-600 pl-[3px]"
                       />
                     </td>
                     <td>
@@ -167,6 +176,7 @@ function LoanDetails({}) {
                             e.target.value
                           )
                         }
+                        className="border-[1px] border-gray-600 pl-[3px]"
                       />
                     </td>
                     <td>
@@ -180,6 +190,7 @@ function LoanDetails({}) {
                             e.target.value
                           )
                         }
+                        className="border-[1px] border-gray-600 pl-[3px]"
                       />
                     </td>
                     {selectedItems.includes("Other") && (
@@ -194,6 +205,7 @@ function LoanDetails({}) {
                               e.target.value
                             )
                           }
+                          className="border-[1px] border-gray-600 pl-[3px]"
                         />
                       </td>
                     )}
@@ -201,7 +213,12 @@ function LoanDetails({}) {
                 ))}
               </tbody>
             </table>
-            <button onClick={handleAddRow}>Add Row</button>
+            <button
+              onClick={handleAddRow}
+              className="bg-blue-300 rounded-md font-black px-[5px] py-[5px] my-[10px]"
+            >
+              Add Other Loan Type
+            </button>
           </div>
         </>
       ) : null}
@@ -209,4 +226,4 @@ function LoanDetails({}) {
   );
 }
 
-export default LoanDetails;
+export default App;
