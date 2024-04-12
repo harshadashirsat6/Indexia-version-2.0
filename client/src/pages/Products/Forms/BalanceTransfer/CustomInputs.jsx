@@ -59,8 +59,8 @@ const CustomInputs = ({ formik }) => {
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder=""
-              type="number"
-              {...formik.getFieldProps("balanceTransferLoanTenure")}
+              type="text"
+              {...formik.getFieldProps("otherTypeBalanceTransfer")}
               className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
             />
           </div>
