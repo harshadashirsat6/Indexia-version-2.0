@@ -62,11 +62,6 @@ const ProjectDetails = ({ formik }) => {
 
   return (
     <>
-      <div className="col-span-1 sm:col-span-2">
-        <h1 className="font-bold underline underline-offset-4">
-          Project Details
-        </h1>
-      </div>
       {/* <div className="">
         <span className="font-semibold text-gray-500">Project Objective *</span>
         <div className="border-b border-slate-400 py-1">
@@ -252,7 +247,7 @@ const ProjectDetails = ({ formik }) => {
         </span>
         <div className="border-b border-slate-400 py-1">
           <input
-            placeholder="In Lacs"
+            placeholder=""
             // type="number"
             // {...formik.getFieldProps("ownInvestmentOnProject")}
             type="text"

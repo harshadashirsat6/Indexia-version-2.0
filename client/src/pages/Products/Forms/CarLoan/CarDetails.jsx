@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
-import { transmissionTypes } from "../../../../configs/selectorConfigs";
+import {
+  transmissionTypes,
+  buyingVehicleTypes,
+} from "../../../../configs/selectorConfigs";
 
 const CarDetails = ({ formik }) => {
   //new car registration state
@@ -41,12 +44,45 @@ const CarDetails = ({ formik }) => {
 
   return (
     <>
-      <div className="col-span-2 sm:col-span-2">
+      {/* <div className="col-span-2 sm:col-span-2">
         <h1 className="font-bold">Vehicle Details</h1>
+      </div> */}
+      <div>
+        <span className="font-semibold text-gray-500">Buying vehicle type</span>
+        <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+          <select
+            className="bg-transparent w-full py-2.5"
+            {...formik.getFieldProps("vehicleType")}
+          >
+            <option value={""}>Select</option>
+            {buyingVehicleTypes.map((ele) => {
+              return <option value={ele}>{ele}</option>;
+            })}
+          </select>
+        </div>
+        {formik.touched.buyCarType && formik.errors.buyCarType && (
+          <span className="text-red-500 text-xs font-bold">
+            {formik.errors.buyCarType}
+          </span>
+        )}
       </div>
+      {formik.values.vehicleType === "Other" ? (
+        <div>
+          <span>Other Buying vehicle type </span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder="ex:Camry, Civic, Corolla"
+              type="text"
+              {...formik.getFieldProps("otherVehicleType")}
+              required
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
+        </div>
+      ) : null}
       <div>
         <span className="font-semibold text-gray-500">
-          Buying Car Transmission Type
+          Buying vehicle Transmission Type
         </span>
         <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
           <select
@@ -69,8 +105,22 @@ const CarDetails = ({ formik }) => {
           </span>
         )}
       </div>
+      {formik.values.transmission === "Other" ? (
+        <div>
+          <span>Other Buying vehicle type </span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder="ex:Camry, Civic, Corolla"
+              type="text"
+              {...formik.getFieldProps("otherTransmissionType")}
+              required
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
+        </div>
+      ) : null}
       <div>
-        <span>Car Manufacture</span>
+        <span>Vehicle Manufacture</span>
         <div className="border-b border-slate-400 py-1">
           <input
             placeholder="ex: TATA,Volkswagen, Hyundai"
@@ -86,7 +136,7 @@ const CarDetails = ({ formik }) => {
         )}
       </div>
       <div>
-        <span>Car Model</span>
+        <span>Vehicle Model</span>
         <div className="border-b border-slate-400 py-1">
           <input
             placeholder="ex:Camry, Civic, Corolla"
@@ -102,7 +152,9 @@ const CarDetails = ({ formik }) => {
         )}
       </div>
       <div>
-        <span className="font-semibold text-gray-500">Wants to buy a car?</span>
+        <span className="font-semibold text-gray-500">
+          Wants to buy a vehicle?
+        </span>
         <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
           <select
             className="bg-transparent w-full py-2.5"
@@ -110,7 +162,7 @@ const CarDetails = ({ formik }) => {
           >
             <option value={""}>Select</option>
             <option value="new">New</option>
-            <option value="old">Old</option>
+            <option value="old">Used</option>
           </select>
         </div>
         {formik.touched.buyCarType && formik.errors.buyCarType && (
@@ -122,9 +174,9 @@ const CarDetails = ({ formik }) => {
       {formik.values.buyCarType === "old" ? (
         <>
           <div>
-            <span>Registartion year of old car</span>
+            <span>Registartion year of old vehicle</span>
             <div className="border-b border-slate-400 py-1">
-              <input
+              <inputc
                 placeholder=""
                 type="text"
                 {...formik.getFieldProps("oldVehicleRegistrationYear")}
@@ -134,7 +186,7 @@ const CarDetails = ({ formik }) => {
             </div>
           </div>
           <div>
-            <span>Old car number</span>
+            <span>Old Vehicle number</span>
             <div className="border-b border-slate-400 py-1">
               <input
                 placeholder=""

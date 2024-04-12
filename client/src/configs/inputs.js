@@ -6,6 +6,7 @@ const personalDetails = {
   residencePincode: "",
   residenceType: "",
 };
+
 const incomeDetails = {
   employmentType: "",
   //general fields
@@ -39,10 +40,12 @@ const incomeDetails = {
   profession: "",
   otherProfession: "",
 };
+
 const loanRequirements = {
   requiredLoanAmount: "",
   requiredLoanTenure: "",
 };
+
 const exisitingLoanRequirements = {
   existingEMI: 0,
   existingLoanAmount: "",
@@ -50,6 +53,7 @@ const exisitingLoanRequirements = {
   existingLoanExposure: [],
   existingLoanBankNames: [],
 };
+
 const collatoralPropertyInputs = {
   collateralOption: "",
   otherCollateralOptionType: "",
@@ -150,7 +154,10 @@ export const projectLoanFormInputs = {
 //car loan
 export const carLoanFormInputs = {
   //vehicle details
+  vehicleType: "",
+  otherVehicleType: "",
   transmission: "",
+  otherTransmissionType: "",
   carManufacturer: "",
   carModel: "",
   buyCarType: "",
@@ -177,10 +184,13 @@ export const educationLoanFormInputs = {
   //education details
   country: "",
   fieldOfStudy: "",
+  courseName: "",
   universityName: "",
   instituteName: "",
   courseDuration: "", //in years
   educationCost: "",
+  propertyOwnerName: "",
+  applicantRelationship: "",
   ...loanRequirements,
   ...collatoralPropertyInputs,
   ...exisitingLoanRequirements,

@@ -141,13 +141,14 @@ const Form = () => {
     residenceCity: Yup.string("").required("* required"),
     residenceType: Yup.string("").required("* required"),
     residencePincode: Yup.string()
-    .required("* required")
-    .test("length-check", "Invalid pincode", function (value) {
-      return value.length === 6;
-    }),
+      .required("* required")
+      .test("length-check", "Invalid pincode", function (value) {
+        return value.length === 6;
+      }),
     //education details
     country: Yup.string("").required("* required"),
     fieldOfStudy: Yup.string("").required("* required"),
+    courseName: Yup.string("").required("* required"),
     universityName: Yup.string("").required("* required"),
     instituteName: Yup.string("").required("* required"),
     courseDuration: Yup.number()

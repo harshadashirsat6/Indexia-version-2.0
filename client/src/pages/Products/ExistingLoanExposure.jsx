@@ -141,11 +141,34 @@ const LoanExposure = ({
             />
           </div>
         </div>
+      ) : category === "project-loan" ? (
+        <div>
+          <span className="font-semibold text-gray-500">
+            Existing Loan Amount (Total) *
+          </span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder=""
+              // type="number"
+              // {...formik.getFieldProps("existingLoanAmount")}
+              type="text"
+              name="existingLoanAmount"
+              value={existingLoanAmount}
+              onChange={(e) => {
+                addCommas("existingloanamount", e.target.value);
+                const formatedVal = e.target.value.split(",").join("");
+                formik.setFieldValue("existingLoanAmount", formatedVal);
+              }}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              required
+            />
+          </div>
+        </div>
       ) : (
         <>
           <div>
             <span className="font-semibold text-gray-500">
-              Existing Total Loan Amount *
+              Existing Loan Amount (Total)*
             </span>
             <div className="border-b border-slate-400 py-1">
               <input

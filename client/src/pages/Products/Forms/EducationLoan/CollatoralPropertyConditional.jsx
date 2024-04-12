@@ -98,7 +98,7 @@ const CollatoralProperty = ({ formik }) => {
       )}
       <div>
         <span className="font-semibold text-gray-500">
-          Collateral Property Age (in years) *
+          Property Age (in years) *
         </span>
         <div className="border-b border-slate-400 py-1">
           <input
@@ -109,9 +109,10 @@ const CollatoralProperty = ({ formik }) => {
           />
         </div>
       </div>
+
       <div>
         <span className="font-semibold text-gray-500">
-          Collateral Property Market Value (Approx)
+          Property Market Value (Approx)
         </span>
         <div className="border-b border-slate-400 py-1">
           <input
@@ -130,9 +131,7 @@ const CollatoralProperty = ({ formik }) => {
         </div>
       </div>
       <div>
-        <span className="font-semibold text-gray-500">
-          Collateral Property State *
-        </span>
+        <span className="font-semibold text-gray-500">Property State *</span>
         <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
           <select
             className="bg-transparent w-full py-2.5"
@@ -158,9 +157,7 @@ const CollatoralProperty = ({ formik }) => {
         </div>
       </div>
       <div>
-        <span className="font-semibold text-gray-500">
-          Collateral Property City *
-        </span>
+        <span className="font-semibold text-gray-500">Property City *</span>
         <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
           <select
             required
@@ -180,9 +177,7 @@ const CollatoralProperty = ({ formik }) => {
         </div>
       </div>
       <div>
-        <span className=" font-semibold text-gray-500">
-          Collateral Property Pincode *
-        </span>
+        <span className=" font-semibold text-gray-500">Property Pincode *</span>
         <div className="border-b border-slate-400 py-1">
           <input
             required
@@ -190,6 +185,33 @@ const CollatoralProperty = ({ formik }) => {
             type="number"
             {...formik.getFieldProps("collatoralPropertyPincode")}
             className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+          />
+        </div>
+      </div>
+      <div>
+        <span clwassName="font-semibold text-gray-500">
+          Property Owner Name *
+        </span>
+        <div className="border-b border-slate-400 py-1">
+          <input
+            type="text"
+            required
+            {...formik.getFieldProps("propertyOwnerName")}
+            className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+          />
+        </div>
+      </div>
+      <div>
+        <span className="font-semibold text-gray-500">
+          Relationship with the applicant *
+        </span>
+        <div className="border-b border-slate-400 py-1">
+          <input
+            type="text"
+            placeholder="relationship"
+            required
+            {...formik.getFieldProps("applicantRelationship")}
+            className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
           />
         </div>
       </div>

@@ -100,7 +100,7 @@ const CustomInputs = ({ formik }) => {
       )}
       <div>
         <span className="font-semibold text-gray-500">
-          Buying Property Value *
+          Buying Property Market Value *
         </span>
         <div className="border-b border-slate-400 py-1">
           <input

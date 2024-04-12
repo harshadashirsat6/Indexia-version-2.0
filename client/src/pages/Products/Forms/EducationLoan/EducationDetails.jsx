@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { countries } from "../../../../configs/selectorConfigs";
+import {
+  countries,
+  educationFields,
+} from "../../../../configs/selectorConfigs";
 
 const EducationDetails = ({ formik }) => {
   //ADD COMMA IN AMOUNT INPUTS
@@ -15,17 +18,15 @@ const EducationDetails = ({ formik }) => {
 
   return (
     <>
-      <div className="col-span-1 sm:col-span-2">
-        <span className="font-bold underline underline-offset-4">
-          EDUCATION & UNIVERSITY DETAILS
-        </span>
-      </div>
       <div>
         <span className="font-semibold text-gray-500">
           Country for Education *
         </span>
         <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
-          <select className="bg-transparent w-full py-2.5">
+          <select
+            className="bg-transparent w-full py-2.5"
+            {...formik.getFieldProps("country")}
+          >
             <option value={""}>Select</option>
             {countries.map((ele) => {
               return (
@@ -38,18 +39,36 @@ const EducationDetails = ({ formik }) => {
         </div>
       </div>
       <div>
-        <span>Field of Study *</span>
+        <span className="font-semibold text-gray-500">Field of study*</span>
+        <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+          <select
+            className="bg-transparent w-full py-2.5"
+            {...formik.getFieldProps("fieldOfStudy")}
+          >
+            <option value={""}>Select</option>
+            {educationFields.map((ele) => {
+              return (
+                <option key={ele} value={ele}>
+                  {ele}
+                </option>
+              );
+            })}
+          </select>
+        </div>
+      </div>
+      <div>
+        <span>Course Name *</span>
         <div className="border-b border-slate-400 py-1">
           <input
             placeholder=""
             type="text"
-            {...formik.getFieldProps("fieldOfStudy")}
+            {...formik.getFieldProps("courseName")}
             className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
           />
         </div>
-        {formik.touched.fieldOfStudy && formik.errors.fieldOfStudy && (
+        {formik.touched.courseName && formik.errors.courseName && (
           <span className="text-red-500 text-xs font-bold">
-            {formik.errors.fieldOfStudy}
+            {formik.errors.courseName}
           </span>
         )}
       </div>
@@ -87,13 +106,15 @@ const EducationDetails = ({ formik }) => {
       </div>
       <div>
         <span>Enrollment Status *</span>
-        <div className="border-b border-slate-400 py-1">
-          <input
-            placeholder="Fees/Cost of entire Course in Lakhs"
-            type="number"
+        <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
+          <select
+            className="bg-transparent w-full py-2.5"
             {...formik.getFieldProps("enrollmentStatus")}
-            className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-          />
+          >
+            <option value="Select">Select</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
         </div>
         {formik.touched.enrollmentStatus && formik.errors.enrollmentStatus && (
           <span className="text-red-500 text-xs font-bold">

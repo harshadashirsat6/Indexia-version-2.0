@@ -9,6 +9,7 @@ const LoanRequirements = ({
   setLapRequiredLoanTenureErr, //loan against porperty
   setRequiredLoanAmountErr, //education loan
 }) => {
+  
   //required loan tenure validation for personal loan. if (age===60) loan tenure must be less than 7
   const plRequiredLoanTenureValidation = (dob, loanTenure) => {
     if (dob && loanTenure) {

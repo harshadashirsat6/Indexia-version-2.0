@@ -51,7 +51,7 @@ const CustomInputs = ({ formik }) => {
             </span>
           )}
       </div>
-      {formik.values.typeOfBalanceTransfer==='Other' ? (
+      {formik.values.typeOfBalanceTransfer === "Other" ? (
         <div>
           <span className="font-semibold text-gray-500">
             Other Type of Balance Transfer *
@@ -74,7 +74,7 @@ const CustomInputs = ({ formik }) => {
       ) : null}
       <div>
         <span className="font-semibold text-gray-500">
-          Current value of Property,approx-if secured{" "}
+          Current value of Property (approx) - if secured
         </span>
         <div className="border-b border-slate-400 py-1">
           <input
@@ -128,7 +128,7 @@ const CustomInputs = ({ formik }) => {
       </div>
       <div>
         <span className="font-semibold text-gray-500">
-          Balance Transfer Loan Tenure *
+          Balance Transfer Tenure *
         </span>
         <div className="border-b border-slate-400 py-1">
           <input
@@ -151,7 +151,7 @@ const CustomInputs = ({ formik }) => {
         </span>
         <div className="border-b border-slate-400 py-1">
           <input
-            placeholder="optional"
+            placeholder=""
             // type="number"
             // {...formik.getFieldProps("topupAmount")}
             type="text"
@@ -166,7 +166,7 @@ const CustomInputs = ({ formik }) => {
           />
         </div>
       </div>
-    </>
+    </> 
   );
 };
 

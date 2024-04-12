@@ -102,7 +102,7 @@ const CreditCardDetails = ({ formik }) => {
       ) : formik.values.anyActiveCreditCardStatus === "No" ? null : null}
       <div>
         <span className="font-semibold text-gray-500">
-          New Credit Card Bank Name
+          Wish to apply for (Bank Name)
         </span>
         <div className="border-b border-slate-400 py-1">
           <select
@@ -130,7 +130,7 @@ const CreditCardDetails = ({ formik }) => {
       {formik.values.newCreditCardBankName === "Other" ? (
         <div>
           <span className=" font-semibold text-gray-500">
-            Mention New Credit Card Bank Name
+            Other- Wish to apply for (Bank Name)
           </span>
           <div className="border-b border-slate-400 py-1">
             <input

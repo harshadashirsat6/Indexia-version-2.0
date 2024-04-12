@@ -116,7 +116,7 @@ const Form = () => {
       .integer("Invalid input.Must be a number")
       .required("* required")
       .min(3, "min 3")
-      .max(40, "max 40"),
+      .max(10, "max 10"),
     existingLoanAmount: Yup.number()
       .integer("Invalid input.Must be a number")
       .required("* required"),
@@ -142,10 +142,10 @@ const Form = () => {
     residenceCity: Yup.string("").required("* required"),
     residenceType: Yup.string("").required("* required"),
     residencePincode: Yup.string()
-    .required("* required")
-    .test("length-check", "Invalid pincode", function (value) {
-      return value.length === 6;
-    }),
+      .required("* required")
+      .test("length-check", "Invalid pincode", function (value) {
+        return value.length === 6;
+      }),
     //custom inputs
     projectCost: Yup.number().integer("Invalid input").required("* required"),
     projectType: Yup.string("").required("* required"),
@@ -261,6 +261,7 @@ const Form = () => {
           setLoanTypesArr={setLoanTypesArr}
           banksLoanArr={banksLoanArr}
           setBanksLoanArr={setBanksLoanArr}
+          category={"project-loan"}
         />
         {/* PERSONAL DETAILS */}
         <div className="col-span-1 sm:col-span-2 ">

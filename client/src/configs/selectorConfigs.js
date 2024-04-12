@@ -6,6 +6,7 @@ export const residencyType = [
   "Paying Guest/Hostel",
   "Company Provided",
 ];
+
 export const existingLoanTypes = [
   "Personal loan",
   "Business loan",
@@ -16,7 +17,9 @@ export const existingLoanTypes = [
   "OD/CC",
   "Loan against share",
   "Gold loan",
+  "Other",
 ];
+
 export const existingWokringCapitalLoanTypes = [
   "Personal loan",
   "Business loan",
@@ -36,7 +39,7 @@ export const employmentTypes = [
   "Self-employed professional",
 ];
 
-export const personalLoanTenures = [1, 2, 3, 4, 5, 6,7];
+export const personalLoanTenures = [1, 2, 3, 4, 5, 6, 7];
 
 export const businessLoanEmploymentTypes = [
   "Self-employed business",
@@ -118,10 +121,34 @@ export const businessNatureTypes = [
   "Other",
 ];
 
+export const buyingVehicleTypes = [
+  "Car",
+  "Bus",
+  "Truck",
+  "Two Wheeler",
+  "Tempo",
+  "Other",
+];
+
+export const transmissionTypes = [
+  "Diesel",
+  "Petrol",
+  "CNG",
+  "Electric",
+  "Other",
+];
+
 export const homeLoanPropertyTypes = [
   "New",
   "Under-construction",
   "Old-construction",
+  "Other",
+];
+
+export const educationFields = [
+  "Medical",
+  "Engineering",
+  "Business Management",
   "Other",
 ];
 
@@ -163,8 +190,6 @@ export const projectTypes = [
   "Industrial Property",
   "Other",
 ];
-
-export const transmissionTypes = ["Diesel", "Petrol", "CNG", "Electric"];
 
 export const BanksForCreditCards = [
   "State Bank of India (SBI)",
