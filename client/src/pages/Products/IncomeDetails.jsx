@@ -433,7 +433,7 @@ const IncomeDetails = ({
             <span className="font-semibold text-gray-500">Sub Industry </span>
             <div className="border-b border-slate-400 py-1">
               <input
-                placeholder=""
+                placeholder="Optional"
                 type="text"
                 {...formik.getFieldProps("subIndustryType")}
                 className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"

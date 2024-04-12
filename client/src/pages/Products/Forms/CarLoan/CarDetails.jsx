@@ -48,7 +48,7 @@ const CarDetails = ({ formik }) => {
         <h1 className="font-bold">Vehicle Details</h1>
       </div> */}
       <div>
-        <span className="font-semibold text-gray-500">Buying vehicle type</span>
+        <span className="font-semibold text-gray-500">Buying Vehicle type</span>
         <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
           <select
             className="bg-transparent w-full py-2.5"
@@ -68,7 +68,7 @@ const CarDetails = ({ formik }) => {
       </div>
       {formik.values.vehicleType === "Other" ? (
         <div>
-          <span>Other Buying vehicle type </span>
+          <span>Other Buying Vehicle Type </span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder="ex:Camry, Civic, Corolla"
@@ -81,7 +81,7 @@ const CarDetails = ({ formik }) => {
         </div>
       ) : null}
       <div>
-        <span className="font-semibold text-gray-500">
+        <span className="font-bold text-gray-500">
           Buying vehicle Transmission Type
         </span>
         <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
@@ -120,7 +120,7 @@ const CarDetails = ({ formik }) => {
         </div>
       ) : null}
       <div>
-        <span>Vehicle Manufacture</span>
+        <span className="font-bold">Vehicle Manufacture</span>
         <div className="border-b border-slate-400 py-1">
           <input
             placeholder="ex: TATA,Volkswagen, Hyundai"
@@ -136,7 +136,7 @@ const CarDetails = ({ formik }) => {
         )}
       </div>
       <div>
-        <span>Vehicle Model</span>
+        <span className="font-bold">Vehicle Model</span>
         <div className="border-b border-slate-400 py-1">
           <input
             placeholder="ex:Camry, Civic, Corolla"
@@ -199,7 +199,7 @@ const CarDetails = ({ formik }) => {
             </div>
           </div>
           <div>
-            <span>Approximate value of old car</span>
+            <span>Approximate value of old Vehicle</span>
             <div className="border-b border-slate-400 py-1">
               <input
                 placeholder=""
@@ -218,7 +218,7 @@ const CarDetails = ({ formik }) => {
             </div>
           </div>
           <div>
-            <span>Old Car insurance number (if any)</span>
+            <span>Old Vehicle insurance number (if any)</span>
             <div className="border-b border-slate-400 py-1">
               <input
                 placeholder="If any"
@@ -232,7 +232,7 @@ const CarDetails = ({ formik }) => {
       ) : formik.values.buyCarType === "new" ? (
         <>
           <div>
-            <span>Car on-road price</span>
+            <span>Vehicle on-road price</span>
             <div className="border-b border-slate-400 py-1">
               <input
                 placeholder=""
@@ -251,7 +251,7 @@ const CarDetails = ({ formik }) => {
             </div>
           </div>
           <div>
-            <span>Car ex-showroom price</span>
+            <span>Vehicle ex-showroom price</span>
             <div className="border-b border-slate-400 py-1">
               <input
                 placeholder=""

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-
-const existingLoanTypes = [
-  "Personal Loan",
-  "Home Loan",
-  "Car Loan",
-  "Gold Loan",
-  "Other",
-];
+import { existingLoanTypes } from "../../../../configs/selectorConfigs";
+// const existingLoanTypes = [
+//   "Personal Loan",
+//   "Home Loan",
+//   "Car Loan",
+//   "Gold Loan",
+//   "Other",
+// ];
 
 function App({}) {
   const [selectedItems, setSelectedItems] = useState([]);
