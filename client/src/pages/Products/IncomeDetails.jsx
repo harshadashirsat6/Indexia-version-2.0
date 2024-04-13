@@ -587,6 +587,29 @@ const IncomeDetails = ({
               />
             </div>
           </div>
+          <div>
+            <span className="font-semibold text-gray-500">
+              Last Year Net Income *
+            </span>
+            <div className="border-b border-slate-400 py-1">
+              <input
+                placeholder="Previous Year Net Profit"
+                // type="text"
+                // {...formik.getFieldProps("previousYearNetProfit")}
+                type="text"
+                name="previousYearNetProfit"
+                value={previousYearNetProfit}
+                onChange={(e) => {
+                  addCommas("previousyearnetprofit", e.target.value);
+                  const formatedVal = e.target.value.split(",").join("");
+                  formik.setFieldValue("previousYearNetProfit", formatedVal);
+                }}
+                required
+                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              />
+            </div>
+            {prevYearNetProfitValidation(formik.values.previousYearNetProfit)}
+          </div>
           {/* <div>
             <span className="font-semibold text-gray-500">
               Current Year Turn Over *
@@ -643,29 +666,7 @@ const IncomeDetails = ({
                 </span>
               )}
           </div> */}
-          <div>
-            <span className="font-semibold text-gray-500">
-              Last Year Net Income *
-            </span>
-            <div className="border-b border-slate-400 py-1">
-              <input
-                placeholder="Previous Year Net Profit"
-                // type="text"
-                // {...formik.getFieldProps("previousYearNetProfit")}
-                type="text"
-                name="previousYearNetProfit"
-                value={previousYearNetProfit}
-                onChange={(e) => {
-                  addCommas("previousyearnetprofit", e.target.value);
-                  const formatedVal = e.target.value.split(",").join("");
-                  formik.setFieldValue("previousYearNetProfit", formatedVal);
-                }}
-                required
-                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-              />
-            </div>
-            {prevYearNetProfitValidation(formik.values.previousYearNetProfit)}
-          </div>
+        
           <div>
             <span className="font-semibold text-gray-500">
               Last ( 2 Years old) Net Income
