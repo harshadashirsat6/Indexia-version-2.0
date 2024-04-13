@@ -6,7 +6,7 @@ import { residencyType } from "../../configs/selectorConfigs";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import DatePicker from "../../components/DatePicker/DatePicker";
 
-const PersonalDetails = ({ formik }) => {
+const PersonalDetails = ({ formik, category }) => {
   const { userBasicDetails } = useSelector((store) => store.user);
 
   const [activeCl, setActiveCl] = useState(true);
@@ -284,6 +284,21 @@ const PersonalDetails = ({ formik }) => {
           </span>
         )}
       </div>
+      {formik.values.residenceType === "Other" ? (
+        <div>
+          <span className="font-semibold text-gray-500">
+            Other Status of Residence Type *
+          </span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder=""
+              type="text"
+              {...formik.getFieldProps("otherResidenceType")}
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
+        </div>
+      ) : null}
     </>
   );
 };

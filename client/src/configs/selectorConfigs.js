@@ -1,10 +1,14 @@
 export const residencyType = [
-  "Owned by self/spouse",
-  "Owned by parents/siblings",
+  "Owned by self",
+  "Owned by spouse",
+  "Owned by parents",
+  "Rented with siblings",
   "Rented with family",
   "Rent and stay alone",
-  "Paying Guest/Hostel",
+  "Paying Guest",
+  "Hostel",
   "Company Provided",
+  "Other",
 ];
 
 export const existingLoanTypes = [
