@@ -16,7 +16,23 @@ const LoanExposure = ({
   category,
 }) => {
   //add loan type
+  const [loanTypeName, setLoanTypeName] = useState("");
+  const [otherLoanTypes, setOtherLoanTypes] = useState([]);
+  // const handleAddLoanType = (product) => {
+  //   const isExist = loanTypesArr.find((ele) => ele === product);
+  //   if (isExist) {
+  //     const arr = loanTypesArr.filter((ele) => ele !== product);
+  //     setLoanTypesArr(arr);
+  //   } else {
+  //     setLoanTypesArr([...loanTypesArr, product]);
+  //   }
+  //   if (product === "none") {
+  //     setLoanTypesArr([product]);
+  //   }
+  // };
+
   const handleAddLoanType = (product) => {
+    console.log(product);
     const isExist = loanTypesArr.find((ele) => ele === product);
     if (isExist) {
       const arr = loanTypesArr.filter((ele) => ele !== product);
@@ -98,96 +114,31 @@ const LoanExposure = ({
           emiCalculation(formik.values.existingEMI)
         )}
       </div>
-      {/* <div>
+      <div>
         <span className="font-semibold text-gray-500">
-          Existing  Loan Amount (Total) *
+          Existing Loan Amount (Total) *
         </span>
         <div className="border-b border-slate-400 py-1">
           <input
             placeholder=""
-            type="number"
-            {...formik.getFieldProps("existingLoanAmount")}
+            // type="number"
+            // {...formik.getFieldProps("existingLoanAmount")}
+            type="text"
+            name="existingLoanAmount"
+            value={existingLoanAmount}
+            onChange={(e) => {
+              addCommas("existingloanamount", e.target.value);
+              const formatedVal = e.target.value.split(",").join("");
+              formik.setFieldValue("existingLoanAmount", formatedVal);
+            }}
             className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            required
           />
         </div>
-        {formik.touched.existingLoanAmount &&
-          formik.errors.existingLoanAmount && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.existingLoanAmount}
-            </span>
-          )}
-      </div> */}
+      </div>
       {/* existing loan bank names */}
-      {category === "balance-transfer" ? (
-        <div>
-          <span className="font-semibold text-gray-500">
-            Existing Loan Amount (Total) *
-          </span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder=""
-              // type="number"
-              // {...formik.getFieldProps("existingLoanAmount")}
-              type="text"
-              name="existingLoanAmount"
-              value={existingLoanAmount}
-              onChange={(e) => {
-                addCommas("existingloanamount", e.target.value);
-                const formatedVal = e.target.value.split(",").join("");
-                formik.setFieldValue("existingLoanAmount", formatedVal);
-              }}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-              required
-            />
-          </div>
-        </div>
-      ) : category === "project-loan" ? (
-        <div>
-          <span className="font-semibold text-gray-500">
-            Existing Loan Amount (Total) *
-          </span>
-          <div className="border-b border-slate-400 py-1">
-            <input
-              placeholder=""
-              // type="number"
-              // {...formik.getFieldProps("existingLoanAmount")}
-              type="text"
-              name="existingLoanAmount"
-              value={existingLoanAmount}
-              onChange={(e) => {
-                addCommas("existingloanamount", e.target.value);
-                const formatedVal = e.target.value.split(",").join("");
-                formik.setFieldValue("existingLoanAmount", formatedVal);
-              }}
-              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-              required
-            />
-          </div>
-        </div>
-      ) : (
+      {category === "balance-transfer" ? null : (
         <>
-          <div>
-            <span className="font-semibold text-gray-500">
-              Existing Loan Amount (Total)*
-            </span>
-            <div className="border-b border-slate-400 py-1">
-              <input
-                placeholder=""
-                // type="number"
-                // {...formik.getFieldProps("existingLoanAmount")}
-                type="text"
-                name="existingLoanAmount"
-                value={existingLoanAmount}
-                onChange={(e) => {
-                  addCommas("existingloanamount", e.target.value);
-                  const formatedVal = e.target.value.split(",").join("");
-                  formik.setFieldValue("existingLoanAmount", formatedVal);
-                }}
-                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-                required
-              />
-            </div>
-          </div>
           <div className="col-span-1 sm:col-span-2 py ">
             <span className="font-semibold text-gray-500">
               Existing Loan Bank`s Name
@@ -257,8 +208,8 @@ const LoanExposure = ({
             </>
           ) : null}
           {/* existing loan types */}
-          <div className="col-span-1 sm:col-span-2 ">
-            <span className="font-semibold text-gray-500 ">
+          <div className="col-span-1 sm:col-span-2 py ">
+            <span className="font-semibold text-gray-500">
               Existing Loan Types
             </span>
             <section className="">
@@ -279,21 +230,51 @@ const LoanExposure = ({
             </section>
           </div>
           {loanTypesArr.includes("Other") ? (
-            <div>
+            <>
               <div>
                 <span className=" font-semibold text-gray-500">
-                  Other existing loan type
+                  Other Existing loan Types
                 </span>
-                <div className="border-b border-slate-400 py-1">
+                <div className="border-b border-slate-400 py-1 flex">
                   <input
                     placeholder=""
                     type="text"
-                    {...formik.getFieldProps("otherExistingLoanExposure")}
+                    name="loanTypeName"
+                    value={loanTypeName}
+                    onChange={(e) => setLoanTypeName(e.target.value)}
                     className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
                   />
+                  <button
+                    className="rounded-lg bg-blue-300 px-3 py-2 font-bold"
+                    onClick={() => {
+                      if (loanTypeName) {
+                        otherLoanTypes.push(loanTypeName);
+                        setLoanTypeName("");
+                      } else {
+                        toast.error("loan type name cannot be empty");
+                      }
+                    }}
+                  >
+                    Add
+                  </button>
                 </div>
               </div>
-            </div>
+              {otherLoanTypes.length > 0 ? (
+                <div className="flex flex-col gap-3  py-3 ">
+                  {otherLoanTypes.map((ele, i) => {
+                    return (
+                      <p
+                        key={i}
+                        className=" border-gray-400 text-black rounded-md px-4 py-0.5 capitalize flex gap-2"
+                      >
+                        <span>{i + 1}.</span>
+                        <span>{ele}</span>
+                      </p>
+                    );
+                  })}
+                </div>
+              ) : null}
+            </>
           ) : null}
         </>
       )}
