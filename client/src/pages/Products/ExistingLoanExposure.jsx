@@ -168,7 +168,7 @@ const LoanExposure = ({
                 </span>
                 <div className="border-b border-slate-400 py-1 flex">
                   <input
-                    placeholder=""
+                    placeholder="Enter other bank name"
                     type="text"
                     name="bankName"
                     value={bankName}

@@ -7,7 +7,6 @@ import { FaRegCalendarAlt } from "react-icons/fa";
 import DatePicker from "../../../../components/DatePicker/DatePicker";
 
 const ParentDetails = ({ formik }) => {
-
   const [activeCl, setActiveCl] = useState(true);
 
   //residence state, city
@@ -73,7 +72,9 @@ const ParentDetails = ({ formik }) => {
   return (
     <>
       <div>
-        <span className="font-semibold text-gray-500">Relation</span>
+        <span className="font-semibold text-gray-500">
+          Relationship with the applicant
+        </span>
         <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
           <select
             className="bg-transparent w-full py-2.5"
@@ -244,11 +245,12 @@ const ParentDetails = ({ formik }) => {
               })}
           </select>
         </div>
-        {formik.touched.parentResidenceState && formik.errors.parentResidenceState && (
-          <span className="text-red-500 text-xs font-bold">
-            {formik.errors.parentResidenceState}
-          </span>
-        )}
+        {formik.touched.parentResidenceState &&
+          formik.errors.parentResidenceState && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.parentResidenceState}
+            </span>
+          )}
       </div>
       <div>
         <span className="font-semibold text-gray-500">
@@ -270,11 +272,12 @@ const ParentDetails = ({ formik }) => {
             })}
           </select>
         </div>
-        {formik.touched.parentResidenceCity && formik.errors.parentResidenceCity && (
-          <span className="text-red-500 text-xs font-bold">
-            {formik.errors.parentResidenceCity}
-          </span>
-        )}
+        {formik.touched.parentResidenceCity &&
+          formik.errors.parentResidenceCity && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.parentResidenceCity}
+            </span>
+          )}
       </div>
       <div>
         <span className="font-semibold text-gray-500">
@@ -289,29 +292,34 @@ const ParentDetails = ({ formik }) => {
             className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
           />
         </div>
-        {formik.touched.parentResidencePincode && formik.errors.parentResidencePincode && (
-          <span className="text-red-500 text-xs font-bold">
-            {formik.errors.parentResidencePincode}
-          </span>
-        )}
+        {formik.touched.parentResidencePincode &&
+          formik.errors.parentResidencePincode && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.parentResidencePincode}
+            </span>
+          )}
       </div>
       <div>
         <span className="font-semibold text-gray-500">
           Status of Current Residence *
         </span>
         <div className="border-b border-slate-400 py-1">
-          <select {...formik.getFieldProps("parentResidenceStatus")} className="w-full">
+          <select
+            {...formik.getFieldProps("parentResidenceStatus")}
+            className="w-full"
+          >
             <option value={""}>Select</option>
             {residencyType.map((ele, i) => {
               return <option key={i}>{ele}</option>;
             })}
           </select>
         </div>
-        {formik.touched.parentResidenceStatus && formik.errors.parentResidenceStatus && (
-          <span className="text-red-500 text-xs font-bold">
-            {formik.errors.parentResidenceStatus}
-          </span>
-        )}
+        {formik.touched.parentResidenceStatus &&
+          formik.errors.parentResidenceStatus && (
+            <span className="text-red-500 text-xs font-bold">
+              {formik.errors.parentResidenceStatus}
+            </span>
+          )}
       </div>
     </>
   );
