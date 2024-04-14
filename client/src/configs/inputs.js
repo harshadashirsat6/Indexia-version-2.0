@@ -184,6 +184,7 @@ export const educationLoanFormInputs = {
   //education details
   country: "",
   fieldOfStudy: "",
+  otherFieldOfStudy:"",
   courseName: "",
   universityName: "",
   instituteName: "",

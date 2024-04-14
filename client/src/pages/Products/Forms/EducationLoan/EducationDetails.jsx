@@ -50,28 +50,28 @@ const EducationDetails = ({ formik }) => {
               return (
                 <option key={ele} value={ele}>
                   {ele}
+                  {console.log(ele)}{" "}
                 </option>
               );
             })}
           </select>
         </div>
       </div>
-      <div>
-        <span>Course Name *</span>
-        <div className="border-b border-slate-400 py-1">
-          <input
-            placeholder=""
-            type="text"
-            {...formik.getFieldProps("courseName")}
-            className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-          />
+      {formik.values.fieldOfStudy === "Other" ? (
+        <div>
+          <span>Other Field of Study *</span>
+          <div className="border-b border-slate-400 py-1">
+            <input
+              placeholder=""
+              type="text"
+              {...formik.getFieldProps("otherFieldOfStudy")}
+              required
+              className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            />
+          </div>
         </div>
-        {formik.touched.courseName && formik.errors.courseName && (
-          <span className="text-red-500 text-xs font-bold">
-            {formik.errors.courseName}
-          </span>
-        )}
-      </div>
+      ) : null}
+
       <div>
         <span>University *</span>
         <div className="border-b border-slate-400 py-1">
