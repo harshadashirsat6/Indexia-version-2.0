@@ -73,7 +73,7 @@ const IncomeDetails = ({
       setMonthlyIncomeErr(true);
       return (
         <span className="text-red-500 text-xs font-bold">
-          Salary should be greater than 12000
+          Monthly income should be greater than 12000
         </span>
       );
     }
@@ -92,7 +92,7 @@ const IncomeDetails = ({
       setPrevYearNetProfitErr(true);
       return (
         <span className="text-red-500 text-xs font-bold">
-          Previous year net profit cannot be 0
+          Annual Income cannot be zero
         </span>
       );
     }

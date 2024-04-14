@@ -79,6 +79,9 @@ const CollatoralProperty = ({ formik, category }) => {
                 </option>
               );
             })}
+            {category && category === "odcc" && (
+              <option value={"Unsecured"}>Unsecured</option>
+            )}
           </select>
         </div>
         {formik.touched.collateralOption && formik.errors.collateralOption && (
