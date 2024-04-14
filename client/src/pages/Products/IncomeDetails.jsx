@@ -7,11 +7,11 @@ import {
   employerTypes,
   incomeRecievedAs,
   primaryBankAccountOptions,
-  yearsInCurrentBusiness,
   industryTypes,
 } from "../../configs/selectorConfigs";
-//validation functions
-// import { monthlyIncomeError } from "./Validation/IncomeDetails";
+// media
+import { FaRegCalendarAlt } from "react-icons/fa";
+import DatePicker from "../../components/DatePicker/DatePicker";
 
 const IncomeDetails = ({
   formik,
@@ -144,6 +144,24 @@ const IncomeDetails = ({
     }
   };
 
+  //auto dash in business estblishedment date
+  const [activeCl, setActiveCl] = useState(true);
+  const formatBusinessEstablishmentDate = (inputDate) => {
+    const cleanedInput = inputDate.replace(/[^\d]/g, ""); // Remove non-numeric characters
+    console.log(cleanedInput);
+    const day = cleanedInput.slice(0, 2);
+    const month = cleanedInput.slice(2, 4);
+    const year = cleanedInput.slice(4, 8);
+
+    if (cleanedInput.length > 4) {
+      return `${day}-${month}-${year}`;
+    } else if (cleanedInput.length > 2) {
+      return `${day}-${month}`;
+    } else {
+      return cleanedInput;
+    }
+  };
+
   return (
     <>
       {/* primary bank account */}
@@ -173,7 +191,9 @@ const IncomeDetails = ({
                 {...formik.getFieldProps("companyType")}
                 required
               >
-                <option value="" className="hidden-option">Select</option>
+                <option value="" className="hidden-option">
+                  Select
+                </option>
                 {employerTypes.map((ele, i) => (
                   <option key={i} value={ele}>
                     {ele}
@@ -230,7 +250,9 @@ const IncomeDetails = ({
                   {...formik.getFieldProps("salaryRecievedAs")}
                   required
                 >
-                  <option value="" className="hidden-option">Select</option>
+                  <option value="" className="hidden-option">
+                    Select
+                  </option>
                   {incomeRecievedAs.map((ele, i) => {
                     return (
                       <option key={ele} value={ele}>
@@ -257,7 +279,9 @@ const IncomeDetails = ({
                     {...formik.getFieldProps("primaryBankAccount")}
                     required
                   >
-                    <option value={""} className="hidden-option">Select</option>
+                    <option value={""} className="hidden-option">
+                      Select
+                    </option>
                     {primaryBankAccountOptions.map((ele) => {
                       return (
                         <option key={ele} value={ele}>
@@ -307,7 +331,9 @@ const IncomeDetails = ({
                 {...formik.getFieldProps("companyType")}
                 required
               >
-                <option value="" className="hidden-option">Select</option>
+                <option value="" className="hidden-option">
+                  Select
+                </option>
                 {businessCompanyTypes.map((ele, i) => (
                   <option key={i} value={ele}>
                     {ele}
@@ -444,20 +470,78 @@ const IncomeDetails = ({
               />
             </div>
           </div>
-          <div>
+          {/* <div>
             <span className="font-semibold text-gray-500">
               Date of business establishment *
             </span>
             <div className="border-b border-slate-400 py-1">
               <input
-                placeholder="DD-MM-YYYY"
+                placeholder="Enter date of establishment (DD-MM-YYYY)"
                 type="date"
                 {...formik.getFieldProps("businessEstablishmentDate")}
                 className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
                 required
               />
             </div>
+          </div> */}
+          <div>
+            <span className="font-semibold text-gray-500">
+              Date of business establishment *
+            </span>
+            <div className="border-b border-slate-400 py-1 flex relative">
+              <input
+                placeholder="DD-MM-YYYY"
+                type="text"
+                onBlur={() =>
+                  formik.setFieldTouched("businessEstablishmentDate", true)
+                }
+                value={formik.values.businessEstablishmentDate}
+                onChange={(e) => {
+                  const formattedDate = formatBusinessEstablishmentDate(
+                    e.target.value
+                  );
+
+                  formik.setFieldValue(
+                    "businessEstablishmentDate",
+                    formattedDate
+                  );
+                }}
+                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+              />
+              <div
+                id="e;ljfeijfie"
+                className="w-8 h-[inherit]  bg-gray-200 flex items-center justify-center rounded cursor-pointer"
+                onClick={(e) => {
+                  if (e.target.id === "e;ljfeijfie") {
+                    setActiveCl((prev) => !prev);
+                    formik.setFieldTouched("businessEstablishmentDate", true);
+                  }
+                }}
+              >
+                <FaRegCalendarAlt
+                  onClick={(e) => {
+                    setActiveCl((prev) => !prev);
+                    formik.setFieldTouched("businessEstablishmentDate", true);
+                  }}
+                />
+                <div className={activeCl ? "hidden" : "block "}>
+                  <DatePicker
+                    setActive={() => {
+                      setActiveCl(true);
+                    }}
+                    handaleDate={(date) => {
+                      formik.setFieldValue("businessEstablishmentDate", date);
+                    }}
+                    clearFun={() => {
+                      formik.setFieldValue("businessEstablishmentDate", "");
+                    }}
+                    date={formik.businessEstablishmentDate}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
+
           {/* bank account details */}
           <div className="col-span-1 sm:col-span-2">
             <span className="font-semibold text-gray-500">
@@ -470,7 +554,9 @@ const IncomeDetails = ({
                 {...formik.getFieldProps("primaryBankAccount")}
                 required
               >
-                <option value={""} className="hidden-option">Select</option>
+                <option value={""} className="hidden-option">
+                  Select
+                </option>
                 {primaryBankAccountOptions.map((ele) => {
                   return (
                     <option key={ele} value={ele}>
@@ -777,7 +863,9 @@ const IncomeDetails = ({
                 {...formik.getFieldProps("profession")}
                 required
               >
-                <option value="" className="hidden-option">Select</option>
+                <option value="" className="hidden-option">
+                  Select
+                </option>
                 <option value="Doctor">Doctor</option>
                 <option value="CA">CA</option>
                 <option value="Lawyer">Lawyer</option>

@@ -9,7 +9,6 @@ import DatePicker from "../../components/DatePicker/DatePicker";
 const PersonalDetails = ({ formik, category }) => {
   const { userBasicDetails } = useSelector((store) => store.user);
 
-  const [activeCl, setActiveCl] = useState(true);
 
   //residence state, city
   const [states, setStates] = useState([]);
@@ -56,6 +55,7 @@ const PersonalDetails = ({ formik, category }) => {
   }, [selectedState]);
 
   //auto dash in birthdate
+  const [activeCl, setActiveCl] = useState(true);
   const formatBirthdate = (inputDate) => {
     const cleanedInput = inputDate.replace(/[^\d]/g, ""); // Remove non-numeric characters
     console.log(cleanedInput);
