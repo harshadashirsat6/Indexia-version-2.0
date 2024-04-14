@@ -141,10 +141,10 @@ const Form = () => {
     residenceCity: Yup.string("").required("* required"),
     residenceType: Yup.string("").required("* required"),
     residencePincode: Yup.string()
-    .required("* required")
-    .test("length-check", "Invalid pincode", function (value) {
-      return value.length === 6;
-    }),
+      .required("* required")
+      .test("length-check", "Invalid pincode", function (value) {
+        return value.length === 6;
+      }),
     //custom inputs
     newPropertyType: Yup.string().required("* required"),
     newPropertyState: Yup.string().required("* required"),
@@ -222,7 +222,9 @@ const Form = () => {
               className="bg-transparent w-full py-2.5"
               {...formik.getFieldProps("employmentType")}
             >
-              <option value={""}>Select</option>
+              <option value={""} className="hidden-option">
+                Select
+              </option>
               {employmentTypes.map((ele) => {
                 return (
                   <option key={ele} value={ele}>

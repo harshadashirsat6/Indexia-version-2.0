@@ -212,7 +212,7 @@ const Form = () => {
               className="bg-transparent w-full py-2.5"
               {...formik.getFieldProps("employmentType")}
             >
-              <option value={""}>Select</option>
+              <option value={""} className="hidden-option">Select</option>
               <option value="Salaried">Salaried</option>
             </select>
           </div>
