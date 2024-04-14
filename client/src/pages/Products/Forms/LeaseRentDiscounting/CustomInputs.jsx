@@ -144,7 +144,7 @@ const CustomInputs = ({ formik }) => {
       </div>
       <div>
         <span className="font-semibold text-gray-500">
-          Lease Property Value Approx
+          Lease Property market Value (Approx){" "}
         </span>
         <div className="border-b border-slate-400 py-1">
           <input

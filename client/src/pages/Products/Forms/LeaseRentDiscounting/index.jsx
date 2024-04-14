@@ -25,7 +25,7 @@ const LeaseRentDiscounting = () => {
         >
           <h1 className="text-2xl flex mb-8 flex-col space-y-2 font-semibold text-gray-500 mt-7">
             <span>
-              Unlock the best <span>Lease Rent Discounting</span> offers
+              Unlock the best <span>Lease Rental Discounting</span> offers
               suitable for your needs from <span>43+ lenders</span>
             </span>
           </h1>
