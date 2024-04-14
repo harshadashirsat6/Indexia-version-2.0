@@ -158,7 +158,7 @@ const LoanRequirements = ({
               {...formik.getFieldProps("requiredLoanTenure")}
               className="w-full"
             >
-              <option value={""}>Select</option>
+              <option value={""} className="hidden-option">Select</option>
               {personalLoanTenures.map((ele, i) => {
                 return <option key={i}>{ele}</option>;
               })}

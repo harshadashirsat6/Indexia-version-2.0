@@ -32,7 +32,7 @@ const CustomInputs = ({ formik }) => {
             name="typeOfBalanceTransfer"
             {...formik.getFieldProps("typeOfBalanceTransfer")}
           >
-            <option value={""}>Select</option>
+            <option value={""} className="hidden-option">Select</option>
             <option value="personal-loan">Personal loan</option>
             <option value="business-loan">Business loan</option>
             <option value="home-loan">Home loan</option>

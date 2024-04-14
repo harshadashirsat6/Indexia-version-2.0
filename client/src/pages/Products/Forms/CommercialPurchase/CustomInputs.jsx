@@ -154,7 +154,7 @@ const CustomInputs = ({ formik }) => {
               setSelectedNewpropertyState(e.target.value);
             }}
           >
-            <option value={""}>Select</option>
+            <option value={""} className="hidden-option">Select</option>
             {newpropertyStates
               .sort((a, b) => (a.name > b.name ? 1 : -1))
               .map((obj) => {
@@ -182,7 +182,7 @@ const CustomInputs = ({ formik }) => {
             disabled={!selectedNewpropertyState}
             {...formik.getFieldProps("newPropertyCity")}
           >
-            <option value={""}>Select</option>
+            <option value={""} className="hidden-option">Select</option>
             {newpropertyCities.map((obj) => {
               return (
                 <option key={obj.id} value={obj.name}>

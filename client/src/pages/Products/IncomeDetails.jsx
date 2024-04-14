@@ -173,7 +173,7 @@ const IncomeDetails = ({
                 {...formik.getFieldProps("companyType")}
                 required
               >
-                <option value="">Select</option>
+                <option value="" className="hidden-option">Select</option>
                 {employerTypes.map((ele, i) => (
                   <option key={i} value={ele}>
                     {ele}
@@ -230,7 +230,7 @@ const IncomeDetails = ({
                   {...formik.getFieldProps("salaryRecievedAs")}
                   required
                 >
-                  <option value="">Select</option>
+                  <option value="" className="hidden-option">Select</option>
                   {incomeRecievedAs.map((ele, i) => {
                     return (
                       <option key={ele} value={ele}>
@@ -257,7 +257,7 @@ const IncomeDetails = ({
                     {...formik.getFieldProps("primaryBankAccount")}
                     required
                   >
-                    <option value={""}>Select</option>
+                    <option value={""} className="hidden-option">Select</option>
                     {primaryBankAccountOptions.map((ele) => {
                       return (
                         <option key={ele} value={ele}>
@@ -307,7 +307,7 @@ const IncomeDetails = ({
                 {...formik.getFieldProps("companyType")}
                 required
               >
-                <option value="">Select</option>
+                <option value="" className="hidden-option">Select</option>
                 {businessCompanyTypes.map((ele, i) => (
                   <option key={i} value={ele}>
                     {ele}
@@ -371,7 +371,9 @@ const IncomeDetails = ({
                 {...formik.getFieldProps("businessNature")}
                 required
               >
-                <option value="">Select</option>
+                <option value="" className="hidden-option">
+                  Select
+                </option>
                 {businessNatureTypes.map((ele, i) => (
                   <option key={i} value={ele}>
                     {ele}
@@ -404,7 +406,9 @@ const IncomeDetails = ({
                 {...formik.getFieldProps("industryType")}
                 required
               >
-                <option value="">Select</option>
+                <option value="" className="hidden-option">
+                  Select
+                </option>
                 {industryTypes.map((ele, i) => (
                   <option key={i} value={ele}>
                     {ele}
@@ -466,7 +470,7 @@ const IncomeDetails = ({
                 {...formik.getFieldProps("primaryBankAccount")}
                 required
               >
-                <option value={""}>Select</option>
+                <option value={""} className="hidden-option">Select</option>
                 {primaryBankAccountOptions.map((ele) => {
                   return (
                     <option key={ele} value={ele}>
@@ -669,7 +673,9 @@ const IncomeDetails = ({
                 }}
                 required
               >
-                <option value={""}>Select</option>
+                <option value={""} className="hidden-option">
+                  Select
+                </option>
                 {businessStates
                   .sort((a, b) => (a.name > b.name ? 1 : -1))
                   .map((obj) => {
@@ -693,7 +699,9 @@ const IncomeDetails = ({
                 {...formik.getFieldProps("businessCity")}
                 required
               >
-                <option value={""}>Select</option>
+                <option value={""} className="hidden-option">
+                  Select
+                </option>
                 {businessCities.map((obj) => {
                   return (
                     <option key={obj.id} value={obj.name}>
@@ -730,7 +738,9 @@ const IncomeDetails = ({
                 {...formik.getFieldProps("businessPlaceType")}
                 required
               >
-                <option value={""}>Select</option>
+                <option value={""} className="hidden-option">
+                  Select
+                </option>
                 {businessPlaceOwnershipTypeInputs.map((ele, i) => {
                   return <option key={i}>{ele}</option>;
                 })}
@@ -767,7 +777,7 @@ const IncomeDetails = ({
                 {...formik.getFieldProps("profession")}
                 required
               >
-                <option value="">Select</option>
+                <option value="" className="hidden-option">Select</option>
                 <option value="Doctor">Doctor</option>
                 <option value="CA">CA</option>
                 <option value="Lawyer">Lawyer</option>

@@ -27,7 +27,9 @@ const EducationDetails = ({ formik }) => {
             className="bg-transparent w-full py-2.5"
             {...formik.getFieldProps("country")}
           >
-            <option value={""}>Select</option>
+            <option value={""} className="hidden-option">
+              Select
+            </option>
             {countries.map((ele) => {
               return (
                 <option key={ele} value={ele}>
@@ -45,7 +47,9 @@ const EducationDetails = ({ formik }) => {
             className="bg-transparent w-full py-2.5"
             {...formik.getFieldProps("fieldOfStudy")}
           >
-            <option value={""}>Select</option>
+            <option value={""} className="hidden-option">
+              Select
+            </option>
             {educationFields.map((ele) => {
               return (
                 <option key={ele} value={ele}>
@@ -111,7 +115,9 @@ const EducationDetails = ({ formik }) => {
             className="bg-transparent w-full py-2.5"
             {...formik.getFieldProps("enrollmentStatus")}
           >
-            <option value="Select">Select</option>
+            <option value="Select" className="hidden-option">
+              Select
+            </option>
             <option value="Yes">Yes</option>
             <option value="No">No</option>
           </select>

@@ -80,7 +80,9 @@ const ParentDetails = ({ formik }) => {
             className="bg-transparent w-full py-2.5"
             {...formik.getFieldProps("parentRelation")}
           >
-            <option value={""}>Select</option>
+            <option value={""} className="hidden-option">
+              Select
+            </option>
             <option value="mother">Mother</option>
             <option value="father">Father</option>
           </select>
@@ -308,7 +310,9 @@ const ParentDetails = ({ formik }) => {
             {...formik.getFieldProps("parentResidenceStatus")}
             className="w-full"
           >
-            <option value={""}>Select</option>
+            <option value={""} className="hidden-option">
+              Select
+            </option>
             {residencyType.map((ele, i) => {
               return <option key={i}>{ele}</option>;
             })}

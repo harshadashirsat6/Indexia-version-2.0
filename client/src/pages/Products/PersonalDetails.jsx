@@ -203,7 +203,7 @@ const PersonalDetails = ({ formik, category }) => {
               setSelectedState(e.target.value);
             }}
           >
-            <option>Select</option>
+            <option className="hidden-option">Select</option>
             {states
               .sort((a, b) => (a.name > b.name ? 1 : -1))
               .map((obj) => {
@@ -231,7 +231,7 @@ const PersonalDetails = ({ formik, category }) => {
             disabled={!selectedState}
             {...formik.getFieldProps("residenceCity")}
           >
-            <option>Select</option>
+            <option className="hidden-option">Select</option>
             {cities.map((obj) => {
               return (
                 <option key={obj.id} value={obj.name}>
@@ -272,7 +272,7 @@ const PersonalDetails = ({ formik, category }) => {
         </span>
         <div className="border-b border-slate-400 py-1">
           <select {...formik.getFieldProps("residenceType")} className="w-full">
-            <option value={""}>Select</option>
+            <option value={""} className="hidden-option">Select</option>
             {residencyType.map((ele, i) => {
               return <option key={i}>{ele}</option>;
             })}

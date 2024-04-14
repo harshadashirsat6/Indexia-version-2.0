@@ -67,7 +67,7 @@ const CollatoralProperty = ({ formik }) => {
             {...formik.getFieldProps("collateralOption")}
             required
           >
-            <option>Select</option>
+            <option className="hidden-option" >Select</option>
             {collateralOptionTypes.map((ele, i) => {
               return (
                 <option key={i} value={ele}>
@@ -143,7 +143,7 @@ const CollatoralProperty = ({ formik }) => {
             }}
             {...formik.getFieldProps("collatoralPropertyState")}
           >
-            <option value={""}>Select</option>
+            <option value={""} className="hidden-option">Select</option>
             {states
               .sort((a, b) => (a.name > b.name ? 1 : -1))
               .map((obj) => {
@@ -165,7 +165,7 @@ const CollatoralProperty = ({ formik }) => {
             disabled={!selectedCollatoralState}
             {...formik.getFieldProps("newPropertyCity")}
           >
-            <option value={""}>Select</option>
+            <option value={""} className="hidden-option">Select</option>
             {propertyCities.map((obj) => {
               return (
                 <option key={obj.id} value={obj.name}>

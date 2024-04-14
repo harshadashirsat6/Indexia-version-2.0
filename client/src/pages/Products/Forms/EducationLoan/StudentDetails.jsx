@@ -295,7 +295,7 @@ const StudentDetails = ({ formik }) => {
         </span>
         <div className="border-b border-slate-400 py-1">
           <select {...formik.getFieldProps("residenceType")} className="w-full">
-            <option value={""}>Select</option>
+            <option value={""} className="hidden-option">Select</option>
             {residencyType.map((ele, i) => {
               return <option key={i}>{ele}</option>;
             })}

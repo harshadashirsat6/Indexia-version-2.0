@@ -54,7 +54,7 @@ const CarDetails = ({ formik }) => {
             className="bg-transparent w-full py-2.5"
             {...formik.getFieldProps("vehicleType")}
           >
-            <option value={""}>Select</option>
+            <option value={""} className="hidden-option">Select</option>
             {buyingVehicleTypes.map((ele) => {
               return <option value={ele}>{ele}</option>;
             })}
@@ -89,7 +89,9 @@ const CarDetails = ({ formik }) => {
             className="bg-transparent w-full py-2.5"
             {...formik.getFieldProps("transmission")}
           >
-            <option value={""}>Select</option>
+            <option value={""} className="hidden-option">
+              Select
+            </option>
             {transmissionTypes.map((ele) => {
               return (
                 <option key={ele} value={ele}>
@@ -162,7 +164,9 @@ const CarDetails = ({ formik }) => {
             className="bg-transparent w-full py-2.5"
             {...formik.getFieldProps("buyCarType")}
           >
-            <option value={""}>Select</option>
+            <option value={""} className="hidden-option">
+              Select
+            </option>
             <option value="new">New</option>
             <option value="old">Used</option>
           </select>
@@ -309,7 +313,9 @@ const CarDetails = ({ formik }) => {
                 {...formik.getFieldProps("carInsuranceType")}
                 required
               >
-                <option value={""}>Select</option>
+                <option value={""} className="hidden-option">
+                  Select
+                </option>
                 <option value="self">Self</option>
                 <option value="indexia-finance">Indexia Policy</option>
               </select>
