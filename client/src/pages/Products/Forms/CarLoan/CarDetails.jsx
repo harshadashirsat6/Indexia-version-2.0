@@ -68,7 +68,7 @@ const CarDetails = ({ formik }) => {
       </div>
       {formik.values.vehicleType === "Other" ? (
         <div>
-          <span>Other Buying Vehicle Type </span>
+          <span className="font-bold">Other Buying Vehicle Type </span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder="ex:Camry, Civic, Corolla"
@@ -107,7 +107,9 @@ const CarDetails = ({ formik }) => {
       </div>
       {formik.values.transmission === "Other" ? (
         <div>
-          <span>Other Buying vehicle type </span>
+          <span className="font-bold">
+            Other buying vehicle transmission type{" "}
+          </span>
           <div className="border-b border-slate-400 py-1">
             <input
               placeholder="ex:Camry, Civic, Corolla"
@@ -299,9 +301,7 @@ const CarDetails = ({ formik }) => {
             </div>
           </div>
           <div>
-            <span className="font-semibold text-gray-500">
-              Car Insurance
-            </span>
+            <span className="font-semibold text-gray-500">Car Insurance</span>
             <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
               <select
                 className="bg-transparent w-full py-2.5"

@@ -610,20 +610,6 @@ const IncomeDetails = ({
             </div>
             {prevYearNetProfitValidation(formik.values.previousYearNetProfit)}
           </div>
-          {/* <div>
-            <span className="font-semibold text-gray-500">
-              Current Year Turn Over *
-            </span>
-            <div className="border-b border-slate-400 py-1">
-              <input
-                placeholder="Current Turn Over"
-                type="number"
-                {...formik.getFieldProps("currentYearTurnOver")}
-                required
-                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-              />
-            </div>
-          </div> */}
           <div>
             <span className="font-semibold text-gray-500">
               Last ( 2 Years old) Turnover
@@ -646,27 +632,6 @@ const IncomeDetails = ({
               />
             </div>
           </div>
-          {/* <div>
-            <span className="font-semibold text-gray-500">
-              Current Year Net Income *
-            </span>
-            <div className="border-b border-slate-400 py-1">
-              <input
-                placeholder="Current Year Net Profit"
-                type="text"
-                {...formik.getFieldProps("currentYearNetProfit")}
-                required
-                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-              />
-            </div>
-            {formik.touched.currentYearNetProfit &&
-              formik.errors.currentYearNetProfit && (
-                <span className="text-red-500 text-xs font-bold">
-                  {formik.errors.currentYearNetProfit}
-                </span>
-              )}
-          </div> */}
-        
           <div>
             <span className="font-semibold text-gray-500">
               Last ( 2 Years old) Net Income
