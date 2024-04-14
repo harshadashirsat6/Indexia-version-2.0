@@ -203,7 +203,7 @@ const PersonalDetails = ({ formik, category }) => {
               setSelectedState(e.target.value);
             }}
           >
-            <option className="hidden-option">Select</option>
+            <option  value={""} className="hidden-option">Select</option>
             {states
               .sort((a, b) => (a.name > b.name ? 1 : -1))
               .map((obj) => {
@@ -231,7 +231,7 @@ const PersonalDetails = ({ formik, category }) => {
             disabled={!selectedState}
             {...formik.getFieldProps("residenceCity")}
           >
-            <option className="hidden-option">Select</option>
+            <option value={""} className="hidden-option">Select</option>
             {cities.map((obj) => {
               return (
                 <option key={obj.id} value={obj.name}>
