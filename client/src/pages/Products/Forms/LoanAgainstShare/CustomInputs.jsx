@@ -79,11 +79,11 @@ const CustomInputs = ({ formik }) => {
           </span>
         )}
       </div>
-      <div>
+      {/* <div>
         <span className="font-semibold text-gray-500">Total Share value *</span>
         <div className="border-b border-slate-400 py-1">
           <input
-            placeholder="Total market value"
+            placeholder="Total Market value"
             type="number"
             value={
               Number(formik.values.valueOfOneShare) *
@@ -99,12 +99,12 @@ const CustomInputs = ({ formik }) => {
             {formik.errors.totalSharePrice}
           </span>
         )}
-      </div>
+      </div> */}
       <div>
-        <span className="font-semibold text-gray-500">Market Value</span>
+        <span className="font-semibold text-gray-500">Total Share Value</span>
         <div className="border-b border-slate-400 py-1">
           <input
-            placeholder=""
+            placeholder="Total Market Value"
             // type="number"
             // {...formik.getFieldProps("marektValue")}
             type="text"

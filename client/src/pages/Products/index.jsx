@@ -43,7 +43,7 @@ const Products = () => {
       {param === "credit-card" && <CreditCard />}
       {param === "commercial-purchase" && <CommercialPurchase />}
       {param === "working-capital" && <WorkingCapital />}
-      {param === "lease-rent-discounting" && <LeaseRentDiscounting />}
+      {param === "lease-rental-discounting" && <LeaseRentDiscounting />}
       {param === "OD-CC limit" && <ODCC />}
       {param === "loan-against share" && <LoanAgainstShare />}
     </>

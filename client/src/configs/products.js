@@ -55,7 +55,7 @@ export const products = [
       "Optimize your business cash flow with working capital loans. Secure short-term financing for daily operations, inventory, and growth. Streamline financial efficiency.",
   },
   {
-    title: "lease-rent-discounting",
+    title: "lease-rental-discounting",
     description:
       "Unlock value from leased properties. Leverage lease rent-discounting to access immediate funds for your business needs, with favorable terms and conditions.",
   },
@@ -69,5 +69,4 @@ export const products = [
     description:
       "Unlock value from leased properties. Leverage lease rent-discounting to access immediate funds for your business needs, with favorable terms and conditions.",
   },
-
 ];
