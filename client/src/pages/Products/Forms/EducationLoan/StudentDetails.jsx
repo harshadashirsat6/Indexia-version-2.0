@@ -102,7 +102,7 @@ const StudentDetails = ({ formik }) => {
         <span className="font-semibold text-gray-500">Full name *</span>
         <div className="border-b border-slate-400 py-1">
           <input
-            placeholder=""
+            placeholder="As per adhar card"
             type="text"
             value={userBasicDetails?.name}
             name="name"

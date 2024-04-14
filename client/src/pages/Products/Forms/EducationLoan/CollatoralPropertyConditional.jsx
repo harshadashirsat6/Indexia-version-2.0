@@ -189,7 +189,7 @@ const CollatoralProperty = ({ formik }) => {
         </div>
       </div>
       <div>
-        <span clwassName="font-semibold text-gray-500">
+        <span clwassName=" text-gray-500 font-bolder">
           Property Owner Name *
         </span>
         <div className="border-b border-slate-400 py-1">
@@ -208,7 +208,7 @@ const CollatoralProperty = ({ formik }) => {
         <div className="border-b border-slate-400 py-1">
           <input
             type="text"
-            placeholder="relationship"
+            placeholder=""
             required
             {...formik.getFieldProps("applicantRelationship")}
             className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"

@@ -255,11 +255,11 @@ const Form = () => {
           category="education-loan"
           setRequiredLoanAmountErr={setRequiredLoanAmountErr}
         />
-        {/* if loan amount more than 750000 ask for collatoral property details*/}
+        <EducationDetails formik={formik} />
+        {/* if required loan amount more than 750000 ask for collatoral property details*/}
         {formik.values.requiredLoanAmount > 750000 && (
           <CollatoralProperty formik={formik} />
         )}
-        <EducationDetails formik={formik} />
         {/* INCOME DETAILS */}
         <div className="col-span-1 sm:col-span-2 ">
           <h1 className="font-bold text-blue-600 underline undVAerline-offset-4">
@@ -312,13 +312,6 @@ const Form = () => {
           banksLoanArr={banksLoanArr}
           setBanksLoanArr={setBanksLoanArr}
         />
-        {/* PERSONPARENT PERSONAL DETAILS */}
-        <div className="col-span-1 sm:col-span-2 ">
-          <h1 className="font-bold text-blue-600 underline underline-offset-4">
-            PERSONAL DETAILS (PARENT)
-          </h1>
-        </div>
-        <ParentDetails formik={formik} />
         {/* STUDENT PERSONAL DETAILS */}
         <div className="col-span-1 sm:col-span-2 ">
           <h1 className="font-bold text-blue-600 underline underline-offset-4">
@@ -326,6 +319,13 @@ const Form = () => {
           </h1>
         </div>
         <StudentDetails formik={formik} />
+        {/* PARENT PERSONAL DETAILS */}
+        <div className="col-span-1 sm:col-span-2 ">
+          <h1 className="font-bold text-blue-600 underline underline-offset-4">
+            PERSONAL DETAILS (PARENT)
+          </h1>
+        </div>
+        <ParentDetails formik={formik} />
       </div>
 
       {/* CHECKBOXES */}
