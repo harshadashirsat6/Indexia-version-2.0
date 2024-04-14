@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 const CustomInputs = ({ formik }) => {
-  
   //ADD COMMA IN AMOUNT INPUTS
   const [valueOfOneShare, setValueOfOneShare] = useState("");
   const [marektValue, setMarektValue] = useState("");
@@ -20,7 +19,7 @@ const CustomInputs = ({ formik }) => {
     <>
       <div>
         <span className="font-semibold text-gray-500">
-          Company Share Name *
+          Share Company Name *
         </span>
         <div className="border-b border-slate-400 py-1">
           <input
@@ -64,7 +63,7 @@ const CustomInputs = ({ formik }) => {
         )}
       </div>
       <div>
-        <span className="font-semibold text-gray-500">Quantity *</span>
+        <span className="font-semibold text-gray-500">Quantity of share *</span>
         <div className="border-b border-slate-400 py-1">
           <input
             placeholder=""
@@ -81,10 +80,10 @@ const CustomInputs = ({ formik }) => {
         )}
       </div>
       <div>
-        <span className="font-semibold text-gray-500">Total share price *</span>
+        <span className="font-semibold text-gray-500">Total Share value *</span>
         <div className="border-b border-slate-400 py-1">
           <input
-            placeholder=""
+            placeholder="Total market value"
             type="number"
             value={
               Number(formik.values.valueOfOneShare) *

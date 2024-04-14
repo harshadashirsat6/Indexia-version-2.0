@@ -9,7 +9,6 @@ const LoanRequirements = ({
   setLapRequiredLoanTenureErr, //loan against porperty
   setRequiredLoanAmountErr, //education loan
 }) => {
-  
   //required loan tenure validation for personal loan. if (age===60) loan tenure must be less than 7
   const plRequiredLoanTenureValidation = (dob, loanTenure) => {
     if (dob && loanTenure) {
@@ -148,7 +147,8 @@ const LoanRequirements = ({
             formik.values.educationCost
           )}
       </div>
-      {category && category === "personal-loan" ? (
+      {category &&
+      (category === "personal-loan" || category === "loan-against-share") ? (
         <div>
           <span className="font-semibold text-gray-500">
             Required Loan Tenure * (in years)
@@ -158,7 +158,9 @@ const LoanRequirements = ({
               {...formik.getFieldProps("requiredLoanTenure")}
               className="w-full"
             >
-              <option value={""} className="hidden-option">Select</option>
+              <option value={""} className="hidden-option">
+                Select
+              </option>
               {personalLoanTenures.map((ele, i) => {
                 return <option key={i}>{ele}</option>;
               })}

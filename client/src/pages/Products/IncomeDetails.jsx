@@ -694,7 +694,6 @@ const IncomeDetails = ({
                   const formatedVal = e.target.value.split(",").join("");
                   formik.setFieldValue("previousYearNetProfit", formatedVal);
                 }}
-                required
                 className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
               />
             </div>

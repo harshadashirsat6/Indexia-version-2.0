@@ -142,10 +142,10 @@ const Form = () => {
     residenceCity: Yup.string("").required("* required"),
     residenceType: Yup.string("").required("* required"),
     residencePincode: Yup.string()
-    .required("* required")
-    .test("length-check", "Invalid pincode", function (value) {
-      return value.length === 6;
-    }),
+      .required("* required")
+      .test("length-check", "Invalid pincode", function (value) {
+        return value.length === 6;
+      }),
     //custom inputs
     companyShareName: Yup.string("").required("* required"),
     valueOfOneShare: Yup.number()
@@ -209,7 +209,11 @@ const Form = () => {
             LOAN REQUIREMENTS
           </h1>
         </div>
-        <LoanRequirements formik={formik} setEmiErr={setEmiErr} />
+        <LoanRequirements
+          formik={formik}
+          setEmiErr={setEmiErr}
+          category={"loan-against-share"}
+        />
         <CustomInputs formik={formik} />
 
         {/* INCOME DETAILS */}
@@ -226,7 +230,9 @@ const Form = () => {
               className="bg-transparent w-full py-2.5"
               {...formik.getFieldProps("employmentType")}
             >
-              <option value={""} className="hidden-option">Select</option>
+              <option value={""} className="hidden-option">
+                Select
+              </option>
               {employmentTypes.map((ele) => {
                 return (
                   <option key={ele} value={ele}>
