@@ -656,7 +656,7 @@ const IncomeDetails = ({
             </div>
           ) : null}
           {/* ends */}
-          <div>
+          <div className="col-span-1 sm:col-span-2">
             <span className="font-semibold text-gray-500">
               Last Year Turnover *
             </span>
@@ -678,7 +678,7 @@ const IncomeDetails = ({
               />
             </div>
           </div>
-          <div>
+          <div className="col-span-1 sm:col-span-2">
             <span className="font-semibold text-gray-500">
               Last ( 2 Years old) Turnover
             </span>
@@ -700,7 +700,7 @@ const IncomeDetails = ({
               />
             </div>
           </div>
-          <div>
+          <div className="col-span-1 sm:col-span-2">
             <span className="font-semibold text-gray-500">
               Last Year Net Income
             </span>
@@ -722,8 +722,7 @@ const IncomeDetails = ({
             </div>
             {prevYearNetProfitValidation(formik.values.previousYearNetProfit)}
           </div>
-         
-          <div>
+          <div className="col-span-1 sm:col-span-2">
             <span className="font-semibold text-gray-500">
               Last ( 2 Years old) Net Income
             </span>
