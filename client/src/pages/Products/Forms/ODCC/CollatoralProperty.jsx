@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { collateralOptionTypes } from "../../configs/selectorConfigs";
 
 const CollatoralProperty = ({ formik, category }) => {
   //collatoral state and city
@@ -61,53 +60,6 @@ const CollatoralProperty = ({ formik, category }) => {
     <>
       <div>
         <span className="font-semibold text-gray-500">
-          Wish To Take Loan Against (Collatoral property)*
-        </span>
-        <div className="border-b border-slate-400 py-1 w-full">
-          <select
-            className="w-full"
-            {...formik.getFieldProps("collateralOption")}
-          >
-            <option className="hidden-option">Select</option>
-            {collateralOptionTypes.map((ele, i) => {
-              return (
-                <option key={i} value={ele}>
-                  {ele}
-                </option>
-              );
-            })}
-            {category && category === "odcc" && (
-              <option value={"Unsecured"}>Unsecured</option>
-            )}
-          </select>
-        </div>
-        {formik.touched.collateralOption && formik.errors.collateralOption && (
-          <span className="text-red-500 text-xs font-bold">
-            {formik.errors.collateralOption}
-          </span>
-        )}
-      </div>
-      {formik.values.collateralOption === "Other" && (
-        <div>
-          <div>
-            <span className=" font-semibold text-gray-500">
-              Mention Collateral Property Type *
-            </span>
-            <div className="border-b border-slate-400 py-1">
-              <input
-                placeholder="wish to take loan against"
-                type="text"
-                {...formik.getFieldProps("otherCollateralOptionType")}
-                required
-                className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
-              />
-            </div>
-          </div>
-        </div>
-      )}
-
-      <div>
-        <span className="font-semibold text-gray-500">
           Collateral Property Market Value (Approx) *
         </span>
         <div className="border-b border-slate-400 py-1">
@@ -122,15 +74,10 @@ const CollatoralProperty = ({ formik, category }) => {
               const formatedVal = e.target.value.split(",").join("");
               formik.setFieldValue("collatoralPropertyValue", formatedVal);
             }}
+            required
             className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
           />
         </div>
-        {formik.touched.collatoralPropertyValue &&
-          formik.errors.collatoralPropertyValue && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.collatoralPropertyValue}
-            </span>
-          )}
       </div>
       <div>
         <span className="font-semibold text-gray-500">
@@ -141,14 +88,9 @@ const CollatoralProperty = ({ formik, category }) => {
             type="Number"
             {...formik.getFieldProps("collateralPropertyAge")}
             className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"
+            required
           />
         </div>
-        {formik.touched.collateralPropertyAge &&
-          formik.errors.collateralPropertyAge && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.collateralPropertyAge}
-            </span>
-          )}
       </div>
       <div>
         <span className="font-semibold text-gray-500">
@@ -165,6 +107,7 @@ const CollatoralProperty = ({ formik, category }) => {
               setSelectedCollatoralState(e.target.value);
               console.log("e.target.value", e.target.value);
             }}
+            required
           >
             <option value={""} className="hidden-option">
               Select
@@ -180,12 +123,6 @@ const CollatoralProperty = ({ formik, category }) => {
               })}
           </select>
         </div>
-        {formik.touched.collatoralPropertyState &&
-          formik.errors.collatoralPropertyState && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.collatoralPropertyState}
-            </span>
-          )}
       </div>
       <div>
         <span className="font-semibold text-gray-500">
@@ -196,6 +133,7 @@ const CollatoralProperty = ({ formik, category }) => {
             className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
             disabled={!selectedCollatoralState}
             {...formik.getFieldProps("collatoralPropertyCity")}
+            required
           >
             <option value={""} className="hidden-option">
               Select
@@ -209,12 +147,6 @@ const CollatoralProperty = ({ formik, category }) => {
             })}
           </select>
         </div>
-        {formik.touched.collatoralPropertyCity &&
-          formik.errors.collatoralPropertyCity && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.collatoralPropertyCity}
-            </span>
-          )}
       </div>
       <div>
         <span className=" font-semibold text-gray-500">
@@ -227,14 +159,9 @@ const CollatoralProperty = ({ formik, category }) => {
             {...formik.getFieldProps("collatoralPropertyPincode")}
             maxLength={6}
             className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+            required
           />
         </div>
-        {formik.touched.collatoralPropertyPincode &&
-          formik.errors.collatoralPropertyPincode && (
-            <span className="text-red-500 text-xs font-bold">
-              {formik.errors.collatoralPropertyPincode}
-            </span>
-          )}
       </div>
     </>
   );

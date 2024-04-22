@@ -5,13 +5,16 @@ import * as Yup from "yup";
 import ReCAPTCHA from "react-google-recaptcha";
 import { Link } from "react-router-dom";
 // selectors
-import { employmentTypes } from "../../../../configs/selectorConfigs";
+import {
+  employmentTypes,
+  collateralOptionTypes,
+} from "../../../../configs/selectorConfigs";
 // components
 import PersonalDetails from "../../PersonalDetails";
 import IncomeDetails from "../../IncomeDetails";
 import LoanExposure from "../../ExistingLoanExposure";
 import LoanRequirements from "../../LoanRequirements";
-import CollatoralProperty from "../../CollatoralProperty";
+import CollatoralProperty from "./CollatoralProperty";
 
 const Form = () => {
   const { odccForm } = useSelector((store) => store.loanForm);
@@ -151,17 +154,17 @@ const Form = () => {
         return value.length === 6;
       }),
     //custom inputs
-    collateralOption: Yup.string().required("* required"),
-    collatoralPropertyState: Yup.string().required("* required"),
-    collatoralPropertyCity: Yup.string().required("* required"),
-    collatoralPropertyPincode: Yup.string()
-      .required("* required")
-      .test("length-check", "Invalid pincode", function (value) {
-        return value.length === 6;
-      }),
-    collatoralPropertyValue: Yup.number()
-      .integer("Invalid input.Must be a number")
-      .required("* required"),
+    // collateralOption: Yup.string().required("* required"),
+    // collatoralPropertyState: Yup.string().required("* required"),
+    // collatoralPropertyCity: Yup.string().required("* required"),
+    // collatoralPropertyPincode: Yup.string()
+    //   .required("* required")
+    //   .test("length-check", "Invalid pincode", function (value) {
+    //     return value.length === 6;
+    //   }),
+    // collatoralPropertyValue: Yup.number()
+    //   .integer("Invalid input.Must be a number")
+    //   .required("* required"),
   });
 
   const formik = useFormik({
@@ -212,7 +215,56 @@ const Form = () => {
           setEmiErr={setEmiErr}
           category="odcc"
         />
-        <CollatoralProperty formik={formik} category="odcc" />
+        <div>
+          <span className="font-semibold text-gray-500">
+            Wish to take OD/CC limit Against *
+          </span>
+          <div className="border-b border-slate-400 py-1 w-full">
+            <select
+              className="w-full"
+              {...formik.getFieldProps("collateralOption")}
+            >
+              <option className="hidden-option">Select</option>
+              {collateralOptionTypes.map((ele, i) => {
+                return (
+                  <option key={i} value={ele}>
+                    {ele}
+                  </option>
+                );
+              })}
+              <option value={"Unsecured"}>Unsecured</option>
+            </select>
+          </div>
+          {formik.touched.collateralOption &&
+            formik.errors.collateralOption && (
+              <span className="text-red-500 text-xs font-bold">
+                {formik.errors.collateralOption}
+              </span>
+            )}
+        </div>
+        {formik.values.collateralOption === "Other" && (
+          <div>
+            <div>
+              <span className=" font-semibold text-gray-500">
+                Mention Collateral Property Type *
+              </span>
+              <div className="border-b border-slate-400 py-1">
+                <input
+                  placeholder="wish to take loan against"
+                  type="text"
+                  {...formik.getFieldProps("otherCollateralOptionType")}
+                  required
+                  className="bg-transparent w-full outline-none border-none placeholder:text-slate-500"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+        {console.log(formik.values.collateralOption)}
+        {formik.values.collateralOption === "Unsecured" && (
+          <CollatoralProperty formik={formik} category="odcc" />
+        )}
+
         {/* INCOME DETAILS */}
         <div className="col-span-1 sm:col-span-2 ">
           <h1 className="font-bold text-blue-600 underline undVAerline-offset-4">

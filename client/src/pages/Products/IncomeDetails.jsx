@@ -680,7 +680,7 @@ const IncomeDetails = ({
           </div>
           <div>
             <span className="font-semibold text-gray-500">
-              Last Year Net Income *
+              Last Year Net Income
             </span>
             <div className="border-b border-slate-400 py-1">
               <input
