@@ -54,7 +54,9 @@ const CarDetails = ({ formik }) => {
             className="bg-transparent w-full py-2.5"
             {...formik.getFieldProps("vehicleType")}
           >
-            <option value={""} className="hidden-option">Select</option>
+            <option value={""} className="hidden-option">
+              Select
+            </option>
             {buyingVehicleTypes.map((ele) => {
               return <option value={ele}>{ele}</option>;
             })}
@@ -81,8 +83,13 @@ const CarDetails = ({ formik }) => {
         </div>
       ) : null}
       <div>
+        {console.log(formik.values.vehicleType)}
         <span className="font-bold text-gray-500">
-          Buying Vehicle Transmission Type
+          Buying{" "}
+          {formik.values.vehicleType === "Other"
+            ? "Vehicle"
+            : `${formik.values.vehicleType} ${"  "}`}
+          Transmission Type
         </span>
         <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
           <select
@@ -110,7 +117,7 @@ const CarDetails = ({ formik }) => {
       {formik.values.transmission === "Other" ? (
         <div>
           <span className="font-bold">
-            Other buying vehicle transmission type{" "}
+            Other buying vehicle transmission type
           </span>
           <div className="border-b border-slate-400 py-1">
             <input
@@ -124,7 +131,12 @@ const CarDetails = ({ formik }) => {
         </div>
       ) : null}
       <div>
-        <span className="font-bold">Vehicle Manufracturer</span>
+        <span className="font-bold">
+          {formik.values.vehicleType === "Other"
+            ? "Vehicle"
+            : formik.values.vehicleType}{" "}
+          Manufracturer
+        </span>
         <div className="border-b border-slate-400 py-1">
           <input
             placeholder="ex: TATA,Volkswagen, Hyundai"
@@ -140,7 +152,12 @@ const CarDetails = ({ formik }) => {
         )}
       </div>
       <div>
-        <span className="font-bold">Vehicle Model</span>
+        <span className="font-bold">
+          {formik.values.vehicleType === "Other"
+            ? "Vehicle"
+            : formik.values.vehicleType}{" "}
+          Model
+        </span>
         <div className="border-b border-slate-400 py-1">
           <input
             placeholder="ex:Camry, Civic, Corolla"
@@ -157,7 +174,11 @@ const CarDetails = ({ formik }) => {
       </div>
       <div>
         <span className="font-semibold text-gray-500">
-          Wants to buy a vehicle?
+          Wants to buy a{" "}
+          {formik.values.vehicleType === "Other"
+            ? "Vehicle"
+            : formik.values.vehicleType}
+          ?
         </span>
         <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
           <select
