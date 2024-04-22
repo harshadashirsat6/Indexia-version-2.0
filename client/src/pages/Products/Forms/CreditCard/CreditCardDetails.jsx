@@ -109,7 +109,7 @@ const CreditCardDetails = ({ formik }) => {
             name="newCreditCardBankName"
             {...formik.getFieldProps("newCreditCardBankName")}
           >
-            <option value={""}>Select</option>
+            <option value={""} className="hidden-option">Wish to apply for (Bank Name)</option>
             {BanksForCreditCards.map((ele) => {
               return (
                 <option key={ele} value={ele}>
@@ -129,11 +129,11 @@ const CreditCardDetails = ({ formik }) => {
       {formik.values.newCreditCardBankName === "Other" ? (
         <div>
           <span className=" font-semibold text-gray-500">
-            Other- Wish to apply for (Bank Name)
+             Wish to apply for (Bank Name)
           </span>
           <div className="border-b border-slate-400 py-1">
             <input
-              placeholder=""
+              placeholder="Enter bank name here"
               type="text"
               {...formik.getFieldProps("otherNewCreditCardBankName")}
               required
