@@ -53,7 +53,7 @@ const NewProperty = ({ formik }) => {
       </div> */}
       <div className="">
         <span className="font-semibold text-gray-500">
-          Buying Property Type (Buying property) *
+          Buying Property Type *
         </span>
         <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
           <select
