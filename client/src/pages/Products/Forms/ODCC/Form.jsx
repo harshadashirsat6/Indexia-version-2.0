@@ -260,10 +260,9 @@ const Form = () => {
             </div>
           </div>
         )}
-        {console.log(formik.values.collateralOption)}
-        {formik.values.collateralOption === "Unsecured" && (
+        {formik.values.collateralOption !== "Unsecured" ? (
           <CollatoralProperty formik={formik} category="odcc" />
-        )}
+        ) : null}
 
         {/* INCOME DETAILS */}
         <div className="col-span-1 sm:col-span-2 ">
