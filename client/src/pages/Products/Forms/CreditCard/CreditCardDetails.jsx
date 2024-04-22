@@ -101,12 +101,11 @@ const CreditCardDetails = ({ formik }) => {
         </>
       ) : formik.values.anyActiveCreditCardStatus === "No" ? null : null}
       <div>
-        <span className="font-semibold text-gray-500">
-          Wish to apply for (Bank Name)
-        </span>
+        <span className="font-semibold text-gray-500">Mention bank name</span>
         <div className="border-b border-slate-400 py-1">
           <select
             className="w-full"
+            placeholder="Wish to apply for (Bank Name)"
             name="newCreditCardBankName"
             {...formik.getFieldProps("newCreditCardBankName")}
           >

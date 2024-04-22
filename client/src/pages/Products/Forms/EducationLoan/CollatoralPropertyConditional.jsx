@@ -67,7 +67,7 @@ const CollatoralProperty = ({ formik }) => {
             {...formik.getFieldProps("collateralOption")}
             required
           >
-            <option className="hidden-option" >Select</option>
+            <option className="hidden-option">Select</option>
             {collateralOptionTypes.map((ele, i) => {
               return (
                 <option key={i} value={ele}>
@@ -98,7 +98,7 @@ const CollatoralProperty = ({ formik }) => {
       )}
       <div>
         <span className="font-semibold text-gray-500">
-          Property Age (in years) *
+          Collatoral Property Age (in years) *
         </span>
         <div className="border-b border-slate-400 py-1">
           <input
@@ -143,7 +143,9 @@ const CollatoralProperty = ({ formik }) => {
             }}
             {...formik.getFieldProps("collatoralPropertyState")}
           >
-            <option value={""} className="hidden-option">Select</option>
+            <option value={""} className="hidden-option">
+              Select
+            </option>
             {states
               .sort((a, b) => (a.name > b.name ? 1 : -1))
               .map((obj) => {
@@ -165,7 +167,9 @@ const CollatoralProperty = ({ formik }) => {
             disabled={!selectedCollatoralState}
             {...formik.getFieldProps("newPropertyCity")}
           >
-            <option value={""} className="hidden-option">Select</option>
+            <option value={""} className="hidden-option">
+              Select
+            </option>
             {propertyCities.map((obj) => {
               return (
                 <option key={obj.id} value={obj.name}>
@@ -208,7 +212,7 @@ const CollatoralProperty = ({ formik }) => {
         <div className="border-b border-slate-400 py-1">
           <input
             type="text"
-            placeholder=""
+            placeholder="Name relationship"
             required
             {...formik.getFieldProps("applicantRelationship")}
             className="w-full bg-transparent border-none outline-none placeholder:text-slate-700"

@@ -52,10 +52,12 @@ const Form = () => {
             const calculatedEmi = Math.floor(
               (formik.values.monthlyIncome * 80) / 100
             );
+            const formatter = new Intl.NumberFormat("en-IN");
+            const newCalculatedEmi = formatter.format(calculatedEmi);
             if (calculatedEmi < val) {
               setEmiErr(true);
               return (
-                <span className="text-red-500 text-xs font-bold">{`Emi should be less than ${calculatedEmi} (less than 80% of monthly salary)`}</span>
+                <span className="text-red-500 text-xs font-bold">{`Emi should be less than ${newCalculatedEmi} (less than 80% of monthly salary)`}</span>
               );
             } else {
               setEmiErr(false);
@@ -91,10 +93,12 @@ const Form = () => {
             const calculatedEmi = Math.ceil(
               ((formik.values.previousYearNetProfit / 12) * 80) / 100
             );
+            const formatter = new Intl.NumberFormat("en-IN");
+            const newCalculatedEmi = formatter.format(calculatedEmi);
             if (val > calculatedEmi) {
               setEmiErr(true);
               return (
-                <span className="text-red-500 text-xs font-bold">{`Emi should be less than ${calculatedEmi}(less than 80% of previous year net income)`}</span>
+                <span className="text-red-500 text-xs font-bold">{`Emi should be less than ${newCalculatedEmi}(less than 80% of previous year net income)`}</span>
               );
             } else {
               setEmiErr(false);

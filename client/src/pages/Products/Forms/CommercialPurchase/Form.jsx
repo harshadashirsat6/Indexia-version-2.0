@@ -52,10 +52,12 @@ const Form = () => {
             const calculatedEmi = Math.floor(
               (formik.values.monthlyIncome * 80) / 100
             );
+            const formatter = new Intl.NumberFormat("en-IN");
+            const newCalculatedEmi = formatter.format(calculatedEmi);
             if (calculatedEmi < val) {
               setEmiErr(true);
               return (
-                <span className="text-red-500 text-xs font-bold">{`Emi should be less than ${calculatedEmi} (less than 80% of monthly salary)`}</span>
+                <span className="text-red-500 text-xs font-bold">{`Emi should be less than ${newCalculatedEmi} (less than 80% of monthly salary)`}</span>
               );
             } else {
               setEmiErr(false);
@@ -91,10 +93,12 @@ const Form = () => {
             const calculatedEmi = Math.ceil(
               ((formik.values.previousYearNetProfit / 12) * 80) / 100
             );
+            const formatter = new Intl.NumberFormat("en-IN");
+            const newCalculatedEmi = formatter.format(calculatedEmi);
             if (val > calculatedEmi) {
               setEmiErr(true);
               return (
-                <span className="text-red-500 text-xs font-bold">{`Emi should be less than ${calculatedEmi}(less than 80% of previous year net income)`}</span>
+                <span className="text-red-500 text-xs font-bold">{`Emi should be less than ${newCalculatedEmi}(less than 80% of previous year net income)`}</span>
               );
             } else {
               setEmiErr(false);
@@ -131,8 +135,7 @@ const Form = () => {
         const selectedDate = new Date(value.split("-").reverse().join("-"));
         const age = currentDate.getFullYear() - selectedDate.getFullYear();
         // Adjust the age check as per your specific requirements
-        return  age >= 23 && age <= 60
-
+        return age >= 23 && age <= 60;
       }),
     panCardNum: Yup.string()
       .required("* required")
@@ -143,10 +146,10 @@ const Form = () => {
     residenceCity: Yup.string("").required("* required"),
     residenceType: Yup.string("").required("* required"),
     residencePincode: Yup.string()
-    .required("* required")
-    .test("length-check", "Invalid pincode", function (value) {
-      return value.length === 6;
-    }),
+      .required("* required")
+      .test("length-check", "Invalid pincode", function (value) {
+        return value.length === 6;
+      }),
     //custom inputs
     newPropertyState: Yup.string("").required("* required"),
     newPropertyCity: Yup.string("").required("* required"),
@@ -220,7 +223,9 @@ const Form = () => {
               className="bg-transparent w-full py-2.5"
               {...formik.getFieldProps("employmentType")}
             >
-              <option value={""} className="hidden-option">Select</option>
+              <option value={""} className="hidden-option">
+                Select
+              </option>
               {employmentTypes.map((ele) => {
                 return (
                   <option key={ele} value={ele}>

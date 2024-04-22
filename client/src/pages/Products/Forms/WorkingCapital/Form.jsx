@@ -52,10 +52,12 @@ const Form = () => {
             const calculatedEmi = Math.floor(
               (formik.values.monthlyIncome * 80) / 100
             );
+            const formatter = new Intl.NumberFormat("en-IN");
+            const newCalculatedEmi = formatter.format(newCalculatedEmi);
             if (calculatedEmi < val) {
               setEmiErr(true);
               return (
-                <span className="text-red-500 text-xs font-bold">{`Emi should be less than ${calculatedEmi} (less than 80% of monthly salary)`}</span>
+                <span className="text-red-500 text-xs font-bold">{`Emi should be less than ${newCalculatedEmi} (less than 80% of monthly salary)`}</span>
               );
             } else {
               setEmiErr(false);
@@ -91,10 +93,12 @@ const Form = () => {
             const calculatedEmi = Math.ceil(
               ((formik.values.previousYearNetProfit / 12) * 80) / 100
             );
+            const formatter = new Intl.NumberFormat("en-IN");
+            const newCalculatedEmi = formatter.format(newCalculatedEmi);
             if (val > calculatedEmi) {
               setEmiErr(true);
               return (
-                <span className="text-red-500 text-xs font-bold">{`Emi should be less than ${calculatedEmi}(less than 80% of previous year net income)`}</span>
+                <span className="text-red-500 text-xs font-bold">{`Emi should be less than ${newCalculatedEmi}(less than 80% of previous year net income)`}</span>
               );
             } else {
               setEmiErr(false);
@@ -207,7 +211,7 @@ const Form = () => {
           </h1>
         </div>
         <LoanRequirements formik={formik} setEmiErr={setEmiErr} />
-        <CollatoralProperty formik={formik}  />
+        <CollatoralProperty formik={formik} />
         {/* INCOME DETAILS */}
         <div className="col-span-1 sm:col-span-2 ">
           <h1 className="font-bold text-blue-600 underline undVAerline-offset-4">

@@ -71,9 +71,10 @@ const IncomeDetails = ({
   const monthlyIncomeValidation = (val) => {
     if (val < 12000) {
       setMonthlyIncomeErr(true);
+
       return (
         <span className="text-red-500 text-xs font-bold">
-          Monthly income should be greater than 12000
+          Monthly income should be greater than 12,000
         </span>
       );
     }
