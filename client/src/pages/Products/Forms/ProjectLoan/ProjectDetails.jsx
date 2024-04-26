@@ -120,7 +120,7 @@ const ProjectDetails = ({ formik }) => {
         <span className="font-semibold text-gray-500">Project Type *</span>
         <div className="border-b border-slate-400 py-1 w-full">
           <select className="w-full" {...formik.getFieldProps("projectType")}>
-            <option>Select</option>
+            <option className="hidden-option" value={""}  >Select</option>
             {projectTypes.map((ele, i) => {
               return (
                 <option key={i} value={ele}>
