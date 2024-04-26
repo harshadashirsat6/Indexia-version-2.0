@@ -60,7 +60,7 @@ const NewProperty = ({ formik }) => {
             className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
             {...formik.getFieldProps("newPropertyType")}
           >
-            <option value="" className="hidden-option">>Select</option>
+            <option value="" className="hidden-option" >Select</option>
             {homeLoanPropertyTypes.map((ele, i) => {
               return (
                 <option key={ele} value={ele}>
