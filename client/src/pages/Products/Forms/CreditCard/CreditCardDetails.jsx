@@ -25,7 +25,7 @@ const CreditCardDetails = ({ formik }) => {
             className="w-full"
             {...formik.getFieldProps("anyActiveCreditCardStatus")}
           >
-            <option value={""}>select</option>
+            <option value={""} className="hidden-option">select</option>
             <option value="Yes">Yes</option>
             <option value="No">No</option>
           </select>

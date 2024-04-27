@@ -66,7 +66,7 @@ const CustomInputs = ({ formik }) => {
             className="bg-transparent w-full disabled:cursor-not-allowed py-2.5"
             {...formik.getFieldProps("propertyType")}
           >
-            <option value="">Select</option>
+            <option value="" className="hidden-option">Select</option>
             {commercialPropertyTypes.map((ele, i) => {
               return (
                 <option key={ele} value={ele}>

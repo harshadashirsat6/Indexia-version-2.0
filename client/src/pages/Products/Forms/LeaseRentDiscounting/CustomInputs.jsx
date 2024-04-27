@@ -191,7 +191,7 @@ const CustomInputs = ({ formik }) => {
         </span>
         <div className="flex gap-2 bg-gray-200/40 border-[1px] border-gray-400 rounded-md">
           <select
-            className="bg-transparent w-full py-2.5"
+            className="bg-transparent w-full py-2.5 "
             value={selectedState}
             {...formik.getFieldProps("leasePropertyState")}
             onChange={(e) => {
@@ -199,7 +199,7 @@ const CustomInputs = ({ formik }) => {
               setSelectedState(e.target.value);
             }}
           >
-            <option>Select</option>
+            <option value={""} className="hidden-option">Select</option>
             {states
               .sort((a, b) => (a.name > b.name ? 1 : -1))
               .map((obj) => {
@@ -228,7 +228,7 @@ const CustomInputs = ({ formik }) => {
             disabled={!selectedState}
             {...formik.getFieldProps("leasePropertyCity")}
           >
-            <option>Select</option>
+            <option value={""} className="hidden-option">Select</option>
             {cities.map((obj) => {
               return (
                 <option key={obj.id} value={obj.name}>
